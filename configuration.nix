@@ -19,6 +19,11 @@
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
   };
+  boot.loader.grub = {
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+    device = "nodev";
+  };
 
   virtualisation.containers.enable = true;
   virtualisation = {
@@ -47,7 +52,7 @@
     };
   };
   system.stateVersion = config.vars.nixVersion;
-  system.copySystemConfiguration = true;
+  # system.copySystemConfiguration = true;
 
   nix.gc = {
     automatic = true;
