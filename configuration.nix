@@ -113,5 +113,6 @@
     pkgs.fail2ban
     pkgs.curl
     pkgs.zsh
+    pkgs.joshuto
   ];
 }

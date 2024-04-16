@@ -1,6 +1,7 @@
 { lib
 , config
 , home
+, pkgs
 , ...
 }:
 let
@@ -10,9 +11,9 @@ in
   imports = [
     ../vars.nix
     ../varsmodule.nix
+    ../zsh.nix
   ];
   home.stateVersion = config.vars.nixVersion;
-  programs.zsh = import ../zsh.nix { };
 
   home.file =
     let
@@ -22,7 +23,7 @@ in
       "compose.yml".text = ''
         services:
           nginx:
-            image: docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
+            image: docker.io/h3rmt/nginx-http3-br:${ NGINX_VERSION}
             container_name: nginx
             restart: unless-stopped
             ports:
@@ -43,7 +44,7 @@ in
             name: main
       '';
 
-      "nginx.conf".text = ''
+      "nginx.conf". text = ''
         worker_processes 4;
         worker_rlimit_nofile 8192;
         
