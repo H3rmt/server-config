@@ -9,7 +9,6 @@
     ./hardware-configuration.nix
     ./networking.nix
     ./vars.nix
-    ./varsmodule.nix
     ./home/index.nix
   ];
 
@@ -18,6 +17,7 @@
   boot.tmp.cleanOnBoot = true;
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
+    "net.ipv4.ip_unprivileged_port_start" = 80;
   };
   boot.loader.grub = {
     efiSupport = true;
@@ -29,6 +29,7 @@
   virtualisation = {
     podman = {
       enable = true;
+      dockerSocket.enable = true;
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
@@ -51,7 +52,7 @@
       bantime = "86400";
     };
   };
-  system.stateVersion = config.vars.nixVersion;
+  system.stateVersion = config.nixVersion;
   # system.copySystemConfiguration = true;
 
   nix.gc = {
@@ -108,11 +109,15 @@
     pkgs.htop
     pkgs.podman
     pkgs.podman-compose
-    pkgs.podman-tui
     pkgs.tmux
     pkgs.fail2ban
     pkgs.curl
     pkgs.zsh
     pkgs.joshuto
+    pkgs.zoxide
+    pkgs.fzf
+    pkgs.eza
+    pkgs.ripgrep
+    pkgs.docker-compose
   ];
 }

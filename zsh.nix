@@ -15,7 +15,15 @@ in
     autocd = true;
     history.size = 10000;
     history.share = false;
-    initExtra = ''source ~/${p10k};'';
+    initExtra = ''
+      bindkey "^[[1;5C" forward-word;
+      bindkey "^[[1;5D" backward-word;
+      source ~/${p10k};
+      eval "$(zoxide init zsh)";
+      alias cd=z;
+      alias ls=eza;
+      alias grep=rg;
+    '';
     plugins = [
       {
         name = "powerlevel10k";

@@ -13,6 +13,7 @@
     reverseproxy = {
       createHome = true;
       isNormalUser = true;
+      extraGroups = [ "podman" ];
       shell = pkgs.zsh;
       linger = true;
     };

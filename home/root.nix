@@ -6,8 +6,7 @@
 }: {
   imports = [
     ../vars.nix
-    ../varsmodule.nix
     ../zsh.nix
   ];
-  home.stateVersion = config.vars.nixVersion;
+  home.stateVersion = config.nixVersion;
 }
