@@ -22,6 +22,14 @@
             type = lib.types.bool;
             default = false;
           };
+          onChange = lib.mkOption {
+            type = lib.types.lines;
+            default = "";
+          };
+          executable = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+          };
         };
       }));
     };
@@ -31,7 +39,16 @@
     home.file = lib.mapAttrs
       (name: cfg: {
         text = cfg.text;
-        onChange = ''${toString cfg.noLink}'';
+        target = if cfg.noLink then ".links/${name}" else "${name}";
+        executable = cfg.executable;
+        # recursive = true; 
+        onChange =
+          if cfg.noLink then ''
+            rm -f ${config.home.homeDirectory}/${name}
+            install -D ${config.home.homeDirectory}/.links/${name} ${config.home.homeDirectory}/${name}
+            chmod 500 ${config.home.homeDirectory}/${name}
+          ''
+          else cfg.onChange;
       })
       config.create-files;
   };

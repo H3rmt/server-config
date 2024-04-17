@@ -25,6 +25,12 @@
     device = "nodev";
   };
 
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 80 443 ];
+    allowedUDPPorts = [ 443 ];
+  };
+
   virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
@@ -112,7 +118,10 @@
     pkgs.tmux
     pkgs.fail2ban
     pkgs.curl
+    pkgs.wget
     pkgs.zsh
+    pkgs.unzip
+    pkgs.tree
     pkgs.joshuto
     pkgs.zoxide
     pkgs.fzf
