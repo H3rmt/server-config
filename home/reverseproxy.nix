@@ -50,9 +50,9 @@ in
               container_name: nginx
               restart: unless-stopped
               ports:
-                - "80:80/tcp"
-                - "443:443/tcp"
-                - "443:443/udp"
+                - "${toString config.ports.public.http}:80/tcp"
+                - "${toString config.ports.public.https}:443/tcp"
+                - "${toString config.ports.public.https}:443/udp"
               volumes:
                 - ${config.home.homeDirectory}/nginx.conf:/etc/nginx/nginx.conf
                 - ${config.home.homeDirectory}/conf.d:/etc/nginx/conf.d/

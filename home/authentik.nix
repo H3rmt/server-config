@@ -84,7 +84,7 @@ in
                 AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
               user: 0:0
               ports:
-                - 8086:9000
+                - ${toString config.ports.public.authentik}:9000
               depends_on:
                 - postgresql
                 - redis
