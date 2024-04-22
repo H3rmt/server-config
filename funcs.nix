@@ -1,55 +1,34 @@
 { lib, config, ... }: {
-  # addOnChange = { name, text }: {
-  #   "__${name}" = {
-  #     onChange = ''
-  #       rm -f ${config.home.homeDirectory}/${name}
-  #       ln ${config.home.homeDirectory}/_${name} ${config.home.homeDirectory}/${name}
-  #       chmod 500 ${config.home.homeDirectory}/${name}
-  #     '';
-  #     text = "${text}";
-  #     target = "_${name}";
-  #   };
-  # };
+  create-podman-exporter = name:
+    ''
+      podman-exporter:
+          image: quay.io/navidys/prometheus-podman-exporter:${toString config.podman-exporter-version}
+          container_name: podman-exporter-${name}
+          restart: unless-stopped
+          user: "0:0"
+          command: '--collector.enable-all'
+          ports:
+            - ${toString config.ports.private.podman-exporter.${name}}:9882
+          environment:
+            - CONTAINER_HOST=unix:///run/podman/podman.sock
+          volumes:
+            - $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock  
+    '';
 
-  options = {
-    create-files = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
-        options = {
-          text = lib.mkOption {
-            type = lib.types.str;
-          };
-          noLink = lib.mkOption {
-            type = lib.types.bool;
-            default = false;
-          };
-          onChange = lib.mkOption {
-            type = lib.types.lines;
-            default = "";
-          };
-          executable = lib.mkOption {
-            type = lib.types.bool;
-            default = false;
-          };
-        };
-      }));
-    };
-  };
-
-  config = {
-    home.file = lib.mapAttrs
-      (name: cfg: {
-        text = cfg.text;
-        target = if cfg.noLink then ".links/${name}" else "${name}";
-        executable = cfg.executable;
-        # recursive = true; 
-        onChange =
-          if cfg.noLink then ''
-            rm -f ${config.home.homeDirectory}/${name}
-            install -D ${config.home.homeDirectory}/.links/${name} ${config.home.homeDirectory}/${name}
-            chmod 500 ${config.home.homeDirectory}/${name}
-          ''
-          else cfg.onChange;
-      })
-      config.create-files;
-  };
+  create-files = files: (lib.mapAttrs (name: { text, noLink ? false, onChange ? "" }:
+    let
+      home = config.home.homeDirectory;
+    in
+    {
+      inherit text;
+      target = if noLink then ".links/${name}" else "${name}";
+      onChange =
+        if noLink then ''
+          rm -f ${home}/${name}
+          install -D ${home}/.links/${name} ${home}/${name}
+          chmod 555 ${home}/${name}
+          ${onChange}
+        ''
+        else onChange;
+    })) files;
 }

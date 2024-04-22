@@ -11,7 +11,6 @@
     ./vars.nix
     ./home/index.nix
   ];
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.tmp.cleanOnBoot = true;
@@ -35,7 +34,6 @@
   virtualisation = {
     podman = {
       enable = true;
-      dockerSocket.enable = true;
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
@@ -127,6 +125,6 @@
     pkgs.fzf
     pkgs.eza
     pkgs.ripgrep
-    pkgs.docker-compose
+    pkgs.nix-output-monitor
   ];
 }

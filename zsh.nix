@@ -13,8 +13,10 @@ in
     syntaxHighlighting.enable = true;
     autosuggestion.enable = true;
     autocd = true;
-    history.size = 10000;
-    history.share = false;
+    history = {
+      size = 10000;
+      share = false;
+    };
     initExtra = ''
       bindkey "^[[1;5C" forward-word;
       bindkey "^[[1;5D" backward-word;
@@ -22,6 +24,7 @@ in
       eval "$(zoxide init zsh)";
       alias cd=z;
       alias ls=eza;
+      alias l=eza -lahg --icons --git;
       alias grep=rg;
     '';
     plugins = [

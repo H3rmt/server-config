@@ -7,10 +7,15 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }: rec {
     formatter.aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
     nixosConfigurations.main-nix-0 = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
+      specialArgs = {
+        # inherit inputs self;
+        # inputs = "aa";
+        # clib = import ./funcs.nix { lib = nixpkgs.lib; };
+      };
       modules = [
         ./configuration.nix
         home-manager.nixosModules.home-manager
