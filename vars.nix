@@ -4,6 +4,14 @@
       type = lib.types.str;
       description = "Mountpoint for shared Volume";
     };
+    ipv4 = lib.mkOption {
+      type = lib.types.str;
+      description = "IPv4 Of Server";
+    };
+    ipv6 = lib.mkOption {
+      type = lib.types.str;
+      description = "IPv4 Of Server";
+    };
     nixVersion = lib.mkOption {
       type = lib.types.str;
       description = "Version of NixOS used for System and Homemanager Homes";
@@ -57,13 +65,19 @@
             type = lib.types.int;
             description = "HTTP Port for Podman Exporter";
           };
+          snowflake = lib.mkOption {
+            type = lib.types.int;
+            description = "HTTP Port for Podman Exporter";
+          };
         };
       };
     };
   };
 
   config = {
-    nixVersion = "23.05";
+    nixVersion = "24.05";
+    ipv4 = "49.13.224.56";
+    ipv6 = "2a01:4f8:1c1b:54c0::1";
     volume = "/mnt/volume-nbg1-1";
     main-url = "h3rmt.zip";
     podman-exporter-version = "v1.11.0";
@@ -81,6 +95,7 @@
           nginx = 21000;
           grafana = 21001;
           authentik = 21002;
+          snowflake = 21003;
         };
       };
     };

@@ -5,6 +5,7 @@
           image: quay.io/navidys/prometheus-podman-exporter:${toString config.podman-exporter-version}
           container_name: podman-exporter-${name}
           restart: unless-stopped
+          network_mode: slirp4netns
           user: "0:0"
           command: '--collector.enable-all'
           ports:
@@ -15,12 +16,13 @@
             - $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock  
     '';
 
-  create-files = files: (lib.mapAttrs (name: { text, noLink ? false, onChange ? "" }:
+  create-files = files: (lib.mapAttrs (name: { text, noLink ? false, onChange ? "", executable ? false }:
     let
       home = config.home.homeDirectory;
     in
     {
       inherit text;
+      inherit executable;
       target = if noLink then ".links/${name}" else "${name}";
       onChange =
         if noLink then ''

@@ -18,7 +18,6 @@ let
   POSTGRES_VERSION = "12-alpine";
   REDIS_VERSION = "7.2.4-alpine";
   AUTHENTIK_VERSION = "2024.2.2";
-
 in
 {
   imports = [
@@ -56,6 +55,8 @@ in
               POSTGRES_DB: ${POSTGRES_DB}
             volumes:
               - ${volume-prefix}/postges:/var/lib/postgresql/data
+            # networks:
+            #   - authentik
           
           redis:
             image: docker.io/library/redis:${REDIS_VERSION}
@@ -70,6 +71,8 @@ in
               timeout: 3s
             volumes:
               - ${volume-prefix}/redis:/data
+            # networks:
+            #   - authentik
           
           server:
             image: ghcr.io/goauthentik/server:${AUTHENTIK_VERSION}
@@ -85,14 +88,13 @@ in
             user: 0:0
             ports:
               - ${toString config.ports.public.authentik}:9000
-            depends_on:
-              - postgresql
-              - redis
             env_file:
               - .env
             volumes:
               - ${volume-prefix}/media:/media
               - ${volume-prefix}/custom-templates:/templates
+            # networks:
+            #   - authentik
     
           worker:
             image: ghcr.io/goauthentik/server:${AUTHENTIK_VERSION}
@@ -106,17 +108,21 @@ in
               AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
               AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
             user: 0:0
-            depends_on:
-              - postgresql
-              - redis
             env_file:
               - .env     
             volumes:
               - ${volume-prefix}/media:/media
               - ${volume-prefix}/certs:/certs
               - ${volume-prefix}/custom-templates:/templates
+            # networks:
+            #   - authentik
                     
           ${clib.create-podman-exporter "authentik"}
+
+        # networks:
+        #   authentik:
+        #     name: authentik_internal
+        #     driver: bridge
       '';
     };
   };

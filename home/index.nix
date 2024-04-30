@@ -13,7 +13,6 @@
     reverseproxy = {
       createHome = true;
       isNormalUser = true;
-      extraGroups = [ "podman" ];
       shell = pkgs.zsh;
       linger = true;
     };
@@ -24,6 +23,12 @@
       linger = true;
     };
     authentik = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
+    snowflake = {
       createHome = true;
       isNormalUser = true;
       shell = pkgs.zsh;

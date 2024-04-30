@@ -17,6 +17,7 @@
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
     "net.ipv4.ip_unprivileged_port_start" = 80;
+    "net.ipv4.ping_group_range" = "0 2000000";
   };
   boot.loader.grub = {
     efiSupport = true;
@@ -24,6 +25,7 @@
     device = "nodev";
   };
 
+  networking.nftables.enable = true;
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 22 80 443 ];
@@ -34,8 +36,14 @@
   virtualisation = {
     podman = {
       enable = true;
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
+      defaultNetwork.settings = {
+        dns_enabled = true;
+      };
+      autoPrune = {
+        enable = true; # Periodically prune Podman Images not in use.
+        dates = "weekly";
+        flags = [ "--all" ];
+      };
     };
   };
 
@@ -106,6 +114,7 @@
     };
   };
 
+  # environment.etc."resolv.conf".mode = "direct-symlink";
   environment.systemPackages = [
     pkgs.git
     pkgs.micro
@@ -113,6 +122,9 @@
     pkgs.htop
     pkgs.podman
     pkgs.podman-compose
+    pkgs.podman-tui
+    pkgs.passt
+    pkgs.slirp4netns
     pkgs.tmux
     pkgs.fail2ban
     pkgs.curl
@@ -126,5 +138,7 @@
     pkgs.eza
     pkgs.ripgrep
     pkgs.nix-output-monitor
+    pkgs.dig
+    pkgs.jq
   ];
 }

@@ -26,7 +26,7 @@ in
     "compose.yml" = {
       noLink = true;
       text = ''
-        name: "Grafana"
+        name: "grafana"
         services:
           grafana:
             image: docker.io/grafana/grafana-oss:${GRAFANA_VERSION}
@@ -42,11 +42,14 @@ in
               - GF_FEATURE_ENABLE=ssoSettingsApi
             volumes:
               - ${volume-prefix}/grafana:/var/lib/grafana
+              - ${volume-prefix}/grafana.ini:/etc/grafana/grafana.ini
+              - ${volume-prefix}/grafana-plugins:/var/lib/grafana/plugins
              
           prometheus:
             image: docker.io/prom/prometheus:${PROMETHEUS_VERSION}
             container_name: prometheus
             restart: unless-stopped
+            network_mode: bridge
             user: "0:0"
             depends_on:
               - node-exporter
@@ -95,13 +98,14 @@ in
           - job_name: nginx
             static_configs:
               - targets: ["nginx-exporter:9113"]
-          - job_name: podman-grafana
+          - job_name: podman-exporter
             static_configs:
               - targets:
                   [
                     "host.containers.internal:${toString config.ports.private.podman-exporter.nginx}",
                     "host.containers.internal:${toString config.ports.private.podman-exporter.grafana}",
                     "host.containers.internal:${toString config.ports.private.podman-exporter.authentik}",
+                    "host.containers.internal:${toString config.ports.private.podman-exporter.snowflake}",
                   ]
       '';
     };
