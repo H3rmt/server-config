@@ -1,12 +1,6 @@
-{ lib
-, config
-, home
-, pkgs
-, ...
-}:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   volume-prefix = "${config.volume}/Reverseproxy";
-  clib = import ../funcs.nix { inherit lib; inherit config; };
 
   PODNAME = "reverseproxy_pod";
   NGINX_VERSION = "v0.0.4";
@@ -26,7 +20,7 @@ in
   home.stateVersion = config.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
-  home.file = clib.create-files {
+  home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
       executable = true;
       text = ''
@@ -60,9 +54,9 @@ in
       '';
     };
 
-    "website-version" =
-      let
-        update = pkgs.writeShellApplication {
+    "website-version" = {
+      onChange = pkgs.writeShellApplication
+        {
           name = "update";
           runtimeInputs = [ pkgs.wget pkgs.unzip ];
           text = ''
@@ -71,14 +65,11 @@ in
             unzip -o temp.zip -d ${volume-prefix}/website
             rm temp.zip
           '';
-        };
-      in
-      {
-        onChange = ''${update}/bin/update'';
-        text = ''
-          ${HOMEPAGE_VERSION}
-        '';
-      };
+        } + /bin/update;
+      text = ''
+        ${HOMEPAGE_VERSION}
+      '';
+    };
 
     "${NGINX_CONFIG}" = {
       noLink = true;

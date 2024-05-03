@@ -1,10 +1,4 @@
-{ inputs
-, outputs
-, lib
-, config
-, pkgs
-, ...
-}: {
+{ inputs, outputs, lib, config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./networking.nix
@@ -140,5 +134,7 @@
     pkgs.nix-output-monitor
     pkgs.dig
     pkgs.jq
+    pkgs.openssl
+    inputs.agenix.packages.aarch64-linux.default
   ];
 }

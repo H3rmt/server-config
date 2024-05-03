@@ -1,23 +1,16 @@
-{ lib
-, config
-, home
-, pkgs
-, inputs
-, ...
-}:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   volume-prefix = "${config.volume}/Authentik";
-  clib = import ../funcs.nix { inherit lib; inherit config; };
 
   PODNAME = "authentik_pod";
   POSTGRES_VERSION = "12-alpine";
   REDIS_VERSION = "7.2.4-alpine";
   AUTHENTIK_VERSION = "2024.2.2";
 
-  PG_PASS = "XDQCkc0GcPSoNBJdPJK2PbRr2tUfohDeLjXzyJS5";
+  PG_PASS = ''$(cat "${age.secrets.authentik_pg_pass.path}")'';
+  SECRET_KEY = ''$(cat "${age.secrets.authentik_key.path}")'';
   POSTGRES_USER = "authentik";
   POSTGRES_DB = "authentik";
-  SECRET_KEY = "xtXWgVElTmzYoFL7UoFcnhMJJQ8LkvqVVkSG9SOhxuDGW7dQNf";
   ERROR_REPORTING_ENABLED = "true";
 
   exporter = clib.create-podman-exporter "authentik" "${PODNAME}";
@@ -30,7 +23,7 @@ in
   home.stateVersion = config.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
-  home.file = clib.create-files {
+  home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
       executable = true;
       text = ''

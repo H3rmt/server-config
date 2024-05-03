@@ -1,13 +1,6 @@
-{ lib
-, config
-, home
-, pkgs
-, inputs
-, ...
-}:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   volume-prefix = "${config.volume}/Snowflake";
-  clib = import ../funcs.nix { inherit lib; inherit config; };
 
   PODNAME = "snowflake_pod";
   SNOWFLAKE_VERSION = "v2.8.1";
@@ -22,7 +15,7 @@ in
   home.stateVersion = config.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
-  home.file = clib.create-files {
+  home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
       executable = true;
       text = ''

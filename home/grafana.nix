@@ -1,12 +1,6 @@
-{ lib
-, config
-, home
-, pkgs
-, ...
-}:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   volume-prefix = "${config.volume}/Grafana";
-  clib = import ../funcs.nix { inherit lib; inherit config; };
 
   PODNAME = "grafana_pod";
   GRAFANA_VERSION = "10.4.1";
@@ -27,7 +21,7 @@ in
   home.stateVersion = config.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
-  home.file = clib.create-files {
+  home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
       executable = true;
       text = ''
@@ -83,9 +77,16 @@ in
 
     "${GRAFANA_CONFIG}/grafana.ini" = {
       noLink = true;
+      onChange = ''
+        grafana_client_secret=$(cat "${age.secrets.grafana_client_secret.path}")
+        grafana_client_key=$(cat "${age.secrets.grafana_client_key.path}")
+        configFile="${config.home.homeDirectory}/${GRAFANA_CONFIG}/grafana.ini"
+        sed -e "s/@grafana_client_secret@/$grafana_client_secret/g" -e "s/@grafana_client_key@/$grafana_client_key/g" -i "$configFile"
+      '';
       text = ''
         [server]
         root_url = "https://${config.sites.grafana}.${config.main-url}/"
+        
         
         [feature_toggles]
         ssoSettingsApi = true
@@ -97,8 +98,8 @@ in
         [auth.generic_oauth]
         name = authentik
         enabled = true
-        client_id = oFM9rgWfpBVnT22c9y6GU1qdoSSv2ug7M17Sqgor
-        client_secret = 3DYGDEpasvtrAXOur3ZinNvCxH2HM5sCahQfYCK5Nywyko3qCdvVyxYLrcFerP2QsVHtHqe9gcq8fKWyc5ei9AzaqVGH7iIjNulFHoQDPIRbY7ScjT2Hvg8zY5fa3ONX
+        client_id = @grafana_client_key@
+        client_secret = @grafana_client_secret@
         scopes = openid email profile
         auth_url = https://${config.sites.authentik}.${config.main-url}/application/o/authorize/
         token_url = https://${config.sites.authentik}.${config.main-url}/application/o/token/

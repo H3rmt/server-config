@@ -18,8 +18,11 @@ in
       share = false;
     };
     initExtra = ''
+      export EDITOR=micro
+
       bindkey "^[[1;5C" forward-word;
       bindkey "^[[1;5D" backward-word;
+      
       source ~/${p10k};
       eval "$(zoxide init zsh)";
       
