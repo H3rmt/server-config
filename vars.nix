@@ -53,7 +53,7 @@
           description = "HTTP Port for Nginx /nginx-status Endpoint";
         };
         podman-exporter = {
-          nginx = lib.mkOption {
+          reverseproxy = lib.mkOption {
             type = lib.types.int;
             description = "HTTP Port for Podman Exporter";
           };
@@ -92,7 +92,7 @@
       private = {
         nginx-status = 20001;
         podman-exporter = {
-          nginx = 21000;
+          reverseproxy = 21000;
           grafana = 21001;
           authentik = 21002;
           snowflake = 21003;

@@ -27,7 +27,9 @@
 
   networking.nftables.enable = true;
   networking.firewall = {
-    enable = true;
+    rejectPackets = true;
+    logRefusedPackets = true;
+    enable = false;
     allowedTCPPorts = [ 22 80 443 ];
     allowedUDPPorts = [ 443 ];
   };
@@ -113,8 +115,7 @@
       };
     };
   };
-
-  # environment.etc."resolv.conf".mode = "direct-symlink";
+  
   environment.systemPackages = [
     pkgs.git
     pkgs.micro
@@ -124,7 +125,7 @@
     pkgs.podman-compose
     pkgs.podman-tui
     pkgs.passt
-    pkgs.slirp4netns
+    # pkgs.slirp4netns
     pkgs.tmux
     pkgs.fail2ban
     pkgs.curl
@@ -140,5 +141,6 @@
     pkgs.nix-output-monitor
     pkgs.dig
     pkgs.jq
+    pkgs.tcpdump
   ];
 }

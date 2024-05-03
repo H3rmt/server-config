@@ -11,8 +11,11 @@ let
   PODNAME = "reverseproxy_pod";
   NGINX_VERSION = "v0.0.4";
   HOMEPAGE_VERSION = "v0.1.3";
+
   NGINX_CONFIG = "nginx.conf";
   NGINX_CONFIG_DIR = "conf.d";
+
+  exporter = clib.create-podman-exporter "reverseproxy" "${PODNAME}";
 in
 {
   imports = [
@@ -23,14 +26,14 @@ in
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files {
-    "update" =
+    "website-version" =
       let
         update = pkgs.writeShellApplication {
           name = "update";
           runtimeInputs = [ pkgs.wget pkgs.unzip ];
           text = ''
-            echo "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/update)/public.zip";
-            wget "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/update)/public.zip" -O temp.zip
+            echo "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip";
+            wget "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip" -O temp.zip
             unzip -o temp.zip -d ${volume-prefix}
             rm temp.zip
           '';
@@ -43,30 +46,6 @@ in
         '';
       };
 
-    "compose.yml" = {
-      noLink = true;
-      text = ''
-        name: "reverseproxy"
-        services:
-          nginx:
-            image: docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
-            container_name: nginx
-            restart: unless-stopped
-            network_mode: slirp4netns
-            ports:
-              - "${toString config.ports.public.http}:80"
-              - "${toString config.ports.public.https}:443/tcp"
-              - "${toString config.ports.public.https}:443/udp"
-              - "${toString config.ports.private.nginx-status}:81"
-            volumes:
-              - ${config.home.homeDirectory}/${NGINX_CONFIG}:/etc/nginx/${NGINX_CONFIG}:ro
-              - ${config.home.homeDirectory}/${NGINX_CONFIG_DIR}:/etc/nginx/${NGINX_CONFIG_DIR}:ro
-              - ${volume-prefix}/letsencrypt:/etc/letsencrypt:ro
-              - ${volume-prefix}/public:/public:ro
-
-          ${clib.create-podman-exporter "nginx"}
-      '';
-    };
     "up.sh" = {
       executable = true;
       text = ''
@@ -75,32 +54,27 @@ in
             -p ${toString config.ports.public.https}:443/tcp \
             -p ${toString config.ports.public.https}:443/udp \
             -p ${toString config.ports.private.nginx-status}:81 \
-            -p 21000:9882
+            -p ${exporter.port} \
+            --network pasta:-a,10.0.0.1
 
         podman run --name=nginx -d --pod=${PODNAME} \
-            -v /home/reverseproxy/nginx.conf:/etc/nginx/nginx.conf:ro \
-            -v /home/reverseproxy/conf.d:/etc/nginx/conf.d:ro \
-            -v /mnt/volume-nbg1-1/Reverseproxy/letsencrypt:/etc/letsencrypt:ro \
-            -v /mnt/volume-nbg1-1/Reverseproxy/public:/public:ro \
+            -v ${config.home.homeDirectory}/${NGINX_CONFIG}:/etc/nginx/${NGINX_CONFIG}:ro \
+            -v ${config.home.homeDirectory}/${NGINX_CONFIG_DIR}:/etc/nginx/${NGINX_CONFIG_DIR}:ro \
+            -v ${volume-prefix}/letsencrypt:/etc/letsencrypt:ro \
+            -v ${volume-prefix}/public:/public:ro \
             --restart unless-stopped \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
 
-        podman run --name=podman-exporter-nginx -d --pod=${PODNAME} \
-            -e CONTAINER_HOST=unix:///run/podman/podman.sock \
-            -v /run/user/1000/podman/podman.sock:/run/podman/podman.sock \
-            -u 0:0 \
-            --restart unless-stopped \
-            quay.io/navidys/prometheus-podman-exporter:v1.11.0 \
-            --collector.enable-all
+        ${exporter.run}
       '';
     };
+
     "down.sh" = {
       executable = true;
       text = ''
-        podman stop -t 10 podman-exporter-nginx
         podman stop -t 10 nginx
-        podman rm podman-exporter-nginx
         podman rm nginx
+        ${exporter.stop}
         podman pod rm ${PODNAME}
       '';
     };
@@ -327,16 +301,16 @@ in
       noLink = true;
       text = ''
         upstream authentik {
-          server ${PODNAME}:${toString config.ports.public.authentik};
+          server host.containers.internal:${toString config.ports.public.authentik};
           keepalive 15;
         }
 
         upstream grafana {
-          server ${PODNAME}:${toString config.ports.public.grafana};
+          server host.containers.internal:${toString config.ports.public.grafana};
         }
 
         upstream prometheus {
-          server ${PODNAME}:${toString config.ports.public.prometheus};
+          server host.containers.internal:${toString config.ports.public.prometheus};
         }
       '';
     };

@@ -22,10 +22,11 @@ in
       bindkey "^[[1;5D" backward-word;
       source ~/${p10k};
       eval "$(zoxide init zsh)";
-      alias cd=z;
-      alias ls=eza;
-      alias l=eza -lahg --icons --git;
-      alias grep=rg;
+      
+      alias cd="z";
+      alias ls="eza -a";
+      alias ll="eza -lahg --icons --git";
+      alias grep="rg";
     '';
     plugins = [
       {

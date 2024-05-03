@@ -9,15 +9,18 @@ let
   volume-prefix = "${config.volume}/Authentik";
   clib = import ../funcs.nix { inherit lib; inherit config; };
 
+  PODNAME = "authentik_pod";
+  POSTGRES_VERSION = "12-alpine";
+  REDIS_VERSION = "7.2.4-alpine";
+  AUTHENTIK_VERSION = "2024.2.2";
+
   PG_PASS = "XDQCkc0GcPSoNBJdPJK2PbRr2tUfohDeLjXzyJS5";
   POSTGRES_USER = "authentik";
   POSTGRES_DB = "authentik";
   SECRET_KEY = "xtXWgVElTmzYoFL7UoFcnhMJJQ8LkvqVVkSG9SOhxuDGW7dQNf";
   ERROR_REPORTING_ENABLED = "true";
 
-  POSTGRES_VERSION = "12-alpine";
-  REDIS_VERSION = "7.2.4-alpine";
-  AUTHENTIK_VERSION = "2024.2.2";
+  exporter = clib.create-podman-exporter "authentik" "${PODNAME}";
 in
 {
   imports = [
@@ -27,102 +30,83 @@ in
   home.stateVersion = config.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
   home.file = clib.create-files {
-    ".env" = {
-      noLink = true;
+    "up.sh" = {
+      executable = true;
       text = ''
-        AUTHENTIK_SECRET_KEY=${SECRET_KEY}
-        AUTHENTIK_ERROR_REPORTING__ENABLED=${ERROR_REPORTING_ENABLED}
+        podman pod create --name=${PODNAME} \
+            -p ${toString config.ports.public.authentik}:9000 \
+            -p ${exporter.port} \
+            --network pasta:-a,10.0.0.2
+            
+        podman run --name=postgresql -d --pod=${PODNAME} \
+            -e POSTGRES_PASSWORD=${PG_PASS} \
+            -e POSTGRES_USER=${POSTGRES_USER} \
+            -e POSTGRES_DB=${POSTGRES_DB} \
+            -v ${volume-prefix}/postges:/var/lib/postgresql/data \
+            --restart unless-stopped \
+            --healthcheck-command "/bin/sh -c 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}'" \
+            --healthcheck-interval 30s \
+            --healthcheck-timeout 5s \
+            --healthcheck-start-period 20s \
+            --healthcheck-retries 5 \
+            docker.io/library/postgres:${POSTGRES_VERSION}
+
+        podman run --name=redis -d --pod=${PODNAME} \
+            -v ${volume-prefix}/redis:/data \
+            --restart unless-stopped \
+            --healthcheck-command "/bin/sh -c 'redis-cli ping | grep PONG'" \
+            --healthcheck-interval 30s \
+            --healthcheck-timeout 3s \
+            --healthcheck-start-period 20s \
+            --healthcheck-retries 5 \
+            docker.io/library/redis:${REDIS_VERSION} \
+            --save 60 1 --loglevel warning
+
+        podman run --name=server -d --pod=${PODNAME} \
+            -e AUTHENTIK_SECRET_KEY=${SECRET_KEY} \
+            -e AUTHENTIK_ERROR_REPORTING__ENABLED=${ERROR_REPORTING_ENABLED} \
+            -e AUTHENTIK_REDIS__HOST=redis \
+            -e AUTHENTIK_POSTGRESQL__HOST=postgresql \
+            -e AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER} \
+            -e AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB} \
+            -e AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS} \
+            -v ${volume-prefix}/media:/media \
+            -v ${volume-prefix}/custom-templates:/templates \
+            -u 0:0 \
+            --restart unless-stopped \
+            ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
+            server
+            
+        podman run --name=worker -d --pod=${PODNAME} \
+            -e AUTHENTIK_SECRET_KEY=${SECRET_KEY} \
+            -e AUTHENTIK_ERROR_REPORTING__ENABLED=${ERROR_REPORTING_ENABLED} \
+            -e AUTHENTIK_REDIS__HOST=redis \
+            -e AUTHENTIK_POSTGRESQL__HOST=postgresql \
+            -e AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER} \
+            -e AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB} \
+            -e AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS} \
+            -v ${volume-prefix}/media:/media \
+            -v ${volume-prefix}/custom-templates:/templates \
+            -v ${volume-prefix}/certs:/certs \
+            -u 0:0 \
+            --restart unless-stopped \
+            ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
+            worker
+        
+        ${exporter.run}
       '';
     };
 
-    "compose.yml" = {
-      noLink = true;
+    "down.sh" = {
+      executable = true;
       text = ''
-        services:
-          postgresql:
-            image: docker.io/library/postgres:${POSTGRES_VERSION}
-            container_name: postgresql
-            restart: unless-stopped
-            healthcheck:
-              test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-              start_period: 20s
-              interval: 30s
-              retries: 5
-              timeout: 5s
-            environment:
-              POSTGRES_PASSWORD: ${PG_PASS}
-              POSTGRES_USER: ${POSTGRES_USER}
-              POSTGRES_DB: ${POSTGRES_DB}
-            volumes:
-              - ${volume-prefix}/postges:/var/lib/postgresql/data
-            # networks:
-            #   - authentik
-          
-          redis:
-            image: docker.io/library/redis:${REDIS_VERSION}
-            container_name: redis
-            command: --save 60 1 --loglevel warning
-            restart: unless-stopped
-            healthcheck:
-              test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
-              start_period: 20s
-              interval: 30s
-              retries: 5
-              timeout: 3s
-            volumes:
-              - ${volume-prefix}/redis:/data
-            # networks:
-            #   - authentik
-          
-          server:
-            image: ghcr.io/goauthentik/server:${AUTHENTIK_VERSION}
-            container_name: server
-            restart: unless-stopped
-            command: server
-            environment:
-              AUTHENTIK_REDIS__HOST: redis
-              AUTHENTIK_POSTGRESQL__HOST: postgresql
-              AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
-              AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
-              AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
-            user: 0:0
-            ports:
-              - ${toString config.ports.public.authentik}:9000
-            env_file:
-              - .env
-            volumes:
-              - ${volume-prefix}/media:/media
-              - ${volume-prefix}/custom-templates:/templates
-            # networks:
-            #   - authentik
-    
-          worker:
-            image: ghcr.io/goauthentik/server:${AUTHENTIK_VERSION}
-            container_name: worker
-            restart: unless-stopped
-            command: worker
-            environment:
-              AUTHENTIK_REDIS__HOST: redis
-              AUTHENTIK_POSTGRESQL__HOST: postgresql
-              AUTHENTIK_POSTGRESQL__USER: ${POSTGRES_USER}
-              AUTHENTIK_POSTGRESQL__NAME: ${POSTGRES_DB}
-              AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
-            user: 0:0
-            env_file:
-              - .env     
-            volumes:
-              - ${volume-prefix}/media:/media
-              - ${volume-prefix}/certs:/certs
-              - ${volume-prefix}/custom-templates:/templates
-            # networks:
-            #   - authentik
-                    
-          ${clib.create-podman-exporter "authentik"}
-
-        # networks:
-        #   authentik:
-        #     name: authentik_internal
-        #     driver: bridge
+        podman stop -t 10 worker
+        podman stop -t 10 server
+        podman stop -t 10 redis
+        podman stop -t 10 postgresql
+        podman rm worker server redis postgresql
+        ${exporter.stop}
+        podman pod rm ${PODNAME}
       '';
     };
   };

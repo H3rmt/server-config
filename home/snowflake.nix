@@ -37,8 +37,6 @@ in
             container_name: snowflake-proxy-2
             restart: unless-stopped
             command: [ "-ephemeral-ports-range", "30000:60000", "-unsafe-logging", "-summary-interval", "12h0m0s" ]
-
-          ${clib.create-podman-exporter "snowflake"}
       '';
     };
   };

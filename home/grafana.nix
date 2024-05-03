@@ -75,8 +75,6 @@ in
             container_name: nginx-exporter
             restart: unless-stopped
             command: '--nginx.scrape-uri=http://host.containers.internal:${toString config.ports.private.nginx-status}/nginx_status --log.level=debug'
-
-          ${clib.create-podman-exporter "grafana"}
       '';
     };
 
@@ -102,7 +100,7 @@ in
             static_configs:
               - targets:
                   [
-                    "host.containers.internal:${toString config.ports.private.podman-exporter.nginx}",
+                    "host.containers.internal:${toString config.ports.private.podman-exporter.reverseproxy}",
                     "host.containers.internal:${toString config.ports.private.podman-exporter.grafana}",
                     "host.containers.internal:${toString config.ports.private.podman-exporter.authentik}",
                     "host.containers.internal:${toString config.ports.private.podman-exporter.snowflake}",
