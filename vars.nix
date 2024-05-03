@@ -24,6 +24,24 @@
       type = lib.types.str;
       description = "Image Version for Podman-exporter";
     };
+    nginx-info-page = lib.mkOption {
+      type = lib.types.str;
+      description = "Path for site with debug info on nginx";
+    };
+    sites = {
+      authentik = lib.mkOption {
+        type = lib.types.str;
+        description = "Subdomain for authentik";
+      };
+      grafana = lib.mkOption {
+        type = lib.types.str;
+        description = "Subdomain for grafana";
+      };
+      prometheus = lib.mkOption {
+        type = lib.types.str;
+        description = "Subdomain for prometheus";
+      };
+    };
     ports = {
       public = {
         http = lib.mkOption {
@@ -81,6 +99,12 @@
     volume = "/mnt/volume-nbg1-1";
     main-url = "h3rmt.zip";
     podman-exporter-version = "v1.11.0";
+    nginx-info-page = "nginx_status";
+    sites = {
+      authentik = "authentik";
+      grafana = "grafana";
+      prometheus = "prometheus";
+    };
     ports = {
       public = {
         http = 80;

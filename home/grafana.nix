@@ -8,11 +8,16 @@ let
   volume-prefix = "${config.volume}/Grafana";
   clib = import ../funcs.nix { inherit lib; inherit config; };
 
+  PODNAME = "grafana_pod";
   GRAFANA_VERSION = "10.4.1";
   PROMETHEUS_VERSION = "v2.51.2";
   NODE_EXPORTER_VERSION = "v1.7.0";
   NGINX_EXPORTER_VERSION = "1.1.0";
+
+  GRAFANA_CONFIG = "grafana";
   PROMETHEUS_CONFIG = "prometheus";
+
+  exporter = clib.create-podman-exporter "grafana" "${PODNAME}";
 in
 {
   imports = [
@@ -23,58 +28,81 @@ in
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files {
-    "compose.yml" = {
+    "up.sh" = {
+      executable = true;
+      text = ''
+        podman pod create --name=${PODNAME} \
+            -p ${toString config.ports.public.grafana}:3000 \
+            -p ${toString config.ports.public.prometheus}:9090 \
+            -p ${exporter.port} \
+            --network pasta:-a,10.0.0.1
+
+        podman run --name=grafana -d --pod=${PODNAME} \
+            -v ${config.home.homeDirectory}/${GRAFANA_CONFIG}:/etc/grafana:ro \
+            -v ${volume-prefix}/grafana:/var/lib/grafana \
+            -u 0:0 \
+            --restart unless-stopped \
+            docker.io/grafana/grafana-oss:${GRAFANA_VERSION}
+
+        podman run --name=prometheus -d --pod=${PODNAME} \
+            -v ${config.home.homeDirectory}/${PROMETHEUS_CONFIG}:/etc/prometheus:ro \
+            -v ${volume-prefix}/prometheus:/prometheus \
+            -u 0:0 \
+            --restart unless-stopped \
+            docker.io/prom/prometheus:${PROMETHEUS_VERSION} \
+            --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle
+
+        podman run --name=node-exporter -d --pod=${PODNAME} \
+            -v '/:/host:ro,rslave' \
+            -u 0:0 \
+            --restart unless-stopped \
+            docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
+            --path.rootfs=/host --collector.processes
+        
+        podman run --name=nginx-exporter -d --pod=${PODNAME} \
+            --restart unless-stopped \
+            docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
+            --nginx.scrape-uri=http://host.containers.internal:${toString config.ports.private.nginx-status}/${config.nginx-info-page}
+
+        ${exporter.run}
+      '';
+    };
+
+    "down.sh" = {
+      executable = true;
+      text = ''
+        podman stop -t 10 grafana
+        podman stop -t 10 node-exporter
+        podman stop -t 10 nginx-exporter
+        podman stop -t 10 prometheus
+        podman rm grafana node-exporter nginx-exporter prometheus
+        ${exporter.stop}
+        podman pod rm ${PODNAME}
+      '';
+    };
+
+    "${GRAFANA_CONFIG}/grafana.ini" = {
       noLink = true;
       text = ''
-        name: "grafana"
-        services:
-          grafana:
-            image: docker.io/grafana/grafana-oss:${GRAFANA_VERSION}
-            container_name: grafana
-            restart: unless-stopped
-            user: "0:0"
-            depends_on:
-              - prometheus
-            ports:
-              - ${toString config.ports.public.grafana}:3000
-            environment:
-              - GF_SERVER_ROOT_URL=https://grafana.${config.main-url}/
-              - GF_FEATURE_ENABLE=ssoSettingsApi
-            volumes:
-              - ${volume-prefix}/grafana:/var/lib/grafana
-              - ${volume-prefix}/grafana.ini:/etc/grafana/grafana.ini
-              - ${volume-prefix}/grafana-plugins:/var/lib/grafana/plugins
-             
-          prometheus:
-            image: docker.io/prom/prometheus:${PROMETHEUS_VERSION}
-            container_name: prometheus
-            restart: unless-stopped
-            network_mode: bridge
-            user: "0:0"
-            depends_on:
-              - node-exporter
-              - nginx-exporter
-            command: '--config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle'
-            ports:
-              - ${toString config.ports.public.prometheus}:9090
-            volumes:
-              - ${config.home.homeDirectory}/${PROMETHEUS_CONFIG}:/etc/prometheus
-              - ${volume-prefix}/prometheus:/prometheus
-
-          node-exporter:
-            image: docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION}
-            container_name: node_exporter
-            restart: unless-stopped
-            user: "0:0"
-            command: '--path.rootfs=/host --collector.processes'
-            volumes:
-              - '/:/host:ro,rslave'
-            
-          nginx-exporter:
-            image: docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION}
-            container_name: nginx-exporter
-            restart: unless-stopped
-            command: '--nginx.scrape-uri=http://host.containers.internal:${toString config.ports.private.nginx-status}/nginx_status --log.level=debug'
+        [server]
+        root_url = "https://${config.sites.grafana}.${config.main-url}/"
+        
+        [feature_toggles]
+        ssoSettingsApi = true
+        
+        [auth]
+        signout_redirect_url = https://${config.sites.authentik}.${config.main-url}/application/o/grafana/end-session/
+        oauth_auto_login = true
+        
+        [auth.generic_oauth]
+        name = authentik
+        enabled = true
+        client_id = oFM9rgWfpBVnT22c9y6GU1qdoSSv2ug7M17Sqgor
+        client_secret = 3DYGDEpasvtrAXOur3ZinNvCxH2HM5sCahQfYCK5Nywyko3qCdvVyxYLrcFerP2QsVHtHqe9gcq8fKWyc5ei9AzaqVGH7iIjNulFHoQDPIRbY7ScjT2Hvg8zY5fa3ONX
+        scopes = openid email profile
+        auth_url = https://${config.sites.authentik}.${config.main-url}/application/o/authorize/
+        token_url = https://${config.sites.authentik}.${config.main-url}/application/o/token/
+        api_url = https://${config.sites.authentik}.${config.main-url}/application/o/userinfo/
       '';
     };
 

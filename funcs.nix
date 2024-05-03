@@ -1,21 +1,4 @@
 { lib, config, ... }: {
-  # create-podman-exporter = name:
-  # ''
-  #   podman-exporter:
-  #       image: quay.io/navidys/prometheus-podman-exporter:${toString config.podman-exporter-version}
-  #       container_name: podman-exporter-${name}
-  #       restart: unless-stopped
-  #       network_mode: slirp4netns
-  #       user: "0:0"
-  #       command: '--collector.enable-all'
-  #       ports:
-  #         - ${toString config.ports.private.podman-exporter.${name}}:9882
-  #       environment:
-  #         - CONTAINER_HOST=unix:///run/podman/podman.sock
-  #       volumes:
-  #         - $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock  
-  # '';
-
   create-podman-exporter = name: podname:
     {
       run = ''

@@ -10,10 +10,11 @@ let
 
   PODNAME = "reverseproxy_pod";
   NGINX_VERSION = "v0.0.4";
-  HOMEPAGE_VERSION = "v0.1.3";
+  HOMEPAGE_VERSION = "v0.1.4";
 
   NGINX_CONFIG = "nginx.conf";
   NGINX_CONFIG_DIR = "conf.d";
+  WEBSITE_PATH = "/website";
 
   exporter = clib.create-podman-exporter "reverseproxy" "${PODNAME}";
 in
@@ -26,26 +27,6 @@ in
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files {
-    "website-version" =
-      let
-        update = pkgs.writeShellApplication {
-          name = "update";
-          runtimeInputs = [ pkgs.wget pkgs.unzip ];
-          text = ''
-            echo "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip";
-            wget "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip" -O temp.zip
-            unzip -o temp.zip -d ${volume-prefix}
-            rm temp.zip
-          '';
-        };
-      in
-      {
-        onChange = ''${update}/bin/update'';
-        text = ''
-          ${HOMEPAGE_VERSION}
-        '';
-      };
-
     "up.sh" = {
       executable = true;
       text = ''
@@ -61,7 +42,7 @@ in
             -v ${config.home.homeDirectory}/${NGINX_CONFIG}:/etc/nginx/${NGINX_CONFIG}:ro \
             -v ${config.home.homeDirectory}/${NGINX_CONFIG_DIR}:/etc/nginx/${NGINX_CONFIG_DIR}:ro \
             -v ${volume-prefix}/letsencrypt:/etc/letsencrypt:ro \
-            -v ${volume-prefix}/public:/public:ro \
+            -v ${volume-prefix}/website:${WEBSITE_PATH}:ro \
             --restart unless-stopped \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
 
@@ -79,6 +60,26 @@ in
       '';
     };
 
+    "website-version" =
+      let
+        update = pkgs.writeShellApplication {
+          name = "update";
+          runtimeInputs = [ pkgs.wget pkgs.unzip ];
+          text = ''
+            echo "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip";
+            wget "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip" -O temp.zip
+            unzip -o temp.zip -d ${volume-prefix}/website
+            rm temp.zip
+          '';
+        };
+      in
+      {
+        onChange = ''${update}/bin/update'';
+        text = ''
+          ${HOMEPAGE_VERSION}
+        '';
+      };
+
     "${NGINX_CONFIG}" = {
       noLink = true;
       text = ''
@@ -95,11 +96,13 @@ in
         http {
           include /etc/nginx/${NGINX_CONFIG_DIR}/general.conf;
           include /etc/nginx/${NGINX_CONFIG_DIR}/upstreams.conf;
+          
           server {
             listen 81;
             listen [::]:81;
+            server_tokens on;
         
-            location /nginx_status {
+            location /${config.nginx-info-page} {
               stub_status;
               access_log off;
             }
@@ -112,7 +115,6 @@ in
             listen [::]:80;
         
             location / {
-              add_header Server $remote_addr;
               return 301 https://$host$request_uri;
             }
           }
@@ -126,12 +128,12 @@ in
             listen [::]:443 quic reuseport;
         
             location / {
-              root /public;
+              root /${WEBSITE_PATH};
             }
           }
         
           server {
-            server_name prometheus.${config.main-url};
+            server_name ${config.sites.prometheus}.${config.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -139,7 +141,7 @@ in
             listen [::]:443 quic;
         
             location / {
-              proxy_pass http://prometheus;
+              proxy_pass http://${config.sites.prometheus};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
             }
@@ -147,7 +149,34 @@ in
             include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-locations.conf;
           }
         
+          server {
+            server_name ${config.sites.authentik}.${config.main-url};
         
+            listen 443 ssl;
+            listen [::]:443 ssl;
+            listen 443 quic;
+            listen [::]:443 quic;
+        
+            location / {
+              proxy_pass http://${config.sites.authentik};
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+            }
+          }
+        
+          server {
+            server_name ${config.sites.grafana}.${config.main-url};
+        
+            listen 443 ssl;
+            listen [::]:443 ssl;
+            listen 443 quic;
+            listen [::]:443 quic;
+        
+            location / {
+              proxy_pass http://${config.sites.grafana};
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+            }
+          }
+                  
           #   server {
           #     server_name filesharing.${config.main-url};
           # 
@@ -251,34 +280,6 @@ in
           # 
           #     include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-locations.conf;
           #   }
-        
-          server {
-            server_name authentik.${config.main-url};
-        
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic;
-            listen [::]:443 quic;
-        
-            location / {
-              proxy_pass http://authentik;
-              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
-            }
-          }
-        
-          server {
-            server_name grafana.${config.main-url};
-        
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic;
-            listen [::]:443 quic;
-        
-            location / {
-              proxy_pass http://grafana;
-              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
-            }
-          }
         }
       '';
     };
@@ -300,16 +301,16 @@ in
     "${NGINX_CONFIG_DIR}/upstreams.conf" = {
       noLink = true;
       text = ''
-        upstream authentik {
+        upstream ${config.sites.authentik} {
           server host.containers.internal:${toString config.ports.public.authentik};
           keepalive 15;
         }
 
-        upstream grafana {
+        upstream ${config.sites.grafana} {
           server host.containers.internal:${toString config.ports.public.grafana};
         }
 
-        upstream prometheus {
+        upstream ${config.sites.prometheus} {
           server host.containers.internal:${toString config.ports.public.prometheus};
         }
       '';
@@ -319,7 +320,7 @@ in
       noLink = true;
       text = ''
         location /outpost.goauthentik.io {
-          proxy_pass              http://authentik/outpost.goauthentik.io;
+          proxy_pass              http://${config.sites.authentik}/outpost.goauthentik.io;
           proxy_set_header        Host $host;
           proxy_set_header        X-Original-URL $scheme://$http_host$request_uri;
           add_header              Set-Cookie $auth_cookie;

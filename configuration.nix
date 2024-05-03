@@ -115,7 +115,7 @@
       };
     };
   };
-  
+
   environment.systemPackages = [
     pkgs.git
     pkgs.micro
@@ -125,7 +125,6 @@
     pkgs.podman-compose
     pkgs.podman-tui
     pkgs.passt
-    # pkgs.slirp4netns
     pkgs.tmux
     pkgs.fail2ban
     pkgs.curl
@@ -141,6 +140,5 @@
     pkgs.nix-output-monitor
     pkgs.dig
     pkgs.jq
-    pkgs.tcpdump
   ];
 }

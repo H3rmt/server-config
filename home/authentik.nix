@@ -29,6 +29,7 @@ in
   ];
   home.stateVersion = config.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
+
   home.file = clib.create-files {
     "up.sh" = {
       executable = true;
@@ -36,7 +37,7 @@ in
         podman pod create --name=${PODNAME} \
             -p ${toString config.ports.public.authentik}:9000 \
             -p ${exporter.port} \
-            --network pasta:-a,10.0.0.2
+            --network pasta:-a,10.0.0.1
             
         podman run --name=postgresql -d --pod=${PODNAME} \
             -e POSTGRES_PASSWORD=${PG_PASS} \
