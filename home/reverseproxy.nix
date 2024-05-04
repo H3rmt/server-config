@@ -167,7 +167,22 @@ in
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
-                  
+
+          server {
+            server_name ${config.sites.nextcloud}.${config.main-url};
+          
+            listen 443 ssl;
+            listen [::]:443 ssl;
+            listen 443 quic;
+            listen [::]:443 quic;
+            
+            client_max_body_size 3000M;
+            location / {
+              proxy_pass http://${config.sites.nextcloud};
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+            }
+          }
+                            
           #   server {
           #     server_name filesharing.${config.main-url};
           # 
@@ -187,21 +202,7 @@ in
           #     }
           #   }
         
-          #   server {
-          #     server_name nextcloud.${config.main-url};
-          # 
-          #     listen 443 ssl;
-          #     listen [::]:443 ssl;
-          #     listen 443 quic;
-          #     listen [::]:443 quic;
-          # 
-          #     client_max_body_size 3000M;
-          # 
-          #     location / {
-          #       proxy_pass http://nextcloud;
-          #       include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
-          #     }
-          #   }
+
         
           #   server {
           #     server_name esp32-timelapse.${config.main-url};
@@ -303,6 +304,10 @@ in
 
         upstream ${config.sites.prometheus} {
           server host.containers.internal:${toString config.ports.public.prometheus};
+        }
+
+        upstream ${config.sites.nextcloud} {
+          server host.containers.internal:${toString config.ports.public.nextcloud};
         }
       '';
     };

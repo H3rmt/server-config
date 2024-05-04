@@ -133,6 +133,7 @@ in
                     "host.containers.internal:${toString config.ports.private.podman-exporter.grafana}",
                     "host.containers.internal:${toString config.ports.private.podman-exporter.authentik}",
                     "host.containers.internal:${toString config.ports.private.podman-exporter.snowflake}",
+                    "host.containers.internal:${toString config.ports.private.podman-exporter.nextcloud}",
                   ]
       '';
     };

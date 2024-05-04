@@ -41,6 +41,10 @@
         type = lib.types.str;
         description = "Subdomain for prometheus";
       };
+      nextcloud = lib.mkOption {
+        type = lib.types.str;
+        description = "Subdomain for nextcloud";
+      };
     };
     ports = {
       public = {
@@ -63,6 +67,10 @@
         prometheus = lib.mkOption {
           type = lib.types.int;
           description = "HTTP Port for Prometheus";
+        };
+        nextcloud = lib.mkOption {
+          type = lib.types.int;
+          description = "HTTP Port for Nextcloud";
         };
       };
       private = {
@@ -87,6 +95,10 @@
             type = lib.types.int;
             description = "HTTP Port for Podman Exporter";
           };
+          nextcloud = lib.mkOption {
+            type = lib.types.int;
+            description = "HTTP Port for Podman Exporter";
+          };
         };
       };
     };
@@ -104,6 +116,7 @@
       authentik = "authentik";
       grafana = "grafana";
       prometheus = "prometheus";
+      nextcloud = "nextcloud";
     };
     ports = {
       public = {
@@ -112,6 +125,7 @@
         grafana = 10000;
         authentik = 10001;
         prometheus = 10002;
+        nextcloud = 10003;
       };
       private = {
         nginx-status = 20001;
@@ -120,6 +134,7 @@
           grafana = 21001;
           authentik = 21002;
           snowflake = 21003;
+          nextcloud = 21004;
         };
       };
     };

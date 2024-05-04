@@ -6,4 +6,6 @@ in
   "authentik/authentik_key.age".publicKeys = [ main ];
   "grafana/client_secret.age".publicKeys = [ main ];
   "grafana/client_key.age".publicKeys = [ main ];
+  "nextcloud/maria_pass.age".publicKeys = [ main ];
+  "nextcloud/maria_root_pass.age".publicKeys = [ main ];
 }

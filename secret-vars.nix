@@ -16,5 +16,13 @@
       file = ./secrets/grafana/client_key.age;
       owner = "grafana";
     };
+    nextcloud_maria_pass = {
+      file = ./secrets/nextcloud/maria_pass.age;
+      owner = "nextcloud";
+    };
+    nextcloud_maria_root_pass = {
+      file = ./secrets/nextcloud/maria_root_pass.age;
+      owner = "nextcloud";
+    };
   };
 }

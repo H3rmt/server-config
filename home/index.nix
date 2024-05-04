@@ -42,6 +42,12 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    nextcloud = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   home-manager.useGlobalPkgs = true;
@@ -52,4 +58,5 @@ in
   home-manager.users.grafana = import ./grafana.nix { age = config.age; inherit clib; };
   home-manager.users.authentik = import ./authentik.nix { age = config.age; inherit clib; };
   home-manager.users.snowflake = import ./snowflake.nix { age = config.age; inherit clib; };
+  home-manager.users.nextcloud = import ./nextcloud.nix { age = config.age; inherit clib; };
 }
