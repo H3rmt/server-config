@@ -13,15 +13,16 @@
   outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }: rec {
     formatter.aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
     nixosConfigurations = {
-      # main-nix-1 = nixpkgs.lib.nixosSystem ({
-      #   system = "aarch64-linux";
-      #   specialArgs = { inherit inputs; };
-      #   modules = [
-      #     home-manager.nixosModules.home-manager
-      #     agenix.nixosModules.default
-      #     ./configuration.nix
-      #   ];
-      # });
+      main-nix-1 = nixpkgs.lib.nixosSystem ({
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          home-manager.nixosModules.home-manager
+          agenix.nixosModules.default
+          ./vars.nix
+          ./main-nix-1/configuration.nix
+        ];
+      });
       main-nix-2 = nixpkgs.lib.nixosSystem ({
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };
