@@ -38,6 +38,6 @@
   };
   services.udev.extraRules = ''
     ATTR{address}=="96:00:03:46:ee:ef", NAME="eth0"
-    ATTR{address}=="86:00:00:88:f7:ce", NAME="enp7s0"
+    ATTR{address}=="86:00:00:88:cc:4a", NAME="enp7s0"
   '';
 }
