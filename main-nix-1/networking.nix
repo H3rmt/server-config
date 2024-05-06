@@ -26,7 +26,7 @@
         ipv4.routes = [{ address = "172.31.1.1"; prefixLength = 32; }];
         ipv6.routes = [{ address = "fe80::1"; prefixLength = 128; }];
       };
-      enp7s0 = {
+      eth1 = {
         ipv4.addresses = [
           { address = "10.0.0.3"; prefixLength = 32; }
         ];
@@ -38,6 +38,6 @@
   };
   services.udev.extraRules = ''
     ATTR{address}=="96:00:03:46:ee:ef", NAME="eth0"
-    ATTR{address}=="86:00:00:88:cc:4a", NAME="enp7s0"
+    ATTR{address}=="86:00:00:88:cc:4a", NAME="eth1"
   '';
 }
