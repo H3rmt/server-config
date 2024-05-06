@@ -36,7 +36,7 @@
         dns_enabled = true;
       };
       autoPrune = {
-        enable = true; # Periodically prune Podman Images not in use.
+        enable = true;
         dates = "weekly";
         flags = [ "--all" ];
       };
@@ -70,7 +70,7 @@
   };
 
   users.mutableUsers = false;
-  users.defaultUserShell = pkgs.zsh;
+  # users.defaultUserShell = pkgs.zsh;
 
   systemd.user.services = {
     certbot = {
