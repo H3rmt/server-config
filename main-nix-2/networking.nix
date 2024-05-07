@@ -1,12 +1,6 @@
 { lib, ... }: {
-  # This file was populated at runtime with the networking
-  # details gathered from the active system.
   networking = {
-    nameservers = [
-      "2a01:4ff:ff00::add:2"
-      "2a01:4ff:ff00::add:1"
-      "185.12.64.2"
-    ];
+    nameservers = config.nameservers;
     defaultGateway = "172.31.1.1";
     defaultGateway6 = {
       address = "fe80::1";

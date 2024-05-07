@@ -16,6 +16,10 @@
       type = lib.types.str;
       description = "Path for site with debug info on nginx";
     };
+    nameservers = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      description = "Nameservers for DNS";
+    };
     sites = {
       authentik = lib.mkOption {
         type = lib.types.str;
@@ -138,5 +142,16 @@
         };
       };
     };
+    nameservers = [
+      "2a01:4ff:ff00::add:2"
+      "2a01:4ff:ff00::add:1"
+      "185.12.64.1"
+      "185.12.64.2"
+
+      "8.8.8.8"
+      "8.8.4.4"
+      "2001:4860:4860::8888"
+      "2001:4860:4860::8844"
+    ];
   };
 }
