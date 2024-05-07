@@ -1,8 +1,4 @@
-{ lib
-, config
-, pkgs
-, ...
-}:
+{ lib, config, pkgs, ... }:
 let
   clib = import ../../funcs.nix { inherit lib; inherit config; };
 in
@@ -19,6 +15,7 @@ in
         authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t" ];
       };
       isSystemUser = true;
+      hashedPasswordFile = config.age.secrets.root_pass.path;
     };
     filesharing = {
       createHome = true;

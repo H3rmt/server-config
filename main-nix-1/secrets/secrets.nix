@@ -5,4 +5,5 @@ in
   "filesharing/admin_pass.age".publicKeys = [ main ];
   "filesharing/admin_email.age".publicKeys = [ main ];
   "filesharing/user_pass.age".publicKeys = [ main ];
+  "root_pass.age".publicKeys = [ main ];
 }
