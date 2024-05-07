@@ -2,7 +2,6 @@
   imports = [
     ./hardware-configuration.nix
     ./networking.nix
-    ./vars.nix
     ./secret-vars.nix
     ./home/index.nix
   ];

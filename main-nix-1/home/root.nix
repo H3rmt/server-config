@@ -1,9 +1,4 @@
-{ lib
-, config
-, home
-, pkgs
-, ...
-}: {
+{ lib, config, home, pkgs, inputs, ... }: {
   home-manager.users.root = {
     imports = [
       ../../zsh.nix
