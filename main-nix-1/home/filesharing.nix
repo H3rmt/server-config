@@ -36,7 +36,7 @@ in
             -e ADMIN_EMAIL="${ADMIN_EMAIL}" \
             -e USER_PASSWORD="${USER_PASSWORD}" \
             -e APP_NAME="H3rmt File Sharing" \
-            -p ${volume-prefix}/pb_data/:/app/pb_data \
+            -v ${volume-prefix}/pb_data/:/app/pb_data \
             --restart unless-stopped \
             docker.io/h3rmt/filesharing:${FILESHARING_VERSION}
 
