@@ -118,7 +118,7 @@
       grafana = "grafana";
       prometheus = "prometheus";
       nextcloud = "nextcloud";
-      filesharing = "filesharing"
+      filesharing = "filesharing";
     };
     ports = {
       public = {
