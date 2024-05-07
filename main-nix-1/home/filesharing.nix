@@ -1,4 +1,4 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
 let
   volume-prefix = "${config.home.homeDirectory}/data";
 
@@ -15,7 +15,7 @@ in
   imports = [
     ../../zsh.nix
   ];
-  home.stateVersion = config.nixVersion;
+  home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files config.home.homeDirectory {
@@ -27,7 +27,7 @@ in
       executable = true;
       text = ''
         podman pod create --name=${PODNAME} \
-            -p ${toString config.ports.public.filesharing}:3000 \
+            -p ${toString mconfig.ports.public.filesharing}:3000 \
             -p ${exporter.port} \
             --network pasta:-a,10.0.0.1
 
