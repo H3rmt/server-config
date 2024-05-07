@@ -8,7 +8,6 @@
       address = [
         "128.140.32.233/32"
         "2a01:4f8:c0c:e6fe::1/64"
-        "fe80::9400:3ff:fe46:eeef/64"
       ];
       routes = [
         # create default routes for both IPv6 and IPv4
@@ -21,7 +20,6 @@
       matchConfig.Name = "eth1";
       address = [
         "10.0.0.3/32"
-        "fe80::8400:ff:fe88:f7ce/64"
       ];
     };
   };
