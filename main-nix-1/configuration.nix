@@ -45,6 +45,7 @@
     };
   };
 
+  time.timeZone = "Europe/Berlin";
   programs.zsh.enable = true;
   zramSwap.enable = true;
   networking.hostName = "main-nix-1";
