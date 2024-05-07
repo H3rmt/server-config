@@ -19,7 +19,7 @@ in
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files config.home.homeDirectory {
-    "${volume-prefix}/.keep" = {
+    "${volume-prefix}/pb_data/.keep" = {
       text = "";
     };
 
