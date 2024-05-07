@@ -7,6 +7,22 @@ in
     source = ./p10k.zsh;
   };
 
+  programs.micro = {
+    enable = true;
+    settings = {
+      clipboard = "terminal";
+      hltaberrors = true;
+      matchbracestyle = "highlight";
+      mkparents = true;
+      reload = "auto";
+      relativeruler = true;
+      savecursor = true;
+      saveundo = true;
+      scrollbar = true;
+      tabstospaces = true;
+    };
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;

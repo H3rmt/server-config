@@ -13,7 +13,7 @@ let
 in
 {
   imports = [
-    ../../zsh.nix
+    ../../usr.nix
   ];
   home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";

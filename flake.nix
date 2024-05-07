@@ -23,16 +23,6 @@
           ./main-nix-1/configuration.nix
         ];
       });
-      # main-nix-2 = nixpkgs.lib.nixosSystem ({
-      #   system = "aarch64-linux";
-      #   specialArgs = { inherit inputs; };
-      #   modules = [
-      #     home-manager.nixosModules.home-manager
-      #     agenix.nixosModules.default
-      #     ./vars.nix
-      #     ./main-nix-2/configuration.nix
-      #   ];
-      # });
       main-nix-3 = nixpkgs.lib.nixosSystem ({
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };

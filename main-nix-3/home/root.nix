@@ -1,7 +1,7 @@
 { lib, config, home, pkgs, inputs, ... }: {
   home-manager.users.root = {
     imports = [
-      ../../zsh.nix
+      ../../usr.nix
     ];
     home.stateVersion = config.nixVersion;
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
