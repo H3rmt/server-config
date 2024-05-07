@@ -1,14 +1,9 @@
 { lib, ... }: {
   options = {
-    volume = lib.mkOption {
-      type = lib.types.str;
-      description = "Mountpoint for shared Volume";
-    };
     nixVersion = lib.mkOption {
       type = lib.types.str;
       description = "Version of NixOS used for System and Homemanager Homes";
     };
-
     main-url = lib.mkOption {
       type = lib.types.str;
       description = "Root URL for server (h3rmt.zip)";
@@ -110,6 +105,7 @@
   };
 
   config = {
+    nixVersion = "24.05";
     main-url = "h3rmt.zip";
     podman-exporter-version = "v1.11.0";
     nginx-info-page = "nginx_status";
