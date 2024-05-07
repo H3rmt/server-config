@@ -48,7 +48,7 @@
 
   programs.zsh.enable = true;
   zramSwap.enable = true;
-  networking.hostName = "main-nix-2";
+  networking.hostName = "main-nix-1";
   networking.domain = "";
   services = {
     openssh = {
