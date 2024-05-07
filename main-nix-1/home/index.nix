@@ -20,8 +20,15 @@ in
       };
       isSystemUser = true;
     };
+    filesharing = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; };
 }

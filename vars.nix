@@ -38,6 +38,10 @@
         type = lib.types.str;
         description = "Subdomain for nextcloud";
       };
+      filesharing = lib.mkOption {
+        type = lib.types.str;
+        description = "Subdomain for filesharing";
+      };
     };
     ports = {
       public = {
@@ -64,6 +68,10 @@
         nextcloud = lib.mkOption {
           type = lib.types.int;
           description = "HTTP Port for Nextcloud";
+        };
+        filesharing = lib.mkOption {
+          type = lib.types.int;
+          description = "HTTP Port for Filesharing";
         };
       };
       private = {
@@ -92,6 +100,10 @@
             type = lib.types.int;
             description = "HTTP Port for Podman Exporter";
           };
+          filesharing = lib.mkOption {
+            type = lib.types.int;
+            description = "HTTP Port for Podman Exporter";
+          };
         };
       };
     };
@@ -106,6 +118,7 @@
       grafana = "grafana";
       prometheus = "prometheus";
       nextcloud = "nextcloud";
+      filesharing = "filesharing"
     };
     ports = {
       public = {
@@ -115,6 +128,7 @@
         authentik = 10001;
         prometheus = 10002;
         nextcloud = 10003;
+        filesharing = 10004;
       };
       private = {
         nginx-status = 20001;
@@ -124,6 +138,7 @@
           authentik = 21002;
           snowflake = 21003;
           nextcloud = 21004;
+          filesharing = 21005;
         };
       };
     };
