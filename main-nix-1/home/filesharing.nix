@@ -13,7 +13,6 @@ let
 in
 {
   imports = [
-    ../vars.nix
     ../../zsh.nix
   ];
   home.stateVersion = config.nixVersion;
