@@ -1,36 +1,13 @@
 { inputs, lib, config, pkgs, ... }: {
-  imports = [
-    ./hardware-configuration.nix
-    ./networking.nix
-    ./secret-vars.nix
-    ./home/index.nix
-  ];
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  boot = {
-    loader.grub = {
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-      device = "nodev";
-    };
-    tmp.cleanOnBoot = true;
-    kernel.sysctl = {
-      "vm.swappiness" = 10;
-      "net.ipv4.ip_unprivileged_port_start" = 80;
-      "net.ipv4.ping_group_range" = "0 2000000";
-    };
-  };
 
-  networking.nftables.enable = true;
-  networking.firewall = {
-    rejectPackets = true;
-    logRefusedPackets = true;
-    enable = false;
-    allowedTCPPorts = [ 22 80 443 ];
-    allowedUDPPorts = [ 443 ];
+  boot.loader.grub = {
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+    device = "nodev";
   };
+  boot.tmp.cleanOnBoot = true;
 
-  virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
       enable = true;
@@ -45,11 +22,8 @@
     };
   };
 
-  time.timeZone = "Europe/Berlin";
   programs.zsh.enable = true;
   zramSwap.enable = true;
-  networking.hostName = "main-nix-3";
-  networking.domain = "";
   services = {
     openssh = {
       enable = true;
@@ -63,8 +37,8 @@
       bantime = "86400";
     };
   };
-  system.stateVersion = config.nixVersion;
 
+  system.stateVersion = config.nixVersion;
   nix.gc = {
     automatic = true;
     dates = "weekly";

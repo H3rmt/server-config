@@ -1,10 +1,10 @@
 { lib, config, pkgs, ... }:
 let
-  clib = import ../../funcs.nix { inherit lib; inherit config; };
+  clib = import ../../shared/funcs.nix { inherit lib; inherit config; };
 in
 {
   imports = [
-    ./root.nix
+    ../../shared/root.nix
   ];
 
   users.mutableUsers = false;

@@ -1,6 +1,6 @@
 { age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
 let
-  volume-prefix = "${config.home.homeDirectory}/data";
+  data-prefix = "${config.home.homeDirectory}/data";
 
   PODNAME = "filesharing_pod";
   FILESHARING_VERSION = "v1.5.1";
@@ -13,13 +13,13 @@ let
 in
 {
   imports = [
-    ../../usr.nix
+    ../../shared/usr.nix
   ];
   home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files config.home.homeDirectory {
-    "${volume-prefix}/pb_data/.keep" = {
+    "${data-prefix}/pb_data/.keep" = {
       text = "";
     };
 
@@ -36,7 +36,7 @@ in
             -e ADMIN_EMAIL="${ADMIN_EMAIL}" \
             -e USER_PASSWORD="${USER_PASSWORD}" \
             -e APP_NAME="H3rmt File Sharing" \
-            -v ${volume-prefix}/pb_data/:/app/pb_data \
+            -v ${data-prefix}/pb_data/:/app/pb_data \
             --restart unless-stopped \
             docker.io/h3rmt/filesharing:${FILESHARING_VERSION}
 

@@ -7,12 +7,18 @@ in
     source = ./p10k.zsh;
   };
 
+  xdg.configFile."micro/bindings.json" = {
+    text = builtins.toJSON {
+      "Ctrl-j" = "command-edit:jump ";
+      "Ctrl-l" = "command-edit:goto ";
+    };
+  };
+
   programs.micro = {
     enable = true;
     settings = {
       clipboard = "terminal";
       hltaberrors = true;
-      matchbracestyle = "highlight";
       mkparents = true;
       reload = "auto";
       relativeruler = true;

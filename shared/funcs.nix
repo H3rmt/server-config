@@ -1,6 +1,5 @@
 { lib, config, ... }: {
-  create-podman-exporter = name: podname:
-    {
+  create-podman-exporter = name: podname: {
       run = ''
         podman run --name=podman-exporter-${name} -d --pod=${podname} \
             -e CONTAINER_HOST=unix:///run/podman/podman.sock \
