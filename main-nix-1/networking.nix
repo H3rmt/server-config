@@ -13,6 +13,7 @@
         { routeConfig.Gateway = "fe80::1"; }
         { routeConfig.Gateway = "172.31.1.1"; }
       ];
+      linkConfig.RequiredForOnline = "yes";
     };
 
     networks."20-eth" = {
@@ -20,6 +21,7 @@
       address = [
         "10.0.69.1/32"
       ];
+      linkConfig.RequiredForOnline = "no";
     };
   };
 }
