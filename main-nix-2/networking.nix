@@ -3,7 +3,7 @@
   systemd.network = {
     enable = true;
     networks."10-eth" = {
-      matchConfig.Name = "eth0";
+      matchConfig.Name = "enp1s0";
       dns = config.nameservers;
       address = [
         "159.69.206.86/32"
