@@ -10,10 +10,11 @@
         "2a01:4f8:1c1b:59c0::1/64"
       ];
       routes = [
-        { routeConfig.Gateway = "fe80::1"; }
-        { routeConfig.Gateway = "172.31.1.1"; }
+        { routeConfig = { Gateway = "fe80::1"; GatewayOnLink = true; }; }
+        { routeConfig = { Gateway = "172.31.1.1"; GatewayOnLink = true; }; }
+        # ip route add default via 172.31.1.1 onlink dev eth0
       ];
-      linkConfig.RequiredForOnline = "no";
+      linkConfig.RequiredForOnline = "yes";
     };
 
     networks."20-eth" = {
