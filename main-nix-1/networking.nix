@@ -17,7 +17,7 @@
     };
 
     networks."20-eth" = {
-      matchConfig.Name = "enp7s0";
+      matchConfig.Name = "eth1";
       address = [
         "10.0.69.1/32"
       ];

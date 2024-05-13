@@ -1,21 +1,21 @@
 { lib, config, ... }: {
   create-podman-exporter = name: podname: {
-      run = ''
-        podman run --name=podman-exporter-${name} -d --pod=${podname} \
-            -e CONTAINER_HOST=unix:///run/podman/podman.sock \
-            -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
-            -u 0:0 \
-            --restart unless-stopped \
-            quay.io/navidys/prometheus-podman-exporter:${toString config.podman-exporter-version} \
-            --collector.enable-all'';
+    run = ''
+      podman run --name=podman-exporter-${name} -d --pod=${podname} \
+          -e CONTAINER_HOST=unix:///run/podman/podman.sock \
+          -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
+          -u 0:0 \
+          --restart unless-stopped \
+          quay.io/navidys/prometheus-podman-exporter:${toString config.podman-exporter-version} \
+          --collector.enable-all'';
 
-      stop = ''
-        podman stop -t 10 podman-exporter-${name}
-        podman rm podman-exporter-${name}'';
+    stop = ''
+      podman stop -t 10 podman-exporter-${name}
+      podman rm podman-exporter-${name}'';
 
-      port = ''
-        ${toString config.ports.private.podman-exporter.${name}}:9882'';
-    };
+    port = ''
+      ${toString config.ports.private.podman-exporter.${name}}:9882'';
+  };
 
   create-files = home: files: (lib.mapAttrs (name: { text, noLink ? false, onChange ? "", executable ? false }: {
     inherit text;
