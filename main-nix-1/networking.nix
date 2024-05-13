@@ -10,15 +10,15 @@
         "2a01:4f8:c0c:e6fe::1/64"
       ];
       routes = [
-        { routeConfig.Gateway = "fe80::1"; routeConfig.GatewayOnLink = true; }
-        { routeConfig.Gateway = "172.31.1.1"; routeConfig.GatewayOnLink = true; }
+        { routeConfig.Gateway = "fe80::1"; }
+        { routeConfig.Gateway = "172.31.1.1"; }
       ];
     };
 
     networks."20-eth" = {
-      matchConfig.Name = "eth1";
+      matchConfig.Name = "enp7s0";
       address = [
-        "10.0.0.3/32"
+        "10.0.69.1/32"
       ];
     };
   };
