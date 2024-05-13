@@ -7,7 +7,7 @@ in
     ../../shared/root.nix
   ];
 
-  users.mutableUsers = false;
+  users.mutableUsers = true;
   users.defaultUserShell = pkgs.zsh;
   users.users = {
     root = {
