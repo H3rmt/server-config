@@ -34,8 +34,7 @@ in
                 podman pull docker.io/certbot/certbot
                 podman run --rm \
                   -e "HETZNER_TOKEN=$(cat "${age.secrets.reverseproxy_hetzner_token.path}")" \
-                  -v /home/reverseproxy/log/letsencrypt:/var/log/letsencrypt \
-                  -v /home/reverseproxy/letsencrypt:/etc/letsencrypt \
+                  -v ${data-prefix}/letsencrypt:/etc/letsencrypt \
                   --entrypoint sh \
                   certbot/certbot \
                   -c 'pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
@@ -43,8 +42,8 @@ in
                         --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
                         --dns-hetzner-propagation-seconds=30 -d *.${mconfig.main-url} -d ${mconfig.main-url}'
 
-                stat -Lc %y "/home/reverseproxy/letsencrypt/live/${mconfig.main-url}/fullchain.pem"
-                if [ $(( $(date +%s) - $(stat -Lc %Y "/home/reverseproxy/letsencrypt/live/${mconfig.main-url}/fullchain.pem") )) -lt 120 ]; then 
+                stat -Lc %y "${data-prefix}/letsencrypt/live/${mconfig.main-url}/fullchain.pem"
+                if [ $(( $(date +%s) - $(stat -Lc %Y "${data-prefix}/letsencrypt/live/${mconfig.main-url}/fullchain.pem") )) -lt 120 ]; then 
                   podman exec nginx nginx -s reload && podman logs --tail 20 nginx
                   echo "Reloaded Certificate"
                 else 
