@@ -16,7 +16,7 @@ in
   imports = [
     ../../shared/usr.nix
   ];
-  home.stateVersion = config.nixVersion;
+  home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files config.home.homeDirectory {
@@ -31,10 +31,10 @@ in
       executable = true;
       text = ''
         podman pod create --name=${PODNAME} \
-            -p ${toString config.ports.public.http}:80 \
-            -p ${toString config.ports.public.https}:443/tcp \
-            -p ${toString config.ports.public.https}:443/udp \
-            -p ${toString config.ports.private.nginx-status}:81 \
+            -p ${toString mconfig.ports.public.http}:80 \
+            -p ${toString mconfig.ports.public.https}:443/tcp \
+            -p ${toString mconfig.ports.public.https}:443/udp \
+            -p ${toString mconfig.ports.private.nginx-status}:81 \
             -p ${exporter.port} \
             --network pasta:-a,10.0.0.1
 
@@ -99,14 +99,14 @@ in
             listen [::]:81;
             server_tokens on;
         
-            location /${config.nginx-info-page} {
+            location /${mconfig.nginx-info-page} {
               stub_status;
               access_log off;
             }
           }
         
           server {
-            server_name ${config.main-url};
+            server_name ${mconfig.main-url};
         
             listen 80;
             listen [::]:80;
@@ -117,7 +117,7 @@ in
           }
         
           server {
-            server_name ${config.main-url};
+            server_name ${mconfig.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -130,7 +130,7 @@ in
           }
         
           server {
-            server_name ${config.sites.prometheus}.${config.main-url};
+            server_name ${mconfig.sites.prometheus}.${mconfig.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -138,7 +138,7 @@ in
             listen [::]:443 quic;
         
             location / {
-              proxy_pass http://${config.sites.prometheus};
+              proxy_pass http://${mconfig.sites.prometheus};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
             }
@@ -147,7 +147,7 @@ in
           }
         
           server {
-            server_name ${config.sites.authentik}.${config.main-url};
+            server_name ${mconfig.sites.authentik}.${mconfig.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -155,13 +155,13 @@ in
             listen [::]:443 quic;
         
             location / {
-              proxy_pass http://${config.sites.authentik};
+              proxy_pass http://${mconfig.sites.authentik};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
         
           server {
-            server_name ${config.sites.grafana}.${config.main-url};
+            server_name ${mconfig.sites.grafana}.${mconfig.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -169,13 +169,13 @@ in
             listen [::]:443 quic;
         
             location / {
-              proxy_pass http://${config.sites.grafana};
+              proxy_pass http://${mconfig.sites.grafana};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
 
           server {
-            server_name ${config.sites.nextcloud}.${config.main-url};
+            server_name ${mconfig.sites.nextcloud}.${mconfig.main-url};
           
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -184,13 +184,13 @@ in
             
             client_max_body_size 3000M;
             location / {
-              proxy_pass http://${config.sites.nextcloud};
+              proxy_pass http://${mconfig.sites.nextcloud};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
                             
           #   server {
-          #     server_name filesharing.${config.main-url};
+          #     server_name filesharing.${mconfig.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -211,7 +211,7 @@ in
 
         
           #   server {
-          #     server_name esp32-timelapse.${config.main-url};
+          #     server_name esp32-timelapse.${mconfig.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -225,7 +225,7 @@ in
           #   }
         
           #   server {
-          #     server_name lasagne-share.${config.main-url};
+          #     server_name lasagne-share.${mconfig.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -244,7 +244,7 @@ in
           #   }
         
           #   server {
-          #     server_name uptest.${config.main-url};
+          #     server_name uptest.${mconfig.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -261,7 +261,7 @@ in
           #   }
         
           #   server {
-          #     server_name speedtest.${config.main-url};
+          #     server_name speedtest.${mconfig.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -299,21 +299,21 @@ in
     "${NGINX_CONFIG_DIR}/upstreams.conf" = {
       noLink = true;
       text = ''
-        upstream ${config.sites.authentik} {
-          server host.containers.internal:${toString config.ports.public.authentik};
+        upstream ${mconfig.sites.authentik} {
+          server host.containers.internal:${toString mconfig.ports.public.authentik};
           keepalive 15;
         }
 
-        upstream ${config.sites.grafana} {
-          server host.containers.internal:${toString config.ports.public.grafana};
+        upstream ${mconfig.sites.grafana} {
+          server host.containers.internal:${toString mconfig.ports.public.grafana};
         }
 
-        upstream ${config.sites.prometheus} {
-          server host.containers.internal:${toString config.ports.public.prometheus};
+        upstream ${mconfig.sites.prometheus} {
+          server host.containers.internal:${toString mconfig.ports.public.prometheus};
         }
 
-        upstream ${config.sites.nextcloud} {
-          server host.containers.internal:${toString config.ports.public.nextcloud};
+        upstream ${mconfig.sites.nextcloud} {
+          server host.containers.internal:${toString mconfig.ports.public.nextcloud};
         }
       '';
     };
@@ -322,7 +322,7 @@ in
       noLink = true;
       text = ''
         location /outpost.goauthentik.io {
-          proxy_pass              http://${config.sites.authentik}/outpost.goauthentik.io;
+          proxy_pass              http://${mconfig.sites.authentik}/outpost.goauthentik.io;
           proxy_set_header        Host $host;
           proxy_set_header        X-Original-URL $scheme://$http_host$request_uri;
           add_header              Set-Cookie $auth_cookie;
