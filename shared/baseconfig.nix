@@ -73,6 +73,7 @@
     pkgs.dig
     pkgs.jq
     pkgs.openssl
+    pkgs.pure-prompt
     inputs.agenix.packages.aarch64-linux.default
   ];
 }

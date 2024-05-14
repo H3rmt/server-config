@@ -44,8 +44,11 @@ in
 
       bindkey "^[[1;5C" forward-word;
       bindkey "^[[1;5D" backward-word;
-      
-      source ~/${p10k};
+
+
+      autoload -U promptinit; promptinit
+      prompt pure
+
       eval "$(zoxide init zsh)";
       
       alias cd="z";
