@@ -42,11 +42,11 @@ in
                 pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
                 certbot certonly --email "stemmer.enrico@gmail.com" --agree-tos --non-interactive \
                   --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
-                  --dns-hetzner-propagation-seconds=30 -d *.${config.main-url} -d ${config.main-url}
+                  --dns-hetzner-propagation-seconds=30 -d *.${mconfig.main-url} -d ${mconfig.main-url}
                   '
 
-                echo $(stat -Lc %y "/home/reverseproxy/letsencrypt/live/${config.main-url}/fullchain.pem")
-                if [ $(( $(date +%s) - $(stat -Lc %Y "/home/reverseproxy/letsencrypt/live/${config.main-url}/fullchain.pem") )) -lt 120 ]; then 
+                echo $(stat -Lc %y "/home/reverseproxy/letsencrypt/live/${mconfig.main-url}/fullchain.pem")
+                if [ $(( $(date +%s) - $(stat -Lc %Y "/home/reverseproxy/letsencrypt/live/${mconfig.main-url}/fullchain.pem") )) -lt 120 ]; then 
                   podman exec nginx nginx -s reload && podman logs --tail 20 nginx
                   echo "Reloaded Certificate"
                 else 
