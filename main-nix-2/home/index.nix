@@ -20,6 +20,12 @@ in
       isSystemUser = true;
       hashedPasswordFile = config.age.secrets.root_pass.path;
     };
+    reverseproxy = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   home-manager.useGlobalPkgs = true;
