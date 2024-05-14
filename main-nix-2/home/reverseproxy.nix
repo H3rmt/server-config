@@ -59,9 +59,9 @@ in
         Unit = {
           Description = "Service for Certbot Renewal";
         };
-    Install = {
-      WantedBy = [ "timers.target" ];
-    };
+        Install = {
+          WantedBy = [ "timers.target" ];
+        };
         Timer = {
           Unit = "certbot.service";
           OnCalendar = "0/12:00:00";
