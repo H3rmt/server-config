@@ -7,7 +7,7 @@ in
     ../../shared/root.nix
   ];
 
-  users.mutableUsers = true;
+  users.mutableUsers = false;
   users.defaultUserShell = pkgs.zsh;
   users.users = {
     root = {
@@ -18,9 +18,11 @@ in
         ];
       };
       isSystemUser = true;
+      hashedPasswordFile = config.age.secrets.root_pass.path;
     };
   };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.users.reverseproxy = import ./reverseproxy.nix { age = config.age; inherit clib; mconfig = config; };
 }
