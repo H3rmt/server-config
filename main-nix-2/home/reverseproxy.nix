@@ -41,8 +41,8 @@ in
         podman run --name=nginx -d --pod=${PODNAME} \
             -v ${config.home.homeDirectory}/${NGINX_CONFIG}:/etc/nginx/${NGINX_CONFIG}:ro \
             -v ${config.home.homeDirectory}/${NGINX_CONFIG_DIR}:/etc/nginx/${NGINX_CONFIG_DIR}:ro \
-            -v ${volume-prefix}/letsencrypt:/etc/letsencrypt:ro \
-            -v ${volume-prefix}/website:${WEBSITE_PATH}:ro \
+            -v ${data-prefix}/letsencrypt:/etc/letsencrypt:ro \
+            -v ${data-prefix}/website:${WEBSITE_PATH}:ro \
             --restart unless-stopped \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
 
@@ -68,7 +68,7 @@ in
           text = ''
             echo "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip";
             wget "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip" -O temp.zip
-            unzip -o temp.zip -d ${volume-prefix}/website
+            unzip -o temp.zip -d ${data-prefix}/website
             rm temp.zip
           '';
         } + /bin/update;
