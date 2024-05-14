@@ -1,8 +1,4 @@
-{ pkgs, home, ... }:
-let
-  p10k = ".p10k.zsh";
-in
-{
+{ pkgs, home, ... }: {
   xdg.configFile."micro/bindings.json" = {
     text = builtins.toJSON {
       "Ctrl-j" = "command-edit:jump ";
