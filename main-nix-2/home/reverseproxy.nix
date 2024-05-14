@@ -22,8 +22,10 @@ in
   systemd.user = {
     services = {
       certbot = {
-        description = "Service for Certbot Renewal";
-        serviceConfig = {
+        Unit = {
+          Description = "Service for Certbot Renewal";
+        };
+        Service = {
           ExecStart = pkgs.writeShellApplication
             {
               name = "certbot-renewal";
@@ -56,9 +58,13 @@ in
     };
     timers = {
       certbot = {
-        wantedBy = [ "timers.target" ];
-        description = "Timer for Certbot Renewal";
-        timerConfig = {
+        Unit = {
+          Description = "Service for Certbot Renewal";
+        };
+    Install = {
+      WantedBy = [ "timers.target" ];
+    };
+        Timer = {
           Unit = "certbot.service";
           OnCalendar = "0/12:00:00";
           RandomizedDelaySec = "1h";
