@@ -3,7 +3,7 @@
   systemd.network = {
     enable = true;
     networks."10-eth" = {
-      matchConfig.Name = "eth0";
+      matchConfig.MACAddress = "96:00:03:46:ee:e";
       dns = config.nameservers;
       address = [
         "128.140.32.233/32"
@@ -17,9 +17,12 @@
     };
 
     networks."20-eth" = {
-      matchConfig.Name = "eth1";
+      matchConfig.MACAddress = "86:00:00:88:cc:4a";
       address = [
         "10.0.69.1/32"
+      ];
+      routes = [
+        { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.0.0/16"; GatewayOnLink = true; }; }
       ];
       linkConfig.RequiredForOnline = "no";
     };

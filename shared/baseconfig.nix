@@ -34,7 +34,10 @@
     logind.killUserProcesses = false;
     fail2ban = {
       enable = true;
-      bantime = "86400";
+      bantime = "5h";
+      bantime-increment.enable = true;
+      bantime-increment.rndtime = "20m";
+      bantime-increment.maxtime = "2d";
     };
   };
 
