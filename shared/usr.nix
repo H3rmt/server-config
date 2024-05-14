@@ -41,7 +41,7 @@
       autoload -U promptinit; promptinit
       zstyle ':prompt:pure:host' color cyan
       zstyle ':prompt:pure:user:root' color red
-      // force display of user@host
+      # force display of user@host
       export PROMPT_PURE_SSH_CONNECTION="1"
       prompt pure
 
