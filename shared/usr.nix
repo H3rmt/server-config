@@ -3,10 +3,6 @@ let
   p10k = ".p10k.zsh";
 in
 {
-  home.file."${p10k}" = {
-    source = ./p10k.zsh;
-  };
-
   xdg.configFile."micro/bindings.json" = {
     text = builtins.toJSON {
       "Ctrl-j" = "command-edit:jump ";
