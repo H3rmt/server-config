@@ -52,6 +52,6 @@
       alias ll="eza -lahg --icons --git";
       alias grep="rg";
     '';
-    plugins = [];
+    plugins = [ ];
   };
 }
