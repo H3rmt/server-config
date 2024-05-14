@@ -6,7 +6,7 @@
       matchConfig.MACAddress = "96:00:03:46:ee:e";
       dns = config.nameservers;
       address = [
-        "128.140.32.233/32"
+        "128.140.32.233"
         "2a01:4f8:c0c:e6fe::1/64"
       ];
       routes = [
@@ -19,10 +19,10 @@
     networks."20-eth" = {
       matchConfig.MACAddress = "86:00:00:88:cc:4a";
       address = [
-        "10.0.69.1/32"
+        config.main-nix-1-private-ip
       ];
       routes = [
-        { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.0.0/16"; GatewayOnLink = true; }; }
+        { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }; }
       ];
       linkConfig.RequiredForOnline = "no";
     };
