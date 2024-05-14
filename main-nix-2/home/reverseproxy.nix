@@ -32,7 +32,7 @@ in
               runtimeInputs = [ pkgs.podman ];
               text = ''
                 podman pull docker.io/certbot/certbot
-                podman run --rm 
+                podman run --rm \
                   -e "HETZNER_TOKEN=$(cat "${age.secrets.reverseproxy_hetzner_token.path}")" \
                   -v /home/reverseproxy/log/letsencrypt:/var/log/letsencrypt \
                   -v /home/reverseproxy/letsencrypt:/etc/letsencrypt \
