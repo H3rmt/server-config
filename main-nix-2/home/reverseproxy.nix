@@ -19,6 +19,54 @@ in
   home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
+  systemd.user = {
+    services = {
+    certbot = {
+      description = "Service for Certbot Renewal";
+      serviceConfig = {
+        ExecStart = pkgs.writeShellApplication {
+          name = "certbot-renewal";
+          runtimeInputs = [ pkgs.wget pkgs.unzip ];
+          text = ''
+          podman pull docker.io/certbot/certbot
+          podman run --rm 
+            -e "HETZNER_TOKEN=$(cat "${age.secrets.reverseproxy_hetzner_token.path}")" \
+            -v /home/reverseproxy/log/letsencrypt:/var/log/letsencrypt \
+            -v /home/reverseproxy/letsencrypt:/etc/letsencrypt \
+            --entrypoint sh \
+            certbot/certbot \
+            -c '
+          pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
+          certbot certonly --email "stemmer.enrico@gmail.com" --agree-tos --non-interactive \
+            --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
+            --dns-hetzner-propagation-seconds=30 -d *.${config.main-url} -d ${config.main-url}
+            '
+
+          echo $(stat -Lc %y "/home/reverseproxy/letsencrypt/live/${config.main-url}/fullchain.pem")
+          if [ $(( $(date +%s) - $(stat -Lc %Y "/home/reverseproxy/letsencrypt/live/${config.main-url}/fullchain.pem") )) -lt 120 ]; then 
+            podman exec nginx nginx -s reload && podman logs --tail 20 nginx
+            echo "Reloaded Certificate"
+          else 
+            echo "No reload"
+          fi'';
+        } + /bin/certbot-renewal;
+      };
+    };
+  };
+  timers = {
+    certbot = {
+      wantedBy = [ "timers.target" ];
+      description = "Timer for Certbot Renewal";
+      timerConfig = {
+        Unit = "certbot.service";
+        OnCalendar = "0/12:00:00";
+        RandomizedDelaySec = "1h";
+        Persistent = true;
+      };
+    };
+  };
+  };
+
   home.file = clib.create-files config.home.homeDirectory {
     "${data-prefix}/letsencrypt/.keep" = {
       text = "";

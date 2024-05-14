@@ -4,4 +4,5 @@ let
 in
 {
   "root_pass.age".publicKeys = [ main my ];
+  "reverseproxy/hetzner_token.age".publicKeys = [ main my ];
 }
