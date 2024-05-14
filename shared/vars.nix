@@ -8,6 +8,14 @@
       type = lib.types.str;
       description = "Root URL for server (h3rmt.zip)";
     };
+    main-nix-1-private-ip = lib.mkOption {
+      type = lib.types.str;
+      description = "IP for server 1";
+    };
+    main-nix-2-private-ip = lib.mkOption {
+      type = lib.types.str;
+      description = "IP for server 2";
+    };
     podman-exporter-version = lib.mkOption {
       type = lib.types.str;
       description = "Image Version for Podman-exporter";
@@ -111,6 +119,8 @@
   config = {
     nixVersion = "24.05";
     main-url = "h3rmt.zip";
+    main-nix-1-private-ip = "10.0.69.1";
+    main-nix-2-private-ip = "10.0.69.2";
     podman-exporter-version = "v1.11.0";
     nginx-info-page = "nginx_status";
     sites = {

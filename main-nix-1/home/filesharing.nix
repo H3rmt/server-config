@@ -27,9 +27,9 @@ in
       executable = true;
       text = ''
         podman pod create --name=${PODNAME} \
-            -p ${toString mconfig.ports.public.filesharing}:3000 \
-            -p ${exporter.port} \
-            --network pasta:-a,10.0.0.1
+            -p ${main-nix-1-private-ip}:${toString mconfig.ports.public.filesharing}:3000 \
+            -p ${main-nix-1-private-ip}:${exporter.port} \
+            --network pasta:-a,172.16.0.1
 
         podman run --name=filesharing -d --pod=${PODNAME} \
             -e ADMIN_PASSWORD="${ADMIN_PASSWORD}" \

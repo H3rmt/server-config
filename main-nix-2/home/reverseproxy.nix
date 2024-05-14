@@ -34,9 +34,9 @@ in
             -p ${toString mconfig.ports.public.http}:80 \
             -p ${toString mconfig.ports.public.https}:443/tcp \
             -p ${toString mconfig.ports.public.https}:443/udp \
-            -p ${toString mconfig.ports.private.nginx-status}:81 \
-            -p ${exporter.port} \
-            --network pasta:-a,10.0.0.1
+            -p ${main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-status}:81 \
+            -p ${main-nix-2-private-ip}:${exporter.port} \
+            --network pasta:-a,172.16.0.1
 
         podman run --name=nginx -d --pod=${PODNAME} \
             -v ${config.home.homeDirectory}/${NGINX_CONFIG}:/etc/nginx/${NGINX_CONFIG}:ro \
