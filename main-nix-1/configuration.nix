@@ -19,7 +19,7 @@
     enable = false;
     rejectPackets = true;
     interfaces."eth0" = {
-      allowedTCPPorts = [ config.ports.public.ssh ];
+      allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
     interfaces."eth1" = {
@@ -31,6 +31,7 @@
   time.timeZone = "Europe/Berlin";
   networking.hostName = "main-nix-1";
   networking.domain = "h3rmt.zip";
+  networking.useDHCP = false;
 
   environment.memoryAllocator.provider = "graphene-hardened";
   security.protectKernelImage = true;

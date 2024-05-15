@@ -28,7 +28,7 @@ in
     };
   };
 
-  
+
   services.borgbackup.jobs."user-data" = {
     paths = [
       "/home/reverseproxy/${config.data-dir}"
