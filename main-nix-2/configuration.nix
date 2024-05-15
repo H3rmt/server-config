@@ -19,7 +19,7 @@
     enable = true;
     rejectPackets = true;
     interfaces."eth0" = {
-      allowedTCPPorts = [ config.ports.public.ssh config.ports.public.http config.ports.public.https ];
+      allowedTCPPorts = [ config.ports.public.http config.ports.public.https ];
       allowedUDPPorts = [ config.ports.public.https ];
     };
     interfaces."eth1" = {

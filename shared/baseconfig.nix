@@ -74,6 +74,7 @@
     pkgs.dig
     pkgs.jq
     pkgs.openssl
+    pkgs.nmap
     pkgs.borgbackup
     inputs.agenix.packages.aarch64-linux.default
   ];
