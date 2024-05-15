@@ -16,9 +16,8 @@
 
   networking.nftables.enable = true;
   networking.firewall = {
+    enable = true;
     rejectPackets = true;
-    logRefusedPackets = true;
-    enable = false;
     allowedTCPPorts = [ 22 80 443 ];
     allowedUDPPorts = [ 443 ];
   };

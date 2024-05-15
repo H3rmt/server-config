@@ -52,6 +52,10 @@
     };
     ports = {
       public = {
+        ssh = lib.mkOption {
+          type = lib.types.int;
+          description = "HTTP Port for SSH";
+        };
         http = lib.mkOption {
           type = lib.types.int;
           description = "HTTP Port for Reverseproxy";
@@ -132,6 +136,7 @@
     };
     ports = {
       public = {
+        ssh = 22;
         http = 80;
         https = 443;
         grafana = 10000;

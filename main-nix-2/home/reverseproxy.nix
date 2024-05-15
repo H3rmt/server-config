@@ -29,18 +29,21 @@ in
           ExecStart = pkgs.writeShellApplication
             {
               name = "certbot-renewal";
-              runtimeInputs = [ pkgs.podman ];
+              runtimeInputs = [ ];
               text = ''
+                # add programs
+                export PATH="/run/current-system/sw/bin:$PATH"
+                
                 podman pull docker.io/certbot/certbot
                 podman run --rm \
-                  -e "HETZNER_TOKEN=$(cat "${age.secrets.reverseproxy_hetzner_token.path}")" \
+                  -e "HETZNER_TOKEN=$(cat '${age.secrets.reverseproxy_hetzner_token.path}')" \
                   -v ${data-prefix}/letsencrypt:/etc/letsencrypt \
                   --entrypoint sh \
                   certbot/certbot \
-                  -c 'pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
-                      certbot certonly --email "stemmer.enrico@gmail.com" --agree-tos --non-interactive --test-cert \
+                  -c 'pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN"; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
+                      certbot certonly --email "stemmer.enrico@gmail.com" --agree-tos --non-interactive \
                         --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
-                        --dns-hetzner-propagation-seconds=30 -d *.${mconfig.main-url} -d ${mconfig.main-url}'
+                        --dns-hetzner-propagation-seconds=60 -d *.${mconfig.main-url} -d ${mconfig.main-url}'
 
                 stat -Lc %y "${data-prefix}/letsencrypt/live/${mconfig.main-url}/fullchain.pem"
                 if [ $(( $(date +%s) - $(stat -Lc %Y "${data-prefix}/letsencrypt/live/${mconfig.main-url}/fullchain.pem") )) -lt 120 ]; then 
@@ -63,8 +66,8 @@ in
         };
         Timer = {
           Unit = "certbot.service";
-          OnCalendar = "0/12:00:00";
-          RandomizedDelaySec = "1h";
+          OnCalendar = "0/02:00:00";
+          RandomizedDelaySec = "30m";
           Persistent = true;
         };
       };
@@ -241,26 +244,25 @@ in
             }
           }
                             
-          #   server {
-          #     server_name filesharing.${mconfig.main-url};
-          # 
-          #     listen 443 ssl;
-          #     listen [::]:443 ssl;
-          #     listen 443 quic;
-          #     listen [::]:443 quic;
-          # 
-          #     client_max_body_size 3000M;
-          #     proxy_read_timeout 300;
-          #     proxy_connect_timeout 300;
-          #     proxy_send_timeout 300;
-          # 
-          #     location / {
-          #       proxy_pass http://filesharing;
-          #       include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
-          #     }
-          #   }
+          server {
+            server_name ${mconfig.sites.filesharing}.${mconfig.main-url};
+      
+            listen 443 ssl;
+            listen [::]:443 ssl;
+            listen 443 quic;
+            listen [::]:443 quic;
         
-
+            client_max_body_size 3000M;
+            proxy_read_timeout 300;
+            proxy_connect_timeout 300;
+            proxy_send_timeout 300;
+      
+            location / {
+              proxy_pass http://${mconfig.sites.filesharing};
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+            }
+          }
+        
         
           #   server {
           #     server_name esp32-timelapse.${mconfig.main-url};
@@ -366,6 +368,10 @@ in
 
         upstream ${mconfig.sites.nextcloud} {
           server host.containers.internal:${toString mconfig.ports.public.nextcloud};
+        }
+
+        upstream ${mconfig.sites.filesharing} {
+          server ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.filesharing};
         }
       '';
     };

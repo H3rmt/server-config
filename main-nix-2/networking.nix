@@ -1,5 +1,6 @@
 { lib, config, ... }: {
   networking.useNetworkd = true;
+  networking.usePredictableInterfaceNames = true;
   systemd.network = {
     enable = true;
     networks."10-eth" = {
@@ -15,7 +16,6 @@
       ];
       linkConfig.RequiredForOnline = "yes";
     };
-
     networks."20-eth" = {
       matchConfig.MACAddress = "86:00:00:8a:49:af";
       address = [
@@ -25,6 +25,14 @@
         { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }; }
       ];
       linkConfig.RequiredForOnline = "no";
+    };
+    links."10-eth" = {
+      matchConfig.PermanentMACAddress = "96:00:03:4d:13:4f";
+      linkConfig.Name = "enp1s0";
+    };
+    links."20-eth" = {
+      matchConfig.PermanentMACAddress = "86:00:00:8a:49:af";
+      linkConfig.Name = "enp7s0";
     };
   };
 }
