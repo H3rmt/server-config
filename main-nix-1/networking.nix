@@ -1,5 +1,4 @@
 { lib, config, ... }: {
-  networking.useNetworkd = true;
   systemd.network = {
     enable = true;
     networks."10-eth" = {

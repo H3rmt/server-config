@@ -16,13 +16,23 @@
 
   networking.nftables.enable = true;
   networking.firewall = {
-    enable = true;
+    enable = false;
     rejectPackets = true;
-    allowedTCPPorts = [ 22 80 443 ];
-    allowedUDPPorts = [ 443 ];
+    interfaces."eth0" = {
+      allowedTCPPorts = [ config.ports.public.ssh ];
+      allowedUDPPorts = [ ];
+    };
+    interfaces."eth1" = {
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
+    };
   };
 
   time.timeZone = "Europe/Berlin";
   networking.hostName = "main-nix-1";
-  networking.domain = "";
+  networking.domain = "h3rmt.zip";
+
+  environment.memoryAllocator.provider = "graphene-hardened";
+  security.protectKernelImage = true;
+  security.sudo.enable = false;
 }
