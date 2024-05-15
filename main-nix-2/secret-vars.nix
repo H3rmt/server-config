@@ -12,5 +12,13 @@
       file = ./secrets/reverseproxy/hetzner_token.age;
       owner = "reverseproxy";
     };
+    authentik_pg_pass = {
+      file = ./secrets/authentik/pg_pass.age;
+      owner = "authentik";
+    };
+    authentik_key = {
+      file = ./secrets/authentik/authentik_key.age;
+      owner = "authentik";
+    };
   };
 }

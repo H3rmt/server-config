@@ -26,11 +26,18 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    authentik = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   services.borgbackup.jobs."user-data" = {
     paths = [
       "/home/reverseproxy/${config.data-dir}"
+      "/home/authentik/${config.data-dir}"
     ];
     encryption = {
       mode = "repokey-blake2";
@@ -46,4 +53,5 @@ in
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.reverseproxy = import ./reverseproxy.nix { age = config.age; inherit clib; mconfig = config; };
+  home-manager.users.authnetik = import ./authnetik.nix { age = config.age; inherit clib; mconfig = config; };
 }

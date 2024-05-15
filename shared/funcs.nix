@@ -4,7 +4,7 @@
       podman run --name=podman-exporter-${name} -d --pod=${podname} \
           -e CONTAINER_HOST=unix:///run/podman/podman.sock \
           -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
-          -u 0:0 \
+          # -u 0:0 \
           --restart unless-stopped \
           quay.io/navidys/prometheus-podman-exporter:${toString config.podman-exporter-version} \
           --collector.enable-all'';
