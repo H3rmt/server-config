@@ -62,6 +62,7 @@
     pkgs.curl
     pkgs.wget
     pkgs.zsh
+    pkgs.pure-prompt
     pkgs.unzip
     pkgs.tree
     pkgs.joshuto
@@ -73,7 +74,7 @@
     pkgs.dig
     pkgs.jq
     pkgs.openssl
-    pkgs.pure-prompt
+    pkgs.borgbackup
     inputs.agenix.packages.aarch64-linux.default
   ];
 }

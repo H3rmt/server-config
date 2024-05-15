@@ -1,6 +1,6 @@
 { age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
 let
-  data-prefix = "${config.home.homeDirectory}/data";
+  data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
 
   PODNAME = "reverseproxy_pod";
   NGINX_VERSION = "v0.0.4";

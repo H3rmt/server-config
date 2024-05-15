@@ -16,13 +16,13 @@
 
   networking.nftables.enable = true;
   networking.firewall = {
-    enable = false;
+    enable = true;
     rejectPackets = true;
-    interfaces."enp1s0" = {
+    interfaces."eth0" = {
       allowedTCPPorts = [ config.ports.public.ssh config.ports.public.http config.ports.public.https ];
       allowedUDPPorts = [ config.ports.public.https ];
     };
-    interfaces."enp7s0" = {
+    interfaces."eth1" = {
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
@@ -31,4 +31,9 @@
   time.timeZone = "Europe/Berlin";
   networking.hostName = "main-nix-2";
   networking.domain = "h3rmt.zip";
+  networking.useDHCP = false;
+
+  environment.memoryAllocator.provider = "graphene-hardened";
+  security.protectKernelImage = true;
+  security.sudo.enable = false;
 }

@@ -1,10 +1,8 @@
 { lib, config, ... }: {
-  networking.useNetworkd = true;
-  networking.usePredictableInterfaceNames = true;
   systemd.network = {
     enable = true;
     networks."10-eth" = {
-      matchConfig.MACAddress = "96:00:03:4d:13:4f";
+      matchConfig.Name = "eth0";
       dns = config.nameservers;
       address = [
         "159.69.206.86"
@@ -17,7 +15,7 @@
       linkConfig.RequiredForOnline = "yes";
     };
     networks."20-eth" = {
-      matchConfig.MACAddress = "86:00:00:8a:49:af";
+      matchConfig.Name = "eth1";
       address = [
         config.main-nix-2-private-ip
       ];
@@ -28,11 +26,11 @@
     };
     links."10-eth" = {
       matchConfig.PermanentMACAddress = "96:00:03:4d:13:4f";
-      linkConfig.Name = "enp1s0";
+      linkConfig.Name = "eth0";
     };
     links."20-eth" = {
       matchConfig.PermanentMACAddress = "86:00:00:8a:49:af";
-      linkConfig.Name = "enp7s0";
+      linkConfig.Name = "eth1";
     };
   };
 }

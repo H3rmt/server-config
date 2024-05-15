@@ -28,6 +28,10 @@
       type = lib.types.listOf lib.types.str;
       description = "Nameservers for DNS";
     };
+    data-dir = lib.mkOption {
+      type = lib.types.str;
+      description = "Path for data directory inside a users home";
+    };
     sites = {
       authentik = lib.mkOption {
         type = lib.types.str;
@@ -127,6 +131,7 @@
     main-nix-2-private-ip = "10.0.69.2";
     podman-exporter-version = "v1.11.0";
     nginx-info-page = "nginx_status";
+    data-dir = "data";
     sites = {
       authentik = "authentik";
       grafana = "grafana";
