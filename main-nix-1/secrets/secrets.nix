@@ -3,8 +3,9 @@ let
   my = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
 in
 {
+  "borg_pass.age".publicKeys = [ main my ];
+  "root_pass.age".publicKeys = [ main my ];
   "filesharing/admin_pass.age".publicKeys = [ main my ];
   "filesharing/admin_email.age".publicKeys = [ main my ];
   "filesharing/user_pass.age".publicKeys = [ main my ];
-  "root_pass.age".publicKeys = [ main my ];
 }

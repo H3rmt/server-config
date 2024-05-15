@@ -28,6 +28,21 @@ in
     };
   };
 
+  services.borgbackup.jobs."user-data" = {
+    paths = [
+      "/home/filesharing/${config.data-dir}"
+    ];
+    encryption = {
+      mode = "repokey-blake2";
+      passCommand = "cat '${config.age.secrets.borg_pass.path}'";
+    };
+    environment.BORG_RSH = "ssh -i /etc/ssh/ssh_host_ed25519_key";
+    repo = ''ssh://root@${config.main-nix-2-private-ip}:${toString config.ports.public.ssh}/root/backups/main-nix-1'';
+    compression = "auto,zstd,15";
+    startAt = "*:0,10,20,30,40,50";
+    user = "root";
+  };
+
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; mconfig = config; };
