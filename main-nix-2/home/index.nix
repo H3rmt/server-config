@@ -53,5 +53,5 @@ in
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.reverseproxy = import ./reverseproxy.nix { age = config.age; inherit clib; mconfig = config; };
-  home-manager.users.authnetik = import ./authnetik.nix { age = config.age; inherit clib; mconfig = config; };
+  home-manager.users.authentik = import ./authentik.nix { age = config.age; inherit clib; mconfig = config; };
 }

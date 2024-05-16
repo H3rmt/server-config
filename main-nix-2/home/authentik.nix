@@ -17,34 +17,17 @@ let
 in
 {
   imports = [
-    ../vars.nix
-    ../zsh.nix
+    ../../shared/usr.nix
   ];
-  home.stateVersion = config.nixVersion;
+  home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.file = clib.create-files config.home.homeDirectory {
-   "${data-prefix}/postges/.keep" = {
-      text = "";
-    };
-    "${data-prefix}/redis/.keep" = {
-      text = "";
-    };
-    "${data-prefix}/media/.keep" = {
-      text = "";
-    };
-    "${data-prefix}/templates/.keep" = {
-      text = "";
-    };
-    "${data-prefix}/certs/.keep" = {
-      text = "";
-    };
-
     "up.sh" = {
       executable = true;
       text = ''
         podman pod create --name=${PODNAME} \
-            -p ${toString config.ports.public.authentik}:9000 \
+            -p ${toString mconfig.ports.public.authentik}:9000 \
             -p ${exporter.port} \
             --network pasta:-a,172.16.0.1
             
@@ -83,6 +66,7 @@ in
             -v ${data-prefix}/media:/media \
             -v ${data-prefix}/templates:/templates \
             --restart unless-stopped \
+            -u 0:0 \
             ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
             server
             
@@ -94,10 +78,11 @@ in
             -e AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER} \
             -e AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB} \
             -e AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS} \
-            -v ${volume-prefix}/media:/media \
-            -v ${volume-prefix}/templates:/templates \
-            -v ${volume-prefix}/certs:/certs \
+            -v ${data-prefix}/media:/media \
+            -v ${data-prefix}/templates:/templates \
+            -v ${data-prefix}/certs:/certs \
             --restart unless-stopped \
+            -u 0:0 \
             ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
             worker
         
