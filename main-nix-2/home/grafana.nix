@@ -108,8 +108,8 @@ in
             static_configs:
               - targets:
                   [
-                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.node-exporter-main-nix-1}",
-                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.node-exporter-main-nix-2}",
+                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.node-exporter-1}",
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.node-exporter-2}",
                   ]
           - job_name: nginx
             static_configs:
