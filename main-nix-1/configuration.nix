@@ -16,14 +16,14 @@
 
   networking.nftables.enable = true;
   networking.firewall = {
-    enable = false;
+    enable = true;
     rejectPackets = true;
     interfaces."eth0" = {
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
     interfaces."eth1" = {
-      allowedTCPPorts = [ ];
+      allowedTCPPorts = [ config.ports.public.filesharing config.ports.private.podman-exporter.filesharing ];
       allowedUDPPorts = [ ];
     };
   };
