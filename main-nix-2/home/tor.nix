@@ -1,5 +1,7 @@
 { age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
 let
+  data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
+  
   PODNAME = "tor_pod";
   TOR_VERSION = "v0.2.4";
 
