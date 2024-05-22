@@ -43,7 +43,7 @@ in
       passCommand = "cat '${config.age.secrets.borg_pass.path}'";
     };
     environment.BORG_RSH = "ssh -i /etc/ssh/ssh_host_ed25519_key";
-    repo = ''ssh://root@${config.main-nix-2-private-ip}:${toString config.ports.public.ssh}/root/backups/main-nix-1'';
+    repo = ''ssh://root@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/root/backups/main-nix-1'';
     compression = "auto,zstd,15";
     startAt = "*:0,30";
     user = "root";

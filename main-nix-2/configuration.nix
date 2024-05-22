@@ -20,8 +20,8 @@
     enable = true;
     rejectPackets = true;
     interfaces."eth0" = {
-      allowedTCPPorts = [ config.ports.public.http config.ports.public.https ];
-      allowedUDPPorts = [ config.ports.public.https ];
+      allowedTCPPorts = [ config.ports.exposed.http config.ports.exposed.https config.ports.exposed.tor-middle ];
+      allowedUDPPorts = [ config.ports.exposed.https ];
     };
     interfaces."eth1" = {
       allowedTCPPorts = [ ];

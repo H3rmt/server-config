@@ -85,9 +85,9 @@ in
       executable = true;
       text = ''
         podman pod create --name=${PODNAME} \
-            -p ${toString mconfig.ports.public.http}:80 \
-            -p ${toString mconfig.ports.public.https}:443/tcp \
-            -p ${toString mconfig.ports.public.https}:443/udp \
+            -p ${toString mconfig.ports.exposed.http}:80 \
+            -p ${toString mconfig.ports.exposed.https}:443/tcp \
+            -p ${toString mconfig.ports.exposed.https}:443/udp \
             -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-exporter}:9113 \
             -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
             --network pasta:-a,172.16.0.1

@@ -44,6 +44,12 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    tor = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   services.borgbackup.jobs."user-data" = {
@@ -51,13 +57,14 @@ in
       "/home/reverseproxy/${config.data-dir}"
       "/home/authentik/${config.data-dir}"
       "/home/grafana/${config.data-dir}"
+      "/home/tor/${config.data-dir}"
     ];
     encryption = {
       mode = "repokey-blake2";
       passCommand = "cat '${config.age.secrets.borg_pass.path}'";
     };
     environment.BORG_RSH = "ssh -i /etc/ssh/ssh_host_ed25519_key";
-    repo = ''ssh://root@${config.main-nix-1-private-ip}:${toString config.ports.public.ssh}/root/backups/main-nix-2'';
+    repo = ''ssh://root@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/root/backups/main-nix-2'';
     compression = "auto,zstd,15";
     startAt = "*:0,30";
     user = "root";
@@ -69,4 +76,5 @@ in
   home-manager.users.authentik = import ./authentik.nix { age = config.age; inherit clib; mconfig = config; };
   home-manager.users.grafana = import ./grafana.nix { age = config.age; inherit clib; mconfig = config; };
   home-manager.users.node-exporter-2 = import ./node-exporter-2.nix { age = config.age; inherit clib; mconfig = config; };
+  home-manager.users.tor = import ./tor.nix { age = config.age; inherit clib; mconfig = config; };
 }

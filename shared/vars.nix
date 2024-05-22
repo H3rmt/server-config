@@ -156,10 +156,13 @@
       filesharing = "filesharing";
     };
     ports = {
-      public = {
+      exposed = {
         ssh = 22;
         http = 80;
         https = 443;
+        tor-middle = 9000;
+      };
+      public = {
         grafana = 10000;
         authentik = 10001;
         prometheus = 10002;
@@ -177,6 +180,7 @@
           filesharing = 21005;
           node-exporter-1 = 21006;
           node-exporter-2 = 21007;
+          tor = 21008;
         };
         node-exporter-1 = 22001;
         node-exporter-2 = 22002;
