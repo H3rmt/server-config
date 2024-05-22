@@ -91,9 +91,13 @@ in
         
         [auth]
         signout_redirect_url = https://${mconfig.sites.authentik}.${mconfig.main-url}/application/o/grafana/end-session/
-        oauth_auto_login = true
+        oauth_allow_insecure_email_lookup = true
+        disable_login_form = false
         
         [auth.generic_oauth]
+        allow_sign_up = true
+        auto_login = true
+        skip_org_role_sync = false
         name = authentik
         enabled = true
         client_id = @grafana_client_key@
