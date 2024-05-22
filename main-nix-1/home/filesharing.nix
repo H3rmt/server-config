@@ -18,11 +18,12 @@ in
   home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
-  home.file = clib.create-files config.home.homeDirectory {
-    "${data-prefix}/pb_data/.keep" = {
-      text = "";
-    };
 
+  home.activation.script = clib.create-folders [
+    "${data-prefix}/pb_data/"
+  ];
+
+  home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
       executable = true;
       text = ''
