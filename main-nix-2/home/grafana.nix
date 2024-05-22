@@ -97,7 +97,7 @@ in
         [auth.generic_oauth]
         allow_sign_up = true
         auto_login = true
-        skip_org_role_sync = false
+        skip_org_role_sync = true
         name = authentik
         enabled = true
         client_id = @grafana_client_key@
