@@ -32,7 +32,7 @@
       else onChange;
   })) files;
 
-  create-folders = folders: lib.hm.dag.entryAfter ["writeBoundary"] ''
+  create-folders = llib: folders: llib.hm.dag.entryAfter ["writeBoundary"] ''
     mkdir -p ${toString folders}
   '';
 }

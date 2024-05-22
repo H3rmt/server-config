@@ -19,7 +19,7 @@ in
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
 
-  home.activation.script = clib.create-folders [
+  home.activation.script = lib clib.create-folders [
     "${data-prefix}/pb_data/"
   ];
 
