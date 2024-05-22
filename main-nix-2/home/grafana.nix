@@ -127,12 +127,12 @@ in
             static_configs:
               - targets:
                   [
-                    "${mconfig.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.reverseproxy}",
-                    "${mconfig.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.grafana}",
-                    "${mconfig.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.authentik}",
-                    "${mconfig.main-nix-1-private-ip}:${toString config.ports.private.podman-exporter.filesharing}",
-                    # "host.containers.internal:${toString config.ports.private.podman-exporter.snowflake}",
-                    # "host.containers.internal:${toString config.ports.private.podman-exporter.nextcloud}",
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.reverseproxy}",
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.grafana}",
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.authentik}",
+                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.filesharing}",
+                    # "host.containers.internal:${toString mconfig.ports.private.podman-exporter.snowflake}",
+                    # "host.containers.internal:${toString mconfig.ports.private.podman-exporter.nextcloud}",
                   ]
       '';
     };
