@@ -97,8 +97,8 @@ in
       text = ''
         global:
           scrape_interval: 15s
-          scrape_timeout: 10s
           evaluation_interval: 15s
+          scrape_timeout: 5s
           query_log_file: /prometheus/query.log
         scrape_configs:
           - job_name: prometheus

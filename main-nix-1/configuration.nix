@@ -23,7 +23,12 @@
       allowedUDPPorts = [ ];
     };
     interfaces."eth1" = {
-      allowedTCPPorts = [ config.ports.public.filesharing config.ports.private.podman-exporter.filesharing ];
+      allowedTCPPorts = [
+        config.ports.public.filesharing
+        config.ports.private.node-exporter-1
+        config.ports.private.podman-exporter.filesharing
+        config.ports.private.podman-exporter.node-exporter-1
+      ];
       allowedUDPPorts = [ ];
     };
   };
