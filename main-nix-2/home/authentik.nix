@@ -28,7 +28,7 @@ in
       text = ''
         podman pod create --name=${PODNAME} \
             -p ${toString mconfig.ports.public.authentik}:9000 \
-            -p ${exporter.port} \
+            -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
             --network pasta:-a,172.16.0.1
             
         podman run --name=postgresql -d --pod=${PODNAME} \
