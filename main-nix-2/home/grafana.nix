@@ -25,8 +25,8 @@ in
       executable = true;
       text = ''
         podman pod create --name=${PODNAME} \
-            -p ${toString config.ports.public.grafana}:3000 \
-            -p ${toString config.ports.public.prometheus}:9090 \
+            -p ${toString mconfig.ports.public.grafana}:3000 \
+            -p ${toString mconfig.ports.public.prometheus}:9090 \
             -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -55,7 +55,7 @@ in
         podman run --name=nginx-exporter -d --pod=${PODNAME} \
             --restart unless-stopped \
             docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
-            --nginx.scrape-uri=http://${mconfig.main-nix-2-private-ip}:${toString config.ports.private.nginx-status}/${config.nginx-info-page}
+            --nginx.scrape-uri=http://${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-status}/${mconfig.nginx-info-page}
 
         ${exporter.run}
       '';
@@ -84,13 +84,13 @@ in
       '';
       text = ''
         [server]
-        root_url = "https://${config.sites.grafana}.${config.main-url}/"
+        root_url = "https://${mconfig.sites.grafana}.${mconfig.main-url}/"
         
         [feature_toggles]
         ssoSettingsApi = true
         
         [auth]
-        signout_redirect_url = https://${config.sites.authentik}.${config.main-url}/application/o/grafana/end-session/
+        signout_redirect_url = https://${mconfig.sites.authentik}.${mconfig.main-url}/application/o/grafana/end-session/
         oauth_auto_login = true
         
         [auth.generic_oauth]
@@ -99,9 +99,9 @@ in
         client_id = @grafana_client_key@
         client_secret = @grafana_client_secret@
         scopes = openid email profile
-        auth_url = https://${config.sites.authentik}.${config.main-url}/application/o/authorize/
-        token_url = https://${config.sites.authentik}.${config.main-url}/application/o/token/
-        api_url = https://${config.sites.authentik}.${config.main-url}/application/o/userinfo/
+        auth_url = https://${mconfig.sites.authentik}.${mconfig.main-url}/application/o/authorize/
+        token_url = https://${mconfig.sites.authentik}.${mconfig.main-url}/application/o/token/
+        api_url = https://${mconfig.sites.authentik}.${mconfig.main-url}/application/o/userinfo/
       '';
     };
 
