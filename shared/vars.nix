@@ -72,7 +72,7 @@
           type = lib.types.int;
           description = "Port for Tor Middle relay";
         };
-      }
+      };
       public = {
         grafana = lib.mkOption {
           type = lib.types.int;
