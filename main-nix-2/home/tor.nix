@@ -1,7 +1,7 @@
 { age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
 let
   data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
-  
+
   PODNAME = "tor_pod";
   TOR_VERSION = "v0.2.4";
 
@@ -41,7 +41,7 @@ in
             -v ${data-prefix}/middle:/var/lib/tor \
             -u 0:0 \
             --restart unless-stopped \
-            docker.io/h3rmt/alpine-tor:${NODE_EXPORTER_VERSION}
+            docker.io/h3rmt/alpine-tor:${TOR_VERSION}
 
         ${exporter.run}
       '';
