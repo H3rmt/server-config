@@ -119,6 +119,14 @@
             type = lib.types.int;
             description = "HTTP Port for Podman Exporter";
           };
+          node-exporter-1 = lib.mkOption {
+            type = lib.types.int;
+            description = "HTTP Port for Podman Exporter";
+          };
+          node-exporter-2 = lib.mkOption {
+            type = lib.types.int;
+            description = "HTTP Port for Podman Exporter";
+          };
         };
         node-exporter-1 = lib.mkOption {
           type = lib.types.int;
