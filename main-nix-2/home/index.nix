@@ -32,6 +32,12 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    grafana = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   services.borgbackup.jobs."user-data" = {
