@@ -8,4 +8,6 @@ in
   "reverseproxy/hetzner_token.age".publicKeys = [ main my ];
   "authentik/pg_pass.age".publicKeys = [ main my ];
   "authentik/authentik_key.age".publicKeys = [ main my ];
+  "grafana/client_secret.age".publicKeys = [ main my ];
+  "grafana/client_key.age".publicKeys = [ main my ];
 }
