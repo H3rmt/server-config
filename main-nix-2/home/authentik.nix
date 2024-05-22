@@ -22,6 +22,14 @@ in
   home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
+  home.activation.script = clib.create-folders lib [
+    "${data-prefix}/postges/"
+    "${data-prefix}/redis/"
+    "${data-prefix}/media/"
+    "${data-prefix}/templates/"
+    "${data-prefix}/certs/"
+  ];
+
   home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
       executable = true;

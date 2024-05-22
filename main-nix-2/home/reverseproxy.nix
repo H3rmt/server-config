@@ -20,6 +20,11 @@ in
   home.stateVersion = mconfig.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
+  home.activation.script = clib.create-folders lib [
+    "${data-prefix}/letsencrypt/"
+    "${data-prefix}/website/"
+  ];
+
   systemd.user = {
     services = {
       certbot = {
@@ -76,13 +81,6 @@ in
   };
 
   home.file = clib.create-files config.home.homeDirectory {
-    "${data-prefix}/letsencrypt/.keep" = {
-      text = "";
-    };
-    "${data-prefix}/website/.keep" = {
-      text = "";
-    };
-
     "up.sh" = {
       executable = true;
       text = ''
