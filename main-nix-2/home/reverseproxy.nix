@@ -89,7 +89,7 @@ in
             -p ${toString mconfig.ports.public.http}:80 \
             -p ${toString mconfig.ports.public.https}:443/tcp \
             -p ${toString mconfig.ports.public.https}:443/udp \
-            -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-status}:81 \
+            -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-exporter}:9113 \
             -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -100,6 +100,11 @@ in
             -v ${data-prefix}/website:${WEBSITE_PATH}:ro \
             --restart unless-stopped \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
+        
+        podman run --name=nginx-exporter -d --pod=${PODNAME} \
+            --restart unless-stopped \
+            docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
+            --nginx.scrape-uri=http://localhost:81/${mconfig.nginx-info-page}
 
         ${exporter.run}
       '';
@@ -108,8 +113,9 @@ in
     "down.sh" = {
       executable = true;
       text = ''
+        podman stop -t 10 nginx-exporter
         podman stop -t 10 nginx
-        podman rm nginx
+        podman rm nginx nginx-exporter
         ${exporter.stop}
         podman pod rm ${PODNAME}
       '';
@@ -129,6 +135,28 @@ in
         } + /bin/update;
       text = ''
         ${HOMEPAGE_VERSION}
+      '';
+    };
+
+    "${NGINX_CONFIG_DIR}/upstreams.conf" = {
+      noLink = true;
+      text = ''
+        upstream ${mconfig.sites.authentik} {
+          server ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.authentik};
+          keepalive 15;
+        }
+
+        upstream ${mconfig.sites.grafana} {
+          server ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.grafana};
+        }
+
+        upstream ${mconfig.sites.prometheus} {
+          server ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.prometheus};
+        }
+
+        upstream ${mconfig.sites.filesharing} {
+          server ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.filesharing};
+        }
       '';
     };
 
@@ -347,32 +375,6 @@ in
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-Host $host;
         proxy_set_header X-Forwarded-Port $server_port;
-      '';
-    };
-
-    "${NGINX_CONFIG_DIR}/upstreams.conf" = {
-      noLink = true;
-      text = ''
-        upstream ${mconfig.sites.authentik} {
-          server host.containers.internal:${toString mconfig.ports.public.authentik};
-          keepalive 15;
-        }
-
-        upstream ${mconfig.sites.grafana} {
-          server host.containers.internal:${toString mconfig.ports.public.grafana};
-        }
-
-        upstream ${mconfig.sites.prometheus} {
-          server host.containers.internal:${toString mconfig.ports.public.prometheus};
-        }
-
-        upstream ${mconfig.sites.nextcloud} {
-          server host.containers.internal:${toString mconfig.ports.public.nextcloud};
-        }
-
-        upstream ${mconfig.sites.filesharing} {
-          server ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.filesharing};
-        }
       '';
     };
 

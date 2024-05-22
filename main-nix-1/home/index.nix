@@ -26,6 +26,12 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    node-exporter-1 = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   services.borgbackup.jobs."user-data" = {
@@ -46,4 +52,5 @@ in
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; mconfig = config; };
+  home-manager.users.node-exporter-1 = import ./node-exporter-1.nix { age = config.age; inherit clib; mconfig = config; };
 }

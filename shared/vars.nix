@@ -90,9 +90,9 @@
         };
       };
       private = {
-        nginx-status = lib.mkOption {
+        nginx-exporter = lib.mkOption {
           type = lib.types.int;
-          description = "HTTP Port for Nginx /nginx-status Endpoint";
+          description = "HTTP Port for Nginx Exporter";
         };
         podman-exporter = {
           reverseproxy = lib.mkOption {
@@ -119,6 +119,14 @@
             type = lib.types.int;
             description = "HTTP Port for Podman Exporter";
           };
+        };
+        node-exporter-1 = lib.mkOption {
+          type = lib.types.int;
+          description = "HTTP Port for Node Exporter on nix-1";
+        };
+        node-exporter-2 = lib.mkOption {
+          type = lib.types.int;
+          description = "HTTP Port for Node Exporter on nix-2";
         };
       };
     };
@@ -151,7 +159,7 @@
         filesharing = 10004;
       };
       private = {
-        nginx-status = 20001;
+        nginx-exporter = 20001;
         podman-exporter = {
           reverseproxy = 21000;
           grafana = 21001;
@@ -159,7 +167,11 @@
           snowflake = 21003;
           nextcloud = 21004;
           filesharing = 21005;
+          node-exporter-1 = 21006;
+          node-exporter-2 = 21007;
         };
+        node-exporter-1 = 22001;
+        node-exporter-2 = 22002;
       };
     };
     nameservers = [

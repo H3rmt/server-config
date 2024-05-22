@@ -5,7 +5,6 @@ let
   PODNAME = "grafana_pod";
   GRAFANA_VERSION = "10.4.1";
   PROMETHEUS_VERSION = "v2.51.2";
-  NODE_EXPORTER_VERSION = "v1.7.0";
   NGINX_EXPORTER_VERSION = "1.1.0";
 
   GRAFANA_CONFIG = "grafana";
@@ -25,8 +24,8 @@ in
       executable = true;
       text = ''
         podman pod create --name=${PODNAME} \
-            -p ${toString mconfig.ports.public.grafana}:3000 \
-            -p ${toString mconfig.ports.public.prometheus}:9090 \
+            -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.grafana}:3000 \
+            -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.prometheus}:9090 \
             -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -45,18 +44,6 @@ in
             docker.io/prom/prometheus:${PROMETHEUS_VERSION} \
             --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle
 
-        podman run --name=node-exporter -d --pod=${PODNAME} \
-            -v '/:/host:ro,rslave' \
-            -u 0:0 \
-            --restart unless-stopped \
-            docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
-            --path.rootfs=/host --collector.processes
-        
-        podman run --name=nginx-exporter -d --pod=${PODNAME} \
-            --restart unless-stopped \
-            docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
-            --nginx.scrape-uri=http://${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-status}/${mconfig.nginx-info-page}
-
         ${exporter.run}
       '';
     };
@@ -65,10 +52,8 @@ in
       executable = true;
       text = ''
         podman stop -t 10 grafana
-        podman stop -t 10 node-exporter
-        podman stop -t 10 nginx-exporter
         podman stop -t 10 prometheus
-        podman rm grafana node-exporter nginx-exporter prometheus
+        podman rm grafana prometheus
         ${exporter.stop}
         podman pod rm ${PODNAME}
       '';
@@ -122,10 +107,17 @@ in
               - targets: ["prometheus:9090"]
           - job_name: node
             static_configs:
-              - targets: ["node-exporter:9100"]
+              - targets:
+                  [
+                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.node-exporter-main-nix-1}",
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.node-exporter-main-nix-2}",
+                  ]
           - job_name: nginx
             static_configs:
-              - targets: ["nginx-exporter:9113"]
+              - targets:
+                  [
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-exporter}",
+                  ]
           - job_name: podman-exporter
             static_configs:
               - targets:
@@ -133,9 +125,9 @@ in
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.reverseproxy}",
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.grafana}",
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.authentik}",
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-1}",
                     "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.filesharing}",
-                    # "host.containers.internal:${toString mconfig.ports.private.podman-exporter.snowflake}",
-                    # "host.containers.internal:${toString mconfig.ports.private.podman-exporter.nextcloud}",
+                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-2}",
                   ]
       '';
     };
