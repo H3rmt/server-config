@@ -158,6 +158,10 @@ in
         upstream ${mconfig.sites.filesharing} {
           server ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.filesharing};
         }
+
+        upstream ${mconfig.sites.nextcloud} {
+          server ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.nextcloud};
+        }
       '';
     };
 
