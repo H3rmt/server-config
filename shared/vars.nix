@@ -55,7 +55,7 @@
       };
     };
     ports = {
-      public = {
+      exposed = {
         ssh = lib.mkOption {
           type = lib.types.int;
           description = "HTTP Port for SSH";
@@ -68,6 +68,12 @@
           type = lib.types.int;
           description = "HTTPS Port for Reverseproxy";
         };
+        tor-middle = lib.mkOption {
+          type = lib.types.int;
+          description = "Port for Tor Middle relay";
+        };
+      }
+      public = {
         grafana = lib.mkOption {
           type = lib.types.int;
           description = "HTTP Port for Grafana";
@@ -124,6 +130,10 @@
             description = "HTTP Port for Podman Exporter";
           };
           node-exporter-2 = lib.mkOption {
+            type = lib.types.int;
+            description = "HTTP Port for Podman Exporter";
+          };
+          tor = lib.mkOption {
             type = lib.types.int;
             description = "HTTP Port for Podman Exporter";
           };
