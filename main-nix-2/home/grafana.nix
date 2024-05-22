@@ -5,7 +5,6 @@ let
   PODNAME = "grafana_pod";
   GRAFANA_VERSION = "10.4.1";
   PROMETHEUS_VERSION = "v2.51.2";
-  NGINX_EXPORTER_VERSION = "1.1.0";
 
   GRAFANA_CONFIG = "grafana";
   PROMETHEUS_CONFIG = "prometheus";
