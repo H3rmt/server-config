@@ -3,7 +3,7 @@ let
   data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
 
   PODNAME = "tor_pod";
-  TOR_VERSION = "v0.2.5";
+  TOR_VERSION = "v0.2.6";
   TOR_EXPORTER_VERSION = "v0.1.0";
 
   exporter = clib.create-podman-exporter "tor" "${PODNAME}";
