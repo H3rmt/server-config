@@ -32,7 +32,7 @@ in
         podman run --name=middle-exporter -d --pod=${PODNAME} \
             --restart unless-stopped \
             ghcr.io/h3rmt/tor-exporter:${TOR_EXPORTER_VERSION} \
-            -m tcp -a 127.0.0.1 -c 9051
+            -m tcp -a 127.0.0.1 -c 9051 -b 0.0.0.0 -p 9099
 
         podman run --name=middle -d --pod=${PODNAME} \
             -e mode="middle" \
