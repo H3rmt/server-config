@@ -463,8 +463,8 @@ in
         add_header Strict-Transport-Security "max-age=63072000" always;
 
         # certificates
-        ssl_certificate /etc/letsencrypt/live/h3rmt.zip/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/h3rmt.zip/privkey.pem;
+        ssl_certificate /etc/letsencrypt/live/${mconfig.main-url}/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/${mconfig.main-url}/privkey.pem;
         ssl_session_cache shared:SSL:10m;
         ssl_session_timeout 1h;
         ssl_session_tickets off;

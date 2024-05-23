@@ -122,6 +122,12 @@ in
                   [
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-exporter}",
                   ]
+          - job_name: tor
+            static_configs:
+              - targets:
+                  [
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.tor-exporter}",
+                  ]
           - job_name: podman-exporter
             static_configs:
               - targets:

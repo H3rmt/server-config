@@ -100,6 +100,10 @@
           type = lib.types.int;
           description = "HTTP Port for Nginx Exporter";
         };
+        tor-exporter = lib.mkOption {
+          type = lib.types.int;
+          description = "HTTP Port for Tor Exporter";
+        };
         podman-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.int;
@@ -153,11 +157,11 @@
   config = {
     nixVersion = "24.05";
     main-url = "h3rmt.zip";
-    main-nix-1-private-ip = "10.0.69.1";
-    main-nix-2-private-ip = "10.0.69.2";
     podman-exporter-version = "v1.11.0";
     nginx-info-page = "nginx_status";
     data-dir = "data";
+    main-nix-1-private-ip = "10.0.69.1";
+    main-nix-2-private-ip = "10.0.69.2";
     sites = {
       authentik = "authentik";
       grafana = "grafana";
@@ -181,6 +185,7 @@
       };
       private = {
         nginx-exporter = 20001;
+        tor-exporter = 20002;
         podman-exporter = {
           reverseproxy = 21000;
           grafana = 21001;

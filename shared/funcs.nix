@@ -6,7 +6,7 @@
           -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
           -u 0:0 \
           --restart unless-stopped \
-          quay.io/navidys/prometheus-podman-exporter:${toString config.podman-exporter-version} \
+          quay.io/navidys/prometheus-podman-exporter:${config.podman-exporter-version} \
           --collector.enable-all'';
 
     stop = ''

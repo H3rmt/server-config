@@ -31,7 +31,7 @@
 
   time.timeZone = "Europe/Berlin";
   networking.hostName = "main-nix-2";
-  networking.domain = "h3rmt.zip";
+  networking.domain = config.main-url;
   networking.useDHCP = false;
 
   environment.memoryAllocator.provider = "graphene-hardened";
