@@ -10,8 +10,8 @@ let
   MARIA_PASS = ''$(cat "${age.secrets.nextcloud_maria_pass.path}")'';
   NEXTCLOUD_ADMIN_PASS = ''$(cat "${age.secrets.nextcloud_admin_pass.path}")'';
   MARIA_USER = "nextcloud";
-  ADMIN_USER = "admin";
   MARIA_DATABASE = "nextcloud";
+  ADMIN_USER = "admin";
 
   exporter = clib.create-podman-exporter "nextcloud" "${PODNAME}";
 in
