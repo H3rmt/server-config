@@ -9,7 +9,7 @@
     programs.git = {
       enable = true;
       userName = "Enrico Stemmer";
-      userEmail = "stemmer.enrico@gmail.com";
+      userEmail = "${mconfig.email}";
     };
 
     programs.tmux = {

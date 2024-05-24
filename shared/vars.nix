@@ -24,6 +24,10 @@
       type = lib.types.str;
       description = "Path for site with debug info on nginx";
     };
+    email = lib.mkOption {
+      type = lib.types.str;
+      description = "Public Email";
+    };
     nameservers = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       description = "Nameservers for DNS";
@@ -162,6 +166,7 @@
     data-dir = "data";
     main-nix-1-private-ip = "10.0.69.1";
     main-nix-2-private-ip = "10.0.69.2";
+    email = "enrico@h3rmt.zip";
     sites = {
       authentik = "authentik";
       grafana = "grafana";

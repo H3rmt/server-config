@@ -32,7 +32,7 @@ in
         podman run --name=middle -d --pod=${PODNAME} \
             -e mode="middle" \
             -e Nickname="Middle" \
-            -e ContactInfo="stemmer.enrico@gmail.com" \
+            -e ContactInfo="${mconfig.email}" \
             -e ORPort=9000 \
             -e AccountingStart="week 1 00:00" \
             -e AccountingMax="4 TBytes" \

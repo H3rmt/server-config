@@ -47,7 +47,7 @@ in
                   --entrypoint sh \
                   certbot/certbot \
                   -c 'pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN"; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
-                      certbot certonly --email "stemmer.enrico@gmail.com" --agree-tos --non-interactive \
+                      certbot certonly --email "${mconfig.email}" --agree-tos --non-interactive \
                         --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
                         --dns-hetzner-propagation-seconds=60 -d *.${mconfig.main-url} -d ${mconfig.main-url}'
 
