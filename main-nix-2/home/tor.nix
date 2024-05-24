@@ -4,7 +4,7 @@ let
 
   PODNAME = "tor_pod";
   TOR_VERSION = "v0.2.6";
-  TOR_EXPORTER_VERSION = "v0.1.0";
+  TOR_EXPORTER_VERSION = "v0.2.0";
 
   exporter = clib.create-podman-exporter "tor" "${PODNAME}";
 in
