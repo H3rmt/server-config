@@ -48,6 +48,13 @@
     options = "--delete-older-than 7d";
   };
 
+  security.pam.loginLimits = [{
+    domain = "*";
+    type = "soft";
+    item = "nofile";
+    value = "8192";
+  }];
+
   environment.systemPackages = [
     pkgs.git
     pkgs.micro
