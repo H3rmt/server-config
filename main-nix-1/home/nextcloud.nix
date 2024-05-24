@@ -49,6 +49,7 @@ in
             -e MYSQL_DATABASE=${MARIA_DATABASE} \
             -e MYSQL_USER=${MARIA_USER} \
             -e OVERWRITEHOST=${mconfig.sites.nextcloud}.${mconfig.main-url} \
+            -e TRUSTED_PROXIES=${mconfig.main-nix-2-private-ip} \
             -e OVERWRITEPROTOCOL=https \
             -v ${data-prefix}/nextcloud:/var/www/html \
             docker.io/nextcloud:${NEXTCLOUD_VERSION}
