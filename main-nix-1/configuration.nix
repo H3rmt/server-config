@@ -25,8 +25,10 @@
     interfaces."eth1" = {
       allowedTCPPorts = [
         config.ports.public.filesharing
+        config.ports.public.nextcloud
         config.ports.private.node-exporter-1
         config.ports.private.podman-exporter.filesharing
+        config.ports.private.podman-exporter.nextcloud
         config.ports.private.podman-exporter.node-exporter-1
       ];
       allowedUDPPorts = [ ];
