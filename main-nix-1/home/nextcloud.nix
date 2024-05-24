@@ -48,7 +48,7 @@ in
             -e MYSQL_PASSWORD=${MARIA_PASS} \
             -e MYSQL_DATABASE=${MARIA_DATABASE} \
             -e MYSQL_USER=${MARIA_USER} \
-            -e OVERWRITEHOST=${config.sites.nextcloud}.${config.main-url} \
+            -e OVERWRITEHOST=${mconfig.sites.nextcloud}.${mconfig.main-url} \
             -e OVERWRITEPROTOCOL=https \
             -v ${data-prefix}/nextcloud:/var/www/html \
             docker.io/nextcloud:${NEXTCLOUD_VERSION}
