@@ -20,5 +20,13 @@
       file = ./secrets/filesharing/user_pass.age;
       owner = "filesharing";
     };
+    nextcloud_maria_root_pass = {
+      file = ./secrets/nextcloud/maria_root_pass.age;
+      owner = "nextcloud";
+    };
+    nextcloud_maria_pass = {
+      file = ./secrets/nextcloud/maria_pass.age;
+      owner = "nextcloud";
+    };
   };
 }
