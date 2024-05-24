@@ -138,6 +138,7 @@ in
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-2}",
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.tor}",
                     "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.filesharing}",
+                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.nextcloud}",
                     "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-1}",
                   ]
       '';
