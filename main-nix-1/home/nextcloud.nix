@@ -49,7 +49,7 @@ in
             -e MYSQL_PASSWORD=${MARIA_PASS} \
             -e MYSQL_DATABASE=${MARIA_DATABASE} \
             -e MYSQL_USER=${MARIA_USER} \
-            -e MYSQL_HOST=localhost \
+            -e MYSQL_HOST=127.0.0.1 \
             -e NEXTCLOUD_ADMIN_USER=${ADMIN_USER} \
             -e NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASS} \
             -e OVERWRITEHOST=${mconfig.sites.nextcloud}.${mconfig.main-url} \
