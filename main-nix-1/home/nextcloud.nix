@@ -8,7 +8,9 @@ let
 
   MARIA_ROOT_PASS = ''$(cat "${age.secrets.nextcloud_maria_root_pass.path}")'';
   MARIA_PASS = ''$(cat "${age.secrets.nextcloud_maria_pass.path}")'';
+  NEXTCLOUD_ADMIN_PASS = ''$(cat "${age.secrets.nextcloud_admin_pass.path}")'';
   MARIA_USER = "nextcloud";
+  ADMIN_USER = "admin";
   MARIA_DATABASE = "nextcloud";
 
   exporter = clib.create-podman-exporter "nextcloud" "${PODNAME}";
@@ -44,10 +46,12 @@ in
             --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
 
         podman run --name=nextcloud -d --pod=${PODNAME} \
-            -e MYSQL_ROOT_PASSWORD=${MARIA_ROOT_PASS} \
             -e MYSQL_PASSWORD=${MARIA_PASS} \
             -e MYSQL_DATABASE=${MARIA_DATABASE} \
             -e MYSQL_USER=${MARIA_USER} \
+            -e MYSQL_HOST=localhost \
+            -e NEXTCLOUD_ADMIN_USER=${ADMIN_USER} \
+            -e NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASS} \
             -e OVERWRITEHOST=${mconfig.sites.nextcloud}.${mconfig.main-url} \
             -e TRUSTED_PROXIES=${mconfig.main-nix-2-private-ip} \
             -e OVERWRITEPROTOCOL=https \

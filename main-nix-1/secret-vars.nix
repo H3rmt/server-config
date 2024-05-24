@@ -28,5 +28,9 @@
       file = ./secrets/nextcloud/maria_pass.age;
       owner = "nextcloud";
     };
+    nextcloud_admin_pass = {
+      file = ./secrets/nextcloud/admin_pass.age;
+      owner = "nextcloud";
+    };
   };
 }
