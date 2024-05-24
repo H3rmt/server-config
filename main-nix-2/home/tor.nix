@@ -28,11 +28,6 @@ in
             -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.tor-exporter}:9099 \
             -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
             --network pasta:-a,172.16.0.1
-        
-        podman run --name=middle-exporter -d --pod=${PODNAME} \
-            --restart unless-stopped \
-            ghcr.io/h3rmt/tor-exporter:${TOR_EXPORTER_VERSION} \
-            -m tcp -a 127.0.0.1 -c 9051 -b 0.0.0.0 -p 9099
 
         podman run --name=middle -d --pod=${PODNAME} \
             -e mode="middle" \
@@ -47,9 +42,16 @@ in
             -e ControlPort=9051 \
             -e MetricsPortPolicy="accept 127.0.0.1" \
             -v ${data-prefix}/middle:/var/lib/tor \
+            -v /proc \
             -u 0:0 \
             --restart unless-stopped \
             docker.io/h3rmt/alpine-tor:${TOR_VERSION}
+
+        podman run --name=middle-exporter -d --pod=${PODNAME} \
+            --volumes-from=middle \
+            --restart unless-stopped \
+            ghcr.io/h3rmt/tor-exporter:${TOR_EXPORTER_VERSION} \
+            -m=tcp -a=127.0.0.1 -c=9051 -b=0.0.0.0 -p=9099
 
         ${exporter.run}
       '';
