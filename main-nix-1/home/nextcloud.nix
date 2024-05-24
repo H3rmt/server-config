@@ -61,8 +61,9 @@ in
     "down.sh" = {
       executable = true;
       text = ''
-        podman stop -t 10 filesharing
-        podman rm filesharing
+        podman stop -t 10 nextcloud
+        podman stop -t 10 nextcloud-db
+        podman rm nextcloud nextcloud-db
         ${exporter.stop}
         podman pod rm ${PODNAME}
       '';
