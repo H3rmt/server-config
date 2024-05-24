@@ -3,7 +3,7 @@ let
   data-prefix = "${config.home.homeDirectory}/data";
 
   PODNAME = "nextcloud_pod";
-  MARIA_VERSION = "10.6";
+  MARIADB_VERSION = "10.6";
   NEXTCLOUD_VERSION = "28.0.4";
 
   MARIA_ROOT_PASS = ''$(cat "${age.secrets.nextcloud_maria_root_pass.path}")'';
