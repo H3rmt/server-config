@@ -3,8 +3,7 @@ let
   data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
 
   PODNAME = "tor_pod";
-  TOR_VERSION = "v0.2.6";
-  TOR_EXPORTER_VERSION = "v0.2.1";
+  TOR_VERSION = "v0.3.1-exporter";
 
   exporter = clib.create-podman-exporter "tor" "${PODNAME}";
 in
@@ -43,7 +42,7 @@ in
             -v ${data-prefix}/middle:/var/lib/tor \
             -u 0:0 \
             --restart unless-stopped \
-            ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}-exporter
+            ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
 
         ${exporter.run}
       '';
@@ -52,9 +51,8 @@ in
     "down.sh" = {
       executable = true;
       text = ''
-        podman stop -t 10 middle-exporter
         podman stop -t 10 middle 
-        podman rm middle middle-exporter
+        podman rm middle
         ${exporter.stop}
         podman pod rm ${PODNAME}
       '';
