@@ -40,18 +40,10 @@ in
             -e RelayBandwidthBurst="2 MBytes" \
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
-            -e MetricsPortPolicy="accept 127.0.0.1" \
             -v ${data-prefix}/middle:/var/lib/tor \
-            -v /proc \
             -u 0:0 \
             --restart unless-stopped \
-            docker.io/h3rmt/alpine-tor:${TOR_VERSION}
-
-        podman run --name=middle-exporter -d --pod=${PODNAME} \
-            --volumes-from=middle \
-            --restart unless-stopped \
-            ghcr.io/h3rmt/tor-exporter:${TOR_EXPORTER_VERSION} \
-            -m=tcp -a=127.0.0.1 -c=9051 -b=0.0.0.0 -p=9099
+            ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}-exporter
 
         ${exporter.run}
       '';
