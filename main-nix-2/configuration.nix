@@ -40,7 +40,7 @@
 
   services.prometheus.exporters.systemd = {
     enable = true;
-    extraFlags = [ "--collector.user" ];
+    extraFlags = [ "--systemd.collector.user" "--systemd.collector.enable-restart-count" ];
     port = config.ports.private.systemd-exporter;
   };
 }
