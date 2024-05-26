@@ -20,7 +20,7 @@
     enable = true;
     rejectPackets = true;
     interfaces."eth0" = {
-      allowedTCPPorts = [ config.ports.exposed.http config.ports.exposed.https config.ports.exposed.tor-middle ];
+      allowedTCPPorts = [ config.ports.exposed.http config.ports.exposed.https config.ports.exposed.tor-middle config.ports.exposed.tor-middle-dir ];
       allowedUDPPorts = [ config.ports.exposed.https ];
     };
     interfaces."eth1" = {

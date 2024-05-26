@@ -76,6 +76,10 @@
           type = lib.types.int;
           description = "Port for Tor Middle relay";
         };
+        tor-middle-dir = lib.mkOption {
+          type = lib.types.int;
+          description = "Dir Port for Tor Middle relay";
+        };
       };
       public = {
         grafana = lib.mkOption {
@@ -180,6 +184,7 @@
         http = 80;
         https = 443;
         tor-middle = 9000;
+        tor-middle-dir = 9030;
       };
       public = {
         grafana = 10000;
