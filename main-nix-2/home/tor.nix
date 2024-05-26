@@ -3,7 +3,7 @@ let
   data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
 
   PODNAME = "tor_pod";
-  TOR_VERSION = "v0.3.1-exporter";
+  TOR_VERSION = "v0.3.2-exporter";
 
   exporter = clib.create-podman-exporter "tor" "${PODNAME}";
 in
@@ -24,6 +24,7 @@ in
       text = ''
         podman pod create --name=${PODNAME} \
             -p ${toString mconfig.ports.exposed.tor-middle}:9000 \
+            -p ${toString mconfig.ports.exposed.tor-middle-dir}:9030 \
             -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.tor-exporter}:9099 \
             -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
             --network pasta:-a,172.16.0.1
@@ -33,10 +34,11 @@ in
             -e Nickname="Middle" \
             -e ContactInfo="${mconfig.email}" \
             -e ORPort=9000 \
+            -e DirPort=9030 \
             -e AccountingStart="week 1 00:00" \
             -e AccountingMax="4 TBytes" \
-            -e RelayBandwidthRate="1 MBytes" \
-            -e RelayBandwidthBurst="2 MBytes" \
+            -e RelayBandwidthRate="1.2 MBytes" \
+            -e RelayBandwidthBurst="2.5 MBytes" \
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
             -v ${data-prefix}/middle:/var/lib/tor \
