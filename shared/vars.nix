@@ -108,6 +108,10 @@
           type = lib.types.int;
           description = "HTTP Port for Tor Exporter";
         };
+        systemd-exporter = lib.mkOption {
+          type = lib.types.int;
+          description = "HTTP Port for Systemd Exporter";
+        };
         podman-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.int;
@@ -191,6 +195,7 @@
       private = {
         nginx-exporter = 20001;
         tor-exporter = 20002;
+        systemd-exporter = 20003;
         podman-exporter = {
           reverseproxy = 21000;
           grafana = 21001;

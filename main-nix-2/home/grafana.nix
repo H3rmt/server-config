@@ -128,6 +128,12 @@ in
                   [
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.tor-exporter}",
                   ]
+          - job_name: systemd
+            static_configs:
+              - targets:
+                  [
+                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.systemd-exporter}",
+                  ]
           - job_name: podman-exporter
             static_configs:
               - targets:

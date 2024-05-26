@@ -37,4 +37,10 @@
   environment.memoryAllocator.provider = "graphene-hardened";
   security.protectKernelImage = true;
   security.sudo.enable = false;
+
+  services.prometheus.exporters.systemd = {
+    enable = true;
+    extraFlags = [ "--collector.user" ];
+    port = config.ports.private.systemd-exporter;
+  };
 }
