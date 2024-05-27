@@ -39,6 +39,10 @@
   create-systemd-service-exporter = pkgs: ip: name: {
     Unit = {
       Description = "Service for Systemd Exporter";
+      WantedBy = "default.target";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
     };
     Service = {
       ExecStart = ''
