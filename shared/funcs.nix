@@ -32,19 +32,19 @@
       else onChange;
   })) files;
 
-  create-folders = llib: folders: llib.hm.dag.entryAfter ["writeBoundary"] ''
+  create-folders = llib: folders: llib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p ${toString folders}
   '';
 
   create-systemd-service-exporter = ip: name: {
-        Unit = {
-          Description = "Service for Systemd Exporter";
-        };
-        Service = {
-          ExecStart = ''
-            ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-              --web.listen-address ${ip}:${toString config.ports.private.systemd-exporter."$name"} --systemd.collector.user --systemd.collector.enable-restart-count
-          '';
-      };
-};
+    Unit = {
+      Description = "Service for Systemd Exporter";
+    };
+    Service = {
+      ExecStart = ''
+        ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
+          --web.listen-address ${ip}:${toString config.ports.private.systemd-exporter."$name"} --systemd.collector.user --systemd.collector.enable-restart-count
+      '';
+    };
+  };
 }
