@@ -36,7 +36,7 @@
     mkdir -p ${toString folders}
   '';
 
-  create-systemd-service-exporter = ip: name: {
+  create-systemd-service-exporter = pkgs: ip: name: {
     Unit = {
       Description = "Service for Systemd Exporter";
     };
