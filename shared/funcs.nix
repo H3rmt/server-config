@@ -43,7 +43,7 @@
     Service = {
       ExecStart = ''
         ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-          --web.listen-address ${ip}:${toString config.ports.private.systemd-exporter."$name"} --systemd.collector.user --systemd.collector.enable-restart-count
+          --web.listen-address ${ip}:${toString config.ports.private.systemd-exporter."${name}"} --systemd.collector.user --systemd.collector.enable-restart-count
       '';
     };
   };
