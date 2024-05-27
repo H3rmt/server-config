@@ -26,7 +26,7 @@ in
             -u 0:0 \
             --restart unless-stopped \
             docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
-            --path.rootfs=/host --collector.netdev --collector.processes --collector.systemd --collector.ethtool
+            --path.rootfs=/host --collector.netdev --collector.processes --collector.ethtool
 
         ${exporter.run}
       '';

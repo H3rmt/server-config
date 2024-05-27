@@ -86,6 +86,7 @@
     pkgs.openssl
     pkgs.nmap
     pkgs.borgbackup
+    pkgs.prometheus-systemd-exporter
     inputs.agenix.packages.aarch64-linux.default
   ];
 }

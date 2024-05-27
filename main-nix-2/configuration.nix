@@ -37,10 +37,4 @@
   environment.memoryAllocator.provider = "graphene-hardened";
   security.protectKernelImage = true;
   security.sudo.enable = false;
-
-  services.prometheus.exporters.systemd = {
-    enable = true;
-    extraFlags = [ "--systemd.collector.user" "--systemd.collector.enable-restart-count" ];
-    port = config.ports.private.systemd-exporter;
-  };
 }

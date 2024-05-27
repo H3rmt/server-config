@@ -61,6 +61,7 @@ in
             } + /bin/certbot-renewal;
         };
       };
+      exporter = clib.create-systemd-service-exporter config.main-nix-2-private-ip "reverseproxy";
     };
     timers = {
       certbot = {

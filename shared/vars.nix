@@ -200,7 +200,6 @@
       private = {
         nginx-exporter = 20001;
         tor-exporter = 20002;
-        systemd-exporter = 20003;
         podman-exporter = {
           reverseproxy = 21000;
           grafana = 21001;
@@ -214,6 +213,9 @@
         };
         node-exporter-1 = 22001;
         node-exporter-2 = 22002;
+        systemd-exporter = {
+          reverseproxy = 23001;
+        };
       };
     };
     nameservers = [
