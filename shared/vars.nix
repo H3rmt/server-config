@@ -112,10 +112,6 @@
           type = lib.types.int;
           description = "HTTP Port for Tor Exporter";
         };
-        systemd-exporter = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Systemd Exporter";
-        };
         podman-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.int;
@@ -161,6 +157,12 @@
         node-exporter-2 = lib.mkOption {
           type = lib.types.int;
           description = "HTTP Port for Node Exporter on nix-2";
+        };
+        systemd-exporter = {
+          reverseproxy = lib.mkOption {
+            type = lib.types.int;
+            description = "HTTP Port for Systemd Exporter";
+          };
         };
       };
     };
