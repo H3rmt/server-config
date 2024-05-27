@@ -134,6 +134,8 @@ in
                   [
                     "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.systemd-exporter.reverseproxy}",
                   ]
+                labels:
+                  user: 'reverseproxy'
           - job_name: podman-exporter
             static_configs:
               - targets:
