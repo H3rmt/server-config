@@ -158,10 +158,14 @@
           type = lib.types.int;
           description = "HTTP Port for Node Exporter on nix-2";
         };
+      };
+    };
+    address = {
+      private = {
         systemd-exporter = {
           reverseproxy = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Systemd Exporter";
+            type = lib.types.str;
+            description = "Address for systemd-exporter on nix-2";
           };
         };
       };
