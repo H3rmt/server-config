@@ -1,4 +1,4 @@
-{ pkgs, home, ... }: {
+{ pkgs, home, lib, ... }: {
   xdg.configFile."micro/bindings.json" = {
     text = builtins.toJSON {
       "Ctrl-j" = "command-edit:jump ";
