@@ -165,7 +165,39 @@
         systemd-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.str;
-            description = "Address for systemd-exporter on nix-2";
+            description = "Address for systemd-exporter";
+          };
+          grafana = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          authentik = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          snowflake = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          nextcloud = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          filesharing = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          node-exporter-1 = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          node-exporter-2 = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          tor = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
           };
         };
       };
