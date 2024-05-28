@@ -168,7 +168,7 @@
     };
   };
 
-  config = {
+  config = rec {
     nixVersion = "24.05";
     main-url = "h3rmt.zip";
     podman-exporter-version = "v1.11.0";
@@ -221,7 +221,7 @@
     address = {
       private = {
         systemd-exporter = {
-          reverseproxy = "${config.main-nix-2-private-ip}:23001";
+          reverseproxy = "${main-nix-2-private-ip}:23001";
         };
       };
     };
