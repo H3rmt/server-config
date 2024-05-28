@@ -110,7 +110,7 @@
     };
 
     systemd.user.services.exporter = {
-      enable = lib.length config.exported-services > 0;
+      enable = if config.exported-services != [] then true else false;
       Unit = {
         Description = "Service for Systemd Exporter";
       };
