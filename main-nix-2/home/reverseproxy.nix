@@ -84,7 +84,7 @@ in
             -p ${toString config.ports.exposed.https}:443/tcp \
             -p ${toString config.ports.exposed.https}:443/udp \
             -p ${config.main-nix-2-private-ip}:${toString config.ports.private.nginx-exporter}:9113 \
-            -p ${exporter.port} \
+            -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
         podman run --name=nginx -d --pod=${config.pod-name} \
@@ -100,7 +100,7 @@ in
             docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
             --nginx.scrape-uri=http://localhost:81/${config.nginx-info-page}
 
-        ${exporter.run}
+        ${config.exporter.run}
       '';
     };
 
@@ -110,7 +110,7 @@ in
         podman stop -t 10 nginx-exporter
         podman stop -t 10 nginx
         podman rm nginx nginx-exporter
-        ${exporter.stop}
+        ${config.exporter.stop}
         podman pod rm ${config.pod-name}
       '';
     };
