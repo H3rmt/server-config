@@ -30,11 +30,11 @@
   };
 
   config = {
-    data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
+    data-prefix = "${config.home.homeDirectory}/${config.data-dir}";
     pod-name = "${config.home.username}_pod";
     exporter = { 
       run = ''
-        podman run --name=podman-exporter-${name} -d --pod=${podname} \
+        podman run --name=podman-exporter-${config.home.username} -d --pod=${config.podname} \
             -e CONTAINER_HOST=unix:///run/podman/podman.sock \
             -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
             -u 0:0 \
@@ -44,11 +44,11 @@
       '';
 
       stop = ''
-        podman stop -t 10 podman-exporter-${name}
-        podman rm podman-exporter-${name}
+        podman stop -t 10 podman-exporter-${config.home.username}
+        podman rm podman-exporter-${config.home.username}
       '';
 
-      port = ''${config.address.private.podman-exporter.${name}}:9882'';
+      port = ''${config.address.private.podman-exporter.${config.home.username}}:9882'';
     };
     home.stateVersion = config.nixVersion;
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
