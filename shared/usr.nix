@@ -54,4 +54,26 @@
     '';
     plugins = [ ];
   };
+
+  exported-services = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    description = "Services to export to prometheus";
+  };
+
+  systemd.user.services.exporter = {
+    enable = lib.length exported-services > 0;
+     Unit = {
+      Description = "Service for Systemd Exporter";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      ExecStart = ''
+        ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
+          --web.listen-address ${config.address.private.systemd-exporter."${name}"} --systemd.collector.user \
+          --systemd.collector.unit-include=${lib.concatStringsSep "|" exported-services}
+      '';
+    };
+  };
 }

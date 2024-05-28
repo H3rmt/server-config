@@ -132,7 +132,7 @@ in
             static_configs:
               - targets:
                   [
-                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.systemd-exporter.reverseproxy}",
+                    "${mconfig.address.private.systemd-exporter.reverseproxy}",
                   ]
                 labels:
                   user: 'reverseproxy'

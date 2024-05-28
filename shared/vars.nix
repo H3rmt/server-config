@@ -215,8 +215,13 @@
         };
         node-exporter-1 = 22001;
         node-exporter-2 = 22002;
+        
+      };
+    };
+    address = {
+      private = {
         systemd-exporter = {
-          reverseproxy = 23001;
+          reverseproxy = "${config.main-nix-2-private-ip}:23001";
         };
       };
     };

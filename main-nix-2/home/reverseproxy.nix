@@ -25,6 +25,8 @@ in
     "${data-prefix}/website/"
   ];
 
+  exported-services = [ "certbot.timer" "certbot.service" ];
+  
   systemd.user = {
     services = {
       certbot = {
@@ -41,7 +43,7 @@ in
                 export PATH="/run/current-system/sw/bin:$PATH"
                 
                 podman pull docker.io/certbot/certbot
-                podman run --rm \
+                podman run --rm --name certbot \
                   -e "HETZNER_TOKEN=$(cat '${age.secrets.reverseproxy_hetzner_token.path}')" \
                   -v ${data-prefix}/letsencrypt:/etc/letsencrypt \
                   --entrypoint sh \
@@ -61,7 +63,6 @@ in
             } + /bin/certbot-renewal;
         };
       };
-      exporter = clib.create-systemd-service-exporter pkgs mconfig.main-nix-2-private-ip "reverseproxy";
     };
     timers = {
       certbot = {
