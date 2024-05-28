@@ -16,7 +16,7 @@
       type = lib.types.str;
       description = "Name of pod for container";
     };
-    exporter = types.submodule { 
+    exporter = lib.types.submodule { 
       run = lib.mkOption {
         type = lib.types.str;
       };
