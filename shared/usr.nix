@@ -8,8 +8,51 @@
       description = "Services to export to prometheus";
       default = [ ];
     };
+    data-prefix = lib.mkOption {
+      type = lib.types.str;
+      description = "Prefix for data folders";
+    };
+    pod-name = lib.mkOption {
+      type = lib.types.str;
+      description = "Name of pod for container";
+    };
+    exporter = types.submodule { 
+      run = lib.mkOption {
+        type = lib.types.str;
+      };
+      stop = lib.mkOption {
+        type = lib.types.str;
+      };
+      port = lib.mkOption {
+        type = lib.types.str;
+      };
+    };
   };
+
   config = {
+    data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
+    pod-name = "${config.home.username}_pod";
+    exporter = { 
+      run = ''
+        podman run --name=podman-exporter-${name} -d --pod=${podname} \
+            -e CONTAINER_HOST=unix:///run/podman/podman.sock \
+            -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
+            -u 0:0 \
+            --restart unless-stopped \
+            quay.io/navidys/prometheus-podman-exporter:${config.podman-exporter-version} \
+            --collector.enable-all
+      '';
+
+      stop = ''
+        podman stop -t 10 podman-exporter-${name}
+        podman rm podman-exporter-${name}
+      '';
+
+      port = ''${config.address.private.podman-exporter.${name}}:9882'';
+    };
+    home.stateVersion = config.nixVersion;
+    home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
+
     xdg.configFile."micro/bindings.json" = {
       text = builtins.toJSON {
         "Ctrl-j" = "command-edit:jump ";
@@ -77,7 +120,7 @@
       Service = {
         ExecStart = ''
           ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-            --web.listen-address ${config.address.private.systemd-exporter."${config.home.username}"} --systemd.collector.user \
+            --web.listen-address ${config.address.private.systemd-exporter.${config.home.username}} --systemd.collector.user \
             --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
         '';
       };

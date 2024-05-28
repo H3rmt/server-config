@@ -112,44 +112,6 @@
           type = lib.types.int;
           description = "HTTP Port for Tor Exporter";
         };
-        podman-exporter = {
-          reverseproxy = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          grafana = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          authentik = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          snowflake = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          nextcloud = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          filesharing = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          node-exporter-1 = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          node-exporter-2 = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-          tor = lib.mkOption {
-            type = lib.types.int;
-            description = "HTTP Port for Podman Exporter";
-          };
-        };
         node-exporter-1 = lib.mkOption {
           type = lib.types.int;
           description = "HTTP Port for Node Exporter on nix-1";
@@ -162,6 +124,44 @@
     };
     address = {
       private = {
+        podman-exporter = {
+          reverseproxy = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          grafana = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          authentik = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          snowflake = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          nextcloud = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          filesharing = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          node-exporter-1 = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          node-exporter-2 = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+          tor = lib.mkOption {
+            type = lib.types.int;
+            description = "Address for Podman Exporter";
+          };
+        };
         systemd-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.str;
@@ -238,24 +238,23 @@
       private = {
         nginx-exporter = 20001;
         tor-exporter = 20002;
-        podman-exporter = {
-          reverseproxy = 21000;
-          grafana = 21001;
-          authentik = 21002;
-          snowflake = 21003;
-          nextcloud = 21004;
-          filesharing = 21005;
-          node-exporter-1 = 21006;
-          node-exporter-2 = 21007;
-          tor = 21008;
-        };
         node-exporter-1 = 22001;
         node-exporter-2 = 22002;
-        
       };
     };
     address = {
       private = {
+        podman-exporter = {
+          reverseproxy = "${main-nix-2-private-ip}:21000";
+          grafana = "${main-nix-2-private-ip}:21001";
+          authentik = "${main-nix-2-private-ip}:21002";
+          snowflake = "${main-nix-2-private-ip}:21003";
+          nextcloud = "${main-nix-1-private-ip}:21004";
+          filesharing = "${main-nix-1-private-ip}:21005";
+          node-exporter-1 = "${main-nix-1-private-ip}:21006";
+          node-exporter-2 = "${main-nix-2-private-ip}:21007";
+          tor = "${main-nix-2-private-ip}:21008";
+        };
         systemd-exporter = {
           reverseproxy = "${main-nix-2-private-ip}:23000";
           grafana = "${main-nix-2-private-ip}:23001";

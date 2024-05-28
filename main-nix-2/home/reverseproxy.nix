@@ -1,8 +1,5 @@
 { age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
 let
-  data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
-
-  PODNAME = "${config.home.username}_pod";
   NGINX_VERSION = "v0.0.4";
   NGINX_EXPORTER_VERSION = "1.1.0";
   HOMEPAGE_VERSION = "v0.1.4";
@@ -10,19 +7,15 @@ let
   NGINX_CONFIG = "nginx.conf";
   NGINX_CONFIG_DIR = "conf.d";
   WEBSITE_PATH = "/website";
-
-  exporter = clib.create-podman-exporter "reverseproxy" "${PODNAME}";
 in
 {
   imports = [
     ../../shared/usr.nix
   ];
-  home.stateVersion = mconfig.nixVersion;
-  home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.activation.script = clib.create-folders lib [
-    "${data-prefix}/letsencrypt/"
-    "${data-prefix}/website/"
+    "${config.data-prefix}/letsencrypt/"
+    "${config.data-prefix}/website/"
   ];
 
   exported-services = [ "certbot.timer" "certbot.service" ];
@@ -45,16 +38,16 @@ in
                 podman pull docker.io/certbot/certbot
                 podman run --rm --name certbot \
                   -e "HETZNER_TOKEN=$(cat '${age.secrets.reverseproxy_hetzner_token.path}')" \
-                  -v ${data-prefix}/letsencrypt:/etc/letsencrypt \
+                  -v ${config.data-prefix}/letsencrypt:/etc/letsencrypt \
                   --entrypoint sh \
                   certbot/certbot \
                   -c 'pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN"; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
-                      certbot certonly --email "${mconfig.email}" --agree-tos --non-interactive \
+                      certbot certonly --email "${config.email}" --agree-tos --non-interactive \
                         --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
-                        --dns-hetzner-propagation-seconds=60 -d *.${mconfig.main-url} -d ${mconfig.main-url}'
+                        --dns-hetzner-propagation-seconds=60 -d *.${config.main-url} -d ${config.main-url}'
 
-                stat -Lc %y "${data-prefix}/letsencrypt/live/${mconfig.main-url}/fullchain.pem"
-                if [ $(( $(date +%s) - $(stat -Lc %Y "${data-prefix}/letsencrypt/live/${mconfig.main-url}/fullchain.pem") )) -lt 120 ]; then 
+                stat -Lc %y "${config.data-prefix}/letsencrypt/live/${config.main-url}/fullchain.pem"
+                if [ $(( $(date +%s) - $(stat -Lc %Y "${config.data-prefix}/letsencrypt/live/${config.main-url}/fullchain.pem") )) -lt 120 ]; then 
                   podman exec nginx nginx -s reload && podman logs --tail 20 nginx
                   echo "Reloaded Certificate"
                 else 
@@ -86,26 +79,26 @@ in
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${PODNAME} \
-            -p ${toString mconfig.ports.exposed.http}:80 \
-            -p ${toString mconfig.ports.exposed.https}:443/tcp \
-            -p ${toString mconfig.ports.exposed.https}:443/udp \
-            -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.nginx-exporter}:9113 \
-            -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
+        podman pod create --name=${config.pod-name} \
+            -p ${toString config.ports.exposed.http}:80 \
+            -p ${toString config.ports.exposed.https}:443/tcp \
+            -p ${toString config.ports.exposed.https}:443/udp \
+            -p ${config.main-nix-2-private-ip}:${toString config.ports.private.nginx-exporter}:9113 \
+            -p ${exporter.port} \
             --network pasta:-a,172.16.0.1
 
-        podman run --name=nginx -d --pod=${PODNAME} \
+        podman run --name=nginx -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${NGINX_CONFIG}:/etc/nginx/${NGINX_CONFIG}:ro \
             -v ${config.home.homeDirectory}/${NGINX_CONFIG_DIR}:/etc/nginx/${NGINX_CONFIG_DIR}:ro \
-            -v ${data-prefix}/letsencrypt:/etc/letsencrypt:ro \
-            -v ${data-prefix}/website:${WEBSITE_PATH}:ro \
+            -v ${config.data-prefix}/letsencrypt:/etc/letsencrypt:ro \
+            -v ${config.data-prefix}/website:${WEBSITE_PATH}:ro \
             --restart unless-stopped \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
         
-        podman run --name=nginx-exporter -d --pod=${PODNAME} \
+        podman run --name=nginx-exporter -d --pod=${config.pod-name} \
             --restart unless-stopped \
             docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
-            --nginx.scrape-uri=http://localhost:81/${mconfig.nginx-info-page}
+            --nginx.scrape-uri=http://localhost:81/${config.nginx-info-page}
 
         ${exporter.run}
       '';
@@ -118,7 +111,7 @@ in
         podman stop -t 10 nginx
         podman rm nginx nginx-exporter
         ${exporter.stop}
-        podman pod rm ${PODNAME}
+        podman pod rm ${config.pod-name}
       '';
     };
 
@@ -142,25 +135,25 @@ in
     "${NGINX_CONFIG_DIR}/upstreams.conf" = {
       noLink = true;
       text = ''
-        upstream ${mconfig.sites.authentik} {
-          server ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.authentik};
+        upstream ${config.sites.authentik} {
+          server ${config.main-nix-2-private-ip}:${toString config.ports.public.authentik};
           keepalive 15;
         }
 
-        upstream ${mconfig.sites.grafana} {
-          server ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.grafana};
+        upstream ${config.sites.grafana} {
+          server ${config.main-nix-2-private-ip}:${toString config.ports.public.grafana};
         }
 
-        upstream ${mconfig.sites.prometheus} {
-          server ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.public.prometheus};
+        upstream ${config.sites.prometheus} {
+          server ${config.main-nix-2-private-ip}:${toString config.ports.public.prometheus};
         }
 
-        upstream ${mconfig.sites.filesharing} {
-          server ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.filesharing};
+        upstream ${config.sites.filesharing} {
+          server ${config.main-nix-1-private-ip}:${toString config.ports.public.filesharing};
         }
 
-        upstream ${mconfig.sites.nextcloud} {
-          server ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.nextcloud};
+        upstream ${config.sites.nextcloud} {
+          server ${config.main-nix-1-private-ip}:${toString config.ports.public.nextcloud};
         }
       '';
     };
@@ -187,14 +180,14 @@ in
             listen [::]:81;
             server_tokens on;
         
-            location /${mconfig.nginx-info-page} {
+            location /${config.nginx-info-page} {
               stub_status;
               access_log off;
             }
           }
         
           server {
-            server_name ${mconfig.main-url};
+            server_name ${config.main-url};
         
             listen 80;
             listen [::]:80;
@@ -205,7 +198,7 @@ in
           }
         
           server {
-            server_name ${mconfig.main-url};
+            server_name ${config.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -218,7 +211,7 @@ in
           }
         
           server {
-            server_name ${mconfig.sites.prometheus}.${mconfig.main-url};
+            server_name ${config.sites.prometheus}.${config.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -226,7 +219,7 @@ in
             listen [::]:443 quic;
         
             location / {
-              proxy_pass http://${mconfig.sites.prometheus};
+              proxy_pass http://${config.sites.prometheus};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
             }
@@ -235,7 +228,7 @@ in
           }
         
           server {
-            server_name ${mconfig.sites.authentik}.${mconfig.main-url};
+            server_name ${config.sites.authentik}.${config.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -243,13 +236,13 @@ in
             listen [::]:443 quic;
         
             location / {
-              proxy_pass http://${mconfig.sites.authentik};
+              proxy_pass http://${config.sites.authentik};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
         
           server {
-            server_name ${mconfig.sites.grafana}.${mconfig.main-url};
+            server_name ${config.sites.grafana}.${config.main-url};
         
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -257,13 +250,13 @@ in
             listen [::]:443 quic;
         
             location / {
-              proxy_pass http://${mconfig.sites.grafana};
+              proxy_pass http://${config.sites.grafana};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
 
           server {
-            server_name ${mconfig.sites.nextcloud}.${mconfig.main-url};
+            server_name ${config.sites.nextcloud}.${config.main-url};
           
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -272,13 +265,13 @@ in
             
             client_max_body_size 3000M;
             location / {
-              proxy_pass http://${mconfig.sites.nextcloud};
+              proxy_pass http://${config.sites.nextcloud};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
                             
           server {
-            server_name ${mconfig.sites.filesharing}.${mconfig.main-url};
+            server_name ${config.sites.filesharing}.${config.main-url};
       
             listen 443 ssl;
             listen [::]:443 ssl;
@@ -291,14 +284,14 @@ in
             proxy_send_timeout 300;
       
             location / {
-              proxy_pass http://${mconfig.sites.filesharing};
+              proxy_pass http://${config.sites.filesharing};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
         
         
           #   server {
-          #     server_name esp32-timelapse.${mconfig.main-url};
+          #     server_name esp32-timelapse.${config.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -312,7 +305,7 @@ in
           #   }
         
           #   server {
-          #     server_name lasagne-share.${mconfig.main-url};
+          #     server_name lasagne-share.${config.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -331,7 +324,7 @@ in
           #   }
         
           #   server {
-          #     server_name uptest.${mconfig.main-url};
+          #     server_name uptest.${config.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -348,7 +341,7 @@ in
           #   }
         
           #   server {
-          #     server_name speedtest.${mconfig.main-url};
+          #     server_name speedtest.${config.main-url};
           # 
           #     listen 443 ssl;
           #     listen [::]:443 ssl;
@@ -387,7 +380,7 @@ in
       noLink = true;
       text = ''
         location /outpost.goauthentik.io {
-          proxy_pass              http://${mconfig.sites.authentik}/outpost.goauthentik.io;
+          proxy_pass              http://${config.sites.authentik}/outpost.goauthentik.io;
           proxy_set_header        Host $host;
           proxy_set_header        X-Original-URL $scheme://$http_host$request_uri;
           add_header              Set-Cookie $auth_cookie;
@@ -465,8 +458,8 @@ in
         add_header Strict-Transport-Security "max-age=63072000" always;
 
         # certificates
-        ssl_certificate /etc/letsencrypt/live/${mconfig.main-url}/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/${mconfig.main-url}/privkey.pem;
+        ssl_certificate /etc/letsencrypt/live/${config.main-url}/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/${config.main-url}/privkey.pem;
         ssl_session_cache shared:SSL:10m;
         ssl_session_timeout 1h;
         ssl_session_tickets off;
