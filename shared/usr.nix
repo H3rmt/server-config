@@ -1,4 +1,7 @@
 { pkgs, home, lib, config, ... }: {
+   imports = [
+    ./vars.nix
+  ];
   options = {
     exported-services = lib.mkOption {
       type = lib.types.listOf lib.types.str;
