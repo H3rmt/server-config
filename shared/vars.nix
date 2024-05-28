@@ -81,49 +81,39 @@
           description = "Dir Port for Tor Middle relay";
         };
       };
+    };
+    address = {
       public = {
         grafana = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Grafana";
+          type = lib.types.str;
+          description = "Address for Grafana";
         };
         authentik = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Authnetik";
+          type = lib.types.str;
+          description = "Address for Authnetik";
         };
         prometheus = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Prometheus";
+          type = lib.types.str;
+          description = "Address for Prometheus";
         };
         nextcloud = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Nextcloud";
+          type = lib.types.str;
+          description = "Address for Nextcloud";
         };
         filesharing = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Filesharing";
+          type = lib.types.str;
+          description = "Address for Filesharing";
         };
       };
       private = {
         nginx-exporter = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Nginx Exporter";
+          type = lib.types.str;
+          description = "Address for Nginx Exporter";
         };
         tor-exporter = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Tor Exporter";
+          type = lib.types.str;
+          description = "Address for Tor Exporter";
         };
-        node-exporter-1 = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Node Exporter on nix-1";
-        };
-        node-exporter-2 = lib.mkOption {
-          type = lib.types.int;
-          description = "HTTP Port for Node Exporter on nix-2";
-        };
-      };
-    };
-    address = {
-      private = {
         podman-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.str;
@@ -161,6 +151,14 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
+        };
+        node-exporter-1 = lib.mkOption {
+          type = lib.types.str;
+          description = "Address for Node Exporter on nix-1";
+        };
+        node-exporter-2 = lib.mkOption {
+          type = lib.types.str;
+          description = "Address for Node Exporter on nix-2";
         };
         systemd-exporter = {
           reverseproxy = lib.mkOption {
@@ -228,22 +226,18 @@
         tor-middle = 9000;
         tor-middle-dir = 9030;
       };
-      public = {
-        grafana = 10000;
-        authentik = 10001;
-        prometheus = 10002;
-        nextcloud = 10003;
-        filesharing = 10004;
-      };
-      private = {
-        nginx-exporter = 20001;
-        tor-exporter = 20002;
-        node-exporter-1 = 22001;
-        node-exporter-2 = 22002;
-      };
     };
     address = {
+      public = {
+        grafana = "${main-nix-2-private-ip}:10000";
+        authentik = "${main-nix-2-private-ip}:10001";
+        prometheus = "${main-nix-2-private-ip}:10002";
+        nextcloud = "${main-nix-1-private-ip}:10003";
+        filesharing = "${main-nix-1-private-ip}:10004";
+      };
       private = {
+        nginx-exporter = "${main-nix-2-private-ip}:20001";
+        tor-exporter = "${main-nix-2-private-ip}:20001";
         podman-exporter = {
           reverseproxy = "${main-nix-2-private-ip}:21000";
           grafana = "${main-nix-2-private-ip}:21001";
@@ -255,6 +249,8 @@
           node-exporter-2 = "${main-nix-2-private-ip}:21007";
           tor = "${main-nix-2-private-ip}:21008";
         };
+        node-exporter-1 = "${main-nix-1-private-ip}:22001";
+        node-exporter-2 = "${main-nix-2-private-ip}:22002";
         systemd-exporter = {
           reverseproxy = "${main-nix-2-private-ip}:23000";
           grafana = "${main-nix-2-private-ip}:23001";

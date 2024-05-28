@@ -36,9 +36,9 @@
   config = {
     data-prefix = "${config.home.homeDirectory}/${config.data-dir}";
     pod-name = "${config.home.username}_pod";
-    exporter = { 
+    exporter = {
       run = ''
-        podman run --name=podman-exporter-${config.home.username} -d --pod=${config.podname} \
+        podman run --name=podman-exporter-${config.home.username} -d --pod=${config.pod-name} \
             -e CONTAINER_HOST=unix:///run/podman/podman.sock \
             -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
             -u 0:0 \
@@ -112,10 +112,9 @@
       plugins = [ ];
     };
 
-    systemd.user.services.exporter = {
-      enable = if config.exported-services != [] then true else false;
+    systemd.user.services.exporter = if (config.exported-services != []) then {
       Unit = {
-        Description = "Service for Systemd Exporter";
+        Description = "Service for ${lib.boolToString (config.exported-services != [])} - Systemd Exporter ${builtins.toJSON config.exported-services}";
       };
       Install = {
         WantedBy = [ "default.target" ];
@@ -127,6 +126,6 @@
             --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
         '';
       };
-    };
+    } else { };
   };
 }
