@@ -73,7 +73,6 @@
         reload = "auto";
         relativeruler = true;
         savecursor = true;
-        saveundo = true;
         scrollbar = true;
         tabstospaces = true;
       };

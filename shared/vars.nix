@@ -126,39 +126,39 @@
       private = {
         podman-exporter = {
           reverseproxy = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           grafana = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           authentik = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           snowflake = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           nextcloud = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           filesharing = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           node-exporter-1 = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           node-exporter-2 = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
           tor = lib.mkOption {
-            type = lib.types.int;
+            type = lib.types.str;
             description = "Address for Podman Exporter";
           };
         };
