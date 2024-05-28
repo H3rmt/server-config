@@ -18,14 +18,16 @@
     };
     exporter = lib.mkOption {
       type = lib.types.submodule { 
-        run = lib.mkOption {
-          type = lib.types.str;
-        };
-        stop = lib.mkOption {
-          type = lib.types.str;
-        };
-        port = lib.mkOption {
-          type = lib.types.str;
+        options = {
+          run = lib.mkOption {
+            type = lib.types.str;
+          };
+          stop = lib.mkOption {
+            type = lib.types.str;
+          };
+          port = lib.mkOption {
+            type = lib.types.str;
+          };
         };
       };
     };
