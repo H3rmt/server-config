@@ -1,4 +1,4 @@
-{ age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
+{ clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   NGINX_VERSION = "v0.0.4";
   NGINX_EXPORTER_VERSION = "1.1.0";
@@ -37,7 +37,7 @@ in
                 
                 podman pull docker.io/certbot/certbot
                 podman run --rm --name certbot \
-                  -e "HETZNER_TOKEN=$(cat '${age.secrets.reverseproxy_hetzner_token.path}')" \
+                  -e "HETZNER_TOKEN=$(cat '${config.age.secrets.reverseproxy_hetzner_token.path}')" \
                   -v ${config.data-prefix}/letsencrypt:/etc/letsencrypt \
                   --entrypoint sh \
                   certbot/certbot \
@@ -83,7 +83,7 @@ in
             -p ${toString config.ports.exposed.http}:80 \
             -p ${toString config.ports.exposed.https}:443/tcp \
             -p ${toString config.ports.exposed.https}:443/udp \
-            -p ${config.main-nix-2-private-ip}:${toString config.ports.private.nginx-exporter}:9113 \
+            -p ${config.address.private.nginx-exporter}:9113 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 

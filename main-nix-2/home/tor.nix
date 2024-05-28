@@ -1,18 +1,11 @@
-{ age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
+{ clib }: { lib, config, home, pkgs, inputs, ... }:
 let
-  data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
-
-  PODNAME = "tor_pod";
   TOR_VERSION = "v0.3.2-exporter";
-
-  exporter = clib.create-podman-exporter "tor" "${PODNAME}";
 in
 {
   imports = [
     ../../shared/usr.nix
   ];
-  home.stateVersion = mconfig.nixVersion;
-  home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.activation.script = clib.create-folders lib [
     "${data-prefix}/middle/"
@@ -22,17 +15,17 @@ in
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${PODNAME} \
-            -p ${toString mconfig.ports.exposed.tor-middle}:9000 \
-            -p ${toString mconfig.ports.exposed.tor-middle-dir}:9030 \
-            -p ${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.tor-exporter}:9099 \
-            -p ${mconfig.main-nix-2-private-ip}:${exporter.port} \
+        podman pod create --name=${config.pod-name} \
+            -p ${toString config.ports.exposed.tor-middle}:9000 \
+            -p ${toString config.ports.exposed.tor-middle-dir}:9030 \
+            -p ${config.address.private.tor-exporter}:9099 \
+            -p ${exporter.port} \
             --network pasta:-a,172.16.0.1
 
-        podman run --name=middle -d --pod=${PODNAME} \
+        podman run --name=middle -d --pod=${config.pod-name} \
             -e mode="middle" \
             -e Nickname="Middle" \
-            -e ContactInfo="${mconfig.email}" \
+            -e ContactInfo="${config.email}" \
             -e ORPort=9000 \
             -e DirPort=9030 \
             -e AccountingStart="week 1 00:00" \
@@ -56,7 +49,7 @@ in
         podman stop -t 10 middle 
         podman rm middle
         ${exporter.stop}
-        podman pod rm ${PODNAME}
+        podman pod rm ${config.pod-name}
       '';
     };
   };

@@ -1,8 +1,5 @@
-{ age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
-  data-prefix = "${config.home.homeDirectory}/data";
-
-  PODNAME = "nextcloud_pod";
   MARIADB_VERSION = "11.0";
   NEXTCLOUD_VERSION = "29.0.0";
 
@@ -12,53 +9,49 @@ let
   MARIA_USER = "nextcloud";
   MARIA_DATABASE = "nextcloud";
   ADMIN_USER = "admin";
-
-  exporter = clib.create-podman-exporter "nextcloud" "${PODNAME}";
 in
 {
   imports = [
     ../../shared/usr.nix
   ];
-  home.stateVersion = mconfig.nixVersion;
-  home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
   home.activation.script = clib.create-folders lib [
-    "${data-prefix}/nextcloud/"
-    "${data-prefix}/db/"
+    "${config.data-prefix}/nextcloud/"
+    "${config.data-prefix}/db/"
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${PODNAME} \
-            -p ${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.public.nextcloud}:80 \
-            -p ${mconfig.main-nix-1-private-ip}:${exporter.port} \
+        podman pod create --name=${config.pod-name} \
+            -p ${config.address.public.nextcloud}:80 \
+            -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
-        podman run --name=nextcloud-db -d --pod=${PODNAME} \
+        podman run --name=nextcloud-db -d --pod=${config.pod-name} \
             -e MYSQL_ROOT_PASSWORD=${MARIA_ROOT_PASS} \
             -e MYSQL_PASSWORD=${MARIA_PASS} \
             -e MYSQL_DATABASE=${MARIA_DATABASE} \
             -e MYSQL_USER=${MARIA_USER} \
-            -v ${data-prefix}/db:/var/lib/mysql \
+            -v ${config.data-prefix}/db:/var/lib/mysql \
             docker.io/mariadb:${MARIADB_VERSION} \
             --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
 
-        podman run --name=nextcloud -d --pod=${PODNAME} \
+        podman run --name=nextcloud -d --pod=${config.pod-name} \
             -e MYSQL_PASSWORD=${MARIA_PASS} \
             -e MYSQL_DATABASE=${MARIA_DATABASE} \
             -e MYSQL_USER=${MARIA_USER} \
             -e MYSQL_HOST=127.0.0.1 \
             -e NEXTCLOUD_ADMIN_USER=${ADMIN_USER} \
             -e NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASS} \
-            -e OVERWRITEHOST=${mconfig.sites.nextcloud}.${mconfig.main-url} \
-            -e TRUSTED_PROXIES=${mconfig.main-nix-2-private-ip} \
+            -e OVERWRITEHOST=${config.sites.nextcloud}.${config.main-url} \
+            -e TRUSTED_PROXIES=${config.main-nix-2-private-ip} \
             -e OVERWRITEPROTOCOL=https \
-            -v ${data-prefix}/nextcloud:/var/www/html \
+            -v ${config.data-prefix}/nextcloud:/var/www/html \
             docker.io/nextcloud:${NEXTCLOUD_VERSION}
 
-        ${exporter.run}
+        ${config.exporter.run}
       '';
     };
 
@@ -68,8 +61,8 @@ in
         podman stop -t 10 nextcloud
         podman stop -t 10 nextcloud-db
         podman rm nextcloud nextcloud-db
-        ${exporter.stop}
-        podman pod rm ${PODNAME}
+        ${config.exporter.stop}
+        podman pod rm ${config.pod-name}
       '';
     };
   };
