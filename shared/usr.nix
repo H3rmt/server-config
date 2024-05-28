@@ -77,7 +77,7 @@
       Service = {
         ExecStart = ''
           ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-            --web.listen-address ${config.address.private.systemd-exporter."${config.home.name}"} --systemd.collector.user \
+            --web.listen-address ${config.address.private.systemd-exporter."${home.name}"} --systemd.collector.user \
             --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
         '';
       };

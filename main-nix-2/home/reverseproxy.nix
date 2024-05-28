@@ -1,6 +1,6 @@
 { age, clib, mconfig }: { lib, config, home, pkgs, inputs, ... }:
 let
-  data-prefix = "${config.home.homeDirectory}/${mconfig.data-dir}";
+  data-prefix = "${home.homeDirectory}/${mconfig.data-dir}";
 
   PODNAME = "reverseproxy_pod";
   NGINX_VERSION = "v0.0.4";
@@ -82,7 +82,7 @@ in
     };
   };
 
-  home.file = clib.create-files config.home.homeDirectory {
+  home.file = clib.create-files home.homeDirectory {
     "up.sh" = {
       executable = true;
       text = ''
