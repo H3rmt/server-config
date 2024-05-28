@@ -13,8 +13,7 @@
       podman stop -t 10 podman-exporter-${name}
       podman rm podman-exporter-${name}'';
 
-    port = ''
-      ${toString config.ports.private.podman-exporter.${name}}:9882'';
+    port = ''9882'';
   };
 
   create-files = home: files: (lib.mapAttrs (name: { text, noLink ? false, onChange ? "", executable ? false }: {

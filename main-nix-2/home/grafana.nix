@@ -140,16 +140,18 @@ in
             static_configs:
               - targets:
                   [
-                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.reverseproxy}",
-                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.grafana}",
-                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.authentik}",
-                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-2}",
-                    "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.tor}",
-                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.filesharing}",
-                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.nextcloud}",
-                    "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-1}",
                   ]
       '';
     };
   };
 }
+
+# "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.reverseproxy}",
+# "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.grafana}",
+# "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.authentik}",
+# "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-2}",
+# "${mconfig.main-nix-2-private-ip}:${toString mconfig.ports.private.podman-exporter.tor}",
+# "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.filesharing}",
+# "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.nextcloud}",
+# "${mconfig.main-nix-1-private-ip}:${toString mconfig.ports.private.podman-exporter.node-exporter-1}",
+                  
