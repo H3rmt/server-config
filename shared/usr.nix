@@ -16,15 +16,17 @@
       type = lib.types.str;
       description = "Name of pod for container";
     };
-    exporter = lib.types.submodule { 
-      run = lib.mkOption {
-        type = lib.types.str;
-      };
-      stop = lib.mkOption {
-        type = lib.types.str;
-      };
-      port = lib.mkOption {
-        type = lib.types.str;
+    exporter = lib.mkOption {
+      type = lib.types.submodule { 
+        run = lib.mkOption {
+          type = lib.types.str;
+        };
+        stop = lib.mkOption {
+          type = lib.types.str;
+        };
+        port = lib.mkOption {
+          type = lib.types.str;
+        };
       };
     };
   };
