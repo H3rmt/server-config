@@ -3,6 +3,7 @@
     exported-services = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       description = "Services to export to prometheus";
+      default = [ ];
     };
   };
   config = {
@@ -61,8 +62,6 @@
       '';
       plugins = [ ];
     };
-
-
 
     systemd.user.services.exporter = {
       enable = lib.length config.exported-services > 0;
