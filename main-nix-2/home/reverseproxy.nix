@@ -123,7 +123,7 @@ in
           text = ''
             echo "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip";
             wget "https://github.com/H3rmt/h3rmt.github.io/releases/download/$(cat ${config.home.homeDirectory}/website-version)/public.zip" -O temp.zip
-            unzip -o temp.zip -d ${data-prefix}/website
+            unzip -o temp.zip -d ${config.data-prefix}/website
             rm temp.zip
           '';
         } + /bin/update;
