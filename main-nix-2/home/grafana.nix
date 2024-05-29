@@ -23,7 +23,7 @@ in
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${config.pod-name} \
+        podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${config.address.public.grafana}:3000 \
             -p ${config.address.public.loki}:3100 \
             -p ${config.address.public.prometheus}:9090 \

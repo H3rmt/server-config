@@ -92,6 +92,7 @@ in
             -v ${config.home.homeDirectory}/${NGINX_CONFIG_DIR}:/etc/nginx/${NGINX_CONFIG_DIR}:ro \
             -v ${config.data-prefix}/letsencrypt:/etc/letsencrypt:ro \
             -v ${config.data-prefix}/website:${WEBSITE_PATH}:ro \
+            - /var/cache/nginx/ \
             --restart unless-stopped \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
         
