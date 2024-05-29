@@ -13,7 +13,7 @@ in
       text = ''
         podman pod create --name=${config.pod-name} \
             -p ${config.address.private.node-exporter-1}:9100 \
-            -p ${exporter.port} \
+            -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
         podman run --name=node-exporter-1 -d --pod=${config.pod-name} \
@@ -23,7 +23,7 @@ in
             docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
             --path.rootfs=/host --collector.netdev --collector.processes --collector.ethtool
 
-        ${exporter.run}
+        ${config.exporter.run}
       '';
     };
 
@@ -32,7 +32,7 @@ in
       text = ''
         podman stop -t 10 node-exporter-1
         podman rm node-exporter-1
-        ${exporter.stop}
+        ${config.exporter.stop}
         podman pod rm ${config.pod-name}
       '';
     };
