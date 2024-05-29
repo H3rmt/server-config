@@ -104,6 +104,10 @@
           type = lib.types.str;
           description = "Address for Filesharing";
         };
+        loki = lib.mkOption {
+          type = lib.types.str;
+          description = "Address for Loki";
+        };
       };
       private = {
         nginx-exporter = lib.mkOption {
@@ -234,6 +238,7 @@
         prometheus = "${main-nix-2-private-ip}:10002";
         nextcloud = "${main-nix-1-private-ip}:10003";
         filesharing = "${main-nix-1-private-ip}:10004";
+        loki = "${main-nix-2-private-ip}:10005";
       };
       private = {
         nginx-exporter = "${main-nix-2-private-ip}:20001";

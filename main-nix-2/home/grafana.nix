@@ -2,9 +2,11 @@
 let
   GRAFANA_VERSION = "10.4.1";
   PROMETHEUS_VERSION = "v2.51.2";
+  LOKI_VERSION = "v2.9.8";
 
   GRAFANA_CONFIG = "grafana";
   PROMETHEUS_CONFIG = "prometheus";
+  LOKI_CONFIG = "loki";
 in
 {
   imports = [
@@ -14,6 +16,7 @@ in
   home.activation.script = clib.create-folders lib [
     "${config.data-prefix}/grafana/"
     "${config.data-prefix}/prometheus/"
+    "${config.data-prefix}/loki/"
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
@@ -22,6 +25,7 @@ in
       text = ''
         podman pod create --name=${config.pod-name} \
             -p ${config.address.public.grafana}:3000 \
+            -p ${config.address.public.loki}:3100 \
             -p ${config.address.public.prometheus}:9090 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
@@ -41,6 +45,13 @@ in
             docker.io/prom/prometheus:${PROMETHEUS_VERSION} \
             --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle
 
+        podman run --name=loki -d --pod=${config.pod-name} \
+            -v ${config.home.homeDirectory}/${LOKI_CONFIG}:/etc/loki:ro \
+            -v ${config.data-prefix}/loki:/var/loki \
+            --restart unless-stopped \
+            docker.io/grafana/loki:${LOKI_VERSION} \
+            -config.file=/etc/loki/config.yaml
+
         ${config.exporter.run}
       '';
     };
@@ -50,7 +61,8 @@ in
       text = ''
         podman stop -t 10 grafana
         podman stop -t 10 prometheus
-        podman rm grafana prometheus
+        podman stop -t 10 loki
+        podman rm grafana prometheus loki
         ${config.exporter.stop}
         podman pod rm ${config.pod-name}
       '';
@@ -142,6 +154,38 @@ in
                     "${toString config.address.private.podman-exporter.nextcloud}",
                     "${toString config.address.private.podman-exporter.node-exporter-1}",
                   ]
+      '';
+    };
+
+    "${LOKI_CONFIG}/config.yml" = {
+      noLink = true;
+      text = ''
+        auth_enabled: false
+
+        server:
+          http_listen_port: 3100
+
+        common:
+          ring:
+            instance_addr: 127.0.0.1
+            kvstore:
+              store: inmemory
+          replication_factor: 1
+          path_prefix: /var/loki
+
+        schema_config:
+          configs:
+          - from: 2020-05-15
+            store: tsdb
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: index_
+              period: 24h
+
+        storage_config:
+          filesystem:
+            directory: /var/loki/chunks
       '';
     };
   };
