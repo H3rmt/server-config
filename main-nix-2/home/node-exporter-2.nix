@@ -25,12 +25,12 @@ in
             --path.rootfs=/host --collector.netdev --collector.processes --collector.ethtool
         
         podman run --name=promtail-2 -d --pod=${config.pod-name} \
-            -v ${config.home.homeDirectory}/promtail.yml:/var/log/promtail/promtail.yml:ro \
+            -v ${config.home.homeDirectory}/promtail.yml:/etc/promtail/promtail.yml:ro \
             -v /var/log:/var/log:ro \
             -v /tmp/positions \
             --restart unless-stopped \
             docker.io/grafana/promtail:${PROMTAIL_VERSION} \
-            --config.file=/var/log/promtail/promtail.yml
+            --config.file=/etc/promtail/promtail.yml
 
         ${config.exporter.run}
       '';
