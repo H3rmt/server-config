@@ -1,7 +1,7 @@
 { age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   NODE_EXPORTER_VERSION = "v1.7.0";
-  PROMTAIL_VERSION = "v2.9.8";
+  PROMTAIL_VERSION = "3.0.0";
 in
 {
   imports = [
