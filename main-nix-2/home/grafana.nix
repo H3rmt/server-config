@@ -51,7 +51,7 @@ in
             -u 0:0 \
             --restart unless-stopped \
             docker.io/grafana/loki:${LOKI_VERSION} \
-            -config.file=/etc/loki/config.yaml
+            -config.file=/etc/loki/config.yml
 
         ${config.exporter.run}
       '';
