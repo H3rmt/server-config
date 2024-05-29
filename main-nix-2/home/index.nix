@@ -43,6 +43,7 @@ in
       isNormalUser = true;
       shell = pkgs.zsh;
       linger = true;
+      extraGroups = [ "systemd-journal" ];
     };
     tor = {
       createHome = true;
