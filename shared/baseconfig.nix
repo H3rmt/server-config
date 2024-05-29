@@ -21,6 +21,7 @@
       };
     };
   };
+  systemd.user.services.podman.environment = { LOGGING="--log-level=warn"; };
 
   programs.zsh.enable = true;
   zramSwap.enable = true;
