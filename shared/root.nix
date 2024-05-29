@@ -47,7 +47,7 @@
             '';
           }
         ];
-      terminal = "screen-256color";
+      terminal = "xterm-256color";
       extraConfig = ''
         unbind '"'
         unbind %
