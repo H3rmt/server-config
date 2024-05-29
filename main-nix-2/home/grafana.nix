@@ -2,7 +2,7 @@
 let
   GRAFANA_VERSION = "10.4.1";
   PROMETHEUS_VERSION = "v2.51.2";
-  LOKI_VERSION = "v2.9.8";
+  LOKI_VERSION = "2.9.8";
 
   GRAFANA_CONFIG = "grafana";
   PROMETHEUS_CONFIG = "prometheus";
