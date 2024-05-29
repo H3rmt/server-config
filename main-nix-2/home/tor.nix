@@ -19,7 +19,7 @@ in
             -p ${toString config.ports.exposed.tor-middle}:9000 \
             -p ${toString config.ports.exposed.tor-middle-dir}:9030 \
             -p ${config.address.private.tor-exporter}:9099 \
-            -p ${exporter.port} \
+            -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
         podman run --name=middle -d --pod=${config.pod-name} \
@@ -39,7 +39,7 @@ in
             --restart unless-stopped \
             ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
 
-        ${exporter.run}
+        ${config.exporter.run}
       '';
     };
 
@@ -48,7 +48,7 @@ in
       text = ''
         podman stop -t 10 middle 
         podman rm middle
-        ${exporter.stop}
+        ${config.exporter.stop}
         podman pod rm ${config.pod-name}
       '';
     };
