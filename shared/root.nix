@@ -49,6 +49,13 @@
         ];
       terminal = "xterm-256color";
       extraConfig = ''
+        set -s escape-time 10         # faster command sequences
+        set -g display-panes-time 800 # slightly longer pane indicators display time
+        set -g display-time 1000      # slightly longer status messages display time
+        set -g status-interval 10     # redraw status line every 10 seconds
+        
+        set-option -g renumber-windows on
+
         unbind '"'
         unbind %
 
