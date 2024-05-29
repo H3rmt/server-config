@@ -106,20 +106,20 @@ in
             static_configs:
               - targets:
                   [
-                    "${config.main-nix-1-private-ip}:${toString config.ports.private.node-exporter-1}",
-                    "${config.main-nix-2-private-ip}:${toString config.ports.private.node-exporter-2}",
+                    "${config.address.private.node-exporter-1}",
+                    "${config.address.private.node-exporter-2}",
                   ]
           - job_name: nginx
             static_configs:
               - targets:
                   [
-                    "${config.main-nix-2-private-ip}:${toString config.ports.private.nginx-exporter}",
+                    "${config.address.private.nginx-exporter}",
                   ]
           - job_name: tor
             static_configs:
               - targets:
                   [
-                    "${config.main-nix-2-private-ip}:${toString config.ports.private.tor-exporter}",
+                    "${config.address.private.tor-exporter}",
                   ]
           - job_name: systemd
             static_configs:
@@ -133,18 +133,19 @@ in
             static_configs:
               - targets:
                   [
+                    "${toString config.address.private.podman-exporter.reverseproxy}",
+                    "${toString config.address.private.podman-exporter.grafana}",
+                    "${toString config.address.private.podman-exporter.authentik}",
+                    "${toString config.address.private.podman-exporter.node-exporter-2}",
+                    "${toString config.address.private.podman-exporter.tor}",
+                    "${toString config.address.private.podman-exporter.filesharing}",
+                    "${toString config.address.private.podman-exporter.nextcloud}",
+                    "${toString config.address.private.podman-exporter.node-exporter-1}",
                   ]
       '';
     };
   };
 }
 
-# "${config.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.reverseproxy}",
-# "${config.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.grafana}",
-# "${config.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.authentik}",
-# "${config.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.node-exporter-2}",
-# "${config.main-nix-2-private-ip}:${toString config.ports.private.podman-exporter.tor}",
-# "${config.main-nix-1-private-ip}:${toString config.ports.private.podman-exporter.filesharing}",
-# "${config.main-nix-1-private-ip}:${toString config.ports.private.podman-exporter.nextcloud}",
-# "${config.main-nix-1-private-ip}:${toString config.ports.private.podman-exporter.node-exporter-1}",
+
                   

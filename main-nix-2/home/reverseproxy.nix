@@ -136,24 +136,24 @@ in
       noLink = true;
       text = ''
         upstream ${config.sites.authentik} {
-          server ${config.main-nix-2-private-ip}:${toString config.ports.public.authentik};
+          server ${config.address.public.authentik};
           keepalive 15;
         }
 
         upstream ${config.sites.grafana} {
-          server ${config.main-nix-2-private-ip}:${toString config.ports.public.grafana};
+          server ${config.address.public.grafana};
         }
 
         upstream ${config.sites.prometheus} {
-          server ${config.main-nix-2-private-ip}:${toString config.ports.public.prometheus};
+          server ${config.address.public.prometheus};
         }
 
         upstream ${config.sites.filesharing} {
-          server ${config.main-nix-1-private-ip}:${toString config.ports.public.filesharing};
+          server ${config.address.public.filesharing};
         }
 
         upstream ${config.sites.nextcloud} {
-          server ${config.main-nix-1-private-ip}:${toString config.ports.public.nextcloud};
+          server ${config.address.public.nextcloud};
         }
       '';
     };

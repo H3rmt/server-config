@@ -23,10 +23,7 @@
       allowedTCPPorts = [ config.ports.exposed.http config.ports.exposed.https config.ports.exposed.tor-middle config.ports.exposed.tor-middle-dir ];
       allowedUDPPorts = [ config.ports.exposed.https ];
     };
-    interfaces."eth1" = {
-      allowedTCPPorts = [ ];
-      allowedUDPPorts = [ ];
-    };
+    trustedInterfaces = [ "eth1" ];
   };
 
   time.timeZone = "Europe/Berlin";

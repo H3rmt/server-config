@@ -28,7 +28,7 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} \
-            -p ${config.main-nix-2-private-ip}:${toString config.ports.public.authentik}:9000 \
+            -p ${config.address.public.authentik}:9000 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
             
