@@ -48,6 +48,7 @@ in
         podman run --name=loki -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${LOKI_CONFIG}:/etc/loki:ro \
             -v ${config.data-prefix}/loki:/var/loki \
+            -u 0:0 \
             --restart unless-stopped \
             docker.io/grafana/loki:${LOKI_VERSION} \
             -config.file=/etc/loki/config.yaml
