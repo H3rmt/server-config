@@ -50,34 +50,34 @@ in
     "promtail.yml" = {
       noLink = true;
       text = ''
-positions:
-  filename: /tmp/positions.yaml
+        positions:
+          filename: /tmp/positions.yaml
 
-clients:
-  - url: http://${config.address.public.loki}/loki/api/v1/push
+        clients:
+          - url: http://${config.address.public.loki}/loki/api/v1/push
 
-scrape_configs:
-  - job_name: journal
-    journal:
-      json: false
-      max_age: 12h
-      path: /var/log/journal
-      labels:
-        job: systemd-journal
-    relabel_configs:
-      - source_labels: ["__journal__systemd_unit"]
-        target_label: "unit"
-      - source_labels: ["__journal__hostname"]
-        target_label: host
-      - source_labels: ["__journal_priority_keyword"]
-        target_label: level
-      - source_labels: ["__journal_syslog_identifier"]
-        target_label: syslog_identifier
-    pipeline_stages:
-      - match:
-          selector: '{unit="promtail.service"}'
-          action: drop
+        scrape_configs:
+          - job_name: journal
+            journal:
+              json: false
+              max_age: 12h
+              path: /var/log/journal
+              labels:
+                job: systemd-journal
+            relabel_configs:
+              - source_labels: ["__journal__systemd_unit"]
+                target_label: "unit"
+              - source_labels: ["__journal__hostname"]
+                target_label: host
+              - source_labels: ["__journal_priority_keyword"]
+                target_label: level
+              - source_labels: ["__journal_syslog_identifier"]
+                target_label: syslog_identifier
+            pipeline_stages:
+              - match:
+                  selector: '{unit="promtail.service"}'
+                  action: drop
 '';
-    }
+    };
   };
 }
