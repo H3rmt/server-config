@@ -58,7 +58,7 @@ in
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  
+
   home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; };
   home-manager.users.nextcloud = import ./nextcloud.nix { age = config.age; inherit clib; };
   home-manager.users.node-exporter-1 = import ./node-exporter-1.nix { age = config.age; inherit clib; };

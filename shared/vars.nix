@@ -258,8 +258,8 @@
           snowflake = "${main-nix-2-private-ip}:23003";
           nextcloud = "${main-nix-1-private-ip}:23004";
           filesharing = "${main-nix-1-private-ip}:23005";
-          node-exporter-1  = "${main-nix-1-private-ip}:23006";
-          node-exporter-2  = "${main-nix-2-private-ip}:23007";
+          node-exporter-1 = "${main-nix-1-private-ip}:23006";
+          node-exporter-2 = "${main-nix-2-private-ip}:23007";
           tor = "${main-nix-2-private-ip}:23008";
         };
       };

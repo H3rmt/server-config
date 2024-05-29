@@ -19,7 +19,7 @@ in
   ];
 
   exported-services = [ "certbot.timer" "certbot.service" ];
-  
+
   systemd.user = {
     services = {
       certbot = {
