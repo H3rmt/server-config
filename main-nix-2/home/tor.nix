@@ -8,7 +8,7 @@ in
   ];
 
   home.activation.script = clib.create-folders lib [
-    "${data-prefix}/middle/"
+    "${config.data-prefix}/middle/"
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
@@ -34,7 +34,7 @@ in
             -e RelayBandwidthBurst="2.5 MBytes" \
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
-            -v ${data-prefix}/middle:/var/lib/tor \
+            -v ${config.data-prefix}/middle:/var/lib/tor \
             -u 0:0 \
             --restart unless-stopped \
             ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
