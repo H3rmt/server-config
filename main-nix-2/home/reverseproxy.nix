@@ -216,8 +216,8 @@ in
         
             listen 1443 ssl;
             listen [::]:1443 ssl;
-            listen 1443 quic reuseport;
-            listen [::]:1443 quic reuseport;
+            listen 1443 quic;
+            listen [::]:1443 quic;
         
             location / {
               proxy_pass http://${config.sites.prometheus};
@@ -233,8 +233,8 @@ in
         
             listen 1443 ssl;
             listen [::]:1443 ssl;
-            listen 1443 quic reuseport;
-            listen [::]:1443 quic reuseport;
+            listen 1443 quic;
+            listen [::]:1443 quic;
         
             location / {
               proxy_pass http://${config.sites.authentik};
@@ -247,8 +247,8 @@ in
         
             listen 1443 ssl;
             listen [::]:1443 ssl;
-            listen 1443 quic reuseport;
-            listen [::]:1443 quic reuseport;
+            listen 1443 quic;
+            listen [::]:1443 quic;
         
             location / {
               proxy_pass http://${config.sites.grafana};
@@ -261,8 +261,8 @@ in
           
             listen 1443 ssl;
             listen [::]:1443 ssl;
-            listen 1443 quic reuseport;
-            listen [::]:1443 quic reuseport;
+            listen 1443 quic;
+            listen [::]:1443 quic;
             
             client_max_body_size 3000M;
             location / {
@@ -276,8 +276,8 @@ in
       
             listen 1443 ssl;
             listen [::]:1443 ssl;
-            listen 1443 quic reuseport;
-            listen [::]:1443 quic reuseport;
+            listen 1443 quic;
+            listen [::]:1443 quic;
         
             client_max_body_size 3000M;
             proxy_read_timeout 300;
