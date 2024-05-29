@@ -80,9 +80,9 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${toString config.ports.exposed.http}:80 \
-            -p ${toString config.ports.exposed.https}:443/tcp \
-            -p ${toString config.ports.exposed.https}:443/udp \
+            -p ${toString config.ports.exposed.http}:1080 \
+            -p ${toString config.ports.exposed.https}:1443/tcp \
+            -p ${toString config.ports.exposed.https}:1443/udp \
             -p ${config.address.private.nginx-exporter}:9113 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
@@ -99,7 +99,7 @@ in
         podman run --name=nginx-exporter -d --pod=${config.pod-name} \
             --restart on-failure:10 \
             docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
-            --nginx.scrape-uri=http://localhost:81/${config.nginx-info-page}
+            --nginx.scrape-uri=http://localhost:1081/${config.nginx-info-page}
 
         ${config.exporter.run}
       '';
@@ -177,8 +177,8 @@ in
           include /etc/nginx/${NGINX_CONFIG_DIR}/upstreams.conf;
           
           server {
-            listen 81;
-            listen [::]:81;
+            listen 1081;
+            listen [::]:1081;
             server_tokens on;
         
             location /${config.nginx-info-page} {
@@ -190,8 +190,8 @@ in
           server {
             server_name ${config.main-url};
         
-            listen 80;
-            listen [::]:80;
+            listen 1080;
+            listen [::]:1080;
         
             location / {
               return 301 https://$host$request_uri;
@@ -201,10 +201,10 @@ in
           server {
             server_name ${config.main-url};
         
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic reuseport;
-            listen [::]:443 quic reuseport;
+            listen 1443 ssl;
+            listen [::]:1443 ssl;
+            listen 1443 quic reuseport;
+            listen [::]:1443 quic reuseport;
         
             location / {
               root /${WEBSITE_PATH};
@@ -214,10 +214,10 @@ in
           server {
             server_name ${config.sites.prometheus}.${config.main-url};
         
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic;
-            listen [::]:443 quic;
+            listen 1443 ssl;
+            listen [::]:1443 ssl;
+            listen 1443 quic reuseport;
+            listen [::]:1443 quic reuseport;
         
             location / {
               proxy_pass http://${config.sites.prometheus};
@@ -231,10 +231,10 @@ in
           server {
             server_name ${config.sites.authentik}.${config.main-url};
         
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic;
-            listen [::]:443 quic;
+            listen 1443 ssl;
+            listen [::]:1443 ssl;
+            listen 1443 quic reuseport;
+            listen [::]:1443 quic reuseport;
         
             location / {
               proxy_pass http://${config.sites.authentik};
@@ -245,10 +245,10 @@ in
           server {
             server_name ${config.sites.grafana}.${config.main-url};
         
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic;
-            listen [::]:443 quic;
+            listen 1443 ssl;
+            listen [::]:1443 ssl;
+            listen 1443 quic reuseport;
+            listen [::]:1443 quic reuseport;
         
             location / {
               proxy_pass http://${config.sites.grafana};
@@ -259,10 +259,10 @@ in
           server {
             server_name ${config.sites.nextcloud}.${config.main-url};
           
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic;
-            listen [::]:443 quic;
+            listen 1443 ssl;
+            listen [::]:1443 ssl;
+            listen 1443 quic reuseport;
+            listen [::]:1443 quic reuseport;
             
             client_max_body_size 3000M;
             location / {
@@ -274,10 +274,10 @@ in
           server {
             server_name ${config.sites.filesharing}.${config.main-url};
       
-            listen 443 ssl;
-            listen [::]:443 ssl;
-            listen 443 quic;
-            listen [::]:443 quic;
+            listen 1443 ssl;
+            listen [::]:1443 ssl;
+            listen 1443 quic reuseport;
+            listen [::]:1443 quic reuseport;
         
             client_max_body_size 3000M;
             proxy_read_timeout 300;
@@ -294,10 +294,10 @@ in
           #   server {
           #     server_name esp32-timelapse.${config.main-url};
           # 
-          #     listen 443 ssl;
-          #     listen [::]:443 ssl;
-          #     listen 443 quic;
-          #     listen [::]:443 quic;
+          #     listen 1443 ssl;
+          #     listen [::]:1443 ssl;
+          #     listen 1443 quic;
+          #     listen [::]:1443 quic;
           # 
           #     location / {
           #       proxy_pass http://esp32-timelapse;
@@ -305,32 +305,14 @@ in
           #     }
           #   }
         
-          #   server {
-          #     server_name lasagne-share.${config.main-url};
-          # 
-          #     listen 443 ssl;
-          #     listen [::]:443 ssl;
-          #     listen 443 quic;
-          #     listen [::]:443 quic;
-          # 
-          #     client_max_body_size 3000M;
-          #     proxy_read_timeout 300;
-          #     proxy_connect_timeout 300;
-          #     proxy_send_timeout 300;
-          # 
-          #     location / {
-          #       proxy_pass http://lasagne-share;
-          #       include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
-          #     }
-          #   }
         
           #   server {
           #     server_name uptest.${config.main-url};
           # 
-          #     listen 443 ssl;
-          #     listen [::]:443 ssl;
-          #     listen 443 quic;
-          #     listen [::]:443 quic;
+          #     listen 1443 ssl;
+          #     listen [::]:1443 ssl;
+          #     listen 1443 quic;
+          #     listen [::]:1443 quic;
           # 
           #     location / {
           #       proxy_pass http://uptest;
@@ -344,10 +326,10 @@ in
           #   server {
           #     server_name speedtest.${config.main-url};
           # 
-          #     listen 443 ssl;
-          #     listen [::]:443 ssl;
-          #     listen 443 quic;
-          #     listen [::]:443 quic;
+          #     listen 1443 ssl;
+          #     listen [::]:1443 ssl;
+          #     listen 1443 quic;
+          #     listen [::]:1443 quic;
           # 
           #     client_max_body_size 35M;
           # 
