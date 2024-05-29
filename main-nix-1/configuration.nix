@@ -8,6 +8,7 @@
 
   boot = {
     kernel.sysctl = {
+      "vm.overcommit_memory" = 1;
       "vm.swappiness" = 10;
       "net.ipv4.ip_unprivileged_port_start" = 80;
       "net.ipv4.ping_group_range" = "0 2000000";

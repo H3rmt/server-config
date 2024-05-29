@@ -1,11 +1,11 @@
-{ clib }: { lib, config, home, pkgs, inputs, ... }:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   POSTGRES_VERSION = "12-alpine";
   REDIS_VERSION = "7.2.4-alpine";
   AUTHENTIK_VERSION = "2024.2.2";
 
-  PG_PASS = ''$(cat "${config.age.secrets.authentik_pg_pass.path}")'';
-  SECRET_KEY = ''$(cat "${config.age.secrets.authentik_key.path}")'';
+  PG_PASS = ''$(cat "${age.secrets.authentik_pg_pass.path}")'';
+  SECRET_KEY = ''$(cat "${age.secrets.authentik_key.path}")'';
   POSTGRES_USER = "authentik";
   POSTGRES_DB = "authentik";
   ERROR_REPORTING_ENABLED = "true";

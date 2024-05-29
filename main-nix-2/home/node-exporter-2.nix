@@ -1,4 +1,4 @@
-{ clib }: { lib, config, home, pkgs, inputs, ... }:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   NODE_EXPORTER_VERSION = "v1.7.0";
 in

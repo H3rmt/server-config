@@ -1,4 +1,4 @@
-{ clib }: { lib, config, home, pkgs, inputs, ... }:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   GRAFANA_VERSION = "10.4.1";
   PROMETHEUS_VERSION = "v2.51.2";
@@ -59,8 +59,8 @@ in
     "${GRAFANA_CONFIG}/grafana.ini" = {
       noLink = true;
       onChange = ''
-        grafana_client_secret=$(cat "${config.age.secrets.grafana_client_secret.path}")
-        grafana_client_key=$(cat "${config.age.secrets.grafana_client_key.path}")
+        grafana_client_secret=$(cat "${age.secrets.grafana_client_secret.path}")
+        grafana_client_key=$(cat "${age.secrets.grafana_client_key.path}")
         configFile="${config.home.homeDirectory}/${GRAFANA_CONFIG}/grafana.ini"
         sed -e "s/@grafana_client_secret@/$grafana_client_secret/g" -e "s/@grafana_client_key@/$grafana_client_key/g" -i "$configFile"
       '';

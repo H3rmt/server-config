@@ -1,4 +1,4 @@
-{ clib }: { lib, config, home, pkgs, inputs, ... }:
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   TOR_VERSION = "v0.3.2-exporter";
 in
