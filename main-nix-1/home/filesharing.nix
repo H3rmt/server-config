@@ -21,7 +21,7 @@ in
       text = ''
         podman pod create --name=${config.pod-name} \
             -p ${config.address.public.filesharing}:80 \
-            -p ${exporter.port} \
+            -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
         podman run --name=filesharing -d --pod=${config.pod-name} \
