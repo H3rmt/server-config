@@ -24,7 +24,7 @@ in
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${config.pod-name} \
+        podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${config.address.public.nextcloud}:80 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1

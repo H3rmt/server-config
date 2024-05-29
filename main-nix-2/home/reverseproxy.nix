@@ -79,7 +79,7 @@ in
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${config.pod-name} \
+        podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${toString config.ports.exposed.http}:80 \
             -p ${toString config.ports.exposed.https}:443/tcp \
             -p ${toString config.ports.exposed.https}:443/udp \

@@ -12,22 +12,22 @@ in
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${config.pod-name} \
+        podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${config.address.private.node-exporter-2}:9100 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
         podman run --name=node-exporter-2 -d --pod=${config.pod-name} \
             -v '/:/host:ro,rslave' \
-            -u 0:0 \
             --restart unless-stopped \
             docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
-            --path.rootfs=/host --collector.netdev --collector.processes --collector.ethtool
+            --path.rootfs=/host
         
         podman run --name=promtail-2 -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/promtail.yml:/etc/promtail/promtail.yml:ro \
             -v /var/log:/var/log:ro \
             -v /tmp/positions \
+            --group-add=keep-groups \
             --restart unless-stopped \
             docker.io/grafana/promtail:${PROMTAIL_VERSION} \
             --config.file=/etc/promtail/promtail.yml
@@ -50,6 +50,10 @@ in
     "promtail.yml" = {
       noLink = true;
       text = ''
+        server:
+          http_listen_port: 0
+          grpc_listen_port: 0
+
         positions:
           filename: /tmp/positions.yaml
 

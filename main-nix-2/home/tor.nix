@@ -15,7 +15,7 @@ in
     "up.sh" = {
       executable = true;
       text = ''
-        podman pod create --name=${config.pod-name} \
+        podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${toString config.ports.exposed.tor-middle}:9000 \
             -p ${toString config.ports.exposed.tor-middle-dir}:9030 \
             -p ${config.address.private.tor-exporter}:9099 \
