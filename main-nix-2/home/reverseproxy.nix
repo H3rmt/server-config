@@ -92,12 +92,12 @@ in
             -v ${config.home.homeDirectory}/${NGINX_CONFIG_DIR}:/etc/nginx/${NGINX_CONFIG_DIR}:ro \
             -v ${config.data-prefix}/letsencrypt:/etc/letsencrypt:ro \
             -v ${config.data-prefix}/website:${WEBSITE_PATH}:ro \
-            - /var/cache/nginx/ \
-            --restart unless-stopped \
+            -v nginx-cache:/var/cache/nginx/ \
+            --restart on-failure:10 \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
         
         podman run --name=nginx-exporter -d --pod=${config.pod-name} \
-            --restart unless-stopped \
+            --restart on-failure:10 \
             docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
             --nginx.scrape-uri=http://localhost:81/${config.nginx-info-page}
 
