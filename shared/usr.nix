@@ -114,7 +114,7 @@
 
     systemd.user.services.exporter = if (config.exported-services != []) then {
       Unit = {
-        Description = "Service for ${lib.boolToString (config.exported-services != [])} - Systemd Exporter ${builtins.toJSON config.exported-services}";
+        Description = "Service for Systemd Exporter: ${builtins.toJSON config.exported-services}";
       };
       Install = {
         WantedBy = [ "default.target" ];
@@ -122,8 +122,7 @@
       Service = {
         ExecStart = ''
           ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-            --web.listen-address ${config.address.private.systemd-exporter.${config.home.username}} --systemd.collector.user \
-            --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
+            --web.listen-address ${config.address.private.systemd-exporter.${config.home.username}} --systemd.collector.user --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
         '';
       };
     } else { };
