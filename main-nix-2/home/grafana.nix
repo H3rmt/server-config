@@ -146,14 +146,15 @@ in
             static_configs:
               - targets:
                   [
-                    "${toString config.address.private.podman-exporter.reverseproxy}",
-                    "${toString config.address.private.podman-exporter.grafana}",
-                    "${toString config.address.private.podman-exporter.authentik}",
-                    "${toString config.address.private.podman-exporter.node-exporter-2}",
-                    "${toString config.address.private.podman-exporter.tor}",
-                    "${toString config.address.private.podman-exporter.filesharing}",
-                    "${toString config.address.private.podman-exporter.nextcloud}",
-                    "${toString config.address.private.podman-exporter.node-exporter-1}",
+                    "${config.address.private.podman-exporter.reverseproxy}",
+                    "${config.address.private.podman-exporter.grafana}",
+                    "${config.address.private.podman-exporter.authentik}",
+                    "${config.address.private.podman-exporter.node-exporter-2}",
+                    "${config.address.private.podman-exporter.tor}",
+                    "${config.address.private.podman-exporter.filesharing}",
+                    "${config.address.private.podman-exporter.nextcloud}",
+                    "${config.address.private.podman-exporter.node-exporter-1}",
+                    "${config.address.private.podman-exporter.wakapi}",
                   ]
       '';
     };

@@ -263,6 +263,7 @@
           node-exporter-1 = "${main-nix-1-private-ip}:21006";
           node-exporter-2 = "${main-nix-2-private-ip}:21007";
           tor = "${main-nix-2-private-ip}:21008";
+          wakapi = "${main-nix-2-private-ip}:21009";
         };
         node-exporter-1 = "${main-nix-1-private-ip}:22001";
         node-exporter-2 = "${main-nix-2-private-ip}:22002";
@@ -276,6 +277,7 @@
           node-exporter-1 = "${main-nix-1-private-ip}:23006";
           node-exporter-2 = "${main-nix-2-private-ip}:23007";
           tor = "${main-nix-2-private-ip}:23008";
+          wakapi = "${main-nix-2-private-ip}:23009";
         };
       };
     };
