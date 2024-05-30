@@ -24,7 +24,6 @@ in
 
         podman run --name=middle -d --pod=${config.pod-name} \
             -v logs:/var/log/tor:U \
-            -v lib:/var/lib/tor:U \
             -e mode="middle" \
             -e Nickname="Middle" \
             -e ContactInfo="${config.email}" \
@@ -36,7 +35,7 @@ in
             -e RelayBandwidthBurst="2.5 MBytes" \
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
-            -v ${config.data-prefix}/middle:/var/lib/tor \
+            -v ${config.data-prefix}/middle:/var/lib/tor:U \
             --restart on-failure:10 \
             -u 0:0 \
             ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
