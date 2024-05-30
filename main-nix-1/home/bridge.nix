@@ -36,7 +36,7 @@ in
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
             -v ${config.data-prefix}/bridge:/var/lib/tor:U \
-            -v config:/etc/tor/torrc:U \
+            -v config:/etc/tor:U \
             --restart on-failure:10 \
             ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
 
