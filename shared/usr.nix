@@ -38,6 +38,7 @@
     pod-name = "${config.home.username}_pod";
     exporter = {
       run = ''
+        # exporter-config-empty:/.config:U is a workaround for podman-exporter needing $HOME/.config idk why
         podman run --name=podman-exporter-${config.home.username} -d --pod=${config.pod-name} \
             -e CONTAINER_HOST=unix:///podman.sock \
             -v $XDG_RUNTIME_DIR/podman/podman.sock:/podman.sock:U \
