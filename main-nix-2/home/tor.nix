@@ -23,6 +23,7 @@ in
             --network pasta:-a,172.16.0.1
 
         podman run --name=middle -d --pod=${config.pod-name} \
+            -v logs:/var/log/tor:U \
             -e mode="middle" \
             -e Nickname="Middle" \
             -e ContactInfo="${config.email}" \
@@ -36,7 +37,7 @@ in
             -e ControlPort=9051 \
             -v ${config.data-prefix}/middle:/var/lib/tor \
             --restart on-failure:10 \
-            -u $UID:$GID \
+            -u 0:0 \
             ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
 
         ${config.exporter.run}

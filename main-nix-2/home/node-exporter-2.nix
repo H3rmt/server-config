@@ -27,7 +27,7 @@ in
         podman run --name=promtail-2 -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/promtail.yml:/etc/promtail/promtail.yml:ro \
             -v /var/log:/var/log:ro \
-            -v /tmp/positions \
+            -v positions:/tmp/positions:U \
             --group-add=keep-groups \
             --restart on-failure:10 \
             -u $UID:$GID \
