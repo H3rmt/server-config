@@ -91,6 +91,7 @@
         tor-bridge-pt = lib.mkOption {
           type = lib.types.int;
           description = "Pt Port for Tor Bridge relay";
+        };
       };
     };
     address = {
