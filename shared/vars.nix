@@ -134,6 +134,10 @@
           type = lib.types.str;
           description = "Address for Tor Exporter";
         };
+        tor-exporter-bridge = lib.mkOption {
+          type = lib.types.str;
+          description = "Address for Tor Bridge Exporter";
+        };
         podman-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.str;
@@ -239,6 +243,7 @@
       private = {
         nginx-exporter = "${main-nix-2-private-ip}:20001";
         tor-exporter = "${main-nix-2-private-ip}:20002";
+        tor-exporter-bridge = "${main-nix-1-private-ip}:20003";
         podman-exporter = {
           reverseproxy = "${main-nix-2-private-ip}:21000";
           grafana = "${main-nix-2-private-ip}:21001";

@@ -133,6 +133,7 @@ in
               - targets:
                   [
                     "${config.address.private.tor-exporter}",
+                    "${config.address.private.tor-exporter-bridge}",
                   ]
           - job_name: systemd
             static_configs:
