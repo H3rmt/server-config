@@ -155,6 +155,7 @@ in
                     "${config.address.private.podman-exporter.nextcloud}",
                     "${config.address.private.podman-exporter.node-exporter-1}",
                     "${config.address.private.podman-exporter.wakapi}",
+                    "${config.address.private.podman-exporter.bridge}",
                   ]
       '';
     };
