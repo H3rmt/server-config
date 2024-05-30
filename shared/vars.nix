@@ -163,6 +163,10 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
+          wakapi = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Podman Exporter";
+          };
         };
         node-exporter-1 = lib.mkOption {
           type = lib.types.str;
@@ -206,6 +210,10 @@
             description = "Address for systemd-exporter";
           };
           tor = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
+          wakapi = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
