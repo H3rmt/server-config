@@ -95,10 +95,12 @@ in
             -v nginx-cache:/var/cache/nginx/:U \
             -v logs:/var/log/nginx/:U \
             --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
         
         podman run --name=nginx-exporter -d --pod=${config.pod-name} \
             --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
             --nginx.scrape-uri=http://localhost:1081/${config.nginx-info-page}
 

@@ -34,12 +34,14 @@ in
             -v ${config.home.homeDirectory}/${GRAFANA_CONFIG}:/etc/grafana:ro \
             -v ${config.data-prefix}/grafana:/var/lib/grafana \
             --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/grafana/grafana-oss:${GRAFANA_VERSION}
 
         podman run --name=prometheus -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${PROMETHEUS_CONFIG}:/etc/prometheus:ro \
             -v ${config.data-prefix}/prometheus:/prometheus \
             --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/prom/prometheus:${PROMETHEUS_VERSION} \
             --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle
 
@@ -47,6 +49,7 @@ in
             -v ${config.home.homeDirectory}/${LOKI_CONFIG}:/etc/loki:ro \
             -v ${config.data-prefix}/loki:/var/loki \
             --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/grafana/loki:${LOKI_VERSION} \
             -config.file=/etc/loki/config.yml
 

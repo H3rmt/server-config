@@ -38,6 +38,7 @@ in
             -e POSTGRES_DB=${POSTGRES_DB} \
             -v ${config.data-prefix}/postges:/var/lib/postgresql/data \
             --restart on-failure:10 \
+            -u $UID:$GID \
             --healthcheck-command "/bin/sh -c 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}'" \
             --healthcheck-interval 30s \
             --healthcheck-timeout 5s \
@@ -48,6 +49,7 @@ in
         podman run --name=redis -d --pod=${config.pod-name} \
             -v ${config.data-prefix}/redis:/data \
             --restart on-failure:10 \
+            -u $UID:$GID \
             --healthcheck-command "/bin/sh -c 'redis-cli ping | grep PONG'" \
             --healthcheck-interval 30s \
             --healthcheck-timeout 3s \
@@ -67,6 +69,7 @@ in
             -v ${config.data-prefix}/media:/media \
             -v ${config.data-prefix}/templates:/templates \
             --restart on-failure:10 \
+            -u $UID:$GID \
             ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
             server
             
@@ -82,6 +85,7 @@ in
             -v ${config.data-prefix}/templates:/templates \
             -v ${config.data-prefix}/certs:/certs \
             --restart on-failure:10 \
+            -u $UID:$GID \
             ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
             worker
         
