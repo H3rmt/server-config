@@ -24,7 +24,7 @@ in
 
         podman run --name=middle -d --pod=${config.pod-name} \
             -v logs:/var/log/tor:U \
-            -v lib:lib/var/lib/tor:U \
+            -v lib:/var/lib/tor:U \
             -e mode="middle" \
             -e Nickname="Middle" \
             -e ContactInfo="${config.email}" \
