@@ -57,6 +57,10 @@
         type = lib.types.str;
         description = "Subdomain for filesharing";
       };
+      wakapi = lib.mkOption {
+        type = lib.types.str;
+        description = "Subdomain for wakapi";
+      };
     };
     ports = {
       exposed = {
