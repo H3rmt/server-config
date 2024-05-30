@@ -19,7 +19,8 @@ in
 
         podman run --name=node-exporter-2 -d --pod=${config.pod-name} \
             -v '/:/host:ro,rslave' \
-            --restart unless-stopped \
+            --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
             --path.rootfs=/host
         
@@ -28,7 +29,8 @@ in
             -v /var/log:/var/log:ro \
             -v /tmp/positions \
             --group-add=keep-groups \
-            --restart unless-stopped \
+            --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/grafana/promtail:${PROMTAIL_VERSION} \
             --config.file=/etc/promtail/promtail.yml
 
