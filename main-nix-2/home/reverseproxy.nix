@@ -159,6 +159,10 @@ in
         upstream ${config.sites.nextcloud} {
           server ${config.address.public.nextcloud};
         }
+
+        upstream ${config.sites.wakapi} {
+          server ${config.address.public.wakapi};
+        }
       '';
     };
 
@@ -293,7 +297,20 @@ in
             }
           }
         
+          server {
+            server_name ${config.sites.wakapi}.${config.main-url};
+      
+            listen 1443 ssl;
+            listen [::]:1443 ssl;
+            listen 1443 quic;
+            listen [::]:1443 quic;
         
+            location / {
+              proxy_pass http://${config.sites.wakapi};
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+            }
+          }
+
           #   server {
           #     server_name esp32-timelapse.${config.main-url};
           # 
