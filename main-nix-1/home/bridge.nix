@@ -18,7 +18,7 @@ in
         podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${toString config.ports.exposed.tor-bridge}:9100 \
             -p ${toString config.ports.exposed.tor-bridge-pt}:9140 \
-            -p ${config.address.private.tor-exporter}:9099 \
+            -p ${config.address.private.tor-exporter-bridge}:9099 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
