@@ -86,5 +86,5 @@ in
   home-manager.users.grafana = import ./grafana.nix { age = config.age; inherit clib; };
   home-manager.users.node-exporter-2 = import ./node-exporter-2.nix { age = config.age; inherit clib; };
   home-manager.users.tor = import ./tor.nix { age = config.age; inherit clib; };
-  home-manager.users.wakapi = import ./.nix { age = config.age; inherit clib; };
+  home-manager.users.wakapi = import ./wakapi.nix { age = config.age; inherit clib; };
 }
