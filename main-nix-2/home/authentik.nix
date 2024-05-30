@@ -39,7 +39,7 @@ in
             -v ${config.data-prefix}/postges:/var/lib/postgresql/data \
             --restart on-failure:10 \
             -u $UID:$GID \
-            --healthcheck-command "/bin/sh -c 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}'" \
+            --healthcheck-command "/bin/sh -c 'pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}'" \
             --healthcheck-interval 30s \
             --healthcheck-timeout 5s \
             --healthcheck-start-period 20s \
