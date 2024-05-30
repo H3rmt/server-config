@@ -84,6 +84,13 @@
           type = lib.types.int;
           description = "Dir Port for Tor Middle relay";
         };
+        tor-bridge = lib.mkOption {
+          type = lib.types.int;
+          description = "Port for Tor Bridge relay";
+        };
+        tor-bridge-pt = lib.mkOption {
+          type = lib.types.int;
+          description = "Pt Port for Tor Bridge relay";
       };
     };
     address = {
@@ -167,6 +174,10 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
+          bridge = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Podman Exporter";
+          };
         };
         node-exporter-1 = lib.mkOption {
           type = lib.types.str;
@@ -178,42 +189,6 @@
         };
         systemd-exporter = {
           reverseproxy = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          grafana = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          authentik = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          snowflake = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          nextcloud = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          filesharing = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          node-exporter-1 = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          node-exporter-2 = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          tor = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          wakapi = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
@@ -246,6 +221,8 @@
         https = 443;
         tor-middle = 9000;
         tor-middle-dir = 9030;
+        tor-bridge = 9100;
+        tor-bridge-pt = 9140;
       };
     };
     address = {
@@ -272,20 +249,12 @@
           node-exporter-2 = "${main-nix-2-private-ip}:21007";
           tor = "${main-nix-2-private-ip}:21008";
           wakapi = "${main-nix-2-private-ip}:21009";
+          bridge = "${main-nix-1-private-ip}:21010";
         };
         node-exporter-1 = "${main-nix-1-private-ip}:22001";
         node-exporter-2 = "${main-nix-2-private-ip}:22002";
         systemd-exporter = {
           reverseproxy = "${main-nix-2-private-ip}:23000";
-          grafana = "${main-nix-2-private-ip}:23001";
-          authentik = "${main-nix-2-private-ip}:23002";
-          snowflake = "${main-nix-2-private-ip}:23003";
-          nextcloud = "${main-nix-1-private-ip}:23004";
-          filesharing = "${main-nix-1-private-ip}:23005";
-          node-exporter-1 = "${main-nix-1-private-ip}:23006";
-          node-exporter-2 = "${main-nix-2-private-ip}:23007";
-          tor = "${main-nix-2-private-ip}:23008";
-          wakapi = "${main-nix-2-private-ip}:23009";
         };
       };
     };

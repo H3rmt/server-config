@@ -38,12 +38,19 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    bridge = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   services.borgbackup.jobs."user-data" = {
     paths = [
       "/home/filesharing/${config.data-dir}"
       "/home/nextcloud/${config.data-dir}"
+      "/home/bridge/${config.data-dir}"
     ];
     encryption = {
       mode = "repokey-blake2";
@@ -62,4 +69,5 @@ in
   home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; };
   home-manager.users.nextcloud = import ./nextcloud.nix { age = config.age; inherit clib; };
   home-manager.users.node-exporter-1 = import ./node-exporter-1.nix { age = config.age; inherit clib; };
+  home-manager.users.bridge = import ./bridge.nix { age = config.age; inherit clib; };
 }

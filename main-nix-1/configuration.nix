@@ -20,7 +20,7 @@
     enable = true;
     rejectPackets = true;
     interfaces."eth0" = {
-      allowedTCPPorts = [ ];
+      allowedTCPPorts = [ config.ports.exposed.tor-bridge config.ports.exposed.tor-bridge-pt ];
       allowedUDPPorts = [ ];
     };
     trustedInterfaces = [ "eth1" ];
