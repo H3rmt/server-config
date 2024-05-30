@@ -13,7 +13,7 @@ in
 
   home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
-      executable = true;
+      executable = true; # fix tor to lear file 
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${toString config.ports.exposed.tor-middle}:9000 \
@@ -24,7 +24,7 @@ in
 
         podman run --name=middle -d --pod=${config.pod-name} \
             -v logs:/var/log/tor:U \
-            -v lib/var/lib/tor:U \
+            -v lib:lib/var/lib/tor:U \
             -e mode="middle" \
             -e Nickname="Middle" \
             -e ContactInfo="${config.email}" \
