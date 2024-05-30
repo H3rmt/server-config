@@ -242,7 +242,7 @@
       };
       private = {
         nginx-exporter = "${main-nix-2-private-ip}:20001";
-        tor-exporter = "${main-nix-2-private-ip}:20002";
+        tor-exporter = "${main-nix-1-private-ip}:20002";
         tor-exporter-bridge = "${main-nix-1-private-ip}:20003";
         podman-exporter = {
           reverseproxy = "${main-nix-2-private-ip}:21000";
