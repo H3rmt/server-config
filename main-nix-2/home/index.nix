@@ -51,6 +51,12 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    wakapi = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   services.borgbackup.jobs."user-data" = {
@@ -59,6 +65,7 @@ in
       "/home/authentik/${config.data-dir}"
       "/home/grafana/${config.data-dir}"
       "/home/tor/${config.data-dir}"
+      "/home/wakapi/${config.data-dir}"
     ];
     encryption = {
       mode = "repokey-blake2";
@@ -79,4 +86,5 @@ in
   home-manager.users.grafana = import ./grafana.nix { age = config.age; inherit clib; };
   home-manager.users.node-exporter-2 = import ./node-exporter-2.nix { age = config.age; inherit clib; };
   home-manager.users.tor = import ./tor.nix { age = config.age; inherit clib; };
+  home-manager.users.wakapi = import ./.nix { age = config.age; inherit clib; };
 }

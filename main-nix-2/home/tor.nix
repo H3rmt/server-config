@@ -1,6 +1,6 @@
 { age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
-  TOR_VERSION = "v0.3.2-exporter";
+  TOR_VERSION = "v0.3.3-exporter";
 in
 {
   imports = [
@@ -13,7 +13,7 @@ in
 
   home.file = clib.create-files config.home.homeDirectory {
     "up.sh" = {
-      executable = true; # fix tor to lear file 
+      executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
             -p ${toString config.ports.exposed.tor-middle}:9000 \

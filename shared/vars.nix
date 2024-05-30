@@ -108,6 +108,9 @@
           type = lib.types.str;
           description = "Address for Loki";
         };
+        wakapi = lib.mkOption {
+          type = lib.types.str;
+          description = "Address for Wakapi";
       };
       private = {
         nginx-exporter = lib.mkOption {
@@ -221,6 +224,7 @@
       prometheus = "prometheus";
       nextcloud = "nextcloud";
       filesharing = "filesharing";
+      wakapi = "wakapi";
     };
     ports = {
       exposed = {
@@ -239,6 +243,7 @@
         nextcloud = "${main-nix-1-private-ip}:10003";
         filesharing = "${main-nix-1-private-ip}:10004";
         loki = "${main-nix-2-private-ip}:10005";
+        wakapi = "${main-nix-2-private-ip}:10006";
       };
       private = {
         nginx-exporter = "${main-nix-2-private-ip}:20001";
