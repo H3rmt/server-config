@@ -36,8 +36,8 @@ in
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
             -v ${config.data-prefix}/middle:/var/lib/tor:U \
+            -v config:/etc/tor/torrc:U \
             --restart on-failure:10 \
-            -u 0:0 \
             ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
 
         ${config.exporter.run}
