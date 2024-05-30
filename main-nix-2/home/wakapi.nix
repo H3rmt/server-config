@@ -25,7 +25,7 @@ in
             -e WAKAPI_SUPPORT_CONTACT="${config.email}" \
             -e WAKAPI_MAX_INACTIVE_MONTHS=-1 \
             -e WAKAPI_PUBLIC_URL="https://${config.sites.wakapi}.${config.main-url}/" \
-            -e WAKAPI_DISABLE_FRONTPAGE=false \
+            -e WAKAPI_DISABLE_FRONTPAGE=true \
             -e WAKAPI_EXPOSE_METRICS=true \
             -e WAKAPI_TRUSTED_HEADER_AUTH=true \
             -e WAKAPI_TRUST_REVERSE_PROXY_IPS=${config.main-nix-2-private-ip} \
