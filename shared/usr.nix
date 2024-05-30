@@ -39,8 +39,8 @@
     exporter = {
       run = ''
         podman run --name=podman-exporter-${config.home.username} -d --pod=${config.pod-name} \
-            -e CONTAINER_HOST=unix:///run/podman/podman.sock \
-            -v $XDG_RUNTIME_DIR/podman/podman.sock:/run/podman/podman.sock \
+            -e CONTAINER_HOST=unix:///podman.sock \
+            -v $XDG_RUNTIME_DIR/podman/podman.sock:/podman.sock:U \
             --restart on-failure:10 \
             quay.io/navidys/prometheus-podman-exporter:${config.podman-exporter-version} \
             --collector.enable-all
