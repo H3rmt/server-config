@@ -111,6 +111,7 @@
         wakapi = lib.mkOption {
           type = lib.types.str;
           description = "Address for Wakapi";
+        };
       };
       private = {
         nginx-exporter = lib.mkOption {
