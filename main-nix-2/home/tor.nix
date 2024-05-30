@@ -31,7 +31,7 @@ in
             -e DirPort=9030 \
             -e AccountingStart="week 1 00:00" \
             -e AccountingMax="4 TBytes" \
-            -e RelayBandwidthRate="1.2 MBytes" \
+            -e RelayBandwidthRate="1.5 MBytes" \
             -e RelayBandwidthBurst="2.5 MBytes" \
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
