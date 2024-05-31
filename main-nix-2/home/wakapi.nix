@@ -28,7 +28,7 @@ in
             -e WAKAPI_DISABLE_FRONTPAGE=true \
             -e WAKAPI_EXPOSE_METRICS=true \
             -e WAKAPI_TRUSTED_HEADER_AUTH=true \
-            -e WAKAPI_TRUSTED_HEADER_AUTH_KEY=REMOTE_USER \
+            -e WAKAPI_TRUSTED_HEADER_AUTH_KEY="X-authentik-username" \
             -e WAKAPI_TRUST_REVERSE_PROXY_IPS=${config.main-nix-2-private-ip} \
             -e WAKAPI_MAIL_ENABLED=false \
             -v ${config.data-prefix}/wakapi:/data:U \
