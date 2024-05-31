@@ -309,6 +309,8 @@ in
               proxy_pass http://${config.sites.wakapi};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
+              
+              proxy_set_header X-wakapi_username $upstream_http_x_wakapi_username;
             }
         
             include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-locations.conf;
