@@ -308,7 +308,10 @@ in
             location / {
               proxy_pass http://${config.sites.wakapi};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
             }
+        
+            include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-locations.conf;
           }
 
           #   server {
