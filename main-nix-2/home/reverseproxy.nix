@@ -400,7 +400,7 @@ in
         location @goauthentik_proxy_signin {
           internal;
           add_header Set-Cookie $auth_cookie;
-          return 302 https://${config.sites.authentik}.${config.main-url}/outpost.goauthentik.io/start?rd=$request_uri;
+          return 302 /outpost.goauthentik.io/start?rd=$request_uri;
         }
       '';
     };
