@@ -310,7 +310,8 @@ in
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
 
-              proxy_set_header X-wakapi-username $upstream_http_x_wakapi_username;
+              auth_request_set $wakapi_username $upstream_http_x_wakapi_username;
+              proxy_set_header X-wakapi-username $wakapi_username;
             }
         
             include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-locations.conf;
