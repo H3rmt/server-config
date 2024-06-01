@@ -66,7 +66,7 @@ in
       createHome = true;
       isNormalUser = true;
       shell = pkgs.zsh;
-      linger = true;
+      linger = false;
     };
   };
 
