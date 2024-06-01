@@ -55,7 +55,7 @@
     };
     setACLs = {
       text = ''
-        setfacl -R -m u:${config.backup-user}:rX /home
+        setfacl -R -m u:${config.backup-user-prefix}-${config.networking.hostName}:rX /home
       '';
     };
   };

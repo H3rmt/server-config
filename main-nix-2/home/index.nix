@@ -57,7 +57,7 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
-    "${config.backup-user}" = {
+    "${config.backup-user-prefix}-${hostName}" = {
       openssh = {
         authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM"

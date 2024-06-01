@@ -5,7 +5,7 @@ let
   hostName = config.networking.hostName;
 in
 {
-  home-manager.users."${config.backup-user}" = { home, lib, config, ... }: {
+  home-manager.users."${config.backup-user-prefix}-${hostName}" = { home, lib, config, ... }: {
     imports = [
       ./usr.nix
     ];
@@ -14,6 +14,8 @@ in
     home.activation.script = clib.create-folders lib [
       "${config.data-prefix}/backups/"
     ];
+
+    exported-services = [ "borgmatic.timer" "borgmatic.service" ];
 
     services.borgmatic = {
       enable = true;
@@ -30,11 +32,11 @@ in
             ];
             repositories = [
               {
-                "path" = "ssh://${config.backup-user}@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${hostName}";
+                "path" = "ssh://${config.backup-user}-main-nix-1@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}-main-nix-1/backups/${hostName}";
                 "label" = "remote-1";
               }
               {
-                "path" = "ssh://${config.backup-user}@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${hostName}";
+                "path" = "ssh://${config.backup-user}-main-nix-2@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}-main-nix-2/backups/${hostName}";
                 "label" = "remote-2";
               }
             ];
