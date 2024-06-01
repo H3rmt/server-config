@@ -32,11 +32,11 @@ in
             ];
             repositories = [
               {
-                "path" = "ssh://${config.backup-user}-main-nix-1@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}-main-nix-1/backups/${hostName}";
+                "path" = "ssh://${config.backup-user-prefix}-main-nix-1@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-main-nix-1/backups/${hostName}";
                 "label" = "remote-1";
               }
               {
-                "path" = "ssh://${config.backup-user}-main-nix-2@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}-main-nix-2/backups/${hostName}";
+                "path" = "ssh://${config.backup-user-prefix}-main-nix-2@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-main-nix-2/backups/${hostName}";
                 "label" = "remote-2";
               }
             ];
