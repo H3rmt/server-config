@@ -143,6 +143,18 @@ in
                   ]
                 labels:
                   user: 'reverseproxy'
+              - targets:
+                  [
+                    "${config.address.private.systemd-exporter.${config.backup-user-prefix}-main-nix-1}",
+                  ]
+                labels:
+                  user: '${config.backup-user-prefix}-main-nix-1'
+              - targets:
+                  [
+                    "${config.address.private.systemd-exporter.${config.backup-user-prefix}-main-nix-2}",
+                  ]
+                labels:
+                  user: '${config.backup-user-prefix}-main-nix-2'
           - job_name: podman-exporter
             static_configs:
               - targets:
