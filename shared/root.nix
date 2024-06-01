@@ -3,7 +3,7 @@ let
   clib = import ./funcs.nix { inherit lib; inherit config; };
 in
 {
-  home-manager.users."${config.backup-user}" = { home, ... }: {
+  home-manager.users."${config.backup-user}" = { home, lib, ... }: {
     imports = [
       ./usr.nix
     ];
