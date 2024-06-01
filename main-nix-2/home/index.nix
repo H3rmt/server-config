@@ -13,9 +13,9 @@ in
     root = {
       openssh = {
         authorizedKeys.keys = [
-          {config.keys.private}
-          {config.keys.main-nix-1-public}
-          {config.keys.main-nix-2-public}
+          config.keys.private
+          config.keys.main-nix-1-public
+          config.keys.main-nix-2-public
         ];
       };
       isSystemUser = true;
@@ -61,8 +61,8 @@ in
     "${config.backup-user-prefix}-${config.networking.hostName}" = {
       openssh = {
         authorizedKeys.keys = [
-          {config.keys.main-nix-1-public-borg}
-          {config.keys.main-nix-2-public-borg}
+          config.keys.main-nix-1-public-borg
+          config.keys.main-nix-2-public-borg
         ];
       };
       createHome = true;
