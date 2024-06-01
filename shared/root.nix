@@ -12,7 +12,8 @@ in
     home.stateVersion = config.nixVersion;
 
     home.activation.script = clib.create-folders lib [
-      "${config.data-prefix}/backups/"
+      "${config.data-prefix}/backups/main-nix-1"
+      "${config.data-prefix}/backups/main-nix-2"
     ];
 
     # Generate a new SSH key (only if missing => must be updated in config after that)
@@ -89,7 +90,6 @@ in
             encryptionPasscommand = "cat '${age.secrets.borg_pass.path}'";
           };
           output.extraConfig = {
-            # ssh_command = "ssh -i /etc/ssh/ssh_host_ed25519_key";
             compression = "zstd,15";
           };
         };
