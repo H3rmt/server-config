@@ -2,6 +2,7 @@
 let 
   clib = import ./funcs.nix { inherit lib; inherit config; };
   age = config.age;
+  hostName = config.networking.hostName;
 in
 {
   home-manager.users."${config.backup-user}" = { home, lib, config, ... }: {
@@ -29,11 +30,11 @@ in
             ];
             repositories = [
               {
-                "path" = "ssh://${config.backup-user}@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${config.networking.hostName}";
+                "path" = "ssh://${config.backup-user}@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${hostName}";
                 "label" = "remote-1";
               }
               {
-                "path" = "ssh://${config.backup-user}@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${config.networking.hostName}";
+                "path" = "ssh://${config.backup-user}@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${hostName}";
                 "label" = "remote-2";
               }
             ];
