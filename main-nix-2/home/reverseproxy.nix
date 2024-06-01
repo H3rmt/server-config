@@ -30,11 +30,8 @@ in
           ExecStart = pkgs.writeShellApplication
             {
               name = "certbot-renewal";
-              runtimeInputs = [ ];
+              runtimeInputs = [ pkgs.coreutils pkgs.podman ];
               text = ''
-                # add programs
-                export PATH="/run/current-system/sw/bin:$PATH"
-                
                 podman pull docker.io/certbot/certbot
                 podman run --rm --name certbot \
                   -e "HETZNER_TOKEN=$(cat '${age.secrets.reverseproxy_hetzner_token.path}')" \
