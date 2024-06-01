@@ -1,5 +1,5 @@
 { lib, ... }: {
-  options = {
+  options = rec {
     nixVersion = lib.mkOption {
       type = lib.types.str;
       description = "Version of NixOS used for System and Homemanager Homes";
