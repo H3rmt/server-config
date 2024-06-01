@@ -19,7 +19,7 @@ in
 
     services.borgmatic = {
       enable = true;
-      frequency = "0,30 * * * *"; # Every 30 minutes
+      frequency = "*:0/30"; # Every 30 minutes
     };
 
     programs.borgmatic = {
