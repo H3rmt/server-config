@@ -55,7 +55,7 @@ in
             encryptionPasscommand = "cat '${age.secrets.borg_pass.path}'";
           };
           output.extraConfig = {
-            ssh_command = "ssh -i /etc/ssh/ssh_host_ed25519_key";
+            # ssh_command = "ssh -i /etc/ssh/ssh_host_ed25519_key";
             compression = "zstd,15";
           };
         };
