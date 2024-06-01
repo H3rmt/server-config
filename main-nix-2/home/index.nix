@@ -70,25 +70,6 @@ in
     };
   };
 
-  services.borgbackup.jobs."user-data" = {
-    paths = [
-      "/home/reverseproxy/${config.data-dir}"
-      "/home/authentik/${config.data-dir}"
-      "/home/grafana/${config.data-dir}"
-      "/home/tor/${config.data-dir}"
-      "/home/wakapi/${config.data-dir}"
-    ];
-    encryption = {
-      mode = "repokey-blake2";
-      passCommand = "cat '${config.age.secrets.borg_pass.path}'";
-    };
-    environment.BORG_RSH = "ssh -i /etc/ssh/ssh_host_ed25519_key";
-    repo = ''ssh://${config.backup-user}@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/main-nix-2'';
-    compression = "auto,zstd,15";
-    startAt = "*:0,30";
-    user = "${config.backup-user}";
-  };
-
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
 

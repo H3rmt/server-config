@@ -4,9 +4,50 @@
       ./usr.nix
     ];
     home.stateVersion = config.nixVersion;
-    home.activation.script = ''
-      mkdir -p /home/${config.backup-user}/backups
-    '';
+    
+    home.activation.script = clib.create-folders lib [
+      "${config.data-prefix}/backups/"
+    ];
+
+    services.borgmatic = {
+      enable = true;
+      frequency = "0,30 * * * *"; # Every 30 minutes
+    };
+
+    programs.borgmatic = {
+      enable = true;
+      backups = {
+        user-data = {
+          location = {
+            patterns = [
+              "/home/*/${config.data-dir}"
+            ];
+            repositories = [
+              {
+                "path" = "ssh://${config.backup-user}@${config.main-nix-1-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${config.networking.hostName}";
+                "label" = "remote-1";
+              }
+              {
+                "path" = "ssh://${config.backup-user}@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/${config.networking.hostName}";
+                "label" = "remote-2";
+              }
+            ];
+          };
+          retention = {
+            keepDaily = 7;
+            keepWeekly = 4;
+            keepMonthly = 6;
+          };
+          storage = {
+            encryptionPasscommand = "cat '${config.age.secrets.borg_pass.path}'";
+          };
+          output.extraConfig = {
+            ssh_command = "ssh -i /etc/ssh/ssh_host_ed25519_key";
+            compression = "zstd,15";
+          };
+        };
+      };
+    };
   };
 
   home-manager.users.root = {
