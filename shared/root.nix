@@ -67,7 +67,7 @@ in
         user-data = {
           location = {
             patterns = [
-              "/home/*/${config.data-dir}"
+              "+ /home/*/${config.data-dir}"
             ];
             repositories = [
               {
