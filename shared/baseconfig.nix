@@ -47,6 +47,19 @@
     };
   };
 
+  system.activationScripts = {
+    enableACLs = {
+      text = ''
+        mount -o remount,acl /
+      '';
+    };
+    setACLs = {
+      text = ''
+        setfacl -R -m u:${config.backup-user}:rX /home
+      '';
+    };
+  };
+
   system.stateVersion = config.nixVersion;
   nix.gc = {
     automatic = true;
@@ -90,6 +103,7 @@
     pkgs.nmap
     pkgs.borgbackup
     pkgs.prometheus-systemd-exporter
+    pkgs.acl
     inputs.agenix.packages.aarch64-linux.default
   ];
 }

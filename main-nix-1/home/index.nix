@@ -44,6 +44,17 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    "${config.backup-user}" = {
+      openssh = {
+        authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK"
+        ];
+      };
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   services.borgbackup.jobs."user-data" = {
@@ -57,10 +68,10 @@ in
       passCommand = "cat '${config.age.secrets.borg_pass.path}'";
     };
     environment.BORG_RSH = "ssh -i /etc/ssh/ssh_host_ed25519_key";
-    repo = ''ssh://root@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/root/backups/main-nix-1'';
+    repo = ''ssh://${config.backup-user}@${config.main-nix-2-private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user}/backups/main-nix-1'';
     compression = "auto,zstd,15";
     startAt = "*:0,30";
-    user = "root";
+    user = "${config.backup-user}";
   };
 
   home-manager.useGlobalPkgs = true;

@@ -1,4 +1,8 @@
 { lib, config, home, pkgs, inputs, ... }: {
+  home-manager.users."${config.backup-user}".activation.script = ''
+    mkdir -p /home/${config.backup-user}/backups
+  '';
+
   home-manager.users.root = {
     imports = [
       ./usr.nix

@@ -36,6 +36,10 @@
       type = lib.types.str;
       description = "Path for data directory inside a users home";
     };
+    backup-user = lib.mkOption {
+      type = lib.types.str;
+      description = "User for borg-backup";
+    };
     sites = {
       authentik = lib.mkOption {
         type = lib.types.str;
@@ -211,6 +215,7 @@
     main-nix-1-private-ip = "10.0.69.1";
     main-nix-2-private-ip = "10.0.69.2";
     email = "enrico@h3rmt.zip";
+    backup-user = "borg-backup";
     sites = {
       authentik = "authentik";
       grafana = "grafana";
