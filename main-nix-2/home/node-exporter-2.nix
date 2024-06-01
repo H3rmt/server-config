@@ -83,7 +83,7 @@ in
               - match:
                   selector: '{unit="promtail.service"}'
                   action: drop
-'';
+      '';
     };
   };
 }
