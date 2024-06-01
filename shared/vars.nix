@@ -1,5 +1,5 @@
-{ lib, ... }: {
-  options = rec {
+{ lib, config, ... }: {
+  options = {
     nixVersion = lib.mkOption {
       type = lib.types.str;
       description = "Version of NixOS used for System and Homemanager Homes";
@@ -201,11 +201,11 @@
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${backup-user-prefix}-main-nix-1" = lib.mkOption {
+          "${config.backup-user-prefix}-main-nix-1" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${backup-user-prefix}-main-nix-2" = lib.mkOption {
+          "${config.backup-user-prefix}-main-nix-2" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
