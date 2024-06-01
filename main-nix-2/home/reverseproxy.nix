@@ -57,7 +57,7 @@ in
     timers = {
       certbot = {
         Unit = {
-          Description = "Service for Certbot Renewal";
+          Description = "Timer for Certbot Renewal";
         };
         Install = {
           WantedBy = [ "timers.target" ];

@@ -21,10 +21,44 @@ in
     '';
 
     exported-services = [ "borgmatic.timer" "borgmatic.service" ];
-
-    services.borgmatic = {
-      enable = true;
-      frequency = "*:0/30"; # Every 30 minutes
+    
+    systemd.user = {
+      services = {
+        borgmatic = {
+          Unit = {
+            Description = "Service for Borgmatic";
+          };
+          Service = {
+            ExecStart = pkgs.writeShellApplication
+            {
+              name = "borgmatic";
+              runtimeInputs = [ pkgs.borgmatic ];
+              text = ''
+                ${pkgs.borgmatic}/bin/borgmatic \
+                  --stats \
+                  --list \
+                  --verbosity -1 \
+                  --syslog-verbosity 1
+              '';
+            } + /bin/borgmatic;
+          };
+        };
+      };
+      timers = {
+        borgmatic = {
+          Unit = {
+            Description = "Timer for Borgmatic";
+          };
+          Install = {
+            WantedBy = [ "timers.target" ];
+          };
+          Timer = {
+            Unit = "borgmatic.service";
+            OnCalendar = "*:0/30";
+            Persistent = true;
+          };
+        };
+      };
     };
 
     programs.borgmatic = {
