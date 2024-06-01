@@ -13,8 +13,9 @@ in
     root = {
       openssh = {
         authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t"
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM"
+          {config.keys.private}
+          {config.keys.main-nix-1-public}
+          {config.keys.main-nix-2-public}
         ];
       };
       isSystemUser = true;
@@ -60,7 +61,8 @@ in
     "${config.backup-user-prefix}-${config.networking.hostName}" = {
       openssh = {
         authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM"
+          {config.keys.main-nix-1-public-borg}
+          {config.keys.main-nix-2-public-borg}
         ];
       };
       createHome = true;

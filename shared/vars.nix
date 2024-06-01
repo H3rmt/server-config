@@ -40,6 +40,28 @@
       type = lib.types.str;
       description = "User for borg-backup";
     };
+    keys = {
+      private = lib.mkOption {
+        type = lib.types.str;
+        description = "Private Key for my devices";
+      };
+      main-nix-1-public = lib.mkOption {
+        type = lib.types.str;
+        description = "Public Key for server 1";
+      };
+      main-nix-2-public = lib.mkOption {
+        type = lib.types.str;
+        description = "Public Key for server 2";
+      };
+      main-nix-1-public-borg = lib.mkOption {
+        type = lib.types.str;
+        description = "Public Key for borg-backup on server 1";
+      };
+      main-nix-2-public-borg = lib.mkOption {
+        type = lib.types.str;
+        description = "Public Key for borg-backup on server 2";
+      };
+    };
     sites = {
       authentik = lib.mkOption {
         type = lib.types.str;
@@ -224,6 +246,13 @@
     main-nix-2-private-ip = "10.0.69.2";
     email = "enrico@h3rmt.zip";
     backup-user-prefix = "borg-backup";
+    keys = {
+      private = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
+      main-nix-1-public = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
+      main-nix-2-public = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
+      main-nix-1-public-borg = "";
+      main-nix-2-public-borg = "";
+    };
     sites = {
       authentik = "authentik";
       grafana = "grafana";

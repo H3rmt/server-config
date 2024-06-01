@@ -15,6 +15,11 @@ in
       "${config.data-prefix}/backups/"
     ];
 
+    # Generate a new SSH key (only if missing => must be updated in config after that)
+    home.activation.generateSSHKey = ''
+      test -f ${config.home.homeDirectory}/.ssh/id_ed25519 || run ssh-keygen -t ed25519 -f ${config.home.homeDirectory}/.ssh/id_ed25519 -N ""
+    '';
+
     exported-services = [ "borgmatic.timer" "borgmatic.service" ];
 
     services.borgmatic = {

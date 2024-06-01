@@ -31,6 +31,6 @@
   })) files;
 
   create-folders = llib: folders: llib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p ${toString folders}
+    run mkdir -p ${toString folders}
   '';
 }
