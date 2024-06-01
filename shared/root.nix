@@ -1,10 +1,14 @@
-{ lib, config, home, pkgs, inputs, ... }: {
+{ lib, config, home, pkgs, inputs, ... }: 
+let 
+  clib = import ./funcs.nix { inherit lib; inherit config; };
+in
+{
   home-manager.users."${config.backup-user}" = { home, ... }: {
     imports = [
       ./usr.nix
     ];
     home.stateVersion = config.nixVersion;
-    
+
     home.activation.script = clib.create-folders lib [
       "${config.data-prefix}/backups/"
     ];
