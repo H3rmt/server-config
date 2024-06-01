@@ -1,6 +1,7 @@
 { lib, config, home, pkgs, inputs, ... }: 
 let 
   clib = import ./funcs.nix { inherit lib; inherit config; };
+  age = config.age;
 in
 {
   home-manager.users."${config.backup-user}" = { home, lib, config, ... }: {
@@ -43,7 +44,7 @@ in
             keepMonthly = 6;
           };
           storage = {
-            encryptionPasscommand = "cat '${config.age.secrets.borg_pass.path}'";
+            encryptionPasscommand = "cat '${age.secrets.borg_pass.path}'";
           };
           output.extraConfig = {
             ssh_command = "ssh -i /etc/ssh/ssh_host_ed25519_key";
