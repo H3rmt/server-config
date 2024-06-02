@@ -105,9 +105,9 @@
 
         chmod 600 ${config.home.homeDirectory}/.ssh/*
         echo "Starting Initial Borgmatic backup"
-        borgmatic config validate -v 2
-        borgmatic init --encryption repokey-blake2
-        borgmatic create --verbosity 1 --list --stats
+        borgmatic config validate --verbosity 2
+        borgmatic init --encryption repokey-blake2 --verbosity 2
+        borgmatic create --list --stats --verbosity 2
       '';
     };
   };
