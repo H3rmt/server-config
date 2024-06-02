@@ -1,4 +1,4 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ age, clib, hostName }: { lib, config, home, pkgs, inputs, ... }:
 let
   NODE_EXPORTER_VERSION = "v1.7.0";
   PROMTAIL_VERSION = "3.0.0";
@@ -13,18 +13,18 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.private.node-exporter-2}:9100 \
+            -p ${config.address.private.node-exporter."${exporter-user-prefix}-${hostName}"}:9100 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
-        podman run --name=node-exporter-2 -d --pod=${config.pod-name} \
+        podman run --name=node-exporter-${hostName} -d --pod=${config.pod-name} \
             -v '/:/host:ro,rslave' \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
             --path.rootfs=/host
         
-        podman run --name=promtail-2 -d --pod=${config.pod-name} \
+        podman run --name=promtail-${hostName} -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/promtail.yml:/etc/promtail/promtail.yml:ro \
             -v /var/log:/var/log:ro \
             -v positions:/tmp/positions:U \
@@ -41,9 +41,9 @@ in
     "down.sh" = {
       executable = true;
       text = ''
-        podman stop -t 10 node-exporter-2
-        podman stop -t 10 promtail-2
-        podman rm node-exporter-2 promtail-2
+        podman stop -t 10 node-exporter-${hostName}
+        podman stop -t 10 promtail-${hostName}
+        podman rm node-exporter-${hostName} node-exporter-${hostName}
         ${config.exporter.stop}
         podman pod rm ${config.pod-name}
       '';

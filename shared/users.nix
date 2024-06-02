@@ -36,7 +36,7 @@ in
     extraGroups = [ "systemd-journal" ];
   };
 
-  home-manager.users."${config.exporter-user-prefix}-${hostName}" = import ./users/exporter.nix { inherit age; inherit clib; };
+  home-manager.users."${config.exporter-user-prefix}-${hostName}" = import ./users/exporter.nix { inherit age; inherit clib; inherit hostName; };
   home-manager.users."${config.backup-user-prefix}-${hostName}" = import ./users/backup.nix { inherit age; inherit clib; inherit hostName; };
   home-manager.users.root = import ./users/root.nix { inherit age; inherit clib; };
 }
