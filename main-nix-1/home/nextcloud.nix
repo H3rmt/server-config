@@ -46,7 +46,7 @@ in
             -e NEXTCLOUD_ADMIN_USER=${ADMIN_USER} \
             -e NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASS} \
             -e OVERWRITEHOST=${config.sites.nextcloud}.${config.main-url} \
-            -e TRUSTED_PROXIES=${config.main-nix-2-private-ip} \
+            -e TRUSTED_PROXIES=${config.server.main-2.private-ip} \
             -e OVERWRITEPROTOCOL=https \
             -v ${config.data-prefix}/nextcloud:/var/www/html \
             docker.io/nextcloud:${NEXTCLOUD_VERSION}

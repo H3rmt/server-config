@@ -8,14 +8,6 @@
       type = lib.types.str;
       description = "Root URL for server (h3rmt.zip)";
     };
-    main-nix-1-private-ip = lib.mkOption {
-      type = lib.types.str;
-      description = "IP for server 1";
-    };
-    main-nix-2-private-ip = lib.mkOption {
-      type = lib.types.str;
-      description = "IP for server 2";
-    };
     podman-exporter-version = lib.mkOption {
       type = lib.types.str;
       description = "Image Version for Podman-exporter";
@@ -40,26 +32,50 @@
       type = lib.types.str;
       description = "User for borg-backup";
     };
-    keys = {
-      private = lib.mkOption {
-        type = lib.types.str;
-        description = "Private Key for my devices";
+    exporter-user-prefix = lib.mkOption {
+      type = lib.types.str;
+      description = "User for exporters (node-exporter, promtail, etc.)";
+    };
+    my-public-key = lib.mkOption {
+      type = lib.types.str;
+      description = "Public Key for my devices";
+    };
+    server = {
+      main-1 = {
+        name = lib.mkOption {
+          type = lib.types.str;
+          description = "Hostname for server 1";
+        };
+        private-ip = lib.mkOption {
+          type = lib.types.str;
+          description = "Private IP for server 1";
+        };
+        public-key = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for server 1";
+        };
+        public-key-borg = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for borg-backup on server 1";
+        };
       };
-      main-nix-1-public = lib.mkOption {
-        type = lib.types.str;
-        description = "Public Key for server 1";
-      };
-      main-nix-2-public = lib.mkOption {
-        type = lib.types.str;
-        description = "Public Key for server 2";
-      };
-      main-nix-1-public-borg = lib.mkOption {
-        type = lib.types.str;
-        description = "Public Key for borg-backup on server 1";
-      };
-      main-nix-2-public-borg = lib.mkOption {
-        type = lib.types.str;
-        description = "Public Key for borg-backup on server 2";
+      main-2 = {
+        name = lib.mkOption {
+          type = lib.types.str;
+          description = "Hostname for server 2";
+        };
+        private-ip = lib.mkOption {
+          type = lib.types.str;
+          description = "Private IP for server 2";
+        };
+        public-key = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for server 2";
+        };
+        public-key-borg = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for borg-backup on server 2";
+        };
       };
     };
     sites = {
@@ -223,11 +239,11 @@
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.backup-user-prefix}-main-nix-1" = lib.mkOption {
+          "${config.backup-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.backup-user-prefix}-main-nix-2" = lib.mkOption {
+          "${config.backup-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
@@ -242,16 +258,23 @@
     podman-exporter-version = "v1.11.0";
     nginx-info-page = "nginx_status";
     data-dir = "data";
-    main-nix-1-private-ip = "10.0.69.1";
-    main-nix-2-private-ip = "10.0.69.2";
     email = "enrico@h3rmt.zip";
     backup-user-prefix = "borg-backup";
-    keys = {
-      private = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
-      main-nix-1-public = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
-      main-nix-2-public = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
-      main-nix-1-public-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIClcB52PQnVTVdujdIxmhmWedD9xL8X2yqK10VR6L0eg";
-      main-nix-2-public-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
+    exporter-user-prefix = "exporter";
+    my-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
+    server = {
+      main-1 = {
+        name = "main-nix-1";
+        private-ip = "10.0.69.1";
+        public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
+        public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIClcB52PQnVTVdujdIxmhmWedD9xL8X2yqK10VR6L0eg";
+      };
+      main-2 = {
+        name = "main-nix-2";
+        private-ip = "10.0.69.2";
+        public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
+        public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
+      };
     };
     sites = {
       authentik = "authentik";
@@ -274,37 +297,41 @@
     };
     address = {
       public = {
-        grafana = "${main-nix-2-private-ip}:10000";
-        authentik = "${main-nix-2-private-ip}:10001";
-        prometheus = "${main-nix-2-private-ip}:10002";
-        nextcloud = "${main-nix-1-private-ip}:10003";
-        filesharing = "${main-nix-1-private-ip}:10004";
-        loki = "${main-nix-2-private-ip}:10005";
-        wakapi = "${main-nix-2-private-ip}:10006";
+        grafana = "${server.main-2.private-ip}:10000";
+        authentik = "${server.main-2.private-ip}:10001";
+        prometheus = "${server.main-2.private-ip}:10002";
+        nextcloud = "${server.main-1.private-ip}:10003";
+        filesharing = "${server.main-1.private-ip}:10004";
+        loki = "${server.main-2.private-ip}:10005";
+        wakapi = "${server.main-2.private-ip}:10006";
       };
       private = {
-        nginx-exporter = "${main-nix-2-private-ip}:20001";
-        tor-exporter = "${main-nix-2-private-ip}:20002";
-        tor-exporter-bridge = "${main-nix-1-private-ip}:20003";
+        nginx-exporter = "${server.main-2.private-ip}:20001";
+        tor-exporter = "${server.main-2.private-ip}:20002";
+        tor-exporter-bridge = "${server.main-1.private-ip}:20003";
         podman-exporter = {
-          reverseproxy = "${main-nix-2-private-ip}:21000";
-          grafana = "${main-nix-2-private-ip}:21001";
-          authentik = "${main-nix-2-private-ip}:21002";
-          snowflake = "${main-nix-2-private-ip}:21003";
-          nextcloud = "${main-nix-1-private-ip}:21004";
-          filesharing = "${main-nix-1-private-ip}:21005";
-          node-exporter-1 = "${main-nix-1-private-ip}:21006";
-          node-exporter-2 = "${main-nix-2-private-ip}:21007";
-          tor = "${main-nix-2-private-ip}:21008";
-          wakapi = "${main-nix-2-private-ip}:21009";
-          bridge = "${main-nix-1-private-ip}:21010";
+          reverseproxy = "${server.main-2.private-ip}:21000";
+          grafana = "${server.main-2.private-ip}:21001";
+          authentik = "${server.main-2.private-ip}:21002";
+          snowflake = "${server.main-2.private-ip}:21003";
+          nextcloud = "${server.main-1.private-ip}:21004";
+          filesharing = "${server.main-1.private-ip}:21005";
+          node-exporter-1 = "${server.main-1.private-ip}:21006";
+          node-exporter-2 = "${server.main-2.private-ip}:21007";
+          tor = "${server.main-2.private-ip}:21008";
+          wakapi = "${server.main-2.private-ip}:21009";
+          bridge = "${server.main-1.private-ip}:21010";
         };
-        node-exporter-1 = "${main-nix-1-private-ip}:22001";
-        node-exporter-2 = "${main-nix-2-private-ip}:22002";
+        node-exporter = {
+          "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:23001";
+          "${exporter-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:23002";
+        };
+        node-exporter-1 = "${server.main-1.private-ip}:22001";
+        node-exporter-2 = "${server.main-2.private-ip}:22002";
         systemd-exporter = {
-          reverseproxy = "${main-nix-2-private-ip}:23000";
-          "${backup-user-prefix}-main-nix-1" = "${main-nix-1-private-ip}:23001";
-          "${backup-user-prefix}-main-nix-2" = "${main-nix-2-private-ip}:23002";
+          reverseproxy = "${server.main-2.private-ip}:23000";
+          "${backup-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:23001";
+          "${backup-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:23002";
         };
       };
     };

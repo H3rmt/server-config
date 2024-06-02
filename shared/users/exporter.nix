@@ -5,7 +5,7 @@ let
 in
 {
   imports = [
-    ../../shared/usr.nix
+    ./usr.nix
   ];
 
   home.file = clib.create-files config.home.homeDirectory {

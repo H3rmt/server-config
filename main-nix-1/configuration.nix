@@ -27,7 +27,7 @@
   };
 
   time.timeZone = "Europe/Berlin";
-  networking.hostName = "main-nix-1";
+  networking.hostName = config.server.main-1.name;
   networking.domain = config.main-url;
   networking.useDHCP = false;
 

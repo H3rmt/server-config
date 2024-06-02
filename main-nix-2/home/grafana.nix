@@ -119,8 +119,8 @@ in
             static_configs:
               - targets:
                   [
-                    "${config.address.private.node-exporter-1}",
-                    "${config.address.private.node-exporter-2}",
+                    "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.main-1.name}"}",
+                    "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.main-2.name}"}",
                   ]
           - job_name: nginx
             static_configs:
@@ -145,16 +145,16 @@ in
                   user: 'reverseproxy'
               - targets:
                   [
-                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-main-nix-1"}",
+                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-1.name}"}",
                   ]
                 labels:
-                  user: '${config.backup-user-prefix}-main-nix-1'
+                  user: '${config.backup-user-prefix}-${config.server.main-1.name}'
               - targets:
                   [
-                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-main-nix-2"}",
+                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-2.name}"}",
                   ]
                 labels:
-                  user: '${config.backup-user-prefix}-main-nix-2'
+                  user: '${config.backup-user-prefix}-${config.server.main-2.name}'
           - job_name: podman-exporter
             static_configs:
               - targets:

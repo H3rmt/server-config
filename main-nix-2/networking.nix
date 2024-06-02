@@ -17,7 +17,7 @@
     networks."20-eth" = {
       matchConfig.Name = "eth1";
       address = [
-        config.main-nix-2-private-ip
+        config.server.main-2.private-ip
       ];
       routes = [
         { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }; }

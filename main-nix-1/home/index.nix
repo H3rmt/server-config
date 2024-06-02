@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ../../shared/root.nix
+    ../../shared/users.nix
   ];
 
   users.mutableUsers = false;
@@ -17,12 +17,6 @@ in
       linger = true;
     };
     nextcloud = {
-      createHome = true;
-      isNormalUser = true;
-      shell = pkgs.zsh;
-      linger = true;
-    };
-    node-exporter-1 = {
       createHome = true;
       isNormalUser = true;
       shell = pkgs.zsh;
@@ -41,6 +35,5 @@ in
 
   home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; };
   home-manager.users.nextcloud = import ./nextcloud.nix { age = config.age; inherit clib; };
-  home-manager.users.node-exporter-1 = import ./node-exporter-1.nix { age = config.age; inherit clib; };
   home-manager.users.bridge = import ./bridge.nix { age = config.age; inherit clib; };
 }

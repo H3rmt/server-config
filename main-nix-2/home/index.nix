@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ../../shared/root.nix
+    ../../shared/users.nix
   ];
 
   users.mutableUsers = false;
@@ -28,13 +28,6 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
-    node-exporter-2 = {
-      createHome = true;
-      isNormalUser = true;
-      shell = pkgs.zsh;
-      linger = true;
-      extraGroups = [ "systemd-journal" ];
-    };
     tor = {
       createHome = true;
       isNormalUser = true;
@@ -55,7 +48,6 @@ in
   home-manager.users.reverseproxy = import ./reverseproxy.nix { age = config.age; inherit clib; };
   home-manager.users.authentik = import ./authentik.nix { age = config.age; inherit clib; };
   home-manager.users.grafana = import ./grafana.nix { age = config.age; inherit clib; };
-  home-manager.users.node-exporter-2 = import ./node-exporter-2.nix { age = config.age; inherit clib; };
   home-manager.users.tor = import ./tor.nix { age = config.age; inherit clib; };
   home-manager.users.wakapi = import ./wakapi.nix { age = config.age; inherit clib; };
 }
