@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, ... }: {
   age.secrets = {
     borg_pass = {
       file = ./secrets/borg_pass.age;
