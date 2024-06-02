@@ -64,8 +64,8 @@
           patterns = [
             "P sh"
             "R /"
-            "! re:^(dev|proc|run|sys|tmp)"
-            "- /**"
+            "! re:^(dev|proc|run|sys|tmp|root)"
+            "- **"
             "+ /home/*/${config.data-dir}/**"
             "- /home/${config.backup-user-prefix}-${config.server.main-1.name}/${config.data-dir}/backups"
             "- /home/${config.backup-user-prefix}-${config.server.main-2.name}/${config.data-dir}/backups"
