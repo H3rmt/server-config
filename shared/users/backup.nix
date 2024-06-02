@@ -32,7 +32,7 @@
                 borgmatic \
                   --stats \
                   --list \
-                  --verbosity -1 \
+                  --verbosity 2 \
                   --syslog-verbosity 1
               '';
             } + /bin/borgmatic;
