@@ -16,7 +16,7 @@
       enable = true;
       baseIndex = 1;
       clock24 = true;
-      historyLimit = 10000;
+      historyLimit = 40000;
       mouse = true;
       prefix = "C-Space";
       plugins =
