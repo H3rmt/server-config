@@ -102,6 +102,7 @@ in
         executable = true;
         text = ''
           echo "Starting Initial Borgmatic backup"
+          borgmatic config validate -v 2
           borgmatic init --encryption repokey-blake2
           borgmatic create --verbosity 1 --list --stats
         '';
