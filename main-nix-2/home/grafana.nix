@@ -162,11 +162,11 @@ in
                     "${config.address.private.podman-exporter.reverseproxy}",
                     "${config.address.private.podman-exporter.grafana}",
                     "${config.address.private.podman-exporter.authentik}",
-                    "${config.address.private.podman-exporter."${exporter-user-prefix}-${server.main-1.name}"}",
+                    "${config.address.private.podman-exporter."${config.exporter-user-prefix}-${config.server.main-1.name}"}",
                     "${config.address.private.podman-exporter.tor}",
                     "${config.address.private.podman-exporter.filesharing}",
                     "${config.address.private.podman-exporter.nextcloud}",
-                    "${config.address.private.podman-exporter."${exporter-user-prefix}-${server.main-2.name}"}",
+                    "${config.address.private.podman-exporter."${config.exporter-user-prefix}-${config.server.main-2.name}"}",
                     "${config.address.private.podman-exporter.wakapi}",
                     "${config.address.private.podman-exporter.bridge}",
                   ]
