@@ -96,6 +96,17 @@ in
         };
       };
     };
+
+    home.file = clib.create-files config.home.homeDirectory {
+      "up.sh" = {
+        executable = true;
+        text = ''
+          echo "Starting Initial Borgmatic backup"
+          borgmatic init --encryption repokey-blake2
+          borgmatic create --verbosity 1 --list --stats
+        '';
+      };
+    };
   };
 
   home-manager.users.root = {
