@@ -227,11 +227,11 @@
           };
         };
         node-exporter = {
-          "${exporter-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Node Exporter on nix-1";
           };
-          "${exporter-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Node Exporter on nix-2";
           };
