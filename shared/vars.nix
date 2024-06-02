@@ -205,11 +205,11 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
-          node-exporter-1 = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
-          node-exporter-2 = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
@@ -226,13 +226,15 @@
             description = "Address for Podman Exporter";
           };
         };
-        node-exporter-1 = lib.mkOption {
-          type = lib.types.str;
-          description = "Address for Node Exporter on nix-1";
-        };
-        node-exporter-2 = lib.mkOption {
-          type = lib.types.str;
-          description = "Address for Node Exporter on nix-2";
+        node-exporter = {
+          "${exporter-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Node Exporter on nix-1";
+          };
+          "${exporter-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Node Exporter on nix-2";
+          };
         };
         systemd-exporter = {
           reverseproxy = lib.mkOption {
@@ -316,18 +318,16 @@
           snowflake = "${server.main-2.private-ip}:21003";
           nextcloud = "${server.main-1.private-ip}:21004";
           filesharing = "${server.main-1.private-ip}:21005";
-          node-exporter-1 = "${server.main-1.private-ip}:21006";
-          node-exporter-2 = "${server.main-2.private-ip}:21007";
+          "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:21006";
+          "${exporter-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:21007";
           tor = "${server.main-2.private-ip}:21008";
           wakapi = "${server.main-2.private-ip}:21009";
           bridge = "${server.main-1.private-ip}:21010";
         };
         node-exporter = {
-          "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:23001";
-          "${exporter-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:23002";
+          "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:22001";
+          "${exporter-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:22002";
         };
-        node-exporter-1 = "${server.main-1.private-ip}:22001";
-        node-exporter-2 = "${server.main-2.private-ip}:22002";
         systemd-exporter = {
           reverseproxy = "${server.main-2.private-ip}:23000";
           "${backup-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:23001";
