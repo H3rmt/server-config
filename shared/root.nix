@@ -98,7 +98,7 @@ in
     };
 
     home.file = clib.create-files config.home.homeDirectory {
-      "up.sh" = {
+      "setup.sh" = {
         executable = true;
         text = ''
           echo "Starting Initial Borgmatic backup"
