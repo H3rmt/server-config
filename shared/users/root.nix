@@ -1,6 +1,6 @@
 { age, clib }: { lib, config, home, pkgs, inputs, ... }: {
   imports = [
-    ./usr.nix
+    ../usr.nix
   ];
   home.stateVersion = config.nixVersion;
   home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
