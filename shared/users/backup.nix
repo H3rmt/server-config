@@ -97,6 +97,7 @@
         set -e 
         set -o pipefail
 
+        chmod 600 ${config.home.homeDirectory}/.ssh/*
         echo "Starting Initial Borgmatic backup"
         borgmatic config validate -v 2
         borgmatic init --encryption repokey-blake2
