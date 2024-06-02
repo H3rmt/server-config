@@ -75,7 +75,7 @@
         bind C-p previous-window
         bind C-n next-window
 
-        bind r source-file ${config.users.users.root.home}/.config/tmux/tmux.conf \; display "Reloaded!"
+        bind r source-file ${config.home.homeDirectory}/.config/tmux/tmux.conf \; display "Reloaded!"
       '';
     };
   };
