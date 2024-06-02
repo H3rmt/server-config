@@ -29,7 +29,7 @@
               name = "borgmatic";
               runtimeInputs = [ pkgs.borgmatic ];
               text = ''
-                ${pkgs.borgmatic}/bin/borgmatic \
+                borgmatic \
                   --stats \
                   --list \
                   --verbosity -1 \
@@ -84,7 +84,7 @@
           keepMonthly = 6;
         };
         storage = {
-          encryptionPasscommand = "cat '${age.secrets.borg_pass.path}'";
+          encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${age.secrets.borg_pass.path}'";
         };
         output.extraConfig = {
           compression = "zstd,15";
