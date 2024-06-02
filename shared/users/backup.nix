@@ -1,4 +1,4 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }: {  
+{ age, clib }: { lib, config, home, pkgs, inputs, ... }: {
   imports = [
     ../usr.nix
   ];
@@ -16,7 +16,7 @@
   '';
 
   exported-services = [ "borgmatic.timer" "borgmatic.service" ];
-  
+
   systemd.user = {
     services = {
       borgmatic = {
@@ -25,17 +25,17 @@
         };
         Service = {
           ExecStart = pkgs.writeShellApplication
-          {
-            name = "borgmatic";
-            runtimeInputs = [ pkgs.borgmatic ];
-            text = ''
-              ${pkgs.borgmatic}/bin/borgmatic \
-                --stats \
-                --list \
-                --verbosity -1 \
-                --syslog-verbosity 1
-            '';
-          } + /bin/borgmatic;
+            {
+              name = "borgmatic";
+              runtimeInputs = [ pkgs.borgmatic ];
+              text = ''
+                ${pkgs.borgmatic}/bin/borgmatic \
+                  --stats \
+                  --list \
+                  --verbosity -1 \
+                  --syslog-verbosity 1
+              '';
+            } + /bin/borgmatic;
         };
       };
     };

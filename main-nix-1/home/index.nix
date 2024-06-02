@@ -27,7 +27,7 @@ in
       isNormalUser = true;
       shell = pkgs.zsh;
       linger = true;
-    };    
+    };
   };
 
   home-manager.useGlobalPkgs = true;

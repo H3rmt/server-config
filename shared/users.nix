@@ -1,4 +1,4 @@
-{ lib, config, home, pkgs, inputs, ... }: 
+{ lib, config, home, pkgs, inputs, ... }:
 let
   clib = import ./funcs.nix { inherit lib; inherit config; };
   age = config.age;
