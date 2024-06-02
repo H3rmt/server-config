@@ -5,6 +5,30 @@ let
   hostName = config.networking.hostName;
 in
 {
+  users.users."${config.backup-user-prefix}-${config.networking.hostName}" = {
+    openssh = {
+      authorizedKeys.keys = [
+        config.keys.main-nix-1-public-borg
+        config.keys.main-nix-2-public-borg
+      ];
+    };
+    createHome = true;
+    isNormalUser = true;
+    shell = pkgs.zsh;
+    linger = true;
+  };
+  users.users.root = {
+    openssh = {
+      authorizedKeys.keys = [
+        config.keys.private
+        config.keys.main-nix-1-public
+        config.keys.main-nix-2-public
+      ];
+    };
+    isSystemUser = true;
+    hashedPasswordFile = config.age.secrets.root_pass.path;
+  };
+
   home-manager.users."${config.backup-user-prefix}-${hostName}" = { home, lib, config, ... }: {
     imports = [
       ./usr.nix
@@ -101,6 +125,9 @@ in
       "setup.sh" = {
         executable = true;
         text = ''
+          set -e 
+          set -o pipefail
+
           echo "Starting Initial Borgmatic backup"
           borgmatic config validate -v 2
           borgmatic init --encryption repokey-blake2

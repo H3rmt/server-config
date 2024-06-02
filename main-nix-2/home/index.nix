@@ -10,17 +10,6 @@ in
   users.mutableUsers = false;
   users.defaultUserShell = pkgs.zsh;
   users.users = {
-    root = {
-      openssh = {
-        authorizedKeys.keys = [
-          config.keys.private
-          config.keys.main-nix-1-public
-          config.keys.main-nix-2-public
-        ];
-      };
-      isSystemUser = true;
-      hashedPasswordFile = config.age.secrets.root_pass.path;
-    };
     reverseproxy = {
       createHome = true;
       isNormalUser = true;
@@ -53,18 +42,6 @@ in
       linger = true;
     };
     wakapi = {
-      createHome = true;
-      isNormalUser = true;
-      shell = pkgs.zsh;
-      linger = true;
-    };
-    "${config.backup-user-prefix}-${config.networking.hostName}" = {
-      openssh = {
-        authorizedKeys.keys = [
-          config.keys.main-nix-1-public-borg
-          config.keys.main-nix-2-public-borg
-        ];
-      };
       createHome = true;
       isNormalUser = true;
       shell = pkgs.zsh;
