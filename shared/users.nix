@@ -8,7 +8,7 @@ in
   users.users.root = {
     openssh = {
       authorizedKeys.keys = [
-        my-public-key
+        config.my-public-key
         config.server.main-1.public-key
         config.server.main-2.public-key
       ];
