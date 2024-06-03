@@ -32,14 +32,14 @@ in
 
         podman run --name=grafana -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${GRAFANA_CONFIG}:/etc/grafana:ro \
-            -v ${config.data-prefix}/grafana:/var/lib/grafana \
+            -v ${config.data-prefix}/grafana:/var/lib/grafana:U \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/grafana/grafana-oss:${GRAFANA_VERSION}
 
         podman run --name=prometheus -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${PROMETHEUS_CONFIG}:/etc/prometheus:ro \
-            -v ${config.data-prefix}/prometheus:/prometheus \
+            -v ${config.data-prefix}/prometheus:/prometheus:U \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/prom/prometheus:${PROMETHEUS_VERSION} \
@@ -47,7 +47,7 @@ in
 
         podman run --name=loki -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${LOKI_CONFIG}:/etc/loki:ro \
-            -v ${config.data-prefix}/loki:/var/loki \
+            -v ${config.data-prefix}/loki:/var/loki:U \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/grafana/loki:${LOKI_VERSION} \

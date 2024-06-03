@@ -34,7 +34,9 @@ in
             -e MYSQL_PASSWORD=${MARIA_PASS} \
             -e MYSQL_DATABASE=${MARIA_DATABASE} \
             -e MYSQL_USER=${MARIA_USER} \
-            -v ${config.data-prefix}/db:/var/lib/mysql \
+            -v ${config.data-prefix}/db:/var/lib/mysql:U \
+            --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/mariadb:${MARIADB_VERSION} \
             --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
 
@@ -48,7 +50,9 @@ in
             -e OVERWRITEHOST=${config.sites.nextcloud}.${config.main-url} \
             -e TRUSTED_PROXIES=${config.server.main-2.private-ip} \
             -e OVERWRITEPROTOCOL=https \
-            -v ${config.data-prefix}/nextcloud:/var/www/html \
+            -v ${config.data-prefix}/nextcloud:/var/www/html:U \
+            --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/nextcloud:${NEXTCLOUD_VERSION}
 
         ${config.exporter.run}

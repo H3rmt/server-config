@@ -36,7 +36,7 @@ in
             -e POSTGRES_PASSWORD=${PG_PASS} \
             -e POSTGRES_USER=${POSTGRES_USER} \
             -e POSTGRES_DB=${POSTGRES_DB} \
-            -v ${config.data-prefix}/postges:/var/lib/postgresql/data \
+            -v ${config.data-prefix}/postges:/var/lib/postgresql/data:U \
             --restart on-failure:10 \
             -u $UID:$GID \
             --healthcheck-command "/bin/sh -c 'pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}'" \
@@ -47,7 +47,7 @@ in
             docker.io/library/postgres:${POSTGRES_VERSION}
 
         podman run --name=redis -d --pod=${config.pod-name} \
-            -v ${config.data-prefix}/redis:/data \
+            -v ${config.data-prefix}/redis:/data:U \
             --restart on-failure:10 \
             -u $UID:$GID \
             --healthcheck-command "/bin/sh -c 'redis-cli ping | grep PONG'" \
@@ -66,8 +66,8 @@ in
             -e AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER} \
             -e AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB} \
             -e AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS} \
-            -v ${config.data-prefix}/media:/media \
-            -v ${config.data-prefix}/templates:/templates \
+            -v ${config.data-prefix}/media:/media:U \
+            -v ${config.data-prefix}/templates:/templates:U \
             --restart on-failure:10 \
             -u $UID:$GID \
             ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
@@ -81,9 +81,9 @@ in
             -e AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER} \
             -e AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB} \
             -e AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS} \
-            -v ${config.data-prefix}/media:/media \
-            -v ${config.data-prefix}/templates:/templates \
-            -v ${config.data-prefix}/certs:/certs \
+            -v ${config.data-prefix}/media:/media:U \
+            -v ${config.data-prefix}/templates:/templates:U \
+            -v ${config.data-prefix}/certs:/certs:U \
             --restart on-failure:10 \
             -u $UID:$GID \
             ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \

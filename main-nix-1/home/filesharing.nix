@@ -29,8 +29,9 @@ in
             -e ADMIN_EMAIL="${ADMIN_EMAIL}" \
             -e USER_PASSWORD="${USER_PASSWORD}" \
             -e APP_NAME="H3rmt File Sharing" \
-            -v ${config.data-prefix}/pb_data/:/app/pb_data \
-            --restart unless-stopped \
+            -v ${config.data-prefix}/pb_data/:/app/pb_data:U \
+            --restart on-failure:10 \
+            -u $UID:$GID \
             docker.io/h3rmt/filesharing:${FILESHARING_VERSION}
 
         ${config.exporter.run}

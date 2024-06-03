@@ -92,7 +92,7 @@ in
             -v ${config.data-prefix}/website:${WEBSITE_PATH}:ro \
             -v nginx-cache:/var/cache/nginx/:U \
             -v logs:/var/log/nginx/:U \
-            --restart on-failure:10 \
+            --restart on-failure:20 \
             -u $UID:$GID \
             docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
         
