@@ -33,6 +33,6 @@
   create-folders = llib: folders: llib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${toString folders}
   '';
-
-  generateUserDataDirs = map (user: "/home/${user.name}/${config.data-dir}") config.users.users;
+  
+  generateUserDataDirs = map (userName: "/home/${userName}/${config.data-dir}") builtins.attrNames config.users.users;
 }
