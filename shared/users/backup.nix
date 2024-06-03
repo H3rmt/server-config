@@ -29,8 +29,8 @@
               name = "borgmatic";
               runtimeInputs = [ pkgs.borgmatic ];
               text = ''
-                run chmod 600 ${config.home.homeDirectory}/.ssh/*
-                
+                chmod 600 ${config.home.homeDirectory}/.ssh/*
+
                 borgmatic \
                   --stats \
                   --list \
