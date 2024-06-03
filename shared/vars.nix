@@ -72,6 +72,10 @@
           type = lib.types.str;
           description = "Public Key for server 2";
         };
+        public-key-borg = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for borg-backup on server 2";
+        };
       };
     };
     backups = {
