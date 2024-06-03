@@ -72,10 +72,16 @@
           type = lib.types.str;
           description = "Public Key for server 2";
         };
-        public-key-borg = lib.mkOption {
-          type = lib.types.str;
-          description = "Public Key for borg-backup on server 2";
-        };
+      };
+    };
+    backups = {
+      "${config.server.main-1.name}" = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        description = "List of directories to backup on server 1";
+      };
+      "${config.server.main-2.name}" = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        description = "List of directories to backup on server 2";
       };
     };
     sites = {
@@ -277,6 +283,20 @@
         public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
         public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
       };
+    };
+    backups = {
+      "${config.server.main-1.name}" = [
+        "/home/bridge/${config.data-dir}"
+        "/home/filesharing/${config.data-dir}"
+        "/home/nextcloud/${config.data-dir}"
+      ];
+      "${config.server.main-2.name}" = [
+        "/home/authentik/${config.data-dir}"
+        "/home/grafana/${config.data-dir}"
+        "/home/reverseproxy/${config.data-dir}"
+        "/home/tor/${config.data-dir}"
+        "/home/wakapi/${config.data-dir}"
+      ];
     };
     sites = {
       authentik = "authentik";

@@ -61,7 +61,7 @@
     backups = {
       user-data = {
         location = {
-          sourceDirectories = clib.generateUserDataDirs;
+          sourceDirectories = config.backups."${hostName}";
           repositories = [
             {
               "path" = "ssh://${config.backup-user-prefix}-${config.server.main-1.name}@${config.server.main-1.private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-${config.server.main-1.name}/${config.data-dir}/backups/${hostName}";
