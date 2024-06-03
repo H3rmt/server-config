@@ -27,7 +27,7 @@
           ExecStart = pkgs.writeShellApplication
             {
               name = "borgmatic";
-              runtimeInputs = [ pkgs.borgmatic ];
+              runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
               text = ''
                 chmod 600 ${config.home.homeDirectory}/.ssh/*
 
