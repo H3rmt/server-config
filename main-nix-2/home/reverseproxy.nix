@@ -448,6 +448,7 @@ in
 
         # general
         server_tokens off;
+        client_max_body_size 50M;
 
         # http2
         http2 on;
