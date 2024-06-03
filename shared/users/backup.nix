@@ -51,6 +51,7 @@
         };
         Timer = {
           Unit = "borgmatic.service";
+          OnBootSec = "2min";
           RandomizedDelaySec = "5m";
           OnCalendar = "*:0/30";
           Persistent = true;
