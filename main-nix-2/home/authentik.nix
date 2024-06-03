@@ -61,8 +61,8 @@ in
         podman run --name=server -d --pod=${config.pod-name} \
             -e AUTHENTIK_SECRET_KEY=${SECRET_KEY} \
             -e AUTHENTIK_ERROR_REPORTING__ENABLED=${ERROR_REPORTING_ENABLED} \
-            -e AUTHENTIK_REDIS__HOST=redis \
-            -e AUTHENTIK_POSTGRESQL__HOST=postgresql \
+            -e AUTHENTIK_REDIS__HOST=172.0.0.1 \
+            -e AUTHENTIK_POSTGRESQL__HOST=172.0.0.1 \
             -e AUTHENTIK_POSTGRESQL__USER=${POSTGRES_USER} \
             -e AUTHENTIK_POSTGRESQL__NAME=${POSTGRES_DB} \
             -e AUTHENTIK_POSTGRESQL__PASSWORD=${PG_PASS} \
