@@ -64,7 +64,8 @@ in
         };
         Timer = {
           Unit = "certbot.service";
-          OnCalendar = "0/02:00:00";
+          OnBootSec = "15min";
+          OnCalendar = "*-*-* 2:00:00";
           RandomizedDelaySec = "30m";
           Persistent = true;
         };
