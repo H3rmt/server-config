@@ -339,7 +339,7 @@
           reverseproxy = "${server.main-2.private-ip}:21000";
           grafana = "${server.main-2.private-ip}:21001";
           authentik = "${server.main-2.private-ip}:21002";
-          snowflake = "${server.main-2.private-ip}:21003";
+          snowflake = "${server.main-1.private-ip}:21003";
           nextcloud = "${server.main-1.private-ip}:21004";
           filesharing = "${server.main-1.private-ip}:21005";
           "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:21006";
