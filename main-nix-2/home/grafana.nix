@@ -169,6 +169,7 @@ in
                     "${config.address.private.podman-exporter."${config.exporter-user-prefix}-${config.server.main-2.name}"}",
                     "${config.address.private.podman-exporter.wakapi}",
                     "${config.address.private.podman-exporter.bridge}",
+                    "${config.address.private.podman-exporter.snowflake}",
                   ]
       '';
     };
