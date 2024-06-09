@@ -344,7 +344,7 @@
         tor-exporter = "${server.main-2.private-ip}:20002";
         tor-exporter-bridge = "${server.main-1.private-ip}:20003";
         snowflake-exporter-1 = "${server.main-1.private-ip}:20004";
-        snowflake-exporter-2 = "${server.main-1.private-ip}:20004";
+        snowflake-exporter-2 = "${server.main-1.private-ip}:20005";
         podman-exporter = {
           reverseproxy = "${server.main-2.private-ip}:21000";
           grafana = "${server.main-2.private-ip}:21001";
