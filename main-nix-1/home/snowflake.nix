@@ -27,7 +27,7 @@ in
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
             -ephemeral-ports-range 40000:60000 -unsafe-logging -summary-interval 6h0m0s
 
-        ${exporter.run}
+        ${config.exporter.run}
       '';
     };
 
