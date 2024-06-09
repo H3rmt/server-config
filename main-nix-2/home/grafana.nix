@@ -119,9 +119,10 @@ in
             static_configs:
               - targets:
                   [
-                    "${config.address.private.snowflake-exporter-1}/internal/metrics",
-                    "${config.address.private.snowflake-exporter-2}/internal/metrics",
+                    "${config.address.private.snowflake-exporter-1}",
+                    "${config.address.private.snowflake-exporter-2}",
                   ]
+            metrics_path: /internal/metrics
           - job_name: node
             static_configs:
               - targets:
@@ -143,6 +144,7 @@ in
                     "${config.address.private.tor-exporter-bridge}",
                   ]
           - job_name: systemd
+            scrape_interval: 10s
             static_configs:
               - targets:
                   [
