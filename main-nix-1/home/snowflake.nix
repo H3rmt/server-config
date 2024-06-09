@@ -12,6 +12,8 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
+            -p ${config.address.private.snowflake-exporter-1}:3000 \
+            -p ${config.address.private.snowflake-exporter-2}:3001 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -19,13 +21,13 @@ in
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
-            -ephemeral-ports-range 20000:40000 -unsafe-logging -summary-interval 6h0m0s
+            -summary-interval 6h0m0s -enableMetrics -metricsPort 3000 -verbose -unsafe-logging 
 
         podman run --name=snowflake-proxy-2 -d --pod=${config.pod-name} \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
-            -ephemeral-ports-range 40000:60000 -unsafe-logging -summary-interval 6h0m0s
+            -summary-interval 6h0m0s -enableMetrics -metricsPort 3001 -verbose -unsafe-logging 
 
         ${config.exporter.run}
       '';

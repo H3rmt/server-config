@@ -190,6 +190,14 @@
           type = lib.types.str;
           description = "Address for Tor Bridge Exporter";
         };
+        snowflake-exporter-1 = lib.mkOption {
+          type = lib.types.str;
+          description = "Address for Snowflake Exporter 1";
+        };
+        snowflake-exporter-2 = lib.mkOption {
+          type = lib.types.str;
+          description = "Address for Snowflake Exporter 2";
+        };
         podman-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.str;
@@ -335,6 +343,8 @@
         nginx-exporter = "${server.main-2.private-ip}:20001";
         tor-exporter = "${server.main-2.private-ip}:20002";
         tor-exporter-bridge = "${server.main-1.private-ip}:20003";
+        snowflake-exporter-1 = "${server.main-1.private-ip}:20004";
+        snowflake-exporter-2 = "${server.main-1.private-ip}:20004";
         podman-exporter = {
           reverseproxy = "${server.main-2.private-ip}:21000";
           grafana = "${server.main-2.private-ip}:21001";

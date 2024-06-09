@@ -115,6 +115,13 @@ in
           - job_name: prometheus
             static_configs:
               - targets: ["prometheus:9090"]
+          - job_name: snowflake
+            static_configs:
+              - targets:
+                  [
+                    "${config.address.private.snowflake-exporter-1}/internal/metrics",
+                    "${config.address.private.snowflake-exporter-2}/internal/metrics",
+                  ]
           - job_name: node
             static_configs:
               - targets:
