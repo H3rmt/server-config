@@ -28,6 +28,12 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    snowflake = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   home-manager.useGlobalPkgs = true;
@@ -36,4 +42,5 @@ in
   home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; };
   home-manager.users.nextcloud = import ./nextcloud.nix { age = config.age; inherit clib; };
   home-manager.users.bridge = import ./bridge.nix { age = config.age; inherit clib; };
+  home-manager.users.snowflake = import ./snowflake.nix { age = config.age; inherit clib; };
 }
