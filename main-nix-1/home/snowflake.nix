@@ -15,13 +15,13 @@ in
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
-        podman run --name=snowflake-proxy-1 -d --pod=${PODNAME} \
+        podman run --name=snowflake-proxy-1 -d --pod=${config.pod-name} \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
             -ephemeral-ports-range 20000:40000 -unsafe-logging -summary-interval 6h0m0s
 
-        podman run --name=snowflake-proxy-2 -d --pod=${PODNAME} \
+        podman run --name=snowflake-proxy-2 -d --pod=${config.pod-name} \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
