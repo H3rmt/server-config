@@ -331,7 +331,7 @@ in
         
         
           #   server {
-          #     server_name uptest.${>config.main-url};
+          #     server_name uptest.${config.main-url};
           # 
           #     listen 1443 ssl;
           #     listen [::0]:1443 ssl;
