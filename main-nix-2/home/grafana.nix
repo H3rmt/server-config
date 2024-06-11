@@ -105,6 +105,11 @@ in
 
     "${PROMETHEUS_CONFIG}/prometheus.yml" = {
       noLink = true;
+      onChange = ''
+        grafana_wakapi_metrics_key=$(cat "${age.secrets.grafana_wakapi_metrics_key.path}")
+        configFile="${config.home.homeDirectory}/${PROMETHEUS_CONFIG}/prometheus.yml"
+        sed -e "s/@grafana_wakapi_metrics_key@/$grafana_wakapi_metrics_key/g" -i "$configFile"
+      '';
       text = ''
         global:
           scrape_interval: 15s
@@ -135,6 +140,15 @@ in
               - targets:
                   [
                     "${config.address.private.nginx-exporter}",
+                  ]
+          - job_name: wakapi
+            scrape_interval: 1m
+            metrics_path: '/api/metrics'
+            bearer_token: '@grafana_wakapi_metrics_key@'
+            static_configs:
+              - targets:
+                  [
+                    "${config.address.public.wakapi}",
                   ]
           - job_name: tor
             static_configs:

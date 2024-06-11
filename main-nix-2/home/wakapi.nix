@@ -1,6 +1,8 @@
 { age, clib }: { lib, config, home, pkgs, inputs, ... }:
 let
   WAKAPI_VERSION = "2.11.2";
+
+  SALT = ''$(cat "${age.secrets.wakapi_salt.path}")'';
 in
 {
   imports = [

@@ -183,7 +183,7 @@ in
           
           server {
             listen 1081;
-            listen [::]:1081;
+            listen [::0]:1081;
             server_tokens on;
         
             location /${config.nginx-info-page} {
@@ -196,7 +196,7 @@ in
             server_name ${config.main-url};
         
             listen 1080;
-            listen [::]:1080;
+            listen [::0]:1080;
         
             location / {
               return 301 https://$host$request_uri;
@@ -207,9 +207,9 @@ in
             server_name ${config.main-url};
         
             listen 1443 ssl;
-            listen [::]:1443 ssl;
+            listen [::0]:1443 ssl;
             listen 1443 quic reuseport;
-            listen [::]:1443 quic reuseport;
+            listen [::0]:1443 quic reuseport;
         
             location / {
               root /${WEBSITE_PATH};
@@ -220,9 +220,9 @@ in
             server_name ${config.sites.prometheus}.${config.main-url};
         
             listen 1443 ssl;
-            listen [::]:1443 ssl;
+            listen [::0]:1443 ssl;
             listen 1443 quic;
-            listen [::]:1443 quic;
+            listen [::0]:1443 quic;
         
             location / {
               proxy_pass http://${config.sites.prometheus};
@@ -237,9 +237,9 @@ in
             server_name ${config.sites.authentik}.${config.main-url};
         
             listen 1443 ssl;
-            listen [::]:1443 ssl;
+            listen [::0]:1443 ssl;
             listen 1443 quic;
-            listen [::]:1443 quic;
+            listen [::0]:1443 quic;
         
             location / {
               proxy_pass http://${config.sites.authentik};
@@ -251,9 +251,9 @@ in
             server_name ${config.sites.grafana}.${config.main-url};
         
             listen 1443 ssl;
-            listen [::]:1443 ssl;
+            listen [::0]:1443 ssl;
             listen 1443 quic;
-            listen [::]:1443 quic;
+            listen [::0]:1443 quic;
         
             location / {
               proxy_pass http://${config.sites.grafana};
@@ -265,9 +265,9 @@ in
             server_name ${config.sites.nextcloud}.${config.main-url};
           
             listen 1443 ssl;
-            listen [::]:1443 ssl;
+            listen [::0]:1443 ssl;
             listen 1443 quic;
-            listen [::]:1443 quic;
+            listen [::0]:1443 quic;
             
             client_max_body_size 3000M;
             location / {
@@ -280,9 +280,9 @@ in
             server_name ${config.sites.filesharing}.${config.main-url};
       
             listen 1443 ssl;
-            listen [::]:1443 ssl;
+            listen [::0]:1443 ssl;
             listen 1443 quic;
-            listen [::]:1443 quic;
+            listen [::0]:1443 quic;
         
             client_max_body_size 3000M;
             proxy_read_timeout 300;
@@ -299,9 +299,9 @@ in
             server_name ${config.sites.wakapi}.${config.main-url};
       
             listen 1443 ssl;
-            listen [::]:1443 ssl;
+            listen [::0]:1443 ssl;
             listen 1443 quic;
-            listen [::]:1443 quic;
+            listen [::0]:1443 quic;
         
             location / {
               proxy_pass http://${config.sites.wakapi};
@@ -319,9 +319,9 @@ in
           #     server_name esp32-timelapse.${config.main-url};
           # 
           #     listen 1443 ssl;
-          #     listen [::]:1443 ssl;
+          #     listen [::0]:1443 ssl;
           #     listen 1443 quic;
-          #     listen [::]:1443 quic;
+          #     listen [::0]:1443 quic;
           # 
           #     location / {
           #       proxy_pass http://esp32-timelapse;
@@ -331,12 +331,12 @@ in
         
         
           #   server {
-          #     server_name uptest.${config.main-url};
+          #     server_name uptest.${>config.main-url};
           # 
           #     listen 1443 ssl;
-          #     listen [::]:1443 ssl;
+          #     listen [::0]:1443 ssl;
           #     listen 1443 quic;
-          #     listen [::]:1443 quic;
+          #     listen [::0]:1443 quic;
           # 
           #     location / {
           #       proxy_pass http://uptest;
@@ -351,9 +351,9 @@ in
           #     server_name speedtest.${config.main-url};
           # 
           #     listen 1443 ssl;
-          #     listen [::]:1443 ssl;
+          #     listen [::0]:1443 ssl;
           #     listen 1443 quic;
-          #     listen [::]:1443 quic;
+          #     listen [::0]:1443 quic;
           # 
           #     client_max_body_size 35M;
           # 

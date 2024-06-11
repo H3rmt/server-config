@@ -10,4 +10,5 @@ in
   "authentik/authentik_key.age".publicKeys = [ main my ];
   "grafana/client_secret.age".publicKeys = [ main my ];
   "grafana/client_key.age".publicKeys = [ main my ];
+  "wakapi/salt.age".publicKeys = [ main my ];
 }
