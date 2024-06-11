@@ -106,7 +106,7 @@ in
     "${PROMETHEUS_CONFIG}/prometheus.yml" = {
       noLink = true;
       onChange = ''
-        grafana_wakapi_metrics_key=$(cat "${age.secrets.grafana_wakapi_metrics_key.path}")
+        grafana_wakapi_metrics_key=$(cat "${age.secrets.grafana_wakapi_metrics_key.path}" | base64)
         configFile="${config.home.homeDirectory}/${PROMETHEUS_CONFIG}/prometheus.yml"
         sed -e "s/@grafana_wakapi_metrics_key@/$grafana_wakapi_metrics_key/g" -i "$configFile"
       '';
