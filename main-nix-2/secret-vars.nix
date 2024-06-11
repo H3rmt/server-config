@@ -28,6 +28,10 @@
       file = ./secrets/grafana/client_key.age;
       owner = "grafana";
     };
+    grafana_wakapi_metrics_key = {
+      file = ./secrets/grafana/wakapi_metrics_key.age;
+      owner = "grafana";
+    };
     wakapi_salt = {
       file = ./secrets/wakapi/salt.age;
       owner = "wakapi";
