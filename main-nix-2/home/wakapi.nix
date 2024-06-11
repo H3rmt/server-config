@@ -33,6 +33,7 @@ in
             -e WAKAPI_TRUSTED_HEADER_AUTH_KEY="X-wakapi-username" \
             -e WAKAPI_TRUST_REVERSE_PROXY_IPS=${config.server.main-2.private-ip} \
             -e WAKAPI_MAIL_ENABLED=false \
+            -e WAKAPI_PASSWORD_SALT=${SALT} \
             -v ${config.data-prefix}/wakapi:/data:U \
             --restart on-failure:10 \
             -u $UID:$GID \
