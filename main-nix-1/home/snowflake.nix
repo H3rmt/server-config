@@ -15,7 +15,7 @@ in
             -p ${config.address.private.snowflake-exporter-1}:3000 \
             -p ${config.address.private.snowflake-exporter-2}:3001 \
             -p ${config.exporter.port} \
-            --network pasta:-a,127.0.0.1
+            --network pasta:-a,172.16.0.1
 
         podman run --name=snowflake-proxy-1 -d --pod=${config.pod-name} \
             --restart on-failure:10 \
