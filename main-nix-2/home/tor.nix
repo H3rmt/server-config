@@ -30,8 +30,8 @@ in
             -e DirPort=9030 \
             -e AccountingStart="week 1 00:00" \
             -e AccountingMax="4 TBytes" \
-            -e RelayBandwidthRate="1.5 MBytes" \
-            -e RelayBandwidthBurst="2.5 MBytes" \
+            -e RelayBandwidthRate="2.0 MBytes" \
+            -e RelayBandwidthBurst="3.0 MBytes" \
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
             -v ${config.data-prefix}/middle:/var/lib/tor:U \

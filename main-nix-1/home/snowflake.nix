@@ -21,13 +21,13 @@ in
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
-            -metrics -metrics-port 3000 -verbose -unsafe-logging 
+            -metrics -metrics-port 3000 -unsafe-logging -summary-interval 12h
 
         podman run --name=snowflake-proxy-2 -d --pod=${config.pod-name} \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
-            -metrics -metrics-port 3001 -verbose -unsafe-logging 
+            -metrics -metrics-port 3001 -unsafe-logging -summary-interval 12h
 
         ${config.exporter.run}
       '';
