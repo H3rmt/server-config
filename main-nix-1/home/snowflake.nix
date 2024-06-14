@@ -18,12 +18,14 @@ in
             --network pasta:-a,172.16.0.1
 
         podman run --name=snowflake-proxy-1 -d --pod=${config.pod-name} \
+            --expose 3000 \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
             -metrics -metrics-port 3000 -unsafe-logging -summary-interval 12h
 
         podman run --name=snowflake-proxy-2 -d --pod=${config.pod-name} \
+            --expose 3001 \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/thetorproject/snowflake-proxy:${SNOWFLAKE_VERSION} \
