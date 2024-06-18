@@ -59,10 +59,16 @@
       wireguardPeers = [
         {
           wireguardPeerConfig = {
-            PublicKey = "L4msD0mEG2ctKDtaMJW2y3cs1fT2LBRVV7iVlWZ2nZc=";
+            PublicKey = "qspIBRyYjovEmqfnmf4Jawg8ySWAp7sHBvN5feezNy8=";
             AllowedIPs = [ config.server.raspi-1.private-ip ];
           };
         }
+        # {
+        #   wireguardPeerConfig = {
+        #     PublicKey = "qspIBRyYjovEmqfnmf4Jawg8ySWAp7sHBvN5feezNy8=";
+        #     AllowedIPs = [ config.server.raspi-1.private-ip ];
+        #   };
+        # }
       ];
     };
   };
