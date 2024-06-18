@@ -81,7 +81,7 @@
           description = "Public Key for borg-backup on server 2";
         };
       };
-      raspi-2 = {
+      raspi-1 = {
         name = lib.mkOption {
           type = lib.types.str;
           description = "Hostname for raspi 1";
