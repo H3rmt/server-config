@@ -157,6 +157,12 @@ in
                     "${config.address.private.tor-exporter}",
                     "${config.address.private.tor-exporter-bridge}",
                   ]
+          - job_name: wireguard
+            static_configs:
+              - targets:
+                  [
+                    "${config.address.private.wireguard-exporter}",
+                  ]
           - job_name: systemd
             scrape_interval: 10s
             static_configs:
