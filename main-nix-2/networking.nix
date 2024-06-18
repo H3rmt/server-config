@@ -5,7 +5,7 @@
       matchConfig.Name = "eth0";
       dns = config.nameservers ++ config.nameservers-hetzner;
       address = [
-        "159.69.206.86"
+        "159.69.206.86/32"
         "2a01:4f8:1c1b:59c0::1/64"
       ];
       routes = [
@@ -17,7 +17,7 @@
     networks."20-eth" = {
       matchConfig.Name = "eth1";
       address = [
-        config.server.main-2.private-ip
+        "${config.server.main-2.private-ip}/32"
       ];
       routes = [
         { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }; }
@@ -27,7 +27,7 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        config.server.raspi-1.private-ip
+        "${config.server.raspi-1.private-ip}/32"
       ];
       routes = [
         { routeConfig = { Gateway = "10.0.68.1"; Destination = "10.0.68.0/24"; GatewayOnLink = true; }; }
