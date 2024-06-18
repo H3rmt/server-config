@@ -5,6 +5,7 @@ in
 {
   "borg_pass.age".publicKeys = [ main my ];
   "root_pass.age".publicKeys = [ main my ];
+  "wireguard_private.age".publicKeys = [ main my ];
   "reverseproxy/hetzner_token.age".publicKeys = [ main my ];
   "authentik/pg_pass.age".publicKeys = [ main my ];
   "authentik/authentik_key.age".publicKeys = [ main my ];
