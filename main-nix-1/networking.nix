@@ -9,8 +9,8 @@
         "2a01:4f8:c0c:e6fe::1/64"
       ];
       routes = [
-        { routeConfig = { Gateway = "fe80::1"; GatewayOnLink = true; }; }
-        { routeConfig = { Gateway = "172.31.1.1"; GatewayOnLink = true; }; }
+        { Gateway = "fe80::1"; GatewayOnLink = true; }
+        { Gateway = "172.31.1.1"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
@@ -21,7 +21,7 @@
         config.server.main-1.private-ip
       ];
       routes = [
-        { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }; }
+        { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "no";
     };

@@ -9,8 +9,8 @@
         "2a01:4f8:1c1b:59c0::1/64"
       ];
       routes = [
-        { routeConfig = { Gateway = "fe80::1"; GatewayOnLink = true; }; }
-        { routeConfig = { Gateway = "172.31.1.1"; GatewayOnLink = true; }; }
+        { Gateway = "fe80::1"; GatewayOnLink = true; }
+        { Gateway = "172.31.1.1"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
@@ -20,7 +20,7 @@
         "${config.server.main-2.private-ip}/32"
       ];
       routes = [
-        { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }; }
+        { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "no";
     };
@@ -30,7 +30,7 @@
         "${config.server.raspi-1.private-ip}/32"
       ];
       routes = [
-        { routeConfig = { Gateway = "10.0.68.1"; Destination = "10.0.68.0/24"; GatewayOnLink = true; }; }
+        { Gateway = "10.0.68.1"; Destination = "10.0.68.0/24"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "no";
       networkConfig = {

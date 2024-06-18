@@ -27,6 +27,8 @@
     trustedInterfaces = [ "eth1" ];
   };
 
+  # needed for builds
+  zramSwap.memoryPercent = 200;
   time.timeZone = "Europe/Berlin";
   networking.hostName = config.server.main-1.name;
   networking.domain = config.main-url;

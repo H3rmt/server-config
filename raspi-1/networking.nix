@@ -8,7 +8,7 @@
         "192.168.187.45"
       ];
       routes = [
-        { routeConfig = { Gateway = "192.168.187.1"; GatewayOnLink = true; }; }
+        { Gateway = "192.168.187.1"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
@@ -19,7 +19,7 @@
     #     config.server.main-1.private-ip
     #   ];
     #   routes = [
-    #     { routeConfig = { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }; }
+    #     { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }
     #   ];
     #   linkConfig.RequiredForOnline = "no";
     # };
