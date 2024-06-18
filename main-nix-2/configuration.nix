@@ -27,8 +27,6 @@
     trustedInterfaces = [ "eth1" "wg0" ];
   };
 
-  # services.wireguard.enable = true;
-
   time.timeZone = "Europe/Berlin";
   networking.hostName = config.server.main-2.name;
   networking.domain = config.main-url;

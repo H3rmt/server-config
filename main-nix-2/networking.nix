@@ -50,7 +50,7 @@
         MTUBytes = "1300";
       };
       wireguardConfig = {
-        PrivateKeyFile = config.age.wireguard_private.path;
+        PrivateKeyFile = config.age.secrets.wireguard_private.path;
         ListenPort = config.ports.exposed.wireguard;
       };
       wireguardPeers = [
