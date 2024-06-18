@@ -41,7 +41,7 @@
     };
   };
 
-  time.timeZone = "Europe/Berlin";sysctl
+  time.timeZone = "Europe/Berlin";
   networking.hostName = config.server.main-2.name;
   networking.domain = config.main-url;
   networking.useDHCP = false;
