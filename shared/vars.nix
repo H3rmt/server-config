@@ -273,6 +273,10 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
+          "${config.exporter-user-prefix}-${config.server.raspi-2.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Podman Exporter";
+          };
         };
         node-exporter = {
           "${config.exporter-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
@@ -405,6 +409,7 @@
           tor = "${server.main-2.private-ip}:21008";
           wakapi = "${server.main-2.private-ip}:21009";
           bridge = "${server.main-1.private-ip}:21010";
+          "${exporter-user-prefix}-${server.raspi-1.name}" = "${server.main-2.private-ip}:21011";
         };
         node-exporter = {
           "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:22001";
