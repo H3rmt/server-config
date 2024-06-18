@@ -90,6 +90,10 @@
           type = lib.types.str;
           description = "Private IP for raspi 1";
         };
+        public-key = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for raspi 1";
+        };
       };
     };
     backups = {
