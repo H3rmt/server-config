@@ -409,7 +409,7 @@
           tor = "${server.main-2.private-ip}:21008";
           wakapi = "${server.main-2.private-ip}:21009";
           bridge = "${server.main-1.private-ip}:21010";
-          "${exporter-user-prefix}-${server.raspi-1.name}" = "${server.main-2.private-ip}:21011";
+          "${exporter-user-prefix}-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:21011";
         };
         node-exporter = {
           "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:22001";
