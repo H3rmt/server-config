@@ -104,6 +104,7 @@
     pkgs.borgbackup
     pkgs.prometheus-systemd-exporter
     pkgs.acl
+    pkgs.wireguard-tools
     inputs.agenix.packages.aarch64-linux.default
   ];
 }
