@@ -29,6 +29,9 @@
       address = [
         config.server.raspi-1.private-ip
       ];
+      routes = [
+        { routeConfig = { Destination = "10.0.68.0/24"; GatewayOnLink = true; }; }
+      ];
       linkConfig.RequiredForOnline = "no";
       networkConfig = {
         IPMasquerade = "ipv4";
