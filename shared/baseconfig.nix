@@ -1,11 +1,5 @@
 { inputs, lib, config, pkgs, ... }: {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-    device = "nodev";
-  };
   boot.tmp.cleanOnBoot = true;
 
   virtualisation = {

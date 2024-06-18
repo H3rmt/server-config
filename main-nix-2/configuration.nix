@@ -14,7 +14,11 @@
       "net.ipv4.ping_group_range" = "0 2000000";
       "net.ipv4.ip_forward" = 1;
     };
-    loader.generic-extlinux-compatible.enable = true;
+    loader.grub = {
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      device = "nodev";
+    };
   };
 
   networking.nftables.enable = true;
