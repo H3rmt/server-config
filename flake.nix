@@ -35,6 +35,17 @@
           ./main-nix-2/configuration.nix
         ];
       });
+      raspi-1 = nixpkgs.lib.nixosSystem ({
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          home-manager.nixosModules.home-manager
+          agenix.nixosModules.default
+          ./shared/vars.nix
+          ./shared/baseconfig.nix
+          ./raspi-1/configuration.nix
+        ];
+      });
     };
   };
 }
