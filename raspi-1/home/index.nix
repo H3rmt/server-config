@@ -9,9 +9,7 @@ in
 
   users.mutableUsers = false;
   users.defaultUserShell = pkgs.zsh;
-  users.users = {
-    
-  };
+  users.users = { };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
