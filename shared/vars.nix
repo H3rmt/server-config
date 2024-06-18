@@ -273,7 +273,7 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
-          "${config.exporter-user-prefix}-${config.server.raspi-2.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.server.raspi-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
