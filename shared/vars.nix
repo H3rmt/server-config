@@ -101,6 +101,10 @@
         type = lib.types.listOf lib.types.str;
         description = "List of directories to backup on server 2";
       };
+      "${config.server.raspi-1.name}" = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        description = "List of directories to backup on raspi 1";
+      };
     };
     sites = {
       authentik = lib.mkOption {
