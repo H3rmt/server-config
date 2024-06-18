@@ -24,6 +24,10 @@
       type = lib.types.listOf lib.types.str;
       description = "Nameservers for DNS";
     };
+    nameservers-hetzner = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      description = "Hetzner Nameservers for DNS";
+    };
     data-dir = lib.mkOption {
       type = lib.types.str;
       description = "Path for data directory inside a users home";
@@ -75,6 +79,16 @@
         public-key-borg = lib.mkOption {
           type = lib.types.str;
           description = "Public Key for borg-backup on server 2";
+        };
+      };
+      raspi-2 = {
+        name = lib.mkOption {
+          type = lib.types.str;
+          description = "Hostname for raspi 1";
+        };
+        private-ip = lib.mkOption {
+          type = lib.types.str;
+          description = "Private IP for raspi 1";
         };
       };
     };
@@ -143,6 +157,10 @@
         tor-bridge-pt = lib.mkOption {
           type = lib.types.int;
           description = "Pt Port for Tor Bridge relay";
+        };
+        wireguard = lib.mkOption {
+          type = lib.types.int;
+          description = "Port for Wireguard";
         };
       };
     };
@@ -295,6 +313,12 @@
         public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
         public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
       };
+      raspi-1 = {
+        name = "raspi-1";
+        private-ip = "10.0.68.1";
+        # public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
+        # public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
+      };
     };
     backups = {
       "${config.server.main-1.name}" = [
@@ -308,6 +332,8 @@
         "/home/reverseproxy/${config.data-dir}"
         "/home/tor/${config.data-dir}"
         "/home/wakapi/${config.data-dir}"
+      ];
+      "${config.server.main-2.name}" = [
       ];
     };
     sites = {
@@ -327,6 +353,7 @@
         tor-middle-dir = 9030;
         tor-bridge = 9100;
         tor-bridge-pt = 9140;
+        wireguard = 51820;
       };
     };
     address = {
@@ -369,12 +396,13 @@
         };
       };
     };
-    nameservers = [
+    nameservers-hetzner = [
       "2a01:4ff:ff00::add:2"
       "2a01:4ff:ff00::add:1"
       "185.12.64.1"
       "185.12.64.2"
-
+    ];
+    nameservers = [
       "8.8.8.8"
       "8.8.4.4"
       "2001:4860:4860::8888"

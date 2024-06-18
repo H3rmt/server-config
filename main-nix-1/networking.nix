@@ -3,7 +3,7 @@
     enable = true;
     networks."10-eth" = {
       matchConfig.Name = "eth0";
-      dns = config.nameservers;
+      dns = config.nameservers ++ config.nameservers-hetzner;
       address = [
         "128.140.32.233"
         "2a01:4f8:c0c:e6fe::1/64"
