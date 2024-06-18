@@ -102,6 +102,8 @@
         zstyle ':prompt:pure:user:root' color red
         # force display of user@host
         export PROMPT_PURE_SSH_CONNECTION="1"
+        export PURE_CMD_MAX_EXEC_TIME=3
+        export PURE_GIT_PULL=1
         prompt pure
 
         eval "$(zoxide init zsh)";

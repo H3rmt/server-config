@@ -39,7 +39,7 @@
           {
             plugin = tmux-dracula;
             extraConfig = ''
-              set -g @dracula-plugins "cpu-usage ram-usage network ssh-session"
+              set -g @dracula-plugins "ram-usage ssh-session"
               set -g @dracula-show-powerline true
               set -g @dracula-show-flags true
               set -g @dracula-refresh-rate 3
