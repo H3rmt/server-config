@@ -27,19 +27,7 @@
     trustedInterfaces = [ "eth1" "wg0" ];
   };
 
-  networking.wireguard.interfaces = {
-    wg0 = {
-      ips = [ config.server.main-2.private-ip ];
-      privateKey = config.age.secrets.authentik_pg_pass.path;
-      listenPort = config.ports.exposed.wireguard;
-      peers = [
-        {
-          publicKey = "<client_public_key>";
-          allowedIPs = [ config.server.raspi-1.private-ip ];
-        }
-      ];
-    };
-  };
+  services.wireguard.enable = true;
 
   time.timeZone = "Europe/Berlin";
   networking.hostName = config.server.main-2.name;

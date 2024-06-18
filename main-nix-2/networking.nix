@@ -24,6 +24,17 @@
       ];
       linkConfig.RequiredForOnline = "no";
     };
+    networks."30-wg" = {
+      matchConfig.Name = "wg0";
+      address = [
+        config.server.raspi-1.private-ip
+      ];
+      linkConfig.RequiredForOnline = "no";
+      networkConfig = {
+        IPMasquerade = "ipv4";
+        IPForward = true;
+      };
+    };
     links."10-eth" = {
       matchConfig.PermanentMACAddress = "96:00:03:4d:13:4f";
       linkConfig.Name = "eth0";
@@ -31,6 +42,25 @@
     links."20-eth" = {
       matchConfig.PermanentMACAddress = "86:00:00:8a:49:af";
       linkConfig.Name = "eth1";
+    };
+    netdevs."30-wg" = {
+      netdevConfig = {
+        Kind = "wireguard";
+        Name = "wg0";
+        MTUBytes = "1300";
+      };
+      wireguardConfig = {
+        PrivateKeyFile = serverPrivateKey;
+        ListenPort = config.ports.exposed.wireguard;
+      };
+      wireguardPeers = [
+        {
+          wireguardPeerConfig = {
+            PublicKey = "L4msD0mEG2ctKDtaMJW2y3cs1fT2LBRVV7iVlWZ2nZc=";
+            AllowedIPs = [ config.server.raspi-1.private-ip ];
+          };
+        }
+      ];
     };
   };
 }
