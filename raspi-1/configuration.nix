@@ -30,7 +30,7 @@
   # needed for builds
   zramSwap.memoryPercent = 200;
   time.timeZone = "Europe/Berlin";
-  networking.hostName = config.server.main-1.name;
+  networking.hostName = config.server.raspi-1.name;
   networking.domain = config.main-url;
   networking.useDHCP = false;
 
