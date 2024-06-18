@@ -333,7 +333,7 @@
         "/home/tor/${config.data-dir}"
         "/home/wakapi/${config.data-dir}"
       ];
-      "${config.server.main-2.name}" = [
+      "${config.server.raspi-1.name}" = [
       ];
     };
     sites = {
