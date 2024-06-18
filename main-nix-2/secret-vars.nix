@@ -10,8 +10,9 @@
     };
     wireguard_private = {
       file = ./secrets/wireguard_private.age;
-      # owner = "root";
+      owner = "root";
       group = "systemd-network";
+      mode = "640";
     };
     reverseproxy_hetzner_token = {
       file = ./secrets/reverseproxy/hetzner_token.age;
