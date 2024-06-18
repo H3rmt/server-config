@@ -30,8 +30,8 @@
   services.prometheus.exporters.wireguard = {
     enable = true;
     withRemoteIp = true;
-    listenAddress = builtins.elemAt (builtins.splitString ":" config.address.private.wireguard-exporter) 0;
-    port = builtins.elemAt (builtins.splitString ":" config.address.private.wireguard-exporter) 1;
+    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard-exporter) 0;
+    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard-exporter) 1);
   };
 
   time.timeZone = "Europe/Berlin";
