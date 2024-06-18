@@ -279,6 +279,10 @@
             type = lib.types.str;
             description = "Address for Node Exporter on nix-2";
           };
+          "${config.exporter-user-prefix}-${config.server.raspi-1.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Node Exporter on raspi-1";
+          };
         };
         systemd-exporter = {
           reverseproxy = lib.mkOption {
@@ -328,7 +332,7 @@
       raspi-1 = {
         name = "raspi-1";
         private-ip = "10.0.68.1";
-        # public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
+        public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
         # public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
       };
     };
