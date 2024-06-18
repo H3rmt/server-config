@@ -293,6 +293,10 @@
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
+          "${config.backup-user-prefix}-${config.server.raspi-1.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for systemd-exporter";
+          };
         };
       };
     };
@@ -397,11 +401,13 @@
         node-exporter = {
           "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:22001";
           "${exporter-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:22002";
+          "${exporter-user-prefix}-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:22003";
         };
         systemd-exporter = {
           reverseproxy = "${server.main-2.private-ip}:23000";
           "${backup-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:23001";
           "${backup-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:23002";
+          "${backup-user-prefix}-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:23003";
         };
       };
     };
