@@ -94,6 +94,10 @@
           type = lib.types.str;
           description = "Public Key for raspi 1";
         };
+        public-key-borg = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for borg-backup on raspi 1";
+        };
       };
     };
     backups = {
@@ -341,7 +345,7 @@
         name = "raspi-1";
         private-ip = "10.0.68.1";
         public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
-        # public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
+        public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAxDL2Ms3vSJia24a2rSdFdw2t/vTGaOYcrijjMHhOpU";
       };
     };
     backups = {

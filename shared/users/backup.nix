@@ -7,6 +7,7 @@
   home.activation.script = clib.create-folders lib [
     "${config.data-prefix}/backups/${config.server.main-1.name}"
     "${config.data-prefix}/backups/${config.server.main-2.name}"
+    "${config.data-prefix}/backups/${config.server.raspi-1.name}"
   ];
 
   # Generate a new SSH key (only if missing => must be updated in config after that)
@@ -74,6 +75,10 @@
             {
               "path" = "ssh://${config.backup-user-prefix}-${config.server.main-2.name}@${config.server.main-2.private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-${config.server.main-2.name}/${config.data-dir}/backups/${hostName}";
               "label" = "remote-2";
+            }
+            {
+              "path" = "ssh://${config.backup-user-prefix}-${config.server.raspi-1.name}@${config.server.raspi-1.private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-${config.server.raspi-1.name}/${config.data-dir}/backups/${hostName}";
+              "label" = "remote-3";
             }
           ];
         };
