@@ -20,6 +20,7 @@
       device = "nodev";
     };
   };
+  systemd.user.services.systemd-networkd.environment = { SYSTEMD_LOG_LEVEL = "debug"; };
 
   networking.nftables.enable = true;
   networking.firewall = {
