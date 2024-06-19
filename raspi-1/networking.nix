@@ -18,7 +18,7 @@
         "${config.server.raspi-1.private-ip}/32"
       ];
       routes = [
-        { Destination = "10.0.68.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
+        { Destination = "10.0.68.0/24"; Gateway = "192.168.187.1"; }
       ];
       linkConfig.RequiredForOnline = "no";
     };
