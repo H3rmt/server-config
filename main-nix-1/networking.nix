@@ -22,7 +22,6 @@
       routes = [
         { Destination = "10.0.69.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
         { Destination = "10.0.68.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
-        # { Destination = "10.0.68.0/24"; Gateway = config.server.main-2.private-ip; }
       ];
       linkConfig.RequiredForOnline = "no";
     };
