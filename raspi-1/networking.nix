@@ -35,11 +35,11 @@
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
       };
       wireguardPeers = [{
-          PublicKey = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
-          Endpoint = "${config.main-url}:${toString config.ports.exposed.wireguard}";
-          AllowedIPs = "${config.server.main-2.private-ip}/32";
-          PersistentKeepalive = 25;
-        }];
+        PublicKey = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
+        Endpoint = "${config.main-url}:${toString config.ports.exposed.wireguard}";
+        AllowedIPs = "${config.server.main-2.private-ip}/32";
+        PersistentKeepalive = 25;
+      }];
     };
   };
 }
