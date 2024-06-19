@@ -343,7 +343,7 @@
       };
       raspi-1 = {
         name = "raspi-1";
-        private-ip = "10.0.68.1";
+        private-ip = "10.0.68.11";
         public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
         public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAxDL2Ms3vSJia24a2rSdFdw2t/vTGaOYcrijjMHhOpU";
       };

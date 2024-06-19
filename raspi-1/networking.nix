@@ -15,11 +15,11 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "${config.server.raspi-1.private-ip}/32"
+        "${config.server.raspi-1.private-ip}/24"
       ];
-      routes = [
-        { Destination = "10.0.68.0/24"; Gateway = "192.168.187.1"; }
-      ];
+      # routes = [
+      #   { Destination = "10.0.68.0/24"; Gateway = "192.168.187.1"; }
+      # ];
       linkConfig.RequiredForOnline = "no";
     };
 
