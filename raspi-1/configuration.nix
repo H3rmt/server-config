@@ -27,7 +27,7 @@
     trustedInterfaces = [ "eth1" ];
   };
 
-  services.fail2ban.enable = false;
+  services.fail2ban.enable = lib.mkForce false;
 
   # needed for builds
   zramSwap.memoryPercent = 200;
