@@ -14,18 +14,18 @@
       ];
       linkConfig.RequiredForOnline = "yes";
     };
-
     networks."20-eth" = {
       matchConfig.Name = "eth1";
       address = [
         "${config.server.main-1.private-ip}/32"
       ];
       routes = [
-        { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }
-        { Gateway = config.server.main-2.private-ip; Destination = "10.0.68.0/24"; }
+        { Destination = "10.0.69.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
+        { Destination = "10.0.68.0/24"; Gateway = config.server.main-2.private-ip; }
       ];
       linkConfig.RequiredForOnline = "no";
     };
+
     links."10-eth" = {
       matchConfig.PermanentMACAddress = "96:00:03:46:ee:e";
       linkConfig.Name = "eth0";

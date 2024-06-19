@@ -20,8 +20,8 @@
         "${config.server.main-2.private-ip}/32"
       ];
       routes = [
-        { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }
-        { Gateway = config.server.raspi-1.private-ip; Destination = "10.0.68.0/24"; }
+        { Destination = "10.0.69.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
+        { Destination = "10.0.68.0/24"; Gateway = config.server.raspi-1.private-ip;}
       ];
       linkConfig.RequiredForOnline = "no";
     };
@@ -33,9 +33,9 @@
       linkConfig.RequiredForOnline = "no";
       networkConfig = {
         IPMasquerade = "ipv4";
-        IPForward = true;
       };
     };
+
     links."10-eth" = {
       matchConfig.PermanentMACAddress = "96:00:03:4d:13:4f";
       linkConfig.Name = "eth0";
@@ -44,6 +44,7 @@
       matchConfig.PermanentMACAddress = "86:00:00:8a:49:af";
       linkConfig.Name = "eth1";
     };
+
     netdevs."30-wg" = {
       netdevConfig = {
         Kind = "wireguard";
