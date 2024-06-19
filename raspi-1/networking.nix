@@ -9,6 +9,7 @@
       ];
       routes = [
         { Gateway = "192.168.187.1"; }
+        { Destination = "10.0.69.0/24"; Gateway = "192.168.187.1"; }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
@@ -37,7 +38,7 @@
           PublicKey = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
           Endpoint = "${config.main-url}:${toString config.ports.exposed.wireguard}";
           AllowedIPs = "${config.server.main-2.private-ip}/32";
-          PersistentKeepalive = "25";
+          PersistentKeepalive = 25;
         }];
     };
   };
