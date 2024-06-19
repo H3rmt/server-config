@@ -27,6 +27,8 @@
     trustedInterfaces = [ "eth1" ];
   };
 
+  services.fail2ban.enable = false;
+
   # needed for builds
   zramSwap.memoryPercent = 200;
   time.timeZone = "Europe/Berlin";

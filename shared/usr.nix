@@ -100,10 +100,10 @@
         autoload -U promptinit; promptinit
         zstyle ':prompt:pure:host' color cyan
         zstyle ':prompt:pure:user:root' color red
+        zstyle ':prompt:pure' git false
         # force display of user@host
         export PROMPT_PURE_SSH_CONNECTION="1"
-        export PURE_CMD_MAX_EXEC_TIME=3
-        export PURE_GIT_PULL=1
+        export PURE_GIT_PULL=0
         prompt pure
 
         eval "$(zoxide init zsh)";
