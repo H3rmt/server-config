@@ -48,9 +48,8 @@
 
     netdevs."30-wg" = {
       netdevConfig = {
-        Kind = "wireguard";
         Name = "wg0";
-        MTUBytes = "1300";
+        Kind = "wireguard";
       };
       wireguardConfig = {
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
@@ -58,15 +57,10 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "qspIBRyYjovEmqfnmf4Jawg8ySWAp7sHBvN5feezNy8=";
+          PublicKey = "gj3o5IT+uLrERp63JV/NuDg2s/ggclgQfBoZyBW+jk0=";
+          # PublicKey = "qspIBRyYjovEmqfnmf4Jawg8ySWAp7sHBvN5feezNy8=";
           AllowedIPs = [ config.server.raspi-1.private-ip ];
         }
-        # {
-        #   wireguardPeerConfig = {
-        #     PublicKey = "qspIBRyYjovEmqfnmf4Jawg8ySWAp7sHBvN5feezNy8=";
-        #     AllowedIPs = [ config.server.raspi-1.private-ip ];
-        #   };
-        # }
       ];
     };
   };

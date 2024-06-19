@@ -27,13 +27,20 @@
 
     netdevs."30-wg" = {
       netdevConfig = {
-        Kind = "wireguard";
         Name = "wg0";
-        MTUBytes = "1300";
+        Kind = "wireguard";
       };
       wireguardConfig = {
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
       };
+      wireguardPeers = [
+        {
+          PublicKey = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
+          Endpoint = "${config.main-url}:${config.ports.exposed.wireguard}";
+          AllowedIPs = "${config.server.main-2.private-ip}/32";
+          PersistentKeepalive = 25;
+        }
+      ];
     };
   };
 }
