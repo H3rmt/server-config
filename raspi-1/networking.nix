@@ -18,7 +18,7 @@
         "${config.server.raspi-1.private-ip}/32"
       ];
       routes = [
-        { Destination = "10.0.69.0/24"; Gateway = "192.168.187.1"; }
+        { Destination = "10.0.68.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "no";
     };
@@ -39,7 +39,7 @@
       wireguardPeers = [{
         PublicKey = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
         Endpoint = "${config.main-url}:${toString config.ports.exposed.wireguard}";
-        AllowedIPs = "${config.server.main-2.private-ip}/32";
+        AllowedIPs = "10.0.69.0/24";
         PersistentKeepalive = 25;
       }];
     };
