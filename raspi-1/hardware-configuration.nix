@@ -16,6 +16,11 @@
     fsType = "ext4";
   };
 
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/cb20209f-8b3f-4f58-a3b9-ae78cf32fdd6";
+    fsType = "ext4";
+  };
+
   swapDevices = [{
     device = "/var/lib/swapfile";
     size = 3*1024;
