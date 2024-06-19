@@ -21,6 +21,7 @@
       ];
       routes = [
         { Gateway = "172.31.1.1"; Destination = "10.0.69.0/24"; GatewayOnLink = true; }
+        { Gateway = config.server.raspi-1.private-ip; Destination = "10.0.68.0/24"; }
       ];
       linkConfig.RequiredForOnline = "no";
     };
@@ -28,9 +29,6 @@
       matchConfig.Name = "wg0";
       address = [
         "${config.server.raspi-1.private-ip}/32"
-      ];
-      routes = [
-        { Gateway = "10.0.68.1"; Destination = "10.0.68.0/24"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "no";
       networkConfig = {

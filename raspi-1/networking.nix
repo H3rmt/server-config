@@ -5,10 +5,10 @@
       matchConfig.Name = "eth0";
       dns = config.nameservers;
       address = [
-        "192.168.187.45"
+        "192.168.187.45/32"
       ];
       routes = [
-        { Gateway = "192.168.187.1"; GatewayOnLink = true; }
+        { Gateway = "192.168.187.1"; }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
