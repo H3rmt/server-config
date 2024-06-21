@@ -8,6 +8,12 @@
       file = ./secrets/root_pass.age;
       owner = "root";
     };
+    wireguard_private = {
+      file = ./secrets/wireguard_private.age;
+      owner = "root";
+      group = "systemd-network";
+      mode = "640";
+    };
     filesharing_admin_pass = {
       file = ./secrets/filesharing/admin_pass.age;
       owner = "filesharing";

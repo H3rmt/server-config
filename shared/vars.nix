@@ -62,6 +62,10 @@
           type = lib.types.str;
           description = "Public Key for borg-backup on server 1";
         };
+        public-key-wg = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for Wireguard on server 1";
+        };
       };
       main-2 = {
         name = lib.mkOption {
@@ -80,6 +84,10 @@
           type = lib.types.str;
           description = "Public Key for borg-backup on server 2";
         };
+        public-key-wg = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for Wireguard on server 2";
+        };
       };
       raspi-1 = {
         name = lib.mkOption {
@@ -97,6 +105,10 @@
         public-key-borg = lib.mkOption {
           type = lib.types.str;
           description = "Public Key for borg-backup on raspi 1";
+        };
+        public-key-wg = lib.mkOption {
+          type = lib.types.str;
+          description = "Public Key for Wireguard on raspi 1";
         };
       };
     };
@@ -334,18 +346,21 @@
         private-ip = "10.0.69.1";
         public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
         public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIClcB52PQnVTVdujdIxmhmWedD9xL8X2yqK10VR6L0eg";
+        public-key-wg = "6vInhWMq9wX1AaWkk685kWRQossUZm8D2kUQpfsWW1E=";
       };
       main-2 = {
         name = "main-nix-2";
         private-ip = "10.0.69.2";
         public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
         public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHvWPgmouh5v2ublt6mXAXBoLQZm9GUWtk9iTYPZMOxF";
+        public-key-wg = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
       };
       raspi-1 = {
         name = "raspi-1";
-        private-ip = "10.0.68.11";
+        private-ip = "10.0.69.11";
         public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
         public-key-borg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAxDL2Ms3vSJia24a2rSdFdw2t/vTGaOYcrijjMHhOpU";
+        public-key-wg = "gj3o5IT+uLrERp63JV/NuDg2s/ggclgQfBoZyBW+jk0=";
       };
     };
     backups = {

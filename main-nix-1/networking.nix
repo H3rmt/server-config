@@ -14,25 +14,38 @@
       ];
       linkConfig.RequiredForOnline = "yes";
     };
-    networks."20-eth" = {
-      matchConfig.Name = "eth1";
+    networks."30-wg" = {
+      matchConfig.Name = "wg0";
       address = [
-        "${config.server.main-1.private-ip}/32"
-      ];
-      routes = [
-        { Destination = "10.0.69.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
-        { Destination = "10.0.68.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
+        "${config.server.main-1.private-ip}/24"
       ];
       linkConfig.RequiredForOnline = "no";
+    };
+
+    netdevs."30-wg" = {
+      netdevConfig = {
+        Name = "wg0";
+        Kind = "wireguard";
+      };
+      wireguardConfig = {
+        PrivateKeyFile = config.age.secrets.wireguard_private.path;
+      };
+      wireguardPeers = [
+        {
+          PublicKey = "${config.server.raspi-1.public-key-wg}";
+          AllowedIPs = "${config.server.raspi-1.private-ip}/32";
+        }
+        {
+          PublicKey = "${config.server.main-2.public-key-wg}";
+          AllowedIPs = "${config.server.main-2.private-ip}/32";
+          Endpoint = "159.69.206.86:${toString config.ports.exposed.wireguard}";
+        }
+      ];
     };
 
     links."10-eth" = {
       matchConfig.PermanentMACAddress = "96:00:03:46:ee:e";
       linkConfig.Name = "eth0";
-    };
-    links."20-eth" = {
-      matchConfig.PermanentMACAddress = "86:00:00:88:cc:4a";
-      linkConfig.Name = "eth1";
     };
   };
 }

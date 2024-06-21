@@ -34,12 +34,18 @@
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
         ListenPort = config.ports.exposed.wireguard;
       };
-      wireguardPeers = [{
-        PublicKey = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
-        Endpoint = "${config.main-url}:${toString config.ports.exposed.wireguard}";
-        AllowedIPs = "10.0.0.2/32";
-        PersistentKeepalive = 25;
-      }];
+      wireguardPeers = [
+        {
+          PublicKey = "${config.server.main-2.public-key-wg}";
+          AllowedIPs = "${config.server.main-2.private-ip}/32";
+          Endpoint = "159.69.206.86:${toString config.ports.exposed.wireguard}";
+        }
+        {
+          PublicKey = "${config.server.main-1.public-key-wg}";
+          AllowedIPs = "${config.server.main-1.private-ip}/32";
+          Endpoint = "128.140.32.233:${toString config.ports.exposed.wireguard}";
+        }
+      ];
     };
   };
 }
