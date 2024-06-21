@@ -27,7 +27,7 @@
       allowedTCPPorts = [ config.ports.exposed.tor-bridge config.ports.exposed.tor-bridge-pt ];
       allowedUDPPorts = [ config.ports.exposed.wireguard ];
     };
-    trustedInterfaces = [ "eth1" ];
+    trustedInterfaces = [ "wg0" ];
   };
 
   time.timeZone = "Europe/Berlin";
