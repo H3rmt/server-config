@@ -15,14 +15,9 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "10.0.0.1/24"
+        "${config.server.raspi-1.private-ip}/24"
       ];
       linkConfig.RequiredForOnline = "no";
-    };
-
-    links."10-eth" = {
-      matchConfig.PermanentMACAddress = "b8:27:eb:ab:d4:6b";
-      linkConfig.Name = "eth0";
     };
 
     netdevs."30-wg" = {
@@ -32,7 +27,6 @@
       };
       wireguardConfig = {
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
-        ListenPort = config.ports.exposed.wireguard;
       };
       wireguardPeers = [
         {
@@ -46,6 +40,11 @@
           Endpoint = "128.140.32.233:${toString config.ports.exposed.wireguard}";
         }
       ];
+    };
+
+    links."10-eth" = {
+      matchConfig.PermanentMACAddress = "b8:27:eb:ab:d4:6b";
+      linkConfig.Name = "eth0";
     };
   };
 }
