@@ -8,7 +8,7 @@
         "192.168.187.45/32"
       ];
       routes = [
-        { Gateway = "192.168.187.1"; }
+        { Gateway = "192.168.187.1"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
