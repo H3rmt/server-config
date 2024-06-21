@@ -22,7 +22,7 @@ in
       authorizedKeys.keys = [
         config.server.main-1.public-key-borg
         config.server.main-2.public-key-borg
-        # config.server.raspi-1.public-key-borg
+        config.server.raspi-1.public-key-borg
       ];
     };
     createHome = true;
