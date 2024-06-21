@@ -134,6 +134,7 @@ in
                   [
                     "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.main-1.name}"}",
                     "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.main-2.name}"}",
+                    "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.raspi-1.name}"}",
                   ]
           - job_name: nginx
             static_configs:
