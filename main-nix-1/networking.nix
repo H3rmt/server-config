@@ -40,6 +40,7 @@
           PublicKey = "${config.server.main-2.public-key-wg}";
           AllowedIPs = "${config.server.main-2.private-ip}/32";
           Endpoint = "159.69.206.86:${toString config.ports.exposed.wireguard}";
+          PersistentKeepalive = 25;
         }
       ];
     };
