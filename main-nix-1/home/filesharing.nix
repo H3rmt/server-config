@@ -20,11 +20,12 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.public.filesharing}:80 \
+            -p ${config.address.public.filesharing}:8080 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
         podman run --name=filesharing -d --pod=${config.pod-name} \
+            -e PORT=8080 \
             -e ADMIN_PASSWORD="${ADMIN_PASSWORD}" \
             -e ADMIN_EMAIL="${ADMIN_EMAIL}" \
             -e USER_PASSWORD="${USER_PASSWORD}" \
