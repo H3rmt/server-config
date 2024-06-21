@@ -185,6 +185,12 @@ in
                   ]
                 labels:
                   user: '${config.backup-user-prefix}-${config.server.main-2.name}'
+              - targets:
+                  [
+                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.raspi-1.name}"}",
+                  ]
+                labels:
+                  user: '${config.backup-user-prefix}-${config.server.raspi-1.name}'
           - job_name: podman-exporter
             static_configs:
               - targets:
@@ -200,6 +206,7 @@ in
                     "${config.address.private.podman-exporter.wakapi}",
                     "${config.address.private.podman-exporter.bridge}",
                     "${config.address.private.podman-exporter.snowflake}",
+                    "${config.address.private.podman-exporter."${config.exporter-user-prefix}-${config.server.raspi-2.name}"}",
                   ]
       '';
     };
