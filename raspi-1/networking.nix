@@ -3,7 +3,7 @@
     enable = true;
     networks."10-eth" = {
       matchConfig.Name = "eth0";
-      dns = config.nameservers;
+      # dns = config.nameservers;
       address = [
         "192.168.187.45/32"
       ];
@@ -15,11 +15,8 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "${config.server.raspi-1.private-ip}/24"
+        "10.0.0.1/24"
       ];
-      # routes = [
-      #   { Destination = "10.0.68.0/24"; Gateway = "192.168.187.1"; }
-      # ];
       linkConfig.RequiredForOnline = "no";
     };
 
@@ -35,11 +32,12 @@
       };
       wireguardConfig = {
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
+        ListenPort = config.ports.exposed.wireguard;
       };
       wireguardPeers = [{
         PublicKey = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
         Endpoint = "${config.main-url}:${toString config.ports.exposed.wireguard}";
-        AllowedIPs = "10.0.69.0/24";
+        AllowedIPs = "10.0.0.2/32";
         PersistentKeepalive = 25;
       }];
     };

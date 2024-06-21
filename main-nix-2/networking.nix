@@ -27,15 +27,9 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "10.0.68.1/24"
+        "10.0.0.2/24"
       ];
-      # routes = [
-      #   { Destination = "10.0.68.0/24"; Gateway = "172.31.1.1"; GatewayOnLink = true; }
-      # ];
       linkConfig.RequiredForOnline = "no";
-      # networkConfig = {
-      #   IPMasquerade = "ipv4";
-      # };
     };
 
     links."10-eth" = {
@@ -59,7 +53,8 @@
       wireguardPeers = [
         {
           PublicKey = "gj3o5IT+uLrERp63JV/NuDg2s/ggclgQfBoZyBW+jk0=";
-          AllowedIPs = [ "${config.server.raspi-1.private-ip}/32" ];
+          AllowedIPs = "10.0.0.1/32";
+          PersistentKeepalive = 25;
         }
       ];
     };
