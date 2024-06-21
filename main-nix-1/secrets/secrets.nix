@@ -5,6 +5,7 @@ in
 {
   "borg_pass.age".publicKeys = [ main my ];
   "root_pass.age".publicKeys = [ main my ];
+  "wireguard_private.age".publicKeys = [ main my ];
   "filesharing/admin_pass.age".publicKeys = [ main my ];
   "filesharing/admin_email.age".publicKeys = [ main my ];
   "nextcloud/maria_root_pass.age".publicKeys = [ main my ];
