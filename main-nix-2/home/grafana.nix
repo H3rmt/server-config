@@ -100,6 +100,10 @@ in
         auth_url = https://${config.sites.authentik}.${config.main-url}/application/o/authorize/
         token_url = https://${config.sites.authentik}.${config.main-url}/application/o/token/
         api_url = https://${config.sites.authentik}.${config.main-url}/application/o/userinfo/
+
+        [dataproxy]
+        # This enables data proxy logging
+        logging = true
       '';
     };
 
