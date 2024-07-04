@@ -103,7 +103,7 @@ in
 
         [dataproxy]
         # This enables data proxy logging
-        logging = true
+        logging = false
       '';
     };
 
