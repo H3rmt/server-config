@@ -125,6 +125,7 @@ in
             static_configs:
               - targets: ["prometheus:9090"]
           - job_name: snowflake
+            scrape_interval: 1h
             static_configs:
               - targets:
                   [
@@ -141,6 +142,7 @@ in
                     "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.raspi-1.name}"}",
                   ]
           - job_name: nginx
+            scrape_interval: 10s
             static_configs:
               - targets:
                   [
@@ -163,6 +165,7 @@ in
                     "${config.address.private.tor-exporter-bridge}",
                   ]
           - job_name: wireguard
+            scrape_interval: 10s
             static_configs:
               - targets:
                   [
