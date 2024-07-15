@@ -323,15 +323,15 @@
           };
         };
         wireguard = {
-          "wireguard-exporter-${server.main-1.name}" = lib.mkOption {
+          "wireguard-exporter-${config.server.main-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Wireguard Exporter";
           };
-          "wireguard-exporter-${server.main-2.name}" = lib.mkOption {
+          "wireguard-exporter-${config.server.main-2.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Wireguard Exporter";
           };
-          "wireguard-exporter-${server.raspi-1.name}" = lib.mkOption {
+          "wireguard-exporter-${config.server.raspi-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Wireguard Exporter";
           };
