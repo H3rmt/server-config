@@ -169,9 +169,9 @@ in
             static_configs:
               - targets:
                   [
-                    "${config.address.private.wireguard."wireguard-exporter-${server.main-1.name}"}",
-                    "${config.address.private.wireguard."wireguard-exporter-${server.main-2.name}"}",
-                    "${config.address.private.wireguard."wireguard-exporter-${server.raspi-1.name}"}",
+                    "${config.address.private.wireguard."wireguard-exporter-${config.server.main-1.name}"}",
+                    "${config.address.private.wireguard."wireguard-exporter-${config.server.main-2.name}"}",
+                    "${config.address.private.wireguard."wireguard-exporter-${config.server.raspi-1.name}"}",
                   ]
           - job_name: systemd
             scrape_interval: 10s
