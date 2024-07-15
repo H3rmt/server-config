@@ -149,7 +149,7 @@ in
                     "${config.address.private.nginx-exporter}",
                   ]
           - job_name: wakapi
-            scrape_interval: 1m
+            scrape_interval: 5m
             metrics_path: '/api/metrics'
             bearer_token: '@grafana_wakapi_metrics_key@'
             static_configs:
@@ -169,7 +169,9 @@ in
             static_configs:
               - targets:
                   [
-                    "${config.address.private.wireguard-exporter}",
+                    "${config.address.private.wireguard."wireguard-exporter-${server.main-1.name}"}",
+                    "${config.address.private.wireguard."wireguard-exporter-${server.main-2.name}"}",
+                    "${config.address.private.wireguard."wireguard-exporter-${server.raspi-1.name}"}",
                   ]
           - job_name: systemd
             scrape_interval: 10s
@@ -183,21 +185,9 @@ in
               - targets:
                   [
                     "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-1.name}"}",
-                  ]
-                labels:
-                  user: '${config.backup-user-prefix}-${config.server.main-1.name}'
-              - targets:
-                  [
                     "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-2.name}"}",
-                  ]
-                labels:
-                  user: '${config.backup-user-prefix}-${config.server.main-2.name}'
-              - targets:
-                  [
                     "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.raspi-1.name}"}",
                   ]
-                labels:
-                  user: '${config.backup-user-prefix}-${config.server.raspi-1.name}'
           - job_name: podman-exporter
             static_configs:
               - targets:

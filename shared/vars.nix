@@ -240,10 +240,6 @@
           type = lib.types.str;
           description = "Address for Snowflake Exporter 2";
         };
-        wireguard-exporter = lib.mkOption {
-          type = lib.types.str;
-          description = "Address for Wireguard Exporter";
-        };
         podman-exporter = {
           reverseproxy = lib.mkOption {
             type = lib.types.str;
@@ -324,6 +320,20 @@
           "${config.backup-user-prefix}-${config.server.raspi-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
+          };
+        };
+        wireguard = {
+          "wireguard-exporter-${server.main-1.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Wireguard Exporter";
+          };
+          "wireguard-exporter-${server.main-2.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Wireguard Exporter";
+          };
+          "wireguard-exporter-${server.raspi-1.name}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Wireguard Exporter";
           };
         };
       };
@@ -415,7 +425,6 @@
         tor-exporter-bridge = "${server.main-1.private-ip}:20003";
         snowflake-exporter-1 = "${server.main-1.private-ip}:20004";
         snowflake-exporter-2 = "${server.main-1.private-ip}:20005";
-        wireguard-exporter = "${server.main-2.private-ip}:20006";
         podman-exporter = {
           reverseproxy = "${server.main-2.private-ip}:21000";
           grafana = "${server.main-2.private-ip}:21001";
@@ -440,6 +449,11 @@
           "${backup-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:23001";
           "${backup-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:23002";
           "${backup-user-prefix}-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:23003";
+        };
+        wireguard = {
+          "wireguard-exporter-${server.main-1.name}" = "${server.main-1.private-ip}:24000";
+          "wireguard-exporter-${server.main-2.name}" = "${server.main-2.private-ip}:24002";
+          "wireguard-exporter-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:24003";
         };
       };
     };

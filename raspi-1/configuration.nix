@@ -27,10 +27,18 @@
     trustedInterfaces = [ "wg0" ];
   };
 
+  services.prometheus.exporters.wireguard = {
+    enable = true;
+    withRemoteIp = true;
+    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${server.raspi-1.name}") 0;
+    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${server.raspi-1.name}") 1);
+  };
+
   services.fail2ban.enable = lib.mkForce false;
 
   # needed for builds
   zramSwap.memoryPercent = 200;
+  
   time.timeZone = "Europe/Berlin";
   networking.hostName = config.server.raspi-1.name;
   networking.domain = config.main-url;
