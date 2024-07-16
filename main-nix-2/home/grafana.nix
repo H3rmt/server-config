@@ -185,9 +185,21 @@ in
               - targets:
                   [
                     "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-1.name}"}",
+                  ]
+                labels:
+                  user: '${config.backup-user-prefix}-${config.server.main-1.name}'
+              - targets:
+                  [
                     "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-2.name}"}",
+                  ]
+                labels:
+                  user: '${config.backup-user-prefix}-${config.server.main-2.name}'
+              - targets:
+                  [
                     "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.raspi-1.name}"}",
                   ]
+                labels:
+                  user: '${config.backup-user-prefix}-${config.server.raspi-1.name}'
           - job_name: podman-exporter
             static_configs:
               - targets:
