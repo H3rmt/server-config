@@ -76,14 +76,6 @@ in
       noLink = true;
       text = ''
         Listen 8080
-
-        <IfModule ssl_module>
-          Listen 4433
-        </IfModule>
-
-        <IfModule mod_gnutls.c>
-          Listen 4433
-        </IfModule>
       '';
     };
 
@@ -91,12 +83,10 @@ in
       noLink = true;
       text = ''
         <VirtualHost *:8080>
-          ServerAdmin webmaster@localhost
           DocumentRoot /var/www/html
 
-	        ErrorLog ${APACHE_LOG_DIR}/error.log
-	        CustomLog ${APACHE_LOG_DIR}/access.log combined
-        
+          ErrorLog ''${APACHE_LOG_DIR}/error.log
+          CustomLog ''${APACHE_LOG_DIR}/access.log combined
         </VirtualHost>
       '';
     };
