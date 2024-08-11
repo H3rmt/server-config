@@ -51,7 +51,8 @@ in
             -e TRUSTED_PROXIES=${config.server.main-2.private-ip} \
             -e OVERWRITEPROTOCOL=https \
             -v ${config.data-prefix}/nextcloud:/var/www/html:U \
-            -v ${config.home.homeDirectory}/before-starting:/docker-entrypoint-hooks.d/before-starting:ro \
+            -v ${config.home.homeDirectory}/apache2/ports.conf:/etc/apache2/ports.conf:ro \
+            -v ${config.home.homeDirectory}/apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf:ro \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/nextcloud:${NEXTCLOUD_VERSION}
@@ -71,14 +72,32 @@ in
       '';
     };
 
-    "before-starting/change-ports.sh" = {
+    "apache2/ports.conf" = {
       noLink = true;
       text = ''
-        #!/bin/sh
-        set -e
-        # change the port appache listens on to 8080
-        sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
-        sed -i 's/VirtualHost \*:80/VirtualHost \*:8080/' /etc/apache2/sites-available/000-default.conf
+        Listen 8080
+
+        <IfModule ssl_module>
+          Listen 4433
+        </IfModule>
+
+        <IfModule mod_gnutls.c>
+          Listen 4433
+        </IfModule>
+      '';
+    };
+
+    "apache2/000-default.conf" = {
+      noLink = true;
+      text = ''
+        <VirtualHost *:8080>
+          ServerAdmin webmaster@localhost
+          DocumentRoot /var/www/html
+
+	        ErrorLog ${APACHE_LOG_DIR}/error.log
+	        CustomLog ${APACHE_LOG_DIR}/access.log combined
+        
+        </VirtualHost>
       '';
     };
   };
