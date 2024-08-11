@@ -51,6 +51,7 @@ in
             -e TRUSTED_PROXIES=${config.server.main-2.private-ip} \
             -e OVERWRITEPROTOCOL=https \
             -v ${config.data-prefix}/nextcloud:/var/www/html:U \
+            -v ${config.home.homeDirectory}/before-starting:/docker-entrypoint-hooks.d/before-starting:ro \
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/nextcloud:${NEXTCLOUD_VERSION}
@@ -69,5 +70,16 @@ in
         podman pod rm ${config.pod-name}
       '';
     };
+
+    "before-starting" = {
+      noLink = true;
+      text = ''
+        #!/bin/sh
+        set -e
+        # change the port appache listens on to 8080
+        sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
+        sed -i 's/VirtualHost \*:80/VirtualHost \*:8080/' /etc/apache2/sites-available/000-default.conf
+      '';
+    }
   };
 }
