@@ -71,7 +71,7 @@ in
       '';
     };
 
-    "before-starting" = {
+    "before-starting/change-ports.sh" = {
       noLink = true;
       text = ''
         #!/bin/sh
