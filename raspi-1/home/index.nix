@@ -9,8 +9,16 @@ in
 
   users.mutableUsers = true;
   users.defaultUserShell = pkgs.zsh;
-  users.users = { };
+  users.users = {
+    kiosk = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
+  };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.users.kiosk = import ./kiosk.nix { age = config.age; inherit clib; };
 }

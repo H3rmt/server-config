@@ -38,6 +38,9 @@
 
   # needed for builds
   zramSwap.memoryPercent = 200;
+  # needed for kiosk
+  services.xserver.windowManager.ratpoison.enable = true;
+  services.getty.autologinUser = "kiosk";
 
   time.timeZone = "Europe/Berlin";
   networking.hostName = config.server.raspi-1.name;
