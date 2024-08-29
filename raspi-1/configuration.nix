@@ -42,7 +42,7 @@
   # needed for kiosk
   services.cage = {
     enable = true;
-    program = "${pkgs.firefox}/bin/firefox -kiosk -private-window http://${config.address.public.grafana}";
+    program = "${pkgs.firefox}/bin/firefox -kiosk http://${config.address.public.grafana}";
     user = "kiosk";
   };
   systemd.services."cage-tty1".after = [
