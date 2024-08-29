@@ -42,7 +42,7 @@
   # needed for kiosk
   services.cage = {
     enable = true;
-    program = "${pkgs.firefox}/bin/firefox -kiosk http://${config.address.public.grafana}";
+    program = "${pkgs.ungoogled-chromium}/bin/chromium --kiosk https://ennexos.sunnyportal.com/14193440/";
     user = "kiosk";
   };
   systemd.services."cage-tty1".after = [
