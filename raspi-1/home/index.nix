@@ -15,6 +15,7 @@ in
       isNormalUser = true;
       shell = pkgs.zsh;
       linger = true;
+      extraGroups = [ "tty" ];
     };
   };
 
