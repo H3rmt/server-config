@@ -38,9 +38,16 @@
 
   # needed for builds
   zramSwap.memoryPercent = 200;
+
   # needed for kiosk
-  services.xserver.windowManager.ratpoison.enable = true;
-  services.getty.autologinUser = "kiosk";
+  services.cage = {
+    enable = true;
+    program = "${pkgs.firefox}/bin/firefox -kiosk -private-window https://${config.sites.grafana}.${config.main-url}";
+    user = "kiosk";
+  };
+  systemd.services."cage-tty1".after = [
+    "network-online.target"
+  ];
 
   time.timeZone = "Europe/Berlin";
   networking.hostName = config.server.raspi-1.name;
