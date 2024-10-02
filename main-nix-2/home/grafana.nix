@@ -125,7 +125,7 @@ in
             static_configs:
               - targets: ["prometheus:9090"]
           - job_name: snowflake
-            scrape_interval: 1h
+            scrape_interval: 5m
             static_configs:
               - targets:
                   [
