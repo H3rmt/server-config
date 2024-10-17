@@ -263,6 +263,10 @@ in
 
         limits_config:
           retention_period: 336h  # 14 days in hours
+
+        ingester:
+          wal:
+            dir: /var/loki/wal
       '';
     };
   };
