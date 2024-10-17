@@ -258,7 +258,7 @@ in
           compaction_interval: 30m
           retention_delete_delay: 2h
           retention_delete_worker_count: 150
-          working_directory: /var/loki/retention
+          working_directory: /var/loki/compactor
           delete_request_store: filesystem
 
         limits_config:
