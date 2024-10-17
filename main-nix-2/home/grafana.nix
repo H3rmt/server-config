@@ -235,7 +235,6 @@ in
             kvstore:
               store: inmemory
           replication_factor: 1
-          path_prefix: /var/loki
 
         schema_config:
           configs:
@@ -250,10 +249,20 @@ in
         storage_config:
           filesystem:
             directory: /var/loki/chunks
+          tsdb_shipper:
+            active_index_directory: /var/loki/tsdb-index
+            cache_location: /var/loki/tsdb-cache
+            shared_store: filesystem
         
         compactor:
           retention_enabled: true
-          retention_delete_delay: 24h
+          compaction_interval: 30m
+          retention_delete_delay: 2h
+          retention_delete_worker_count: 150
+          working_directory: /var/loki/retention
+          delete_request_store: filesystem
+
+        limits_config:
           retention_period: 336h  # 14 days in hours
       '';
     };
