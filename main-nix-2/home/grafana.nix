@@ -250,6 +250,11 @@ in
         storage_config:
           filesystem:
             directory: /var/loki/chunks
+        
+        compactor:
+          retention_enabled: true
+          retention_delete_delay: 24h
+          retention_period: 336h  # 14 days in hours
       '';
     };
   };
