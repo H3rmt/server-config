@@ -252,7 +252,6 @@ in
           tsdb_shipper:
             active_index_directory: /var/loki/tsdb-index
             cache_location: /var/loki/tsdb-cache
-            shared_store: filesystem
         
         compactor:
           retention_enabled: true
