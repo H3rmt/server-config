@@ -68,6 +68,14 @@
     value = "8192";
   }];
 
+  time.timeZone = "Europe/Berlin";
+  networking.domain = config.main-url;
+  networking.useDHCP = false;
+
+  environment.memoryAllocator.provider = "scudo";
+  security.protectKernelImage = true;
+  security.sudo.enable = false;
+
   environment.systemPackages = [
     pkgs.git
     pkgs.micro

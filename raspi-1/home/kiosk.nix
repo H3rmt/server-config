@@ -6,6 +6,4 @@ in
   imports = [
     ../../shared/usr.nix
   ];
-
-  
 }

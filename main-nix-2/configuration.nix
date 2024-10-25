@@ -21,6 +21,7 @@
   };
 
   networking.nftables.enable = true;
+  networking.hostName = config.server.main-2.name;
   networking.firewall = {
     enable = true;
     rejectPackets = true;
@@ -37,13 +38,4 @@
     listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.server.main-2.name}") 0;
     port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.server.main-2.name}") 1);
   };
-
-  time.timeZone = "Europe/Berlin";
-  networking.hostName = config.server.main-2.name;
-  networking.domain = config.main-url;
-  networking.useDHCP = false;
-
-  environment.memoryAllocator.provider = "graphene-hardened";
-  security.protectKernelImage = true;
-  security.sudo.enable = false;
 }
