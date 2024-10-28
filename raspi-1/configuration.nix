@@ -43,10 +43,12 @@
   # needed for kiosk
   services.cage = {
     enable = true;
-    program = "${pkgs.ungoogled-chromium}/bin/chromium --enable-features=UseOzonePlatform --ozone-platform=wayland --kiosk https://ennexos.sunnyportal.com/";
+    program = "${pkgs.ungoogled-chromium}/bin/chromium --kiosk https://ennexos.sunnyportal.com/"; # --enable-features=UseOzonePlatform --ozone-platform=wayland 
     user = "kiosk";
   };
   systemd.services."cage-tty1".after = [
     "network-online.target"
+    "systemd-resolved.service"
   ];
+  systemd.services."cage-tty1".serviceConfig.Restart = lib.mkForce "always";
 }
