@@ -8,13 +8,8 @@
     "${config.data-prefix}/backups/${config.server.main-1.name}"
     "${config.data-prefix}/backups/${config.server.main-2.name}"
     "${config.data-prefix}/backups/${config.server.raspi-1.name}"
+    "${config.data-prefix}/backup"
   ];
-
-  # Generate a new SSH key (only if missing => must be updated in config after that)
-  home.activation.generateSSHKey = ''
-    test -f ${config.home.homeDirectory}/.ssh/id_ed25519 || run ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f ${config.home.homeDirectory}/.ssh/id_ed25519 -N ""
-    run chmod 600 ${config.home.homeDirectory}/.ssh/*
-  '';
 
   exported-services = [ "borgmatic.timer" "borgmatic.service" ];
 
@@ -30,8 +25,6 @@
               name = "borgmatic";
               runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
               text = ''
-                chmod 600 ${config.home.homeDirectory}/.ssh/*
-
                 borgmatic \
                   --stats \
                   --list \
@@ -53,8 +46,8 @@
         Timer = {
           Unit = "borgmatic.service";
           OnBootSec = "2min";
-          RandomizedDelaySec = "5m";
-          OnCalendar = "*:0/30";
+          RandomizedDelaySec = "9m";
+          OnCalendar = "*:0";
           Persistent = true;
         };
       };
@@ -69,16 +62,8 @@
           sourceDirectories = config.backups."${hostName}";
           repositories = [
             {
-              "path" = "ssh://${config.backup-user-prefix}-${config.server.main-1.name}@${config.server.main-1.private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-${config.server.main-1.name}/${config.data-dir}/backups/${hostName}";
-              "label" = "remote-1";
-            }
-            {
-              "path" = "ssh://${config.backup-user-prefix}-${config.server.main-2.name}@${config.server.main-2.private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-${config.server.main-2.name}/${config.data-dir}/backups/${hostName}";
-              "label" = "remote-2";
-            }
-            {
-              "path" = "ssh://${config.backup-user-prefix}-${config.server.raspi-1.name}@${config.server.raspi-1.private-ip}:${toString config.ports.exposed.ssh}/home/${config.backup-user-prefix}-${config.server.raspi-1.name}/${config.data-dir}/backups/${hostName}";
-              "label" = "remote-3";
+              "path" = "${config.home.homeDirectory}/${config.data-dir}/backup";
+              "label" = "local";
             }
           ];
         };
@@ -103,8 +88,7 @@
       text = ''
         set -e 
         set -o pipefail
-
-        chmod 600 ${config.home.homeDirectory}/.ssh/*
+        
         echo "Starting Initial Borgmatic backup"
         borgmatic config validate --verbosity 2
         borgmatic init --encryption repokey-blake2 --verbosity 2
