@@ -142,7 +142,7 @@
       backups = {
         user-data = {
           location = {
-            sourceDirectories = config.backups."${hostName}";
+            sourceDirectories = config.backups."${config.networking.hostName}";
             repositories = [
               {
                 "path" = "${config.home.homeDirectory}/${config.backup-dir}";
@@ -157,7 +157,7 @@
             keepYearly = 1;
           };
           storage = {
-            encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${age.secrets.borg_pass.path}'";
+            encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${config.age.secrets.borg_pass.path}'";
           };
           output.extraConfig = {
             compression = "zstd,12";

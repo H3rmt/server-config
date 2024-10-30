@@ -10,7 +10,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }: rec {
+  outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }: {
     formatter.aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
     nixosConfigurations = {
       main-nix-1 = nixpkgs.lib.nixosSystem ({

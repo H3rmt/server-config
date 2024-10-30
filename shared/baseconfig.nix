@@ -97,30 +97,30 @@
     inputs.agenix.packages.aarch64-linux.default
   ];
 
-  systemd.services = (lib.genAttrs (lib.attrNames config.backups."${config.networking.hostName}") (user: {
-    description = "Service for Borgmatic ${user}";
-    serviceConfig = {
-      Type = "oneshot";
-      User = user;
-      ExecStart = pkgs.writeShellApplication {
-        name = "borgmatic";
-        runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
-        text = ''
-          if [ -z "$(ls -A /home/${user}/${config.backup-dir})" ]; then
-            echo "Starting Initial Borgmatic backup"
-            borgmatic config validate --verbosity 1
-            borgmatic init --encryption repokey-blake2 --verbosity 1
-            borgmatic create --list --stats --verbosity 1
-          else
-            echo "Backup directory is not empty, skipping initial backup"
-          fi
+  # systemd.services = (lib.genAttrs (lib.attrNames config.backups."${config.networking.hostName}") (user: {
+  #   description = "Service for Borgmatic ${user}";
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     User = user;
+  #     ExecStart = pkgs.writeShellApplication {
+  #       name = "borgmatic";
+  #       runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
+  #       text = ''
+  #         if [ -z "$(ls -A /home/${user}/${config.backup-dir})" ]; then
+  #           echo "Starting Initial Borgmatic backup"
+  #           borgmatic config validate --verbosity 1
+  #           borgmatic init --encryption repokey-blake2 --verbosity 1
+  #           borgmatic create --list --stats --verbosity 1
+  #         else
+  #           echo "Backup directory is not empty, skipping initial backup"
+  #         fi
 
-          borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
-        '';
-      } + "/bin/borgmatic";
-      WorkingDirectory = "/home/${user}";
-    };
-  }));
+  #         borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
+  #       '';
+  #     } + "/bin/borgmatic";
+  #     WorkingDirectory = "/home/${user}";
+  #   };
+  # }));
   systemd.services."backup" = {
     description = "Collect backups";
     after = [ (lib.attrNames config.backups."${config.networking.hostName}") ];
