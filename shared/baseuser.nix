@@ -59,6 +59,10 @@
     home.stateVersion = config.nixVersion;
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
+    home.activation.dirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      run mkdir -p ${config.backup-dir} ${config.data-prefix}
+    '';
+
     xdg.configFile."micro/bindings.json" = {
       text = builtins.toJSON {
         "Ctrl-j" = "command-edit:jump ";
@@ -116,8 +120,8 @@
       plugins = [ ];
     };
 
-    systemd.user.services.exporter =
-      if (config.exported-services != [ ]) then {
+    systemd.user = {
+      services.exporter = if (config.exported-services != [ ]) then {
         Unit = {
           Description = "Service for Systemd Exporter: ${builtins.toJSON config.exported-services}";
         };
@@ -131,5 +135,35 @@
           '';
         };
       } else { };
+    };
+
+    programs.borgmatic = {
+      enable = true;
+      backups = {
+        user-data = {
+          location = {
+            sourceDirectories = config.backups."${hostName}";
+            repositories = [
+              {
+                "path" = "${config.home.homeDirectory}/${config.backup-dir}";
+                "label" = "local";
+              }
+            ];
+          };
+          retention = {
+            keepDaily = 7;
+            keepWeekly = 4;
+            keepMonthly = 6;
+            keepYearly = 1;
+          };
+          storage = {
+            encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${age.secrets.borg_pass.path}'";
+          };
+          output.extraConfig = {
+            compression = "zstd,12";
+          };
+        };
+      };
+    };
   };
 }

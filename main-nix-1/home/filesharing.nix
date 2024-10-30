@@ -8,7 +8,7 @@ let
 in
 {
   imports = [
-    ../../shared/usr.nix
+    ../../shared/baseuser.nix
   ];
 
   home.activation.script = clib.create-folders lib [

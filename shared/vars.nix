@@ -32,6 +32,14 @@
       type = lib.types.str;
       description = "Path for data directory inside a users home";
     };
+    backup-dir = lib.mkOption {
+      type = lib.types.str;
+      description = "Path for backups directory from this server";
+    };
+    remote-backup-dir = lib.mkOption {
+      type = lib.types.str;
+      description = "Path for backups directory from other servers";
+    };
     backup-user-prefix = lib.mkOption {
       type = lib.types.str;
       description = "User for borg-backup";
@@ -346,6 +354,8 @@
     podman-exporter-version = "v1.11.0";
     nginx-info-page = "nginx_status";
     data-dir = "data";
+    backup-dir = "backups";
+    remote-backup-dir = "remote-backups";
     email = "enrico@h3rmt.zip";
     backup-user-prefix = "borg-backup";
     exporter-user-prefix = "exporter";
@@ -375,16 +385,16 @@
     };
     backups = {
       "${config.server.main-1.name}" = [
-        "/home/bridge/${config.data-dir}"
-        "/home/filesharing/${config.data-dir}"
-        "/home/nextcloud/${config.data-dir}"
+        "bridge"
+        "filesharing"
+        "nextcloud"
       ];
       "${config.server.main-2.name}" = [
-        "/home/authentik/${config.data-dir}"
-        "/home/grafana/${config.data-dir}"
-        "/home/reverseproxy/${config.data-dir}"
-        "/home/tor/${config.data-dir}"
-        "/home/wakapi/${config.data-dir}"
+        "authentik"
+        "grafana"
+        "reverseproxy"
+        "tor"
+        "wakapi"
       ];
       "${config.server.raspi-1.name}" = [
       ];

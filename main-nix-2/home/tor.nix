@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ../../shared/usr.nix
+    ../../shared/baseuser.nix
   ];
 
   home.activation.script = clib.create-folders lib [
@@ -30,8 +30,8 @@ in
             -e DirPort=9030 \
             -e AccountingStart="week 1 00:00" \
             -e AccountingMax="4 TBytes" \
-            -e RelayBandwidthRate="5.0 MBytes" \
-            -e RelayBandwidthBurst="5.5 MBytes" \
+            -e RelayBandwidthRate="7.0 MBytes" \
+            -e RelayBandwidthBurst="7.5 MBytes" \
             -e MetricsPort=9035 \
             -e ControlPort=9051 \
             -v ${config.data-prefix}/middle:/var/lib/tor:U \

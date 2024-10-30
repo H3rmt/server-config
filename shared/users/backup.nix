@@ -1,99 +1,54 @@
 { age, clib, hostName }: { lib, config, home, pkgs, inputs, ... }: {
   imports = [
-    ../usr.nix
+    ../baseuser.nix
   ];
   home.stateVersion = config.nixVersion;
 
   home.activation.script = clib.create-folders lib [
-    "${config.data-prefix}/backups/${config.server.main-1.name}"
-    "${config.data-prefix}/backups/${config.server.main-2.name}"
-    "${config.data-prefix}/backups/${config.server.raspi-1.name}"
-    "${config.data-prefix}/backup"
+    "${config.data-prefix}/${config.backup-dir}"
+    "${config.data-prefix}/${config.remote-backup-dir}"
   ];
 
   exported-services = [ "borgmatic.timer" "borgmatic.service" ];
 
   systemd.user = {
-    services = {
-      borgmatic = {
-        Unit = {
-          Description = "Service for Borgmatic";
-        };
-        Service = {
-          ExecStart = pkgs.writeShellApplication
-            {
-              name = "borgmatic";
-              runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
-              text = ''
-                borgmatic \
-                  --stats \
-                  --list \
-                  --verbosity 1 \
-                  --syslog-verbosity 0
-              '';
-            } + /bin/borgmatic;
-        };
+    services."borgmatic-${user}" = {
+      Unit = {
+        Description = "Service for Borgmatic ${user}";
+      };
+      Service = {
+        Type = "oneshot";
+        User = user;
+        WorkingDirectory = "/${user}";
+        ExecStart = pkgs.writeShellApplication
+          {
+            name = "borgmatic";
+            runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
+            text = ''
+              echo "Starting Initial Borgmatic backup"
+              borgmatic config validate --verbosity 1
+              borgmatic init --encryption repokey-blake2 --verbosity 1
+              borgmatic create --list --stats --verbosity 1
+
+              borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
+            '';
+          } + /bin/borgmatic;
       };
     };
-    timers = {
-      borgmatic = {
-        Unit = {
-          Description = "Timer for Borgmatic";
-        };
-        Install = {
-          WantedBy = [ "timers.target" ];
-        };
-        Timer = {
-          Unit = "borgmatic.service";
-          OnBootSec = "2min";
-          RandomizedDelaySec = "9m";
-          OnCalendar = "*:0";
-          Persistent = true;
-        };
+    timers."borgmatic-${user}" = {
+      Unit = {
+        Description = "Timer for Borgmatic ${user}";
       };
-    };
-  };
-
-  programs.borgmatic = {
-    enable = true;
-    backups = {
-      user-data = {
-        location = {
-          sourceDirectories = config.backups."${hostName}";
-          repositories = [
-            {
-              "path" = "${config.home.homeDirectory}/${config.data-dir}/backup";
-              "label" = "local";
-            }
-          ];
-        };
-        retention = {
-          keepDaily = 7;
-          keepWeekly = 4;
-          keepMonthly = 6;
-        };
-        storage = {
-          encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${age.secrets.borg_pass.path}'";
-        };
-        output.extraConfig = {
-          compression = "zstd,15";
-        };
+      Install = {
+        WantedBy = [ "timers.target" ];
       };
-    };
-  };
-
-  home.file = clib.create-files config.home.homeDirectory {
-    "setup.sh" = {
-      executable = true;
-      text = ''
-        set -e 
-        set -o pipefail
-
-        echo "Starting Initial Borgmatic backup"
-        borgmatic config validate --verbosity 1
-        borgmatic init --encryption repokey-blake2 --verbosity 1
-        borgmatic create --list --stats --verbosity 1
-      '';
+      Timer = {
+        Unit = "borgmatic.service";
+        OnBootSec = "120";
+        RandomizedDelaySec = "180";
+        OnCalendar = "*:0";
+        Persistent = true;
+      };
     };
   };
 }

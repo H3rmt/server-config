@@ -4,6 +4,6 @@ let
 in
 {
   imports = [
-    ../../shared/usr.nix
+    ../../shared/baseuser.nix
   ];
 }
