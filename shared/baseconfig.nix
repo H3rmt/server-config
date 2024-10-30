@@ -168,14 +168,14 @@
     };
   };
 
-  systemd.timers."backup" = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      Unit = "backup.service";
-      OnBootSec = "120";
-      RandomizedDelaySec = "180";
-      OnCalendar = "*:0";
-      Persistent = true;
-    };
-  };
+  # systemd.timers."backup" = {
+  #   wantedBy = [ "timers.target" ];
+  #   timerConfig = {
+  #     Unit = "backup.service";
+  #     OnBootSec = "120";
+  #     RandomizedDelaySec = "180";
+  #     OnCalendar = "*:0";
+  #     Persistent = true;
+  #   };
+  # };
 }
