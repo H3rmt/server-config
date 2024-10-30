@@ -12,6 +12,7 @@
 
   outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }: {
     formatter.aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
     nixosConfigurations = {
       main-nix-1 = nixpkgs.lib.nixosSystem ({
         system = "aarch64-linux";

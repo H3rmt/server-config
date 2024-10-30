@@ -121,20 +121,21 @@
     };
 
     systemd.user = {
-      services.exporter = if (config.exported-services != [ ]) then {
-        Unit = {
-          Description = "Service for Systemd Exporter: ${builtins.toJSON config.exported-services}";
-        };
-        Install = {
-          WantedBy = [ "default.target" ];
-        };
-        Service = {
-          ExecStart = ''
-            ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-              --web.listen-address ${config.address.private.systemd-exporter.${config.home.username}} --systemd.collector.user --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
-          '';
-        };
-      } else { };
+      services.exporter =
+        if (config.exported-services != [ ]) then {
+          Unit = {
+            Description = "Service for Systemd Exporter: ${builtins.toJSON config.exported-services}";
+          };
+          Install = {
+            WantedBy = [ "default.target" ];
+          };
+          Service = {
+            ExecStart = ''
+              ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
+                --web.listen-address ${config.address.private.systemd-exporter.${config.home.username}} --systemd.collector.user --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
+            '';
+          };
+        } else { };
     };
 
     programs.borgmatic = {

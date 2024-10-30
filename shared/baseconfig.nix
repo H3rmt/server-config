@@ -126,48 +126,53 @@
     after = [ (lib.attrNames config.backups."${config.networking.hostName}") ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = pkgs.writeShellApplication {
-        name = "collect";
-        runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
-        text = ''
-          for user in ${lib.concatStringsSep " " (lib.attrNames config.backups."${config.networking.hostName}")}; do
-            if [ -d "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user" ]; then
-              mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
-              cp -r /home/$user/${config.backup-dir}/* /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/
-              chown -R ${config.backup-user-prefix}-${config.networking.hostName}:${config.backup-user-prefix}-${config.networking.hostName} /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
-            fi
-          done
-        '';
-      } + "/bin/collect";
-    };
-  };
-  
-  systemd.services."rsync" = let 
-    getPrivateIP = serverName: let
-      matchedServers = builtins.filter (server: server.name == serverName) (builtins.attrValues config.server);
-    in
-      if builtins.length matchedServers > 0 then
-        matchedServers[0]."private-ip"
-      else
-        null;
-  in {
-    description = "Rscync backups with ssh to other users";
-    after = [ "backup.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      User = "${config.backup-user-prefix}-${config.networking.hostName}";
-      ExecStart = pkgs.writeShellApplication {
-        name = "sync";
-        runtimeInputs = [ pkgs.coreutils pkgs.rsync ];
+      ExecStart = pkgs.writeShellApplication
+        {
+          name = "collect";
+          runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
           text = ''
-            ${lib.concatMapStringsSep "\n" (remote: ''
-              rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/ ${config.backup-user-prefix}-${remote}@${getPrivateIP remote}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}/
-            '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
+            for user in ${lib.concatStringsSep " " (lib.attrNames config.backups."${config.networking.hostName}")}; do
+              if [ -d "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user" ]; then
+                mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
+                cp -r /home/$user/${config.backup-dir}/* /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/
+                chown -R ${config.backup-user-prefix}-${config.networking.hostName}:${config.backup-user-prefix}-${config.networking.hostName} /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
+              fi
+            done
           '';
-      } + "/bin/sync";
-      WorkingDirectory = "/home/${config.backup-user-prefix}-${config.networking.hostName}";
+        } + "/bin/collect";
     };
   };
+
+  systemd.services."rsync" =
+    let
+      getPrivateIP = serverName:
+        let
+          matchedServers = builtins.filter (server: server.name == serverName) (builtins.attrValues config.server);
+        in
+        if builtins.length matchedServers > 0 then
+          matchedServers [ 0 ]."private-ip"
+        else
+          null;
+    in
+    {
+      description = "Rscync backups with ssh to other users";
+      after = [ "backup.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        User = "${config.backup-user-prefix}-${config.networking.hostName}";
+        ExecStart = pkgs.writeShellApplication
+          {
+            name = "sync";
+            runtimeInputs = [ pkgs.coreutils pkgs.rsync ];
+            text = ''
+              ${lib.concatMapStringsSep "\n" (remote: ''
+                rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/ ${config.backup-user-prefix}-${remote}@${getPrivateIP remote}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}/
+              '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
+            '';
+          } + "/bin/sync";
+        WorkingDirectory = "/home/${config.backup-user-prefix}-${config.networking.hostName}";
+      };
+    };
 
   # systemd.timers."backup" = {
   #   wantedBy = [ "timers.target" ];
