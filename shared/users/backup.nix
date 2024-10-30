@@ -28,8 +28,8 @@
                 borgmatic \
                   --stats \
                   --list \
-                  --verbosity 2 \
-                  --syslog-verbosity 1
+                  --verbosity 1 \
+                  --syslog-verbosity 0
               '';
             } + /bin/borgmatic;
         };
@@ -88,7 +88,7 @@
       text = ''
         set -e 
         set -o pipefail
-        
+
         echo "Starting Initial Borgmatic backup"
         borgmatic config validate --verbosity 2
         borgmatic init --encryption repokey-blake2 --verbosity 2
