@@ -50,9 +50,6 @@ in
     };
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-
   home-manager.users.root = import ./root.nix;
   home-manager.users.reverseproxy = import ./reverseproxy.nix { age = config.age; inherit clib; };
   home-manager.users.grafana = import ./grafana.nix { age = config.age; inherit clib; };

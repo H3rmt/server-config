@@ -121,9 +121,11 @@
   #     WorkingDirectory = "/home/${user}";
   #   };
   # }));
+
   systemd.services."backup" = {
     description = "Collect backups";
-    after = [ (lib.attrNames config.backups."${config.networking.hostName}") ];
+    # lib.mapAttrsToList (name: value: "${value}.service") config.backups."${config.networking.hostName}";
+    after = [ ];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = pkgs.writeShellApplication
@@ -131,7 +133,7 @@
           name = "collect";
           runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
           text = ''
-            for user in ${lib.concatStringsSep " " (lib.attrNames config.backups."${config.networking.hostName}")}; do
+            for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
               if [ -d "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user" ]; then
                 mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
                 cp -r /home/$user/${config.backup-dir}/* /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/
@@ -150,7 +152,7 @@
           matchedServers = builtins.filter (server: server.name == serverName) (builtins.attrValues config.server);
         in
         if builtins.length matchedServers > 0 then
-          matchedServers [ 0 ]."private-ip"
+          (builtins.elemAt matchedServers 0)."private-ip"
         else
           null;
     in

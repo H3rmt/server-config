@@ -1,4 +1,4 @@
-{ pkgs, home, lib, config, ... }: {
+{ pkgs, lib, config, mainConfig, ... }: {
   imports = [
     ./vars.nix
   ];
@@ -143,7 +143,7 @@
       backups = {
         user-data = {
           location = {
-            sourceDirectories = config.backups."${config.networking.hostName}";
+            sourceDirectories = config.backups."${mainConfig.networking.hostName}";
             repositories = [
               {
                 "path" = "${config.home.homeDirectory}/${config.backup-dir}";
@@ -158,7 +158,7 @@
             keepYearly = 1;
           };
           storage = {
-            encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${config.age.secrets.borg_pass.path}'";
+            encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${mainConfig.age.secrets.borg_pass.path}'";
           };
           output.extraConfig = {
             compression = "zstd,12";

@@ -1,4 +1,4 @@
-{ age, clib, hostName }: { lib, config, home, pkgs, inputs, ... }: {
+{ lib, config, clib, ... }: {
   imports = [
     ../baseuser.nix
   ];
