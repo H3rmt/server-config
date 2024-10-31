@@ -141,7 +141,7 @@
       backups = {
         user-data = {
           location = {
-            sourceDirectories = [ "${config.home.homeDirectory}/${mainConfig.backup-dir}" ];
+            sourceDirectories = [ "${config.home.homeDirectory}/${mainConfig.data-dir}" ];
             repositories = [
               {
                 "path" = "${config.home.homeDirectory}/${mainConfig.backup-dir}";
