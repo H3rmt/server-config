@@ -42,7 +42,7 @@ let
           runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
-              if [ -d "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user" ]; then
+              if [ ! -d "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user" ]; then
                 mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
               fi
               cp -r /home/$user/${config.backup-dir}/* /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/
