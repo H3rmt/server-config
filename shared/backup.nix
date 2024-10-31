@@ -31,6 +31,7 @@ let
 
   backup = {
     description = "Collect backups";
+    requires = lib.forEach config.backups."${config.networking.hostName}" (name: "${name}.service");
     after = lib.forEach config.backups."${config.networking.hostName}" (name: "${name}.service");
     serviceConfig = {
       Type = "oneshot";
