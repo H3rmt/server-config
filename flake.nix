@@ -22,6 +22,7 @@
           agenix.nixosModules.default
           ./shared/vars.nix
           ./shared/baseconfig.nix
+          ./shared/backup.nix
           ./main-nix-1/configuration.nix
         ];
       });
@@ -33,6 +34,7 @@
           agenix.nixosModules.default
           ./shared/vars.nix
           ./shared/baseconfig.nix
+          ./shared/backup.nix
           ./main-nix-2/configuration.nix
         ];
       });
@@ -44,6 +46,7 @@
           agenix.nixosModules.default
           ./shared/vars.nix
           ./shared/baseconfig.nix
+          ./shared/backup.nix
           ./raspi-1/configuration.nix
         ];
       });
