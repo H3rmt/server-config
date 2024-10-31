@@ -66,7 +66,7 @@ let
           runtimeInputs = [ pkgs.coreutils pkgs.rsync ];
           text = ''
             ${lib.concatMapStringsSep "\n" (remote: ''
-              rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/${config.backup-user-prefix}-${remote}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}
+              rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}
             '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
           '';
         } + "/bin/sync";
