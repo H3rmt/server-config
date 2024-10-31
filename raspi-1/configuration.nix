@@ -4,6 +4,7 @@
     ./networking.nix
     ./secret-vars.nix
     ./home/index.nix
+    ../shared/backup.nix
   ];
 
   boot = {
