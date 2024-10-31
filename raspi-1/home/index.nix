@@ -19,7 +19,5 @@ in
     };
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
   home-manager.users.kiosk = import ./kiosk.nix { age = config.age; inherit clib; };
 }

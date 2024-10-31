@@ -36,9 +36,6 @@ in
     };
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-
   home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; };
   home-manager.users.nextcloud = import ./nextcloud.nix { age = config.age; inherit clib; };
   home-manager.users.bridge = import ./bridge.nix { age = config.age; inherit clib; };
