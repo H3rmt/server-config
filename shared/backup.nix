@@ -7,6 +7,7 @@ let
         serviceConfig = {
           Type = "oneshot";
           User = user;
+          EnvironmentFile= "${config.age.secrets.borg_pass.path}";
           ExecStart = pkgs.writeShellApplication
             {
               name = "borgmatic";

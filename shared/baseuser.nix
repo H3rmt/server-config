@@ -155,9 +155,9 @@
             keepMonthly = 6;
             keepYearly = 1;
           };
-          storage = {
-            encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${mainConfig.age.secrets.borg_pass.path}'";
-          };
+          # storage = {
+          #   encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${mainConfig.age.secrets.borg_pass.path}'";
+          # };
           output.extraConfig = {
             compression = "zstd,12";
           };
