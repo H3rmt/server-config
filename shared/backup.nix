@@ -46,7 +46,7 @@ let
                 mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
               fi
               cp -r /home/$user/${config.backup-dir}/* /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/
-              chown -R ${config.backup-user-prefix}-${config.networking.hostName}:${config.backup-user-prefix}-${config.networking.hostName} /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
+              chown -R ${config.backup-user-prefix}-${config.networking.hostName} /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
             done
           '';
         } + "/bin/collect";
