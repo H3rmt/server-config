@@ -2,7 +2,7 @@
 let
   generatedServices = (map
     (user: {
-      "borgmatic_${user}.service" = {
+      "borgmatic_${user}" = {
         description = "Service for Borgmatic ${user} user";
         serviceConfig = {
           Type = "oneshot";
