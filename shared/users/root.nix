@@ -1,15 +1,12 @@
-{ config, pkgs, ... }: {
+{ config, mainConfig, pkgs, ... }: {
   imports = [
     ../baseuser.nix
   ];
-  home.stateVersion = config.nixVersion;
-  home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
-
   programs = {
     git = {
       enable = true;
       userName = "Enrico Stemmer";
-      userEmail = "${config.email}";
+      userEmail = "${mainConfig.email}";
     };
 
     tmux = {

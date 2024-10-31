@@ -1,4 +1,4 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
   GRAFANA_VERSION = "10.4.1";
   PROMETHEUS_VERSION = "v2.51.2";
@@ -24,9 +24,9 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.public.grafana}:3000 \
-            -p ${config.address.public.loki}:3100 \
-            -p ${config.address.public.prometheus}:9090 \
+            -p ${mainConfig.address.public.grafana}:3000 \
+            -p ${mainConfig.address.public.loki}:3100 \
+            -p ${mainConfig.address.public.prometheus}:9090 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -72,20 +72,20 @@ in
     "${GRAFANA_CONFIG}/grafana.ini" = {
       noLink = true;
       onChange = ''
-        grafana_client_secret=$(cat "${age.secrets.grafana_client_secret.path}")
-        grafana_client_key=$(cat "${age.secrets.grafana_client_key.path}")
+        grafana_client_secret=$(cat "${mainConfig.age.secrets.grafana_client_secret.path}")
+        grafana_client_key=$(cat "${mainConfig.age.secrets.grafana_client_key.path}")
         configFile="${config.home.homeDirectory}/${GRAFANA_CONFIG}/grafana.ini"
         sed -e "s/@grafana_client_secret@/$grafana_client_secret/g" -e "s/@grafana_client_key@/$grafana_client_key/g" -i "$configFile"
       '';
       text = ''
         [server]
-        root_url = "https://${config.sites.grafana}.${config.main-url}/"
+        root_url = "https://${mainConfig.sites.grafana}.${mainConfig.main-url}/"
         
         [feature_toggles]
         ssoSettingsApi = true
         
         [auth]
-        signout_redirect_url = https://${config.sites.authentik}.${config.main-url}/application/o/grafana/end-session/
+        signout_redirect_url = https://${mainConfig.sites.authentik}.${mainConfig.main-url}/application/o/grafana/end-session/
         disable_login_form = true
         
         [auth.generic_oauth]
@@ -97,9 +97,9 @@ in
         client_id = @grafana_client_key@
         client_secret = @grafana_client_secret@
         scopes = openid email profile
-        auth_url = https://${config.sites.authentik}.${config.main-url}/application/o/authorize/
-        token_url = https://${config.sites.authentik}.${config.main-url}/application/o/token/
-        api_url = https://${config.sites.authentik}.${config.main-url}/application/o/userinfo/
+        auth_url = https://${mainConfig.sites.authentik}.${mainConfig.main-url}/application/o/authorize/
+        token_url = https://${mainConfig.sites.authentik}.${mainConfig.main-url}/application/o/token/
+        api_url = https://${mainConfig.sites.authentik}.${mainConfig.main-url}/application/o/userinfo/
 
         [dataproxy]
         # This enables data proxy logging
@@ -110,7 +110,7 @@ in
     "${PROMETHEUS_CONFIG}/prometheus.yml" = {
       noLink = true;
       onChange = ''
-        grafana_wakapi_metrics_key=$(cat "${age.secrets.grafana_wakapi_metrics_key.path}" | base64)
+        grafana_wakapi_metrics_key=$(cat "${mainConfig.age.secrets.grafana_wakapi_metrics_key.path}" | base64)
         configFile="${config.home.homeDirectory}/${PROMETHEUS_CONFIG}/prometheus.yml"
         sed -e "s/@grafana_wakapi_metrics_key@/$grafana_wakapi_metrics_key/g" -i "$configFile"
       '';
@@ -129,24 +129,24 @@ in
             static_configs:
               - targets:
                   [
-                    "${config.address.private.snowflake-exporter-1}",
-                    "${config.address.private.snowflake-exporter-2}",
+                    "${mainConfig.address.private.snowflake-exporter-1}",
+                    "${mainConfig.address.private.snowflake-exporter-2}",
                   ]
             metrics_path: /internal/metrics
           - job_name: node
             static_configs:
               - targets:
                   [
-                    "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.main-1.name}"}",
-                    "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.main-2.name}"}",
-                    "${config.address.private.node-exporter."${config.exporter-user-prefix}-${config.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-1.name}"}",
+                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-2.name}"}",
+                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.raspi-1.name}"}",
                   ]
           - job_name: nginx
             scrape_interval: 10s
             static_configs:
               - targets:
                   [
-                    "${config.address.private.nginx-exporter}",
+                    "${mainConfig.address.private.nginx-exporter}",
                   ]
           - job_name: wakapi
             scrape_interval: 5m
@@ -155,67 +155,67 @@ in
             static_configs:
               - targets:
                   [
-                    "${config.address.public.wakapi}",
+                    "${mainConfig.address.public.wakapi}",
                   ]
           - job_name: tor
             static_configs:
               - targets:
                   [
-                    "${config.address.private.tor-exporter}",
-                    "${config.address.private.tor-exporter-bridge}",
+                    "${mainConfig.address.private.tor-exporter}",
+                    "${mainConfig.address.private.tor-exporter-bridge}",
                   ]
           - job_name: wireguard
             scrape_interval: 10s
             static_configs:
               - targets:
                   [
-                    "${config.address.private.wireguard."wireguard-exporter-${config.server.main-1.name}"}",
-                    "${config.address.private.wireguard."wireguard-exporter-${config.server.main-2.name}"}",
-                    "${config.address.private.wireguard."wireguard-exporter-${config.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.server.main-1.name}"}",
+                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.server.main-2.name}"}",
+                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.server.raspi-1.name}"}",
                   ]
           - job_name: systemd
             scrape_interval: 10s
             static_configs:
               - targets:
                   [
-                    "${config.address.private.systemd-exporter.reverseproxy}",
+                    "${mainConfig.address.private.systemd-exporter.reverseproxy}",
                   ]
                 labels:
                   user: 'reverseproxy'
               - targets:
                   [
-                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-1.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${mainConfig.backup-user-prefix}-${mainConfig.server.main-1.name}"}",
                   ]
                 labels:
-                  user: '${config.backup-user-prefix}-${config.server.main-1.name}'
+                  user: '${mainConfig.backup-user-prefix}-${mainConfig.server.main-1.name}'
               - targets:
                   [
-                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.main-2.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${mainConfig.backup-user-prefix}-${mainConfig.server.main-2.name}"}",
                   ]
                 labels:
-                  user: '${config.backup-user-prefix}-${config.server.main-2.name}'
+                  user: '${mainConfig.backup-user-prefix}-${mainConfig.server.main-2.name}'
               - targets:
                   [
-                    "${config.address.private.systemd-exporter."${config.backup-user-prefix}-${config.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${mainConfig.backup-user-prefix}-${mainConfig.server.raspi-1.name}"}",
                   ]
                 labels:
-                  user: '${config.backup-user-prefix}-${config.server.raspi-1.name}'
+                  user: '${mainConfig.backup-user-prefix}-${mainConfig.server.raspi-1.name}'
           - job_name: podman-exporter
             static_configs:
               - targets:
                   [
-                    "${config.address.private.podman-exporter.reverseproxy}",
-                    "${config.address.private.podman-exporter.grafana}",
-                    "${config.address.private.podman-exporter.authentik}",
-                    "${config.address.private.podman-exporter."${config.exporter-user-prefix}-${config.server.main-1.name}"}",
-                    "${config.address.private.podman-exporter.tor}",
-                    "${config.address.private.podman-exporter.filesharing}",
-                    "${config.address.private.podman-exporter.nextcloud}",
-                    "${config.address.private.podman-exporter."${config.exporter-user-prefix}-${config.server.main-2.name}"}",
-                    "${config.address.private.podman-exporter.wakapi}",
-                    "${config.address.private.podman-exporter.bridge}",
-                    "${config.address.private.podman-exporter.snowflake}",
-                    "${config.address.private.podman-exporter."${config.exporter-user-prefix}-${config.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.podman-exporter.reverseproxy}",
+                    "${mainConfig.address.private.podman-exporter.grafana}",
+                    "${mainConfig.address.private.podman-exporter.authentik}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-1.name}"}",
+                    "${mainConfig.address.private.podman-exporter.tor}",
+                    "${mainConfig.address.private.podman-exporter.filesharing}",
+                    "${mainConfig.address.private.podman-exporter.nextcloud}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-2.name}"}",
+                    "${mainConfig.address.private.podman-exporter.wakapi}",
+                    "${mainConfig.address.private.podman-exporter.bridge}",
+                    "${mainConfig.address.private.podman-exporter.snowflake}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.raspi-1.name}"}",
                   ]
       '';
     };

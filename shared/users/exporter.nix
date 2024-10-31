@@ -13,7 +13,7 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.private.node-exporter."${config.exporter-user-prefix}-${mainConfig.networking.hostName}"}:9100 \
+            -p ${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.networking.hostName}"}:9100 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -60,7 +60,7 @@ in
           filename: /tmp/positions.yaml
 
         clients:
-          - url: http://${config.address.public.loki}/loki/api/v1/push
+          - url: http://${mainConfig.address.public.loki}/loki/api/v1/push
 
         scrape_configs:
           - job_name: journal

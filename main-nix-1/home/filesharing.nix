@@ -1,10 +1,10 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
   FILESHARING_VERSION = "v1.5.1";
 
-  ADMIN_PASSWORD = ''$(cat "${age.secrets.filesharing_admin_pass.path}")'';
-  ADMIN_EMAIL = ''$(cat "${age.secrets.filesharing_admin_email.path}")'';
-  USER_PASSWORD = ''$(cat "${age.secrets.filesharing_user_pass.path}")'';
+  ADMIN_PASSWORD = ''$(cat "${mainConfig.age.secrets.filesharing_admin_pass.path}")'';
+  ADMIN_EMAIL = ''$(cat "${mainConfig.age.secrets.filesharing_admin_email.path}")'';
+  USER_PASSWORD = ''$(cat "${mainConfig.age.secrets.filesharing_user_pass.path}")'';
 in
 {
   imports = [
@@ -20,7 +20,7 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.public.filesharing}:8080 \
+            -p ${mainConfig.address.public.filesharing}:8080 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 

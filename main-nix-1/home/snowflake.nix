@@ -1,4 +1,4 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
   SNOWFLAKE_VERSION = "v2.8.1";
 in
@@ -12,8 +12,8 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.private.snowflake-exporter-1}:3000 \
-            -p ${config.address.private.snowflake-exporter-2}:3001 \
+            -p ${mainConfig.address.private.snowflake-exporter-1}:3000 \
+            -p ${mainConfig.address.private.snowflake-exporter-2}:3001 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 

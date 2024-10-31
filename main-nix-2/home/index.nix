@@ -42,9 +42,9 @@ in
     };
   };
 
-  home-manager.users.reverseproxy = import ./reverseproxy.nix { age = config.age; inherit clib; };
-  home-manager.users.authentik = import ./authentik.nix { age = config.age; inherit clib; };
-  home-manager.users.grafana = import ./grafana.nix { age = config.age; inherit clib; };
-  home-manager.users.tor = import ./tor.nix { age = config.age; inherit clib; };
-  home-manager.users.wakapi = import ./wakapi.nix { age = config.age; inherit clib; };
+  home-manager.users.reverseproxy = import ./reverseproxy.nix;
+  home-manager.users.authentik = import ./authentik.nix;
+  home-manager.users.grafana = import ./grafana.nix;
+  home-manager.users.tor = import ./tor.nix;
+  home-manager.users.wakapi = import ./wakapi.nix;
 }

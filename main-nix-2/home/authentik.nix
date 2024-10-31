@@ -1,11 +1,11 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
   POSTGRES_VERSION = "12-alpine";
   REDIS_VERSION = "7.2.4-alpine";
   AUTHENTIK_VERSION = "2024.2.2";
 
-  PG_PASS = ''$(cat "${age.secrets.authentik_pg_pass.path}")'';
-  SECRET_KEY = ''$(cat "${age.secrets.authentik_key.path}")'';
+  PG_PASS = ''$(cat "${mainConfig.age.secrets.authentik_pg_pass.path}")'';
+  SECRET_KEY = ''$(cat "${mainConfig.age.secrets.authentik_key.path}")'';
   POSTGRES_USER = "authentik";
   POSTGRES_DB = "authentik";
   ERROR_REPORTING_ENABLED = "true";
@@ -28,7 +28,7 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.public.authentik}:9000 \
+            -p ${mainConfig.address.public.authentik}:9000 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
             

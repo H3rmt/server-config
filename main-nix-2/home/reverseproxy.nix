@@ -1,4 +1,4 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
   NGINX_VERSION = "v0.0.4";
   NGINX_EXPORTER_VERSION = "1.1.0";
@@ -34,17 +34,17 @@ in
               text = ''
                 podman pull docker.io/certbot/certbot
                 podman run --rm --name certbot \
-                  -e "HETZNER_TOKEN=$(cat '${age.secrets.reverseproxy_hetzner_token.path}')" \
+                  -e "HETZNER_TOKEN=$(cat '${mainConfig.age.secrets.reverseproxy_hetzner_token.path}')" \
                   -v ${config.data-prefix}/letsencrypt:/etc/letsencrypt \
                   --entrypoint sh \
                   certbot/certbot \
                   -c 'pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN"; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
-                      certbot certonly --email "${config.email}" --agree-tos --non-interactive \
+                      certbot certonly --email "${mainConfig.email}" --agree-tos --non-interactive \
                         --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
-                        --dns-hetzner-propagation-seconds=60 -d *.${config.main-url} -d ${config.main-url}'
+                        --dns-hetzner-propagation-seconds=60 -d *.${mainConfig.main-url} -d ${mainConfig.main-url}'
 
-                stat -Lc %y "${config.data-prefix}/letsencrypt/live/${config.main-url}/fullchain.pem"
-                if [ $(( $(date +%s) - $(stat -Lc %Y "${config.data-prefix}/letsencrypt/live/${config.main-url}/fullchain.pem") )) -lt 120 ]; then 
+                stat -Lc %y "${config.data-prefix}/letsencrypt/live/${mainConfig.main-url}/fullchain.pem"
+                if [ $(( $(date +%s) - $(stat -Lc %Y "${config.data-prefix}/letsencrypt/live/${mainConfig.main-url}/fullchain.pem") )) -lt 120 ]; then 
                   podman exec nginx nginx -s reload && podman logs --tail 20 nginx
                   echo "Reloaded Certificate"
                 else 
@@ -78,10 +78,10 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${toString config.ports.exposed.http}:1080 \
-            -p ${toString config.ports.exposed.https}:1443/tcp \
-            -p ${toString config.ports.exposed.https}:1443/udp \
-            -p ${config.address.private.nginx-exporter}:9113 \
+            -p ${toString mainConfig.ports.exposed.http}:1080 \
+            -p ${toString mainConfig.ports.exposed.https}:1443/tcp \
+            -p ${toString mainConfig.ports.exposed.https}:1443/udp \
+            -p ${mainConfig.address.private.nginx-exporter}:9113 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -100,7 +100,7 @@ in
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
-            --nginx.scrape-uri=http://localhost:1081/${config.nginx-info-page}
+            --nginx.scrape-uri=http://localhost:1081/${mainConfig.nginx-info-page}
 
         ${config.exporter.run}
       '';
@@ -137,29 +137,29 @@ in
     "${NGINX_CONFIG_DIR}/upstreams.conf" = {
       noLink = true;
       text = ''
-        upstream ${config.sites.authentik} {
-          server ${config.address.public.authentik};
+        upstream ${mainConfig.sites.authentik} {
+          server ${mainConfig.address.public.authentik};
           keepalive 15;
         }
 
-        upstream ${config.sites.grafana} {
-          server ${config.address.public.grafana};
+        upstream ${mainConfig.sites.grafana} {
+          server ${mainConfig.address.public.grafana};
         }
 
-        upstream ${config.sites.prometheus} {
-          server ${config.address.public.prometheus};
+        upstream ${mainConfig.sites.prometheus} {
+          server ${mainConfig.address.public.prometheus};
         }
 
-        upstream ${config.sites.filesharing} {
-          server ${config.address.public.filesharing};
+        upstream ${mainConfig.sites.filesharing} {
+          server ${mainConfig.address.public.filesharing};
         }
 
-        upstream ${config.sites.nextcloud} {
-          server ${config.address.public.nextcloud};
+        upstream ${mainConfig.sites.nextcloud} {
+          server ${mainConfig.address.public.nextcloud};
         }
 
-        upstream ${config.sites.wakapi} {
-          server ${config.address.public.wakapi};
+        upstream ${mainConfig.sites.wakapi} {
+          server ${mainConfig.address.public.wakapi};
         }
       '';
     };
@@ -186,14 +186,14 @@ in
             listen [::0]:1081;
             server_tokens on;
         
-            location /${config.nginx-info-page} {
+            location /${mainConfig.nginx-info-page} {
               stub_status;
               access_log off;
             }
           }
         
           server {
-            server_name ${config.main-url};
+            server_name ${mainConfig.main-url};
         
             listen 1080;
             listen [::0]:1080;
@@ -204,7 +204,7 @@ in
           }
         
           server {
-            server_name ${config.main-url};
+            server_name ${mainConfig.main-url};
         
             listen 1443 ssl;
             listen [::0]:1443 ssl;
@@ -217,7 +217,7 @@ in
           }
         
           server {
-            server_name ${config.sites.prometheus}.${config.main-url};
+            server_name ${mainConfig.sites.prometheus}.${mainConfig.main-url};
         
             listen 1443 ssl;
             listen [::0]:1443 ssl;
@@ -225,7 +225,7 @@ in
             listen [::0]:1443 quic;
         
             location / {
-              proxy_pass http://${config.sites.prometheus};
+              proxy_pass http://${mainConfig.sites.prometheus};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
             }
@@ -234,7 +234,7 @@ in
           }
         
           server {
-            server_name ${config.sites.authentik}.${config.main-url};
+            server_name ${mainConfig.sites.authentik}.${mainConfig.main-url};
         
             listen 1443 ssl;
             listen [::0]:1443 ssl;
@@ -242,13 +242,13 @@ in
             listen [::0]:1443 quic;
         
             location / {
-              proxy_pass http://${config.sites.authentik};
+              proxy_pass http://${mainConfig.sites.authentik};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
         
           server {
-            server_name ${config.sites.grafana}.${config.main-url};
+            server_name ${mainConfig.sites.grafana}.${mainConfig.main-url};
         
             listen 1443 ssl;
             listen [::0]:1443 ssl;
@@ -256,13 +256,13 @@ in
             listen [::0]:1443 quic;
         
             location / {
-              proxy_pass http://${config.sites.grafana};
+              proxy_pass http://${mainConfig.sites.grafana};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
 
           server {
-            server_name ${config.sites.nextcloud}.${config.main-url};
+            server_name ${mainConfig.sites.nextcloud}.${mainConfig.main-url};
           
             listen 1443 ssl;
             listen [::0]:1443 ssl;
@@ -271,13 +271,13 @@ in
             
             client_max_body_size 3000M;
             location / {
-              proxy_pass http://${config.sites.nextcloud};
+              proxy_pass http://${mainConfig.sites.nextcloud};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
                             
           server {
-            server_name ${config.sites.filesharing}.${config.main-url};
+            server_name ${mainConfig.sites.filesharing}.${mainConfig.main-url};
       
             listen 1443 ssl;
             listen [::0]:1443 ssl;
@@ -290,13 +290,13 @@ in
             proxy_send_timeout 300;
       
             location / {
-              proxy_pass http://${config.sites.filesharing};
+              proxy_pass http://${mainConfig.sites.filesharing};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
           }
         
           server {
-            server_name ${config.sites.wakapi}.${config.main-url};
+            server_name ${mainConfig.sites.wakapi}.${mainConfig.main-url};
       
             listen 1443 ssl;
             listen [::0]:1443 ssl;
@@ -304,7 +304,7 @@ in
             listen [::0]:1443 quic;
         
             location / {
-              proxy_pass http://${config.sites.wakapi};
+              proxy_pass http://${mainConfig.sites.wakapi};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
 
@@ -316,7 +316,7 @@ in
           }
 
           #   server {
-          #     server_name esp32-timelapse.${config.main-url};
+          #     server_name esp32-timelapse.${mainConfig.main-url};
           # 
           #     listen 1443 ssl;
           #     listen [::0]:1443 ssl;
@@ -331,7 +331,7 @@ in
         
         
           #   server {
-          #     server_name uptest.${config.main-url};
+          #     server_name uptest.${mainConfig.main-url};
           # 
           #     listen 1443 ssl;
           #     listen [::0]:1443 ssl;
@@ -348,7 +348,7 @@ in
           #   }
         
           #   server {
-          #     server_name speedtest.${config.main-url};
+          #     server_name speedtest.${mainConfig.main-url};
           # 
           #     listen 1443 ssl;
           #     listen [::0]:1443 ssl;
@@ -387,7 +387,7 @@ in
       noLink = true;
       text = ''
         location /outpost.goauthentik.io {
-          proxy_pass              http://${config.sites.authentik}/outpost.goauthentik.io;
+          proxy_pass              http://${mainConfig.sites.authentik}/outpost.goauthentik.io;
           proxy_set_header        Host $host;
           proxy_set_header        X-Original-URL $scheme://$http_host$request_uri;
           add_header              Set-Cookie $auth_cookie;
@@ -466,8 +466,8 @@ in
         add_header Strict-Transport-Security "max-age=63072000" always;
 
         # certificates
-        ssl_certificate /etc/letsencrypt/live/${config.main-url}/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/${config.main-url}/privkey.pem;
+        ssl_certificate /etc/letsencrypt/live/${mainConfig.main-url}/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/${mainConfig.main-url}/privkey.pem;
         ssl_session_cache shared:SSL:10m;
         ssl_session_timeout 1h;
         ssl_session_tickets off;

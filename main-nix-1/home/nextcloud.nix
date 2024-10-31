@@ -1,11 +1,11 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
   MARIADB_VERSION = "11.0";
   NEXTCLOUD_VERSION = "29.0.0";
 
-  MARIA_ROOT_PASS = ''$(cat "${age.secrets.nextcloud_maria_root_pass.path}")'';
-  MARIA_PASS = ''$(cat "${age.secrets.nextcloud_maria_pass.path}")'';
-  NEXTCLOUD_ADMIN_PASS = ''$(cat "${age.secrets.nextcloud_admin_pass.path}")'';
+  MARIA_ROOT_PASS = ''$(cat "${mainConfig.age.secrets.nextcloud_maria_root_pass.path}")'';
+  MARIA_PASS = ''$(cat "${mainConfig.age.secrets.nextcloud_maria_pass.path}")'';
+  NEXTCLOUD_ADMIN_PASS = ''$(cat "${mainConfig.age.secrets.nextcloud_admin_pass.path}")'';
   MARIA_USER = "nextcloud";
   MARIA_DATABASE = "nextcloud";
   ADMIN_USER = "admin";
@@ -25,7 +25,7 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${config.address.public.nextcloud}:8080 \
+            -p ${mainConfig.address.public.nextcloud}:8080 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
@@ -47,8 +47,8 @@ in
             -e MYSQL_HOST=127.0.0.1 \
             -e NEXTCLOUD_ADMIN_USER=${ADMIN_USER} \
             -e NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASS} \
-            -e OVERWRITEHOST=${config.sites.nextcloud}.${config.main-url} \
-            -e TRUSTED_PROXIES=${config.server.main-2.private-ip} \
+            -e OVERWRITEHOST=${mainConfig.sites.nextcloud}.${mainConfig.main-url} \
+            -e TRUSTED_PROXIES=${mainConfig.server.main-2.private-ip} \
             -e OVERWRITEPROTOCOL=https \
             -v ${config.data-prefix}/nextcloud:/var/www/html:U \
             -v ${config.home.homeDirectory}/apache2/ports.conf:/etc/apache2/ports.conf:ro \

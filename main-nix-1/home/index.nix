@@ -36,8 +36,8 @@ in
     };
   };
 
-  home-manager.users.filesharing = import ./filesharing.nix { age = config.age; inherit clib; };
-  home-manager.users.nextcloud = import ./nextcloud.nix { age = config.age; inherit clib; };
-  home-manager.users.bridge = import ./bridge.nix { age = config.age; inherit clib; };
-  home-manager.users.snowflake = import ./snowflake.nix { age = config.age; inherit clib; };
+  home-manager.users.filesharing = import ./filesharing.nix;
+  home-manager.users.nextcloud = import ./nextcloud.nix;
+  home-manager.users.bridge = import ./bridge.nix;
+  home-manager.users.snowflake = import ./snowflake.nix;
 }

@@ -1,7 +1,4 @@
-{ pkgs, lib, config, mainConfig, ... }: {
-  imports = [
-    ./vars.nix
-  ];
+{ pkgs, lib, config, mainConfig, clib, ... }: {
   options = {
     exported-services = lib.mkOption {
       type = lib.types.listOf lib.types.str;
@@ -33,8 +30,8 @@
     };
   };
 
-  config = {
-    data-prefix = "${config.home.homeDirectory}/${config.data-dir}";
+  config = rec {
+    data-prefix = "${config.home.homeDirectory}/${mainConfig.data-dir}";
     pod-name = "${config.home.username}_pod";
     exporter = {
       run = ''
@@ -45,7 +42,7 @@
             -v exporter-config-empty:/.config:U \
             --restart on-failure:20 \
             -u $UID:$GID \
-            quay.io/navidys/prometheus-podman-exporter:${config.podman-exporter-version} \
+            quay.io/navidys/prometheus-podman-exporter:${mainConfig.podman-exporter-version} \
             --collector.enable-all
       '';
 
@@ -54,14 +51,15 @@
         podman rm podman-exporter-${config.home.username}
       '';
 
-      port = ''${config.address.private.podman-exporter.${config.home.username}}:9882'';
+      port = ''${mainConfig.address.private.podman-exporter.${config.home.username}}:9882'';
     };
-    home.stateVersion = config.nixVersion;
+    home.stateVersion = mainConfig.nixVersion;
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
-    home.activation.dirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      run mkdir -p ${config.backup-dir} ${config.data-prefix}
-    '';
+    home.activation.dirs = clib.create-folders lib [
+      "${mainConfig.backup-dir}"
+      "${data-prefix}"
+    ];
 
     xdg.configFile."micro/bindings.json" = {
       text = builtins.toJSON {
@@ -132,7 +130,7 @@
           Service = {
             ExecStart = ''
               ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-                --web.listen-address ${config.address.private.systemd-exporter.${config.home.username}} --systemd.collector.user --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
+                --web.listen-address ${mainConfig.address.private.systemd-exporter.${config.home.username}} --systemd.collector.user --systemd.collector.unit-include=${lib.concatStringsSep "|" config.exported-services}
             '';
           };
         } else { };
@@ -143,10 +141,10 @@
       backups = {
         user-data = {
           location = {
-            sourceDirectories = config.backups."${mainConfig.networking.hostName}";
+            sourceDirectories = [ "${config.home.homeDirectory}/${mainConfig.backup-dir}" ];
             repositories = [
               {
-                "path" = "${config.home.homeDirectory}/${config.backup-dir}";
+                "path" = "${config.home.homeDirectory}/${mainConfig.backup-dir}";
                 "label" = "local";
               }
             ];

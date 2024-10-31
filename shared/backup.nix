@@ -3,7 +3,7 @@ let
   generatedServices = (map
     (user: {
       "borgmatic_${user}.service" = {
-        description = "Service for Borgmatic ${user}";
+        description = "Service for Borgmatic ${user} user";
         serviceConfig = {
           Type = "oneshot";
           User = user;
@@ -29,27 +29,6 @@ let
     })
     config.backups."${config.networking.hostName}");
 
-
-  rsync = {
-    description = "Rscync backups with ssh to other users";
-    after = [ "backup.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      User = "${config.backup-user-prefix}-${config.networking.hostName}";
-      ExecStart = pkgs.writeShellApplication
-        {
-          name = "sync";
-          runtimeInputs = [ pkgs.coreutils pkgs.rsync ];
-          text = ''
-            ${lib.concatMapStringsSep "\n" (remote: ''
-              rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/${config.backup-user-prefix}-${remote}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}
-            '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
-          '';
-        } + "/bin/sync";
-      WorkingDirectory = "/home/${config.backup-user-prefix}-${config.networking.hostName}";
-    };
-  };
-
   backup = {
     description = "Collect backups";
     after = lib.forEach config.backups."${config.networking.hostName}" (name: "${name}.service");
@@ -69,6 +48,26 @@ let
             done
           '';
         } + "/bin/collect";
+    };
+  };
+
+  rsync = {
+    description = "Rscync backups with ssh to other users";
+    after = [ "backup.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "${config.backup-user-prefix}-${config.networking.hostName}";
+      ExecStart = pkgs.writeShellApplication
+        {
+          name = "sync";
+          runtimeInputs = [ pkgs.coreutils pkgs.rsync ];
+          text = ''
+            ${lib.concatMapStringsSep "\n" (remote: ''
+              rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/${config.backup-user-prefix}-${remote}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}
+            '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
+          '';
+        } + "/bin/sync";
+      WorkingDirectory = "/home/${config.backup-user-prefix}-${config.networking.hostName}";
     };
   };
 in

@@ -1,4 +1,4 @@
-{ age, clib }: { lib, config, home, pkgs, inputs, ... }:
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
   TOR_VERSION = "v0.3.6-exporter";
 in
@@ -16,16 +16,16 @@ in
       executable = true;
       text = ''
         podman pod create --name=${config.pod-name} --userns=keep-id \
-            -p ${toString config.ports.exposed.tor-bridge}:9100 \
-            -p ${toString config.ports.exposed.tor-bridge-pt}:9140 \
-            -p ${config.address.private.tor-exporter-bridge}:9099 \
+            -p ${toString mainConfig.ports.exposed.tor-bridge}:9100 \
+            -p ${toString mainConfig.ports.exposed.tor-bridge-pt}:9140 \
+            -p ${mainConfig.address.private.tor-exporter-bridge}:9099 \
             -p ${config.exporter.port} \
             --network pasta:-a,172.16.0.1
 
         podman run --name=bridge -d --pod=${config.pod-name} \
             -e mode="bridge" \
             -e Nickname="Bridge" \
-            -e ContactInfo="${config.email}" \
+            -e ContactInfo="${mainConfig.email}" \
             -e ORPort=9100 \
             -e PTPort=9140 \
             -e AccountingStart="week 1 00:00" \

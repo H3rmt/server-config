@@ -19,5 +19,5 @@ in
     };
   };
 
-  home-manager.users.kiosk = import ./kiosk.nix { age = config.age; inherit clib; };
+  home-manager.users.kiosk = import ./kiosk.nix;
 }
