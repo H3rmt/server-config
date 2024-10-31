@@ -3,7 +3,7 @@
     ../baseuser.nix
   ];
   home.activation.script = clib.create-folders lib [
-    "${config.data-prefix}/${mainConfig.backup-dir}"
-    "${config.data-prefix}/${mainConfig.remote-backup-dir}"
+    "${mainConfig.backup-dir}"
+    "${mainConfig.remote-backup-dir}"
   ];
 }
