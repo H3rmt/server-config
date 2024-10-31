@@ -31,8 +31,8 @@ let
 
   backup = {
     description = "Collect backups";
-    requires = lib.forEach config.backups."${config.networking.hostName}" (name: "${name}.service");
-    after = lib.forEach config.backups."${config.networking.hostName}" (name: "${name}.service");
+    requires = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
+    after = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
     serviceConfig = {
       Type = "oneshot";
       ExecStart = pkgs.writeShellApplication
@@ -54,6 +54,7 @@ let
 
   rsync = {
     description = "Rscync backups with ssh to other users";
+    requires = [ "backup.service" ];
     after = [ "backup.service" ];
     serviceConfig = {
       Type = "oneshot";
