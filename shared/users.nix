@@ -20,9 +20,9 @@ in
   users.users."${config.backup-user-prefix}-${hostName}" = {
     openssh = {
       authorizedKeys.keys = [
-        config.server.main-1.public-key-borg
-        config.server.main-2.public-key-borg
-        config.server.raspi-1.public-key-borg
+        config.server.main-1.public-key
+        config.server.main-2.public-key
+        config.server.raspi-1.public-key
       ];
     };
     createHome = true;
