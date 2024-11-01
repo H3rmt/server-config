@@ -26,7 +26,7 @@
                 owner = "dracula";
                 repo = "tmux";
                 rev = "master";
-                sha256 = "sha256-rP4kiSSz/JN47ogC5S+2h5ACS0tgjvRxCclBc5WQZGk=";
+                sha256 = "sha256-1jW8L2/Z0/pLHrvj7dXiLQ9uxQ7T5Vn9cW7+jPxwJPQ=";
               };
             };
         in
