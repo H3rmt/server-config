@@ -8,8 +8,7 @@
 
   boot = {
     kernel.sysctl = {
-      "vm.overcommit_memory" = 1;
-      "vm.swappiness" = 10;
+      "vm.swappiness" = 2;
       "net.ipv4.ping_group_range" = "0 2000000";
     };
     loader.grub.enable = false;
