@@ -43,10 +43,10 @@ let
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
               if [ ! -d "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user" ]; then
-                mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
+                mkdir -p "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user"
               fi
-              cp -r /home/$user/${config.backup-dir}/* /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/
-              chown -R ${config.backup-user-prefix}-${config.networking.hostName} /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user
+              cp -r "/home/$user/${config.backup-dir}/*" "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/"
+              chown -R "${config.backup-user-prefix}-${config.networking.hostName}" "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user"
             done
           '';
         } + "/bin/collect";
@@ -65,7 +65,7 @@ let
           name = "sync";
           runtimeInputs = [ pkgs.coreutils pkgs.rsync ];
           text = ''
-            ${lib.concatMapStringsSep "\n" (remote: ''
+            ${lib.concatMapStringsSep "" (remote: ''
               rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}
             '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
           '';
