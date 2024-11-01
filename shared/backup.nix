@@ -31,7 +31,7 @@ let
     config.backups."${config.networking.hostName}");
 
   backup = {
-    description = "Collect backups";
+    description = "Rscync backups with ssh to other users";
     requires = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
     after = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
     serviceConfig = {
@@ -42,38 +42,26 @@ let
           runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
-              if [ ! -d "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user" ]; then
-                mkdir -p "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user"
-              fi
-              cp -r "/home/$user/${config.backup-dir}/*" "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user/"
-              chown -R "${config.backup-user-prefix}-${config.networking.hostName}" "/home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}/$user"
+              ${lib.concatMapStringsSep "" (remote: ''
+                rsync -aP --delete /home/$user/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}/$user
+              '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
             done
           '';
         } + "/bin/collect";
     };
   };
-
-  rsync = {
-    description = "Rscync backups with ssh to other users";
-    requires = [ "backup.service" ];
-    after = [ "backup.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      User = "${config.backup-user-prefix}-${config.networking.hostName}";
-      ExecStart = pkgs.writeShellApplication
-        {
-          name = "sync";
-          runtimeInputs = [ pkgs.coreutils pkgs.rsync ];
-          text = ''
-            ${lib.concatMapStringsSep "" (remote: ''
-              rsync -aP --delete /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}
-            '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
-          '';
-        } + "/bin/sync";
-      WorkingDirectory = "/home/${config.backup-user-prefix}-${config.networking.hostName}";
-    };
-  };
 in
 {
-  systemd.services = { inherit backup; inherit rsync; } // (lib.foldl' (acc: service: acc // service) {} generatedServices); # merge all generated services
+  systemd.services = { inherit backup; } // (lib.foldl' (acc: service: acc // service) {} generatedServices); # merge all generated services
+  
+  # systemd.timers."backup" = {
+  #   wantedBy = [ "timers.target" ];
+  #   timerConfig = {
+  #     Unit = "backup.service";
+  #     OnBootSec = "120";
+  #     RandomizedDelaySec = "5min";
+  #     OnCalendar = "*:0";
+  #     Persistent = true;
+  #   };
+  # };
 }
