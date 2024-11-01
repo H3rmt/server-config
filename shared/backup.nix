@@ -42,8 +42,8 @@ let
           runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
-              ${lib.concatMapStringsSep "" (remote: ''
-                rsync -aP --delete /home/$user/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}/$user
+              ${lib.concatMapStringsSep "  " (remote: ''
+                rsync -aP --delete "/home/$user/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}/$user"
               '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
             done
           '';
@@ -53,7 +53,7 @@ let
 in
 {
   systemd.services = { inherit backup; } // (lib.foldl' (acc: service: acc // service) {} generatedServices); # merge all generated services
-  
+
   # systemd.timers."backup" = {
   #   wantedBy = [ "timers.target" ];
   #   timerConfig = {
