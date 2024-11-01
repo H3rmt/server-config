@@ -301,15 +301,15 @@
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.backup-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
+          "${config.server.main-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.backup-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
+          "${config.server.main-2.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.backup-user-prefix}-${config.server.raspi-1.name}" = lib.mkOption {
+          "${config.server.raspi-1.name}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
@@ -436,9 +436,9 @@
         };
         systemd-exporter = {
           reverseproxy = "${server.main-2.private-ip}:23000";
-          "${backup-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:23001";
-          "${backup-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:23002";
-          "${backup-user-prefix}-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:23003";
+          "${config.server.main-1.name}" = "${server.main-1.private-ip}:23001";
+          "${config.server.main-2.name}" = "${server.main-2.private-ip}:23002";
+          "${config.server.raspi-1.name}" = "${server.raspi-1.private-ip}:23003";
         };
         wireguard = {
           "wireguard-exporter-${server.main-1.name}" = "${server.main-1.private-ip}:24000";

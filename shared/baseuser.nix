@@ -43,7 +43,7 @@
             --restart on-failure:20 \
             -u $UID:$GID \
             quay.io/navidys/prometheus-podman-exporter:${mainConfig.podman-exporter-version} \
-            --collector.enable-all
+            --collector.pod --web.disable-exporter-metrics
       '';
 
       stop = ''

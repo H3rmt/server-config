@@ -7,7 +7,7 @@ let
         serviceConfig = {
           Type = "oneshot";
           User = user;
-          EnvironmentFile= "${config.age.secrets.borg_pass.path}";
+          EnvironmentFile = "${config.age.secrets.borg_pass.path}";
           ExecStart = pkgs.writeShellApplication
             {
               name = "borgmatic";
@@ -50,9 +50,21 @@ let
         } + "/bin/collect";
     };
   };
+
+  exporter = {
+    description = "Service for Systemd Exporter: ${builtins.toJSON config.exported-services}";
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      ExecStart = ''
+        ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
+          --web.listen-address ${config.address.private.systemd-exporter."${config.networking.hostName}"} --systemd.collector.unit-include=${lib.concatStringsSep "|" ["borgmatic_${config.backups."${config.networking.hostName}"}"]}|backup.service|backup.timer
+      '';
+    };
+  };
+
 in
 {
-  systemd.services = { inherit backup; } // (lib.foldl' (acc: service: acc // service) {} generatedServices); # merge all generated services
+  systemd.services = { inherit backup; inherit exporter; } // (lib.foldl' (acc: service: acc // service) { } generatedServices); # merge all generated services
 
   # systemd.timers."backup" = {
   #   wantedBy = [ "timers.target" ];
