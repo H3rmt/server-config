@@ -1,6 +1,6 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  NGINX_VERSION = "v0.0.4";
+  NGINX_VERSION = "v0.1.1";
   NGINX_EXPORTER_VERSION = "1.1.0";
   HOMEPAGE_VERSION = "v0.1.4";
 
