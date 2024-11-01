@@ -36,10 +36,6 @@
       type = lib.types.str;
       description = "Path for backups directory from this server";
     };
-    remote-backup-dir = lib.mkOption {
-      type = lib.types.str;
-      description = "Path for backups directory from other servers";
-    };
     backup-user-prefix = lib.mkOption {
       type = lib.types.str;
       description = "User for borg-backup";
@@ -343,7 +339,6 @@
     nginx-info-page = "nginx_status";
     data-dir = "data";
     backup-dir = "backups";
-    remote-backup-dir = "remote-backups";
     email = "enrico@h3rmt.zip";
     backup-user-prefix = "borg-backup";
     exporter-user-prefix = "exporter";

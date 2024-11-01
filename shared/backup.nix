@@ -43,7 +43,7 @@ let
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
               ${lib.concatMapStringsSep "  " (remote: ''
-                rsync -aP --delete "/home/$user/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.remote-backup-dir}/${config.networking.hostName}/$user"
+                rsync -aP --delete "/home/$user/${config.backup-dir}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}/$user"
               '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
             done
           '';
