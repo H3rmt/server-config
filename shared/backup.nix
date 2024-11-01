@@ -25,6 +25,8 @@ let
               '';
             } + "/bin/borgmatic";
           WorkingDirectory = "/home/${user}";
+          Restart="on-failure";
+          RestartSec="30";
         };
       };
     })
@@ -48,6 +50,8 @@ let
             done
           '';
         } + "/bin/collect";
+      Restart="on-failure";
+      RestartSec="30";
     };
   };
 
@@ -57,7 +61,7 @@ let
     serviceConfig = {
       ExecStart = ''
         ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-          --web.listen-address ${config.address.private.systemd-exporter."${config.networking.hostName}"} --systemd.collector.unit-include=${lib.concatStringsSep "|" (lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service"))}|backup.service|backup.timer
+          --web.listen-address ${config.address.private.systemd-exporter."${config.networking.hostName}"} --systemd.collector.unit-include="${lib.concatStringsSep "|" (lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service"))}|backup.service|backup.timer"
       '';
     };
   };
@@ -66,14 +70,14 @@ in
 {
   systemd.services = { inherit backup; inherit exporter; } // (lib.foldl' (acc: service: acc // service) { } generatedServices); # merge all generated services
 
-  # systemd.timers."backup" = {
-  #   wantedBy = [ "timers.target" ];
-  #   timerConfig = {
-  #     Unit = "backup.service";
-  #     OnBootSec = "120";
-  #     RandomizedDelaySec = "5min";
-  #     OnCalendar = "*:0";
-  #     Persistent = true;
-  #   };
-  # };
+  systemd.timers."backup" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      Unit = "backup.service";
+      OnBootSec = "120";
+      RandomizedDelaySec = "5min";
+      OnCalendar = "*:0";
+      Persistent = true;
+    };
+  };
 }
