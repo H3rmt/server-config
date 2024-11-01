@@ -184,22 +184,22 @@ in
                   user: 'reverseproxy'
               - targets:
                   [
-                    "${mainConfig.address.private.systemd-exporter."${mainConfig.backup-user-prefix}-${mainConfig.server.main-1.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${config.server.main-1.name}"}",
                   ]
                 labels:
-                  user: '${mainConfig.backup-user-prefix}-${mainConfig.server.main-1.name}'
+                  user: 'root-${mainConfig.server.main-1.name}'
               - targets:
                   [
-                    "${mainConfig.address.private.systemd-exporter."${mainConfig.backup-user-prefix}-${mainConfig.server.main-2.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${config.server.main-2.name}"}",
                   ]
                 labels:
-                  user: '${mainConfig.backup-user-prefix}-${mainConfig.server.main-2.name}'
+                  user: 'root-${mainConfig.server.main-2.name}'
               - targets:
                   [
-                    "${mainConfig.address.private.systemd-exporter."${mainConfig.backup-user-prefix}-${mainConfig.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${config.server.raspi-1.name}"}",
                   ]
                 labels:
-                  user: '${mainConfig.backup-user-prefix}-${mainConfig.server.raspi-1.name}'
+                  user: '$root-${mainConfig.server.raspi-1.name}'
           - job_name: podman-exporter
             static_configs:
               - targets:
