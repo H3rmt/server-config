@@ -57,7 +57,7 @@ let
     serviceConfig = {
       ExecStart = ''
         ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-          --web.listen-address ${config.address.private.systemd-exporter."${config.networking.hostName}"} --systemd.collector.unit-include=${lib.concatStringsSep "|" ["borgmatic_${config.backups."${config.networking.hostName}"}"]}|backup.service|backup.timer
+          --web.listen-address ${config.address.private.systemd-exporter."${config.networking.hostName}"} --systemd.collector.unit-include=${lib.concatStringsSep "|" (lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service"))}|backup.service|backup.timer
       '';
     };
   };
