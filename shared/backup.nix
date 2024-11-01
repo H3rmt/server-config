@@ -52,7 +52,7 @@ let
   };
 
   exporter = {
-    description = "Service for Systemd Exporter: ${builtins.toJSON config.exported-services}";
+    description = "Service for Systemd Exporter: ${builtins.toJSON (lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service"))} and backup.service";
     wantedBy = [ "default.target" ];
     serviceConfig = {
       ExecStart = ''
