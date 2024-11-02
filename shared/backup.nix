@@ -24,8 +24,8 @@ let
                 fi
                 borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
 
-                # Wait for at least 60 seconds before exiting
-                while [ $(($(date +%s) - start_time)) -lt 60 ]; do
+                # Wait for at least 30 seconds before exiting
+                while [ $(($(date +%s) - start_time)) -lt 30 ]; do
                     sleep 5  # Sleep for a short duration before checking again
                 done
               '';
