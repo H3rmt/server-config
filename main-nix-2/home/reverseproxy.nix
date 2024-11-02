@@ -94,7 +94,8 @@ in
             -v logs:/var/log/nginx/:U \
             --restart on-failure:20 \
             -u $UID:$GID \
-            docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
+            docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION} \
+            nginx -g "daemon off;"
         
         podman run --name=nginx-exporter -d --pod=${config.pod-name} \
             --restart on-failure:10 \
