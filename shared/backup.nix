@@ -41,7 +41,7 @@ let
       ExecStart = pkgs.writeShellApplication
         {
           name = "collect";
-          runtimeInputs = [ pkgs.rsync ];
+          runtimeInputs = [ pkgs.rsync pkgs.openssh ];
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
               ${lib.concatMapStringsSep "  " (remote: ''
