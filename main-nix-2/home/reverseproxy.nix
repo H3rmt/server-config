@@ -456,7 +456,7 @@ in
         add_header alt-svc 'h3=":443"; ma=2592000';
         ssl_early_data on;
         quic_retry on;
-        quic_gso on;
+        # quic_gso on;
 
         # https only
         add_header Strict-Transport-Security "max-age=63072000" always;
