@@ -41,7 +41,7 @@ let
       ExecStart = pkgs.writeShellApplication
         {
           name = "collect";
-          runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
+          runtimeInputs = [ pkgs.rsync ];
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
               ${lib.concatMapStringsSep "  " (remote: ''
@@ -76,7 +76,7 @@ in
       Unit = "backup.service";
       OnBootSec = "120";
       RandomizedDelaySec = "5min";
-      OnCalendar = "*:0";
+      OnCalendar = "*:10";
       Persistent = true;
     };
   };
