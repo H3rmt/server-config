@@ -478,18 +478,11 @@ in
         gzip_proxied expired no-cache no-store private auth;
         gzip_min_length 1000;
         gzip_types
-          application/x-javascript
-          application/javascript
-          application/json
-          application/xml
-          image/svg+xml
-          text/javascript
-          text/css
           text/plain;
 
         # brotli
         brotli on;
-        brotli_comp_level 4;
+        brotli_comp_level 7;
         brotli_min_length 1000;
         brotli_types
           application/x-javascript
