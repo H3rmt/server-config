@@ -13,6 +13,7 @@ let
               name = "borgmatic";
               runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
               text = ''
+                start_time=$(date +%s)
                 if [ -z "$(ls -A /home/${user}/${config.backup-dir})" ]; then
                   echo "Starting Initial Borgmatic backup"
                   borgmatic config validate --verbosity 1
@@ -22,6 +23,11 @@ let
                   echo "Backup directory is not empty, skipping initial backup"
                 fi
                 borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
+
+                # Wait for at least 60 seconds before exiting
+                while [ $(($(date +%s) - start_time)) -lt 60 ]; do
+                    sleep 5  # Sleep for a short duration before checking again
+                done
               '';
             } + "/bin/borgmatic";
           WorkingDirectory = "/home/${user}";
