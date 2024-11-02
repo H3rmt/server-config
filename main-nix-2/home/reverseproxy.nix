@@ -208,8 +208,8 @@ in
         
             listen 1443 quic reuseport;
             # listen [::0]:1443 quic reuseport;
-            listen 1443 ssl;
-            # listen [::0]:1443 ssl;
+            listen 1443 ssl http2;
+            # listen [::0]:1443 ssl http2;
         
             location / {
               root /${WEBSITE_PATH};
@@ -221,8 +221,8 @@ in
         
             listen 1443 quic;
             # listen [::0]:1443 quic;
-            listen 1443 ssl;
-            # listen [::0]:1443 ssl;
+            listen 1443 ssl http2;
+            # listen [::0]:1443 ssl http2;
         
             location / {
               proxy_pass http://${mainConfig.sites.prometheus};
@@ -238,8 +238,8 @@ in
         
             listen 1443 quic;
             # listen [::0]:1443 quic;
-            listen 1443 ssl;
-            # listen [::0]:1443 ssl;
+            listen 1443 ssl http2;
+            # listen [::0]:1443 ssl http2;
         
             location / {
               proxy_pass http://${mainConfig.sites.authentik};
@@ -252,8 +252,8 @@ in
         
             listen 1443 quic;
             # listen [::0]:1443 quic;
-            listen 1443 ssl;
-            # listen [::0]:1443 ssl;
+            listen 1443 ssl http2;
+            # listen [::0]:1443 ssl http2;
         
             location / {
               proxy_pass http://${mainConfig.sites.grafana};
@@ -266,8 +266,8 @@ in
           
             listen 1443 quic;
             # listen [::0]:1443 quic;
-            listen 1443 ssl;
-            # listen [::0]:1443 ssl;
+            listen 1443 ssl http2;
+            # listen [::0]:1443 ssl http2;
             
             client_max_body_size 3000M;
             location / {
@@ -281,8 +281,8 @@ in
       
             listen 1443 quic;
             # listen [::0]:1443 quic;
-            listen 1443 ssl;
-            # listen [::0]:1443 ssl;
+            listen 1443 ssl http2;
+            # listen [::0]:1443 ssl http2;
         
             client_max_body_size 3000M;
             proxy_read_timeout 300;
@@ -300,8 +300,8 @@ in
       
             listen 1443 quic;
             # listen [::0]:1443 quic;
-            listen 1443 ssl;
-            # listen [::0]:1443 ssl;
+            listen 1443 ssl http2;
+            # listen [::0]:1443 ssl http2;
         
             location / {
               proxy_pass http://${mainConfig.sites.wakapi};
@@ -455,9 +455,9 @@ in
         # http3
         http3 on;
         add_header alt-svc 'h3=":443"; ma=2592000';
-        ssl_early_data off;
-        quic_retry on;
-        quic_gso on;
+        ssl_early_data on;
+        # quic_retry on;
+        # quic_gso on;
         # http3_hq on;
 
         # https only
@@ -474,7 +474,7 @@ in
 
         # gzip
         gzip on;
-        gzip_proxied expired no-cache no-store private auth;
+        gzip_proxied any;
         gzip_min_length 100;
         gzip_types
           application/x-javascript
