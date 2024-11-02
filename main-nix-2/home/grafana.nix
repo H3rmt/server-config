@@ -199,7 +199,7 @@ in
                     "${mainConfig.address.private.systemd-exporter."${mainConfig.server.raspi-1.name}"}",
                   ]
                 labels:
-                  user: '$root-${mainConfig.server.raspi-1.name}'
+                  user: 'root-${mainConfig.server.raspi-1.name}'
           - job_name: podman-exporter
             static_configs:
               - targets:
