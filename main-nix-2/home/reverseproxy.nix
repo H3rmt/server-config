@@ -475,7 +475,7 @@ in
         ssl_protocols TLSv1.3;
 
         # gzip
-        gzip on;
+        gzip off;
         gzip_proxied expired no-cache no-store private auth;
         gzip_min_length 1000;
         gzip_types
