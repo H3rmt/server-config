@@ -455,8 +455,7 @@ in
 
         # http3
         http3 on;
-        add_header alt-svc 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-28=":443"; ma=2592000,h3-27=":443"; ma=2592000';
-        add_header x-quic 'h3' always;
+        add_header alt-svc 'h3=":443"; ma=2592000';
         ssl_early_data on;
         quic_retry on;
         quic_gso on;
