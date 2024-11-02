@@ -5,7 +5,7 @@ let
       "borgmatic_${user}" = {
         description = "Service for Borgmatic ${user} user";
         serviceConfig = {
-          Type = "oneshot";
+          Type = "exec";
           User = user;
           EnvironmentFile = "${config.age.secrets.borg_pass.path}";
           ExecStart = pkgs.writeShellApplication
@@ -37,7 +37,7 @@ let
     requires = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
     after = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
     serviceConfig = {
-      Type = "oneshot";
+      Type = "exec";
       ExecStart = pkgs.writeShellApplication
         {
           name = "collect";
