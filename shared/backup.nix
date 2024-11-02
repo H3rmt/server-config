@@ -49,10 +49,16 @@ let
           name = "sync";
           runtimeInputs = [ pkgs.rsync pkgs.openssh ];
           text = ''
+            start_time=$(date +%s)
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
               ${lib.concatMapStringsSep "  " (remote: ''
                 rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/"$user"/${config.backup-dir}/ ${config.backup-user-prefix}-${remote}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}/"$user"
               '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
+            done
+
+            # Wait for at least 30 seconds before exiting
+            while [ $(($(date +%s) - start_time)) -lt 30 ]; do
+                sleep 5  # Sleep for a short duration before checking again
             done
           '';
         } + "/bin/sync";
