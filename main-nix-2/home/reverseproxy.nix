@@ -483,7 +483,7 @@ in
         # brotli
         brotli on;
         brotli_comp_level 7;
-        brotli_min_length 1000;
+        brotli_min_length 100;
         brotli_types
           application/x-javascript
           application/javascript
