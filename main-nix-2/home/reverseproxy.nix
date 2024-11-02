@@ -456,10 +456,10 @@ in
         # http3
         http3 on;
         add_header alt-svc 'h3=":443"; ma=2592000';
-        ssl_early_data on;
+        ssl_early_data off;
         quic_retry on;
         quic_gso on;
-        http3_hq on;
+        # http3_hq on;
 
         # https only
         add_header Strict-Transport-Security "max-age=63072000" always;
