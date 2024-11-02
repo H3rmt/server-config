@@ -5,7 +5,7 @@ let
       "borgmatic_${user}" = {
         description = "Service for Borgmatic ${user} user";
         serviceConfig = {
-          Type = "exec";
+          Type = "oneshot";
           User = user;
           EnvironmentFile = "${config.age.secrets.borg_pass.path}";
           ExecStart = pkgs.writeShellApplication
@@ -40,7 +40,7 @@ let
       Type = "exec";
       ExecStart = pkgs.writeShellApplication
         {
-          name = "collect";
+          name = "sync";
           runtimeInputs = [ pkgs.rsync pkgs.openssh ];
           text = ''
             for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
@@ -49,7 +49,7 @@ let
               '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
             done
           '';
-        } + "/bin/collect";
+        } + "/bin/sync";
       Restart="on-failure";
       RestartSec="30";
     };
