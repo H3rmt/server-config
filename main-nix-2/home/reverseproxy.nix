@@ -1,6 +1,6 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  NGINX_VERSION = "v0.1.1";
+  NGINX_VERSION = "v0.1.2";
   NGINX_EXPORTER_VERSION = "1.1.0";
   HOMEPAGE_VERSION = "v0.1.4";
 
@@ -94,8 +94,7 @@ in
             -v logs:/var/log/nginx/:U \
             --restart on-failure:20 \
             -u $UID:$GID \
-            docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION} \
-            nginx -g "daemon off;"
+            docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
         
         podman run --name=nginx-exporter -d --pod=${config.pod-name} \
             --restart on-failure:10 \
