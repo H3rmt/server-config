@@ -268,7 +268,7 @@ in
 
           server {
             server_name ${mainConfig.sites.nextcloud}.${mainConfig.main-url};
-            
+
             listen 1443 ssl;
             listen [::0]:1443 ssl;
             
@@ -442,7 +442,7 @@ in
 
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
-        log_format main '[$time_iso8601] $server_name $status $request_method $server_protocol $content_length $request_uri';
+        log_format main '[$time_iso8601] $server_name $status $request_method $server_protocol $content_length $uri';
         access_log /var/log/nginx/access.log main; 
         # sendfile   on;
         # tcp_nopush on;
