@@ -225,7 +225,7 @@ in
         
           server {
             server_name ${mainConfig.sites.prometheus}.${mainConfig.main-url};
-        
+
             listen 1443 quic;
             listen [::0]:1443 quic;
             listen 1443 ssl;
@@ -242,9 +242,7 @@ in
         
           server {
             server_name ${mainConfig.sites.authentik}.${mainConfig.main-url};
-        
-            listen 1443 quic;
-            listen [::0]:1443 quic;
+
             listen 1443 ssl;
             listen [::0]:1443 ssl;
         
@@ -270,9 +268,7 @@ in
 
           server {
             server_name ${mainConfig.sites.nextcloud}.${mainConfig.main-url};
-          
-            listen 1443 quic;
-            listen [::0]:1443 quic;
+            
             listen 1443 ssl;
             listen [::0]:1443 ssl;
             
