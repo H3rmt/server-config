@@ -454,6 +454,7 @@ in
         # general
         server_tokens off;
         client_max_body_size 50M;
+        proxy_max_temp_file_size 0;
 
         # http2
         http2 on;
