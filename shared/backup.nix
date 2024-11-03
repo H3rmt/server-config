@@ -78,6 +78,12 @@ let
     };
   };
 
+  # Todo move this to config  
+  hostMinutes = {
+    "main-nix-1" = 10;
+    "main-nix-2" = 20;
+    "raspi-1" = 30;
+  };
 in
 {
   systemd.services = { inherit backup; inherit exporter; } // (lib.foldl' (acc: service: acc // service) { } generatedServices); # merge all generated services
@@ -87,8 +93,7 @@ in
     timerConfig = {
       Unit = "backup.service";
       OnBootSec = "120";
-      RandomizedDelaySec = "5min";
-      OnCalendar = "*:10";
+      OnCalendar = "*:${toString builtins.getAttr config.networking.hostName hostMinutes}";
       Persistent = true;
     };
   };
