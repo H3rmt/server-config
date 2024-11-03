@@ -330,6 +330,10 @@ in
             listen [::0]:1443 quic;
             listen 1443 ssl;
             listen [::0]:1443 ssl;
+
+            location / {        
+              return 404;
+            }
           }
 
           #   server {
