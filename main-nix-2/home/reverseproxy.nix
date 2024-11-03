@@ -212,6 +212,7 @@ in
         
           server {
             server_name ${mainConfig.main-url};
+            add_header alt-svc 'h3=":443"; ma=2592000';
         
             listen 1443 quic reuseport;
             listen [::0]:1443 quic reuseport;
@@ -225,6 +226,7 @@ in
         
           server {
             server_name ${mainConfig.sites.prometheus}.${mainConfig.main-url};
+            add_header alt-svc 'h3=":443"; ma=2592000';
 
             listen 1443 quic;
             listen [::0]:1443 quic;
@@ -254,6 +256,7 @@ in
         
           server {
             server_name ${mainConfig.sites.grafana}.${mainConfig.main-url};
+            add_header alt-svc 'h3=":443"; ma=2592000';
         
             listen 1443 quic;
             listen [::0]:1443 quic;
@@ -281,6 +284,7 @@ in
                             
           server {
             server_name ${mainConfig.sites.filesharing}.${mainConfig.main-url};
+            add_header alt-svc 'h3=":443"; ma=2592000';
       
             listen 1443 quic;
             listen [::0]:1443 quic;
@@ -300,6 +304,7 @@ in
         
           server {
             server_name ${mainConfig.sites.wakapi}.${mainConfig.main-url};
+            add_header alt-svc 'h3=":443"; ma=2592000';
       
             listen 1443 quic;
             listen [::0]:1443 quic;
@@ -457,7 +462,6 @@ in
 
         # http3
         http3 on;
-        add_header alt-svc 'h3=":443"; ma=2592000';
         ssl_early_data on;
         # quic_retry on;
         # quic_gso on;
