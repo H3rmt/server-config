@@ -93,7 +93,7 @@ in
     timerConfig = {
       Unit = "backup.service";
       OnBootSec = "120";
-      OnCalendar = "*:${toString builtins.getAttr config.networking.hostName hostMinutes}";
+      OnCalendar = "*:${toString (builtins.getAttr config.networking.hostName hostMinutes)}";
       Persistent = true;
     };
   };
