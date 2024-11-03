@@ -448,8 +448,8 @@ in
         default_type application/octet-stream;
         log_format main '[$time_local] $server_name "$status" "$request" "$content_length"';
         access_log /var/log/nginx/access.log main; 
-        sendfile   on;
-        tcp_nopush on;
+        # sendfile   on;
+        # tcp_nopush on;
 
         # general
         server_tokens off;
@@ -462,7 +462,7 @@ in
         http3 on;
         add_header alt-svc 'h3=":443"; ma=2592000';
         ssl_early_data on;
-        quic_retry on;
+        # quic_retry on;
         # quic_gso on;
 
         # https only
@@ -472,8 +472,8 @@ in
         ssl_certificate /etc/letsencrypt/live/${mainConfig.main-url}/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/${mainConfig.main-url}/privkey.pem;
         ssl_session_cache shared:SSL:10m;
-        ssl_session_timeout 1h;
-        ssl_session_tickets off;
+        # ssl_session_timeout 1h;
+        # ssl_session_tickets off;
         ssl_buffer_size 4k;
         ssl_protocols TLSv1.3;
 
