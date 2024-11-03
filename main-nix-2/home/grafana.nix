@@ -43,7 +43,7 @@ in
             --restart on-failure:10 \
             -u $UID:$GID \
             docker.io/prom/prometheus:${PROMETHEUS_VERSION} \
-            --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --storage.tsdb.retention.time=5y
+            --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --storage.tsdb.retention.time=5y --enable-feature=promql-experimental-functions
 
         podman run --name=loki -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${LOKI_CONFIG}:/etc/loki:ro \
