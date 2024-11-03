@@ -446,8 +446,7 @@ in
 
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
-        log_format main '$remote_addr - [$time_local] "$request" '
-                        '"$http_user_agent" "$status" "$http3"';
+        log_format main '[$time_local] $server_name "$status" "$request" "$content_length"';
         access_log /var/log/nginx/access.log main; 
         sendfile   on;
         tcp_nopush on;
