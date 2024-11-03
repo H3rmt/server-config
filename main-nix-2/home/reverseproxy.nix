@@ -323,6 +323,15 @@ in
             include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-locations.conf;
           }
 
+          server {
+            server_name *.example.com;
+      
+            listen 1443 quic;
+            listen [::0]:1443 quic;
+            listen 1443 ssl;
+            listen [::0]:1443 ssl;
+          }
+
           #   server {
           #     server_name esp32-timelapse.${mainConfig.main-url};
           # 
