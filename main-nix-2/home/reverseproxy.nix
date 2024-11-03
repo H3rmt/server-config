@@ -32,6 +32,8 @@ in
               name = "certbot-renewal";
               runtimeInputs = [ pkgs.coreutils pkgs.podman ];
               text = ''
+                start_time=$(date +%s)
+
                 podman pull docker.io/certbot/certbot
                 podman run --rm --name certbot \
                   -e "HETZNER_TOKEN=$(cat '${mainConfig.age.secrets.reverseproxy_hetzner_token.path}')" \
@@ -49,7 +51,13 @@ in
                   echo "Reloaded Certificate"
                 else 
                   echo "No reload"
-                fi'';
+                fi
+                
+                # Wait for at least 60 seconds before exiting
+                while [ $(($(date +%s) - start_time)) -lt 60 ]; do
+                    sleep 5  # Sleep for a short duration before checking again
+                done
+                '';
             } + /bin/certbot-renewal;
         };
       };

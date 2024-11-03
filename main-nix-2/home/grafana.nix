@@ -125,7 +125,7 @@ in
             static_configs:
               - targets: ["prometheus:9090"]
           - job_name: snowflake
-            scrape_interval: 5m
+            scrape_interval: 2m
             static_configs:
               - targets:
                   [
@@ -142,7 +142,7 @@ in
                     "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.raspi-1.name}"}",
                   ]
           - job_name: nginx
-            scrape_interval: 10s
+            scrape_interval: 20s
             static_configs:
               - targets:
                   [
@@ -201,6 +201,7 @@ in
                 labels:
                   user: 'root-${mainConfig.server.raspi-1.name}'
           - job_name: podman-exporter
+            scrape_interval: 30s
             static_configs:
               - targets:
                   [
