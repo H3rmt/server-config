@@ -324,7 +324,7 @@ in
           }
 
           server {
-            server_name *.example.com;
+            server_name *.${mainConfig.main-url};
       
             listen 1443 quic;
             listen [::0]:1443 quic;
