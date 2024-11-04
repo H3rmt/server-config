@@ -80,6 +80,10 @@ in
       text = ''
         [server]
         root_url = "https://${mainConfig.sites.grafana}.${mainConfig.main-url}/"
+        enable_gzip = true
+
+        [log.console]
+        level = warn
         
         [feature_toggles]
         ssoSettingsApi = true

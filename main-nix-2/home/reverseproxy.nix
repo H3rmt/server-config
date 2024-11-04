@@ -74,7 +74,7 @@ in
           Unit = "certbot.service";
           OnBootSec = "15min";
           OnCalendar = "*-*-* 2:00:00";
-          RandomizedDelaySec = "30m";
+          RandomizedDelaySec = "60m";
           Persistent = true;
         };
       };
