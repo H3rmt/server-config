@@ -235,11 +235,11 @@ in
           log_level: warn
 
         common:
+          instance_addr: 127.0.0.1
+          replication_factor: 1
           ring:
-            instance_addr: 127.0.0.1
             kvstore:
               store: inmemory
-          replication_factor: 1
 
         schema_config:
           configs:
