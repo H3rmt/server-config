@@ -2,7 +2,7 @@
 let
   POSTGRES_VERSION = "12-alpine";
   REDIS_VERSION = "7.2.4-alpine";
-  AUTHENTIK_VERSION = "2024.2.2";
+  AUTHENTIK_VERSION = "2024.10.1";
 
   PG_PASS = ''$(cat "${mainConfig.age.secrets.authentik_pg_pass.path}")'';
   SECRET_KEY = ''$(cat "${mainConfig.age.secrets.authentik_key.path}")'';
