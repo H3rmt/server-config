@@ -17,7 +17,7 @@ let
                 #!/bin/sh
 
                 // create /etc/borgmatic.d/config.yaml
-                cat <<EOFF > /etc/borgmatic.d/config.yaml
+                cat <<EOFF
                 location:
                   source_directories:
                     - /mnt/source
@@ -29,8 +29,7 @@ let
                   keep_weekly: 4
                   keep_monthly: 6
                   keep_yearly: 1
-                EOFF
-                )
+                EOFF > /etc/borgmatic.d/config.yaml
 
                 borgmatic config validate --verbosity 1
                 EOF
