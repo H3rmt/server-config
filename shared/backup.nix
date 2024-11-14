@@ -6,23 +6,64 @@ let
         description = "Service for Borgmatic ${user} user";
         serviceConfig = {
           Type = "oneshot";
-          User = user;
-          EnvironmentFile = "${config.age.secrets.borg_pass.path}";
           ExecStart = pkgs.writeShellApplication
             {
               name = "borgmatic";
               runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
               text = ''
                 start_time=$(date +%s)
-                if [ -z "$(ls -A /home/${user}/${config.backup-dir})" ]; then
+
+                script+=$(cat <<EOF
+                #!/bin/sh
+
+                // create /etc/borgmatic.d/config.yaml
+                cat <<EOFF > /etc/borgmatic.d/config.yaml
+                location:
+                  source_directories:
+                    - /mnt/source
+                  repositories:
+                    - /mnt/borg-repository
+                  encryption_passcommand: "cat ${config.age.secrets.borg_pass.path}"
+                  compression: zstd,12
+                  keep_daily: 7
+                  keep_weekly: 4
+                  keep_monthly: 6
+                  keep_yearly: 1
+                EOFF
+                )
+
+                borgmatic config validate --verbosity 1
+                EOF
+                )
+
+                if [ -z "$(ls -A /var/backups/${user}/repo)" ]; then
+                  script+=$(cat <<EOF
+
                   echo "Starting Initial Borgmatic backup"
-                  borgmatic config validate --verbosity 1
                   borgmatic init --encryption repokey-blake2 --verbosity 1
                   borgmatic create --list --stats --verbosity 1
-                else
-                  echo "Backup directory is not empty, skipping initial backup"
+                  EOF
+                  )
                 fi
+
+                script+=$(cat <<EOF
+
                 borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
+                EOF
+                )
+
+                mkdir -p /var/backups/${user} /var/backups/${user}/repo /var/backups/${user}.config/borg /var/backups/${user}.cache/borg
+                podman pull ghcr.io/borgmatic-collective/borgmatic:1.9.1
+                podman run --rm --name borgmatic-${user} \ 
+                  -e BORG_PASSPHRASE=$(cat ${config.age.secrets.borg_pass.path}) \
+                  -v /home/${user}/${config.backup-dir}:/mnt/source:ro \
+                  -v /var/backups/${user}/repo:/mnt/borg-repository \
+                  -v /var/backups/${user}.config/borg:/root/.config/borg \
+                  -v /var/backups/${user}.cache/borg:/root/.cache/borg \
+                  -e TZ=Europe/Berlin \
+                  --entrypoint sh \
+                  ghcr.io/borgmatic-collective/borgmatic:1.9.1 \
+                  -c '"$script"'
 
                 # Wait for at least 30 seconds before exiting
                 while [ $(($(date +%s) - start_time)) -lt 30 ]; do
@@ -30,7 +71,6 @@ let
                 done
               '';
             } + "/bin/borgmatic";
-          WorkingDirectory = "/home/${user}";
           Restart="on-failure";
           RestartSec="30";
         };
