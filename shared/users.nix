@@ -9,9 +9,9 @@ in
     openssh = {
       authorizedKeys.keys = [
         config.my-public-key
-        config.server.main-1.public-key
-        config.server.main-2.public-key
-        config.server.raspi-1.public-key
+        config.server."${config.hostnames.main-1}".root-public-key
+        config.server."${config.hostnames.main-2}".root-public-key
+        config.server."${config.hostnames.raspi-1}".root-public-key
       ];
     };
     isSystemUser = true;
@@ -20,9 +20,9 @@ in
   users.users."${config.backup-user-prefix}-${hostName}" = {
     openssh = {
       authorizedKeys.keys = [
-        config.server.main-1.public-key
-        config.server.main-2.public-key
-        config.server.raspi-1.public-key
+        config.server."${config.hostnames.main-1}".root-public-key
+        config.server."${config.hostnames.main-2}".root-public-key
+        config.server."${config.hostnames.raspi-1}".root-public-key
       ];
     };
     createHome = true;

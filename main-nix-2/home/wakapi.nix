@@ -31,7 +31,7 @@ in
             -e WAKAPI_EXPOSE_METRICS=true \
             -e WAKAPI_TRUSTED_HEADER_AUTH=true \
             -e WAKAPI_TRUSTED_HEADER_AUTH_KEY="X-wakapi-username" \
-            -e WAKAPI_TRUST_REVERSE_PROXY_IPS=${mainConfig.server.main-2.private-ip} \
+            -e WAKAPI_TRUST_REVERSE_PROXY_IPS=${mainConfig.server."${mainConfig.hostnames.main-2}".private-ip} \
             -e WAKAPI_MAIL_ENABLED=false \
             -e WAKAPI_PASSWORD_SALT=${SALT} \
             -v ${config.data-prefix}/wakapi:/data:U \

@@ -135,34 +135,5 @@
           };
         } else { };
     };
-
-    programs.borgmatic = {
-      enable = true;
-      backups = {
-        user-data = {
-          location = {
-            sourceDirectories = [ "${config.home.homeDirectory}/${mainConfig.data-dir}" ];
-            repositories = [
-              {
-                "path" = "${config.home.homeDirectory}/${mainConfig.backup-dir}";
-                "label" = "local";
-              }
-            ];
-          };
-          retention = {
-            keepDaily = 7;
-            keepWeekly = 4;
-            keepMonthly = 6;
-            keepYearly = 1;
-          };
-          # storage = {
-          #   encryptionPasscommand = "${pkgs.coreutils}/bin/cat '${mainConfig.age.secrets.borg_pass.path}'";
-          # };
-          output.extraConfig = {
-            compression = "zstd,12";
-          };
-        };
-      };
-    };
   };
 }

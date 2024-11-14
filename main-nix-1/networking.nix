@@ -5,7 +5,7 @@
       matchConfig.Name = "eth0";
       dns = config.nameservers ++ config.nameservers-hetzner;
       address = [
-        "128.140.32.233/32"
+        "${config.server."${config.hostnames.main-1}".public-ip}/32"
         "2a01:4f8:c0c:e6fe::1/64"
       ];
       routes = [
@@ -17,7 +17,7 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "${config.server.main-1.private-ip}/24"
+        "${config.server."${config.hostnames.main-1}".private-ip}/24"
       ];
       linkConfig.RequiredForOnline = "no";
     };
@@ -33,13 +33,13 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "${config.server.raspi-1.public-key-wg}";
-          AllowedIPs = "${config.server.raspi-1.private-ip}/32";
+          PublicKey = "${config.server."${config.hostnames.raspi-1}".wireguard-public-key }";
+          AllowedIPs = "${config.server."${config.hostnames.raspi-1}".private-ip}/32";
         }
         {
-          PublicKey = "${config.server.main-2.public-key-wg}";
-          AllowedIPs = "${config.server.main-2.private-ip}/32";
-          Endpoint = "159.69.206.86:${toString config.ports.exposed.wireguard}";
+          PublicKey = "${config.server."${config.hostnames.main-2}".wireguard-public-key }";
+          AllowedIPs = "${config.server."${config.hostnames.main-2}".private-ip}/32";
+          Endpoint = "${config.server."${config.hostnames.main-2}".public-ip}:${toString config.ports.exposed.wireguard}";
           PersistentKeepalive = 25;
         }
       ];

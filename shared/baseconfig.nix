@@ -69,7 +69,6 @@
     pkgs.btop
     pkgs.htop
     pkgs.podman
-    pkgs.podman-compose
     pkgs.podman-tui
     pkgs.passt
     pkgs.tmux
@@ -90,9 +89,7 @@
     pkgs.jq
     pkgs.openssl
     pkgs.nmap
-    pkgs.borgbackup
     pkgs.prometheus-systemd-exporter
-    pkgs.acl
     pkgs.wireguard-tools
     inputs.agenix.packages.aarch64-linux.default
   ];

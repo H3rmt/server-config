@@ -16,7 +16,7 @@
   };
 
   networking.nftables.enable = true;
-  networking.hostName = config.server.raspi-1.name;
+  networking.hostName = config.hostnames.raspi-1;
   networking.firewall = {
     enable = true;
     rejectPackets = true;
@@ -30,14 +30,15 @@
   services.prometheus.exporters.wireguard = {
     enable = true;
     withRemoteIp = true;
-    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.server.raspi-1.name}") 0;
-    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.server.raspi-1.name}") 1);
+    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.raspi-1}") 0;
+    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.raspi-1}") 1);
   };
 
   services.fail2ban.enable = lib.mkForce false;
 
   # needed for builds
-  zramSwap.memoryPercent = 200;
+  zramSwap.enable = true;
+  zramSwap.memoryPercent = 150;
 
   # needed for kiosk
   services.cage = {

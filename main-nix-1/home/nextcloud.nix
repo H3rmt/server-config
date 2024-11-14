@@ -48,7 +48,7 @@ in
             -e NEXTCLOUD_ADMIN_USER=${ADMIN_USER} \
             -e NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASS} \
             -e OVERWRITEHOST=${mainConfig.sites.nextcloud}.${mainConfig.main-url} \
-            -e TRUSTED_PROXIES=${mainConfig.server.main-2.private-ip} \
+            -e TRUSTED_PROXIES=${mainConfig.server."${config.hostnames.main-1}".private-ip} \
             -e OVERWRITEPROTOCOL=https \
             -v ${config.data-prefix}/nextcloud:/var/www/html:U \
             -v ${config.home.homeDirectory}/apache2/ports.conf:/etc/apache2/ports.conf:ro \

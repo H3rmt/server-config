@@ -141,9 +141,9 @@ in
             static_configs:
               - targets:
                   [
-                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-1.name}"}",
-                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-2.name}"}",
-                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.hostnames.main-1}"}",
+                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.hostnames.main-2}"}",
+                    "${mainConfig.address.private.node-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.hostnames.raspi-1}"}",
                   ]
           - job_name: nginx
             scrape_interval: 20s
@@ -173,9 +173,9 @@ in
             static_configs:
               - targets:
                   [
-                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.server.main-1.name}"}",
-                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.server.main-2.name}"}",
-                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.hostnames.main-1}"}",
+                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.hostnames.main-2}"}",
+                    "${mainConfig.address.private.wireguard."wireguard-exporter-${mainConfig.hostnames.raspi-1}"}",
                   ]
           - job_name: systemd
             scrape_interval: 10s
@@ -188,22 +188,22 @@ in
                   user: 'reverseproxy'
               - targets:
                   [
-                    "${mainConfig.address.private.systemd-exporter."${mainConfig.server.main-1.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${mainConfig.hostnames.main-1}"}",
                   ]
                 labels:
-                  user: 'root-${mainConfig.server.main-1.name}'
+                  user: 'root-${mainConfig.hostnames.main-1}'
               - targets:
                   [
-                    "${mainConfig.address.private.systemd-exporter."${mainConfig.server.main-2.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${mainConfig.hostnames.main-2}"}",
                   ]
                 labels:
-                  user: 'root-${mainConfig.server.main-2.name}'
+                  user: 'root-${mainConfig.hostnames.main-2}'
               - targets:
                   [
-                    "${mainConfig.address.private.systemd-exporter."${mainConfig.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.systemd-exporter."${mainConfig.hostnames.raspi-1}"}",
                   ]
                 labels:
-                  user: 'root-${mainConfig.server.raspi-1.name}'
+                  user: 'root-${mainConfig.hostnames.raspi-1}'
           - job_name: podman-exporter
             scrape_interval: 30s
             static_configs:
@@ -212,15 +212,15 @@ in
                     "${mainConfig.address.private.podman-exporter.reverseproxy}",
                     "${mainConfig.address.private.podman-exporter.grafana}",
                     "${mainConfig.address.private.podman-exporter.authentik}",
-                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-1.name}"}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.hostnames.main-1}"}",
                     "${mainConfig.address.private.podman-exporter.tor}",
                     "${mainConfig.address.private.podman-exporter.filesharing}",
                     "${mainConfig.address.private.podman-exporter.nextcloud}",
-                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.main-2.name}"}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.hostnames.main-2}"}",
                     "${mainConfig.address.private.podman-exporter.wakapi}",
                     "${mainConfig.address.private.podman-exporter.bridge}",
                     "${mainConfig.address.private.podman-exporter.snowflake}",
-                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.server.raspi-1.name}"}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.hostnames.raspi-1}"}",
                   ]
       '';
     };

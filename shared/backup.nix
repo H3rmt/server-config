@@ -36,7 +36,7 @@ let
                 EOF
                 )
 
-                if [ -z "$(ls -A /var/backups/${user}/repo)" ]; then
+                if [ -z "$(ls -A /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user})" ]; then
                   script+=$(cat <<EOF
 
                   echo "Starting Initial Borgmatic backup"
@@ -52,14 +52,16 @@ let
                 EOF
                 )
 
-                mkdir -p /var/backups/${user} /var/backups/${user}/repo /var/backups/${user}.config/borg /var/backups/${user}.cache/borg
+                mkdir -p /var/backups/${user}/config /var/backups/${user}/cache
+                mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user}
+
                 podman pull ghcr.io/borgmatic-collective/borgmatic:1.9.1
                 podman run --rm --name borgmatic-${user} \ 
                   -e BORG_PASSPHRASE=$(cat ${config.age.secrets.borg_pass.path}) \
                   -v /home/${user}/${config.backup-dir}:/mnt/source:ro \
-                  -v /var/backups/${user}/repo:/mnt/borg-repository \
-                  -v /var/backups/${user}.config/borg:/root/.config/borg \
-                  -v /var/backups/${user}.cache/borg:/root/.cache/borg \
+                  -v /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user}:/mnt/borg-repository \
+                  -v /var/backups/${user}/config:/root/.config/borg:U \
+                  -v /var/backups/${user}/cache:/root/.cache/borg:U \
                   -e TZ=Europe/Berlin \
                   --entrypoint sh \
                   ghcr.io/borgmatic-collective/borgmatic:1.9.1 \
@@ -76,12 +78,12 @@ let
         };
       };
     })
-    config.backups."${config.networking.hostName}");
+    config.server."${config.networking.hostName}".backup-users);
 
   backup = {
     description = "Rscync backups with ssh to other users";
-    requires = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
-    after = lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service");
+    requires = lib.forEach config.server."${config.networking.hostName}".backup-users (name: "borgmatic_${name}.service");
+    after = lib.forEach config.server."${config.networking.hostName}".backup-users (name: "borgmatic_${name}.service");
     serviceConfig = {
       Type = "exec";
       ExecStart = pkgs.writeShellApplication
@@ -90,10 +92,10 @@ let
           runtimeInputs = [ pkgs.rsync pkgs.openssh ];
           text = ''
             start_time=$(date +%s)
-            for user in ${lib.concatStringsSep " " config.backups."${config.networking.hostName}"}; do
+            for user in ${lib.concatStringsSep " " config.server."${config.networking.hostName}".backup-users}; do
               ${lib.concatMapStringsSep "  " (remote: ''
-                rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/"$user"/${config.backup-dir}/ ${config.backup-user-prefix}-${remote}@${(builtins.elemAt (builtins.filter (server: server.name == remote) (builtins.attrValues config.server)) 0)."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}/"$user"
-              '') (lib.filter (r: r != config.networking.hostName) (lib.attrNames config.backups))}
+                rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/"$user"/${config.backup-dir}/ ${config.backup-user-prefix}-${remote}@${config.server."${remote}"."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}/"$user"
+              '') (lib.filter (r: r != config.networking.hostName) (lib.attrValues config.hostnames))}
             done
 
             # Wait for at least 30 seconds before exiting
@@ -108,21 +110,14 @@ let
   };
 
   exporter = {
-    description = "Service for Systemd Exporter: ${builtins.toJSON (lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service"))} and backup.service";
+    description = "Service for Systemd Exporter: ${builtins.toJSON (lib.forEach config.server."${config.networking.hostName}".backup-users (name: "borgmatic_${name}.service"))} and backup.service";
     wantedBy = [ "default.target" ];
     serviceConfig = {
       ExecStart = ''
         ${pkgs.prometheus-systemd-exporter}/bin/systemd_exporter \
-          --web.listen-address ${config.address.private.systemd-exporter."${config.networking.hostName}"} --systemd.collector.unit-include="${lib.concatStringsSep "|" (lib.forEach config.backups."${config.networking.hostName}" (name: "borgmatic_${name}.service"))}|backup.service|backup.timer"
+          --web.listen-address ${config.address.private.systemd-exporter."${config.networking.hostName}"} --systemd.collector.unit-include="${lib.concatStringsSep "|" (lib.forEach config.server."${config.networking.hostName}".backup-users (name: "borgmatic_${name}.service"))}|backup.service|backup.timer"
       '';
     };
-  };
-
-  # Todo move this to config  
-  hostMinutes = {
-    "main-nix-1" = 10;
-    "main-nix-2" = 20;
-    "raspi-1" = 30;
   };
 in
 {
@@ -133,7 +128,7 @@ in
     timerConfig = {
       Unit = "backup.service";
       OnBootSec = "120";
-      OnCalendar = "*:${toString (builtins.getAttr config.networking.hostName hostMinutes)}";
+      OnCalendar = "*:${toString config.server."${config.networking.hostName}".backup-trigger-minutes}";
       Persistent = true;
     };
   };

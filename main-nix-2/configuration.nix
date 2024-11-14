@@ -21,7 +21,7 @@
   };
 
   networking.nftables.enable = true;
-  networking.hostName = config.server.main-2.name;
+  networking.hostName = config.hostnames.main-2;
   networking.firewall = {
     enable = true;
     rejectPackets = true;
@@ -35,7 +35,7 @@
   services.prometheus.exporters.wireguard = {
     enable = true;
     withRemoteIp = true;
-    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.server.main-2.name}") 0;
-    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.server.main-2.name}") 1);
+    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.main-2}") 0;
+    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.main-2}") 1);
   };
 }

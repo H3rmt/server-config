@@ -48,75 +48,50 @@
       type = lib.types.str;
       description = "Public Key for my devices";
     };
-    server = {
-      main-1 = {
-        name = lib.mkOption {
-          type = lib.types.str;
-          description = "Hostname for server 1";
-        };
-        private-ip = lib.mkOption {
-          type = lib.types.str;
-          description = "Private IP for server 1";
-        };
-        public-key = lib.mkOption {
-          type = lib.types.str;
-          description = "Public Key for server 1";
-        };
-        public-key-wg = lib.mkOption {
-          type = lib.types.str;
-          description = "Public Key for Wireguard on server 1";
-        };
+    hostnames = {
+      main-1 = lib.mkOption {
+        type = lib.types.str;
+        description = "Hostname for server 1";
       };
-      main-2 = {
-        name = lib.mkOption {
-          type = lib.types.str;
-          description = "Hostname for server 2";
-        };
-        private-ip = lib.mkOption {
-          type = lib.types.str;
-          description = "Private IP for server 2";
-        };
-        public-key = lib.mkOption {
-          type = lib.types.str;
-          description = "Public Key for server 2";
-        };
-        public-key-wg = lib.mkOption {
-          type = lib.types.str;
-          description = "Public Key for Wireguard on server 2";
-        };
+      main-2 = lib.mkOption {
+        type = lib.types.str;
+        description = "Hostname for server 2";
       };
-      raspi-1 = {
-        name = lib.mkOption {
-          type = lib.types.str;
-          description = "Hostname for raspi 1";
-        };
-        private-ip = lib.mkOption {
-          type = lib.types.str;
-          description = "Private IP for raspi 1";
-        };
-        public-key = lib.mkOption {
-          type = lib.types.str;
-          description = "Public Key for raspi 1";
-        };
-        public-key-wg = lib.mkOption {
-          type = lib.types.str;
-          description = "Public Key for Wireguard on raspi 1";
-        };
+      raspi-1 = lib.mkOption {
+        type = lib.types.str;
+        description = "Hostname for raspi 1";
       };
     };
-    backups = {
-      "${config.server.main-1.name}" = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        description = "List of directories to backup on server 1";
-      };
-      "${config.server.main-2.name}" = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        description = "List of directories to backup on server 2";
-      };
-      "${config.server.raspi-1.name}" = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        description = "List of directories to backup on raspi 1";
-      };
+    server = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule {
+        options = {
+          public-ip = lib.mkOption {
+            type = lib.types.str;
+            description = "Public IP for server 1";
+          };
+          private-ip = lib.mkOption {
+            type = lib.types.str;
+            description = "Private IP for server 1";
+          };
+          root-public-key = lib.mkOption {
+            type = lib.types.str;
+            description = "Public Key for root on server 1";
+          };
+          wireguard-public-key = lib.mkOption {
+            type = lib.types.str;
+            description = "Public Key for Wireguard on server 1";
+          };
+          backup-users = lib.mkOption {
+            type = lib.types.listOf lib.types.str;
+            description = "List of users to backup on server 1 (/home/$username/config.data-dir)";
+          };
+          backup-trigger-minutes = lib.mkOption {
+            type = lib.types.int;
+            description = "Minutes to wait before triggering backup on server 1";
+          };
+        };
+      });
+      description = "Server configurations.";
     };
     sites = {
       authentik = lib.mkOption {
@@ -257,11 +232,11 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
-          "${config.exporter-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
-          "${config.exporter-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
@@ -277,21 +252,21 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
-          "${config.exporter-user-prefix}-${config.server.raspi-1.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
         };
         node-exporter = {
-          "${config.exporter-user-prefix}-${config.server.main-1.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Node Exporter on nix-1";
           };
-          "${config.exporter-user-prefix}-${config.server.main-2.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Node Exporter on nix-2";
           };
-          "${config.exporter-user-prefix}-${config.server.raspi-1.name}" = lib.mkOption {
+          "${config.exporter-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Node Exporter on raspi-1";
           };
@@ -301,29 +276,29 @@
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.server.main-1.name}" = lib.mkOption {
+          "${config.hostnames.main-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.server.main-2.name}" = lib.mkOption {
+          "${config.hostnames.main-2}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
-          "${config.server.raspi-1.name}" = lib.mkOption {
+          "${config.hostnames.raspi-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for systemd-exporter";
           };
         };
         wireguard = {
-          "wireguard-exporter-${config.server.main-1.name}" = lib.mkOption {
+          "wireguard-exporter-${config.hostnames.main-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Wireguard Exporter";
           };
-          "wireguard-exporter-${config.server.main-2.name}" = lib.mkOption {
+          "wireguard-exporter-${config.hostnames.main-2}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Wireguard Exporter";
           };
-          "wireguard-exporter-${config.server.raspi-1.name}" = lib.mkOption {
+          "wireguard-exporter-${config.hostnames.raspi-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Wireguard Exporter";
           };
@@ -343,41 +318,48 @@
     backup-user-prefix = "borg-backup";
     exporter-user-prefix = "exporter";
     my-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
-    server = {
-      main-1 = {
-        name = "main-nix-1";
-        private-ip = "10.0.69.1";
-        public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
-        public-key-wg = "6vInhWMq9wX1AaWkk685kWRQossUZm8D2kUQpfsWW1E=";
-      };
-      main-2 = {
-        name = "main-nix-2";
-        private-ip = "10.0.69.2";
-        public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
-        public-key-wg = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
-      };
-      raspi-1 = {
-        name = "raspi-1";
-        private-ip = "10.0.69.11";
-        public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
-        public-key-wg = "gj3o5IT+uLrERp63JV/NuDg2s/ggclgQfBoZyBW+jk0=";
-      };
+    hostnames = {
+      main-1 = "main-nix-1";
+      main-2 = "main-nix-2";
+      raspi-1 = "raspi-1";
     };
-    backups = {
-      "${config.server.main-1.name}" = [
-        "bridge"
-        "filesharing"
-        "nextcloud"
-      ];
-      "${config.server.main-2.name}" = [
-        "authentik"
-        "grafana"
-        "reverseproxy"
-        "tor"
-        "wakapi"
-      ];
-      "${config.server.raspi-1.name}" = [
-      ];
+    server = {
+      "${config.hostnames.main-1}" = {
+        public-ip = "128.140.32.233";
+        private-ip = "10.0.69.1";
+        root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
+        wireguard-public-key = "6vInhWMq9wX1AaWkk685kWRQossUZm8D2kUQpfsWW1E=";
+        backup-users = [
+          "bridge"
+          "filesharing"
+          "nextcloud"
+        ];
+        backup-trigger-minutes = 10;
+      };
+      "${config.hostnames.main-2}" = {
+        public-ip = "159.69.206.86";
+        private-ip = "10.0.69.2";
+        root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
+        wireguard-public-key = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
+        backup-users = [
+          "authentik"
+          "grafana"
+          "reverseproxy"
+          "tor"
+          "wakapi"
+        ];
+        backup-trigger-minutes = 15;
+      };
+      "${config.hostnames.raspi-1}" = {
+        public-ip = "";
+        private-ip = "10.0.69.11";
+        root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
+        wireguard-public-key = "gj3o5IT+uLrERp63JV/NuDg2s/ggclgQfBoZyBW+jk0=";
+        backup-users = [
+        
+        ];
+        backup-trigger-minutes = 20;
+      };
     };
     sites = {
       authentik = "authentik";
@@ -401,49 +383,49 @@
     };
     address = {
       public = {
-        grafana = "${server.main-2.private-ip}:10000";
-        authentik = "${server.main-2.private-ip}:10001";
-        prometheus = "${server.main-2.private-ip}:10002";
-        nextcloud = "${server.main-1.private-ip}:10003";
-        filesharing = "${server.main-1.private-ip}:10004";
-        loki = "${server.main-2.private-ip}:10005";
-        wakapi = "${server.main-2.private-ip}:10006";
+        grafana = "${hostnames.main-2}:10000";
+        authentik = "${hostnames.main-2}:10001";
+        prometheus = "${hostnames.main-2}:10002";
+        nextcloud = "${hostnames.main-1}:10003";
+        filesharing = "${hostnames.main-1}:10004";
+        loki = "${hostnames.main-2}:10005";
+        wakapi = "${hostnames.main-2}:10006";
       };
       private = {
-        nginx-exporter = "${server.main-2.private-ip}:20001";
-        tor-exporter = "${server.main-2.private-ip}:20002";
-        tor-exporter-bridge = "${server.main-1.private-ip}:20003";
-        snowflake-exporter-1 = "${server.main-1.private-ip}:20004";
-        snowflake-exporter-2 = "${server.main-1.private-ip}:20005";
+        nginx-exporter = "${hostnames.main-2}:20001";
+        tor-exporter = "${hostnames.main-2}:20002";
+        tor-exporter-bridge = "${hostnames.main-1}:20003";
+        snowflake-exporter-1 = "${hostnames.main-1}:20004";
+        snowflake-exporter-2 = "${hostnames.main-1}:20005";
         podman-exporter = {
-          reverseproxy = "${server.main-2.private-ip}:21000";
-          grafana = "${server.main-2.private-ip}:21001";
-          authentik = "${server.main-2.private-ip}:21002";
-          snowflake = "${server.main-1.private-ip}:21003";
-          nextcloud = "${server.main-1.private-ip}:21004";
-          filesharing = "${server.main-1.private-ip}:21005";
-          "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:21006";
-          "${exporter-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:21007";
-          tor = "${server.main-2.private-ip}:21008";
-          wakapi = "${server.main-2.private-ip}:21009";
-          bridge = "${server.main-1.private-ip}:21010";
-          "${exporter-user-prefix}-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:21011";
+          reverseproxy = "${hostnames.main-2}:21000";
+          grafana = "${hostnames.main-2}:21001";
+          authentik = "${hostnames.main-2}:21002";
+          snowflake = "${hostnames.main-1}:21003";
+          nextcloud = "${hostnames.main-1}:21004";
+          filesharing = "${hostnames.main-1}:21005";
+          "${exporter-user-prefix}-${hostnames.main-1}" = "${hostnames.main-1}:21006";
+          "${exporter-user-prefix}-${hostnames.main-2}" = "${hostnames.main-2}:21007";
+          tor = "${hostnames.main-2}:21008";
+          wakapi = "${hostnames.main-2}:21009";
+          bridge = "${hostnames.main-1}:21010";
+          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${hostnames.raspi-1}:21011";
         };
         node-exporter = {
-          "${exporter-user-prefix}-${server.main-1.name}" = "${server.main-1.private-ip}:22001";
-          "${exporter-user-prefix}-${server.main-2.name}" = "${server.main-2.private-ip}:22002";
-          "${exporter-user-prefix}-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:22003";
+          "${exporter-user-prefix}-${hostnames.main-1}" = "${hostnames.main-1}:22001";
+          "${exporter-user-prefix}-${hostnames.main-2}" = "${hostnames.main-2}:22002";
+          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${hostnames.raspi-1}:22003";
         };
         systemd-exporter = {
-          reverseproxy = "${server.main-2.private-ip}:23000";
-          "${config.server.main-1.name}" = "${server.main-1.private-ip}:23001";
-          "${config.server.main-2.name}" = "${server.main-2.private-ip}:23002";
-          "${config.server.raspi-1.name}" = "${server.raspi-1.private-ip}:23003";
+          reverseproxy = "${hostnames.main-2}:23000";
+          "${config.hostnames.main-1}" = "${hostnames.main-1}:23001";
+          "${config.hostnames.main-2}" = "${hostnames.main-2}:23002";
+          "${config.hostnames.raspi-1}" = "${hostnames.raspi-1}:23003";
         };
         wireguard = {
-          "wireguard-exporter-${server.main-1.name}" = "${server.main-1.private-ip}:24000";
-          "wireguard-exporter-${server.main-2.name}" = "${server.main-2.private-ip}:24002";
-          "wireguard-exporter-${server.raspi-1.name}" = "${server.raspi-1.private-ip}:24003";
+          "wireguard-exporter-${hostnames.main-1}" = "${hostnames.main-1}:24000";
+          "wireguard-exporter-${hostnames.main-2}" = "${hostnames.main-2}:24002";
+          "wireguard-exporter-${hostnames.raspi-1}" = "${hostnames.raspi-1}:24003";
         };
       };
     };
