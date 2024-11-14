@@ -20,7 +20,7 @@
         modules = [
           home-manager.nixosModules.home-manager
           agenix.nixosModules.default
-          ./shared/vars.nix
+          ./shared/config.nix
           ./shared/baseconfig.nix
           ./shared/backup.nix
           ./main-nix-1/configuration.nix
@@ -32,7 +32,7 @@
         modules = [
           home-manager.nixosModules.home-manager
           agenix.nixosModules.default
-          ./shared/vars.nix
+          ./shared/config.nix
           ./shared/baseconfig.nix
           ./shared/backup.nix
           ./main-nix-2/configuration.nix
@@ -44,7 +44,7 @@
         modules = [
           home-manager.nixosModules.home-manager
           agenix.nixosModules.default
-          ./shared/vars.nix
+          ./shared/config.nix
           ./shared/baseconfig.nix
           ./shared/backup.nix
           ./raspi-1/configuration.nix

@@ -153,7 +153,7 @@ in
                     "${mainConfig.address.private.nginx-exporter}",
                   ]
           - job_name: wakapi
-            scrape_interval: 5m
+            scrape_interval: 10m
             metrics_path: '/api/metrics'
             bearer_token: '@grafana_wakapi_metrics_key@'
             static_configs:
