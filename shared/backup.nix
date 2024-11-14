@@ -41,7 +41,7 @@ let
                   echo "Starting Initial Borgmatic backup"
                   borgmatic init --encryption repokey-blake2 --verbosity 1
                   borgmatic create --list --stats --verbosity 1
-                  EOF
+                EOF
                   )
                 fi
 
