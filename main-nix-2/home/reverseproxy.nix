@@ -57,7 +57,7 @@ in
                 while [ $(($(date +%s) - start_time)) -lt 60 ]; do
                     sleep 5  # Sleep for a short duration before checking again
                 done
-                '';
+              '';
             } + /bin/certbot-renewal;
         };
       };

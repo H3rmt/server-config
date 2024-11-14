@@ -8,16 +8,16 @@ let
           Type = "oneshot";
           ExecStart = pkgs.writeShellApplication
             {
-              name = "borgmatic";
-              runtimeInputs = [ pkgs.coreutils pkgs.borgmatic ];
+              name = "borgmatic_${user}";
+              runtimeInputs = [ pkgs.coreutils pkgs.podman ];
               text = ''
                 start_time=$(date +%s)
 
-                script+=$(cat <<EOF
-                #!/bin/sh
+                mkdir -p /var/backups/${user}/config /var/backups/${user}/cache
+                mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user}
 
-                // create /etc/borgmatic.d/config.yaml
-                cat <<EOFF
+                # create /etc/borgmatic.d/config.yaml
+                cat >/var/backups/${user}/config.yaml <<EOF
                 location:
                   source_directories:
                     - /mnt/source
@@ -29,51 +29,42 @@ let
                   keep_weekly: 4
                   keep_monthly: 6
                   keep_yearly: 1
-                EOFF > /etc/borgmatic.d/config.yaml
-
-                borgmatic config validate --verbosity 1
                 EOF
-                )
 
-                if [ -z "$(ls -A /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user})" ]; then
-                  script+=$(cat <<EOF
+                cat >/var/backups/${user}/borgmatic.sh <<EOF
+                borgmatic config validate --verbosity 1
 
+                if [ -z "$(ls -A /mnt/borg-repository)" ]; then
                   echo "Starting Initial Borgmatic backup"
                   borgmatic init --encryption repokey-blake2 --verbosity 1
                   borgmatic create --list --stats --verbosity 1
-                EOF
-                  )
                 fi
-
-                script+=$(cat <<EOF
 
                 borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
                 EOF
-                )
-
-                mkdir -p /var/backups/${user}/config /var/backups/${user}/cache
-                mkdir -p /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user}
 
                 podman pull ghcr.io/borgmatic-collective/borgmatic:1.9.1
-                podman run --rm --name borgmatic-${user} \ 
-                  -e BORG_PASSPHRASE=$(cat ${config.age.secrets.borg_pass.path}) \
-                  -v /home/${user}/${config.backup-dir}:/mnt/source:ro \
+                podman run --rm --name borgmatic-${user} \
+                  -e BORG_PASSPHRASE="$(cat ${config.age.secrets.borg_pass.path})" \
+                  -v /home/${user}/${config.data-dir}:/mnt/source:ro \
                   -v /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user}:/mnt/borg-repository \
-                  -v /var/backups/${user}/config:/root/.config/borg:U \
-                  -v /var/backups/${user}/cache:/root/.cache/borg:U \
+                  -v /var/backups/${user}/config:/root/.config/borg \
+                  -v /var/backups/${user}/cache:/root/.cache/borg \
+                  -v /var/backups/${user}/borgmatic.sh:/root/borgmatic.sh \
+                  -v /var/backups/${user}/config.yaml:/etc/borgmatic.d/config.yaml \
                   -e TZ=Europe/Berlin \
-                  --entrypoint sh \
+                  --entrypoint bash \
                   ghcr.io/borgmatic-collective/borgmatic:1.9.1 \
-                  -c '"$script"'
+                  -c "ls -la /root && cat /root/borgmatic.sh && chmod +x /root/borgmatic.sh && /root/borgmatic.sh"
 
                 # Wait for at least 30 seconds before exiting
                 while [ $(($(date +%s) - start_time)) -lt 30 ]; do
-                    sleep 5  # Sleep for a short duration before checking again
+                  sleep 5  # Sleep for a short duration before checking again
                 done
               '';
-            } + "/bin/borgmatic";
-          Restart="on-failure";
-          RestartSec="30";
+            } + "/bin/borgmatic_${user}";
+          Restart = "on-failure";
+          RestartSec = "30";
         };
       };
     })
@@ -87,24 +78,24 @@ let
       Type = "exec";
       ExecStart = pkgs.writeShellApplication
         {
-          name = "sync";
+          name = "Rsync";
           runtimeInputs = [ pkgs.rsync pkgs.openssh ];
           text = ''
             start_time=$(date +%s)
             for user in ${lib.concatStringsSep " " config.server."${config.networking.hostName}".backup-users}; do
               ${lib.concatMapStringsSep "  " (remote: ''
-                rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/"$user"/${config.backup-dir}/ ${config.backup-user-prefix}-${remote}@${config.server."${remote}"."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}/"$user"
+                rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/"$user"@${config.server."${remote}"."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}/"$user"
               '') (lib.filter (r: r != config.networking.hostName) (lib.attrValues config.hostnames))}
             done
 
             # Wait for at least 30 seconds before exiting
             while [ $(($(date +%s) - start_time)) -lt 30 ]; do
-                sleep 5  # Sleep for a short duration before checking again
+              sleep 5  # Sleep for a short duration before checking again
             done
           '';
-        } + "/bin/sync";
-      Restart="on-failure";
-      RestartSec="30";
+        } + "/bin/Rsync";
+      Restart = "on-failure";
+      RestartSec = "30";
     };
   };
 

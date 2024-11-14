@@ -356,7 +356,7 @@
         root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
         wireguard-public-key = "gj3o5IT+uLrERp63JV/NuDg2s/ggclgQfBoZyBW+jk0=";
         backup-users = [
-        
+
         ];
         backup-trigger-minutes = 20;
       };
