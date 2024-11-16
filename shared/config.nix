@@ -392,40 +392,40 @@
         wakapi = "${hostnames.main-2}:10006";
       };
       private = {
-        nginx-exporter = "${hostnames.main-2}:20001";
-        tor-exporter = "${hostnames.main-2}:20002";
-        tor-exporter-bridge = "${hostnames.main-1}:20003";
-        snowflake-exporter-1 = "${hostnames.main-1}:20004";
-        snowflake-exporter-2 = "${hostnames.main-1}:20005";
+        nginx-exporter = "${server."${hostnames.main-2}".private-ip}:20001";
+        tor-exporter = "${server."${hostnames.main-2}".private-ip}:20002";
+        tor-exporter-bridge = "${server."${hostnames.main-1}".private-ip}:20003";
+        snowflake-exporter-1 = "${server."${hostnames.main-1}".private-ip}:20004";
+        snowflake-exporter-2 = "${server."${hostnames.main-1}".private-ip}:20005";
         podman-exporter = {
-          reverseproxy = "${hostnames.main-2}:21000";
-          grafana = "${hostnames.main-2}:21001";
-          authentik = "${hostnames.main-2}:21002";
-          snowflake = "${hostnames.main-1}:21003";
-          nextcloud = "${hostnames.main-1}:21004";
-          filesharing = "${hostnames.main-1}:21005";
-          "${exporter-user-prefix}-${hostnames.main-1}" = "${hostnames.main-1}:21006";
-          "${exporter-user-prefix}-${hostnames.main-2}" = "${hostnames.main-2}:21007";
-          tor = "${hostnames.main-2}:21008";
-          wakapi = "${hostnames.main-2}:21009";
-          bridge = "${hostnames.main-1}:21010";
-          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${hostnames.raspi-1}:21011";
+          reverseproxy = "${server."${hostnames.main-2}".private-ip}:21000";
+          grafana = "${server."${hostnames.main-2}".private-ip}:21001";
+          authentik = "${server."${hostnames.main-2}".private-ip}:21002";
+          snowflake = "${server."${hostnames.main-1}".private-ip}:21003";
+          nextcloud = "${server."${hostnames.main-1}".private-ip}:21004";
+          filesharing = "${server."${hostnames.main-1}".private-ip}:21005";
+          "${exporter-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:21006";
+          "${exporter-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:21007";
+          tor = "${server."${hostnames.main-2}".private-ip}:21008";
+          wakapi = "${server."${hostnames.main-2}".private-ip}:21009";
+          bridge = "${server."${hostnames.main-1}".private-ip}:21010";
+          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:21011";
         };
         node-exporter = {
-          "${exporter-user-prefix}-${hostnames.main-1}" = "${hostnames.main-1}:22001";
-          "${exporter-user-prefix}-${hostnames.main-2}" = "${hostnames.main-2}:22002";
-          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${hostnames.raspi-1}:22003";
+          "${exporter-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:22001";
+          "${exporter-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:22002";
+          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:22003";
         };
         systemd-exporter = {
-          reverseproxy = "${hostnames.main-2}:23000";
-          "${config.hostnames.main-1}" = "${hostnames.main-1}:23001";
-          "${config.hostnames.main-2}" = "${hostnames.main-2}:23002";
-          "${config.hostnames.raspi-1}" = "${hostnames.raspi-1}:23003";
+          reverseproxy = "${server."${hostnames.main-2}".private-ip}:23000";
+          "${config.hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:23001";
+          "${config.hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:23002";
+          "${config.hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:23003";
         };
         wireguard = {
-          "wireguard-exporter-${hostnames.main-1}" = "${hostnames.main-1}:24000";
-          "wireguard-exporter-${hostnames.main-2}" = "${hostnames.main-2}:24002";
-          "wireguard-exporter-${hostnames.raspi-1}" = "${hostnames.raspi-1}:24003";
+          "wireguard-exporter-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:24000";
+          "wireguard-exporter-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:24002";
+          "wireguard-exporter-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:24003";
         };
       };
     };
