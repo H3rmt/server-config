@@ -57,6 +57,8 @@ let
                   ghcr.io/borgmatic-collective/borgmatic:1.9.1 \
                   -c "ls -la /root && cat /root/borgmatic.sh && chmod +x /root/borgmatic.sh && /root/borgmatic.sh"
 
+                echo "Borgmatic backup for ${user} finished in $(($(date +%s) - start_time)) seconds"
+
                 # Wait for at least 30 seconds before exiting
                 while [ $(($(date +%s) - start_time)) -lt 30 ]; do
                   sleep 5  # Sleep for a short duration before checking again
@@ -87,6 +89,8 @@ let
                 rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/"$user"@${config.server."${remote}"."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}/"$user"
               '') (lib.filter (r: r != config.networking.hostName) (lib.attrValues config.hostnames))}
             done
+
+            echo "Rsync backup finished in $(($(date +%s) - start_time)) seconds"
 
             # Wait for at least 30 seconds before exiting
             while [ $(($(date +%s) - start_time)) -lt 30 ]; do
