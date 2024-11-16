@@ -59,9 +59,9 @@ let
 
                 echo "Borgmatic backup for ${user} finished in $(($(date +%s) - start_time)) seconds"
 
-                # Wait for at least 30 seconds before exiting
-                while [ $(($(date +%s) - start_time)) -lt 30 ]; do
-                  sleep 5  # Sleep for a short duration before checking again
+                # Wait for at least 15 seconds before exiting
+                while [ $(($(date +%s) - start_time)) -lt 15 ]; do
+                  sleep 1  # Sleep for a short duration before checking again
                 done
               '';
             } + "/bin/borgmatic_${user}";
@@ -92,9 +92,9 @@ let
 
             echo "Rsync backup finished in $(($(date +%s) - start_time)) seconds"
 
-            # Wait for at least 30 seconds before exiting
-            while [ $(($(date +%s) - start_time)) -lt 30 ]; do
-              sleep 5  # Sleep for a short duration before checking again
+            # Wait for at least 15 seconds before exiting
+            while [ $(($(date +%s) - start_time)) -lt 15 ]; do
+              sleep 1  # Sleep for a short duration before checking again
             done
           '';
         } + "/bin/Rsync";
