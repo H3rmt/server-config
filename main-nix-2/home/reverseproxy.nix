@@ -255,6 +255,12 @@ in
               proxy_pass http://${mainConfig.sites.authentik};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
+
+            location /ws/ {
+              proxy_pass http://${mainConfig.sites.authentik};
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-upgrade.conf;
+            }
           }
         
           server {
