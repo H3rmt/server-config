@@ -1,6 +1,6 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  FILESHARING_VERSION = "v1.5.3";
+  FILESHARING_VERSION = "v1.6.0";
 
   ADMIN_PASSWORD = ''$(cat "${mainConfig.age.secrets.filesharing_admin_pass.path}")'';
   ADMIN_EMAIL = ''$(cat "${mainConfig.age.secrets.filesharing_admin_email.path}")'';
