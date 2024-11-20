@@ -24,7 +24,6 @@ let
                 repositories:
                   - path: /mnt/borg-repository
                     label: mount
-                encryption_passcommand: "cat ${config.age.secrets.borg_pass.path}"
                 compression: zstd,12
                 keep_daily: 7
                 keep_weekly: 4
