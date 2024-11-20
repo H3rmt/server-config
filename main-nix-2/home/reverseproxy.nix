@@ -262,7 +262,26 @@ in
         
             location / {
               proxy_pass http://${mainConfig.sites.grafana};
-              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_set_header X-Forwarded-Host $host;
+              proxy_set_header X-Forwarded-Port $server_port;
+            }
+
+            # Proxy Grafana Live WebSocket connections.
+            location /api/live/ {
+              proxy_pass http://${mainConfig.sites.grafana};
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection $connection_upgrade_keepalive;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_set_header X-Forwarded-Host $host;
+              proxy_set_header X-Forwarded-Port $server_port;
             }
           }
 
@@ -452,7 +471,7 @@ in
       text = ''
         map $http_upgrade $connection_upgrade_keepalive {
           default upgrade;
-          "" "";
+          "" close;
         }
 
         include /etc/nginx/mime.types;

@@ -383,13 +383,13 @@
     };
     address = {
       public = {
-        grafana = "${hostnames.main-2}:10000";
-        authentik = "${hostnames.main-2}:10001";
-        prometheus = "${hostnames.main-2}:10002";
-        nextcloud = "${hostnames.main-1}:10003";
-        filesharing = "${hostnames.main-1}:10004";
-        loki = "${hostnames.main-2}:10005";
-        wakapi = "${hostnames.main-2}:10006";
+        grafana = "${server."${hostnames.main-2}".private-ip}:10000";
+        authentik = "${server."${hostnames.main-2}".private-ip}:10001";
+        prometheus = "${server."${hostnames.main-2}".private-ip}:10002";
+        nextcloud = "${server."${hostnames.main-1}".private-ip}:10003";
+        filesharing = "${server."${hostnames.main-1}".private-ip}:10004";
+        loki = "${server."${hostnames.main-2}".private-ip}:10005";
+        wakapi = "${server."${hostnames.main-2}".private-ip}:10006";
       };
       private = {
         nginx-exporter = "${server."${hostnames.main-2}".private-ip}:20001";

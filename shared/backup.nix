@@ -1,5 +1,6 @@
 { lib, config, pkgs, ... }:
 let
+  BORGMATIC_VERSION = "1.9.1";
   generatedServices = (map
     (user: {
       "borgmatic_${user}" = {
@@ -43,7 +44,7 @@ let
                 borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
                 EOF
 
-                podman pull ghcr.io/borgmatic-collective/borgmatic:1.9.1
+                podman pull ghcr.io/borgmatic-collective/borgmatic:${BORGMATIC_VERSION}
                 podman run --rm --name borgmatic-${user} \
                   -e BORG_PASSPHRASE="$(cat ${config.age.secrets.borg_pass.path})" \
                   -v /home/${user}/${config.data-dir}:/mnt/source:ro \
@@ -54,13 +55,13 @@ let
                   -v /var/backups/${user}/config.yaml:/etc/borgmatic.d/config.yaml \
                   -e TZ=Europe/Berlin \
                   --entrypoint bash \
-                  ghcr.io/borgmatic-collective/borgmatic:1.9.1 \
+                  ghcr.io/borgmatic-collective/borgmatic:${BORGMATIC_VERSION} \
                   -c "ls -la /root && cat /root/borgmatic.sh && chmod +x /root/borgmatic.sh && /root/borgmatic.sh"
 
                 echo "Borgmatic backup for ${user} finished in $(($(date +%s) - start_time)) seconds"
 
-                # Wait for at least 15 seconds before exiting
-                while [ $(($(date +%s) - start_time)) -lt 15 ]; do
+                # Wait for at least 25 seconds before exiting
+                while [ $(($(date +%s) - start_time)) -lt 25 ]; do
                   sleep 1  # Sleep for a short duration before checking again
                 done
               '';
@@ -91,8 +92,8 @@ let
 
             echo "Rsync backup finished in $(($(date +%s) - start_time)) seconds"
 
-            # Wait for at least 15 seconds before exiting
-            while [ $(($(date +%s) - start_time)) -lt 15 ]; do
+            # Wait for at least 25 seconds before exiting
+            while [ $(($(date +%s) - start_time)) -lt 25 ]; do
               sleep 1  # Sleep for a short duration before checking again
             done
           '';
