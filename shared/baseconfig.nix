@@ -92,5 +92,6 @@
     pkgs.prometheus-systemd-exporter
     pkgs.wireguard-tools
     inputs.agenix.packages.aarch64-linux.default
+    pkgs.borgmatic
   ];
 }
