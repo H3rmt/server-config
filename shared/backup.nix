@@ -19,17 +19,17 @@ let
 
                 # create /etc/borgmatic.d/config.yaml
                 cat >/var/backups/${user}/config.yaml <<EOF
-                location:
-                  source_directories:
-                    - /mnt/source
-                  repositories:
-                    - /mnt/borg-repository
-                  encryption_passcommand: "cat ${config.age.secrets.borg_pass.path}"
-                  compression: zstd,12
-                  keep_daily: 7
-                  keep_weekly: 4
-                  keep_monthly: 6
-                  keep_yearly: 1
+                source_directories:
+                  - /mnt/source
+                repositories:
+                  - path: /mnt/borg-repository
+                    label: mount
+                encryption_passcommand: "cat ${config.age.secrets.borg_pass.path}"
+                compression: zstd,12
+                keep_daily: 7
+                keep_weekly: 4
+                keep_monthly: 6
+                keep_yearly: 1
                 EOF
 
                 cat >/var/backups/${user}/borgmatic.sh <<EOF
