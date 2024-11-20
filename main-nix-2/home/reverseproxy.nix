@@ -244,7 +244,10 @@ in
         
           server {
             server_name ${mainConfig.sites.authentik}.${mainConfig.main-url};
+            add_header alt-svc 'h3=":443"; ma=2592000';
 
+            listen 1443 quic;
+            listen [::0]:1443 quic;
             listen 1443 ssl;
             listen [::0]:1443 ssl;
         
@@ -265,32 +268,23 @@ in
         
             location / {
               proxy_pass http://${mainConfig.sites.grafana};
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_set_header X-Forwarded-Host $host;
-              proxy_set_header X-Forwarded-Port $server_port;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
             }
 
             # Proxy Grafana Live WebSocket connections.
             location /api/live/ {
               proxy_pass http://${mainConfig.sites.grafana};
-              proxy_http_version 1.1;
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_set_header Connection $connection_upgrade_keepalive;
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_set_header X-Forwarded-Host $host;
-              proxy_set_header X-Forwarded-Port $server_port;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-upgrade.conf;
             }
           }
 
           server {
             server_name ${mainConfig.sites.nextcloud}.${mainConfig.main-url};
-            
+            add_header alt-svc 'h3=":443"; ma=2592000';
+
+            listen 1443 quic;
+            listen [::0]:1443 quic;
             listen 1443 ssl;
             listen [::0]:1443 ssl;
             
@@ -411,15 +405,20 @@ in
     "${NGINX_CONFIG_DIR}/proxy.conf" = {
       noLink = true;
       text = ''
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade_keepalive;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-Host $host;
         proxy_set_header X-Forwarded-Port $server_port;
+      '';
+    };
+    "${NGINX_CONFIG_DIR}/proxy-upgrade.conf" = {
+      noLink = true;
+      text = ''
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade_keepalive;
       '';
     };
 
