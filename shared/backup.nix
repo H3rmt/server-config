@@ -35,12 +35,13 @@ let
                 cat >/var/backups/${user}/borgmatic.sh <<EOF
                 borgmatic config validate --verbosity 1
 
-                if [ -z "$(ls -A /mnt/borg-repository)" ]; then
+                if [ -z "\$(ls -A /mnt/borg-repository)" ]; then
                   echo "Starting Initial Borgmatic backup"
                   borgmatic init --encryption repokey-blake2 --verbosity 1
                   borgmatic create --list --stats --verbosity 1
                 fi
 
+                echo "Starting Borgmatic backup"
                 borgmatic --stats --list --verbosity 1 --syslog-verbosity 0
                 EOF
 
@@ -56,7 +57,7 @@ let
                   -e TZ=Europe/Berlin \
                   --entrypoint bash \
                   ghcr.io/borgmatic-collective/borgmatic:${BORGMATIC_VERSION} \
-                  -c "ls -la /root && cat /root/borgmatic.sh && chmod +x /root/borgmatic.sh && /root/borgmatic.sh"
+                  -c "/root/borgmatic.sh"
 
                 echo "Borgmatic backup for ${user} finished in $(($(date +%s) - start_time)) seconds"
 
