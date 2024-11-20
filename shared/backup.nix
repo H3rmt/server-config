@@ -25,6 +25,7 @@ let
                   - path: /mnt/borg-repository
                     label: mount
                 compression: zstd,12
+                keep_within: 3H
                 keep_daily: 7
                 keep_weekly: 4
                 keep_monthly: 6
