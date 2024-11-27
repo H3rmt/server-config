@@ -50,6 +50,18 @@
           ./raspi-1/configuration.nix
         ];
       });
+      ovh-1 = nixpkgs.lib.nixosSystem ({
+        system = "amd64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          home-manager.nixosModules.home-manager
+          agenix.nixosModules.default
+          ./shared/config.nix
+          ./shared/baseconfig.nix
+          ./shared/backup.nix
+          ./main-nix-2/configuration.nix
+        ];
+      });
     };
   };
 }
