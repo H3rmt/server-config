@@ -45,7 +45,7 @@ let
                 borgmatic create --stats --list --verbosity 1 --syslog-verbosity 0
 
                 echo "Starting Borgmatic prune"
-                borg prune --keep-daily 7 --keep-monthly 6 --keep-weekly 4 --keep-yearly 1 --glob-archives {hostname}-* --stats --list --debug --show-rc /mnt/borg-repository
+                borg prune --keep-daily 7 --keep-monthly 6 --keep-weekly 4 --keep-yearly 1 --stats --list --debug --show-rc /mnt/borg-repository
 
                 echo "Starting Borgmatic compact"
                 borg compact --debug --show-rc /mnt/borg-repository
