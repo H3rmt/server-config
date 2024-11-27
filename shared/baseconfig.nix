@@ -29,7 +29,7 @@
     logind.killUserProcesses = false;
     fail2ban = {
       enable = true;
-      bantime = "12h";
+      bantime = "6h";
       ignoreIP = [
         "10.0.0.0/8"
         "172.16.0.0/12"
