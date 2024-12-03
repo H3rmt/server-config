@@ -128,6 +128,15 @@ in
           - job_name: prometheus
             static_configs:
               - targets: ["prometheus:9090"]
+          - job_name: backups
+            scrape_interval: 15m
+            static_configs:
+              - targets:
+                  [
+                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-1}"}",
+                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-2}"}",
+                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.raspi-1}"}",
+                  ]
           - job_name: snowflake
             scrape_interval: 2m
             static_configs:
