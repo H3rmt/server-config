@@ -17,7 +17,7 @@ in
             --network pasta:-a,172.16.0.1
 
         podman run --name=borg-exporter-${mainConfig.networking.hostName} -d --pod=${config.pod-name} \
-            -v ${config.data-prefix}/:/mnt:ro \
+            -v ${config.data-prefix}/:/mnt \
             -e REPO_CONFIG="\
               ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.main-1}.backup-users (repo: "/mnt/${mainConfig.hostnames.main-1}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.main-1}".path})"))},\
               ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.main-2}.backup-users (repo: "/mnt/${mainConfig.hostnames.main-2}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.main-2}".path})"))},\
