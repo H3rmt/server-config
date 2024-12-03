@@ -35,7 +35,7 @@ in
       executable = true;
       text = ''
         podman stop -t 10 node-exporter-${mainConfig.networking.hostName}
-        podman rm borg-exporter-${mainConfig.networking.hostName}
+        podman rm node-exporter-${mainConfig.networking.hostName}
         ${config.exporter.stop}
         podman pod rm ${config.pod-name}
       '';
