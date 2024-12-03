@@ -18,11 +18,10 @@ in
 
         podman run --name=borg-exporter-${mainConfig.networking.hostName} -d --pod=${config.pod-name} \
             -v ${config.data-prefix}/:/mnt:ro' \
-            -e REPO_CONFIG="
-              ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.main-1}.backup-users (repo: "/mnt/${mainConfig.hostnames.main-1}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.main-1}".path})"))},
-              ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.main-2}.backup-users (repo: "/mnt/${mainConfig.hostnames.main-2}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.main-2}".path})"))},
-              ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.raspi-1}.backup-users(repo: "/mnt/${mainConfig.hostnames.raspi-1}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.raspi-1}".path})"))},
-              " \
+            -e REPO_CONFIG="\
+              ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.main-1}.backup-users (repo: "/mnt/${mainConfig.hostnames.main-1}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.main-1}".path})"))},\
+              ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.main-2}.backup-users (repo: "/mnt/${mainConfig.hostnames.main-2}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.main-2}".path})"))},\
+              ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.raspi-1}.backup-users(repo: "/mnt/${mainConfig.hostnames.raspi-1}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.raspi-1}".path})"))}" \
             --restart on-failure:10 \
             -u $UID:$GID \
             ghcr.io/h3rmt/borg-prometheus-exporter:${BORG_EXPORTER_VERSION} \
