@@ -1,6 +1,6 @@
 { lib, config, clib, mainConfig, ... }: 
 let
-  BORG_EXPORTER_VERSION = "v0.0.2";
+  BORG_EXPORTER_VERSION = "v0.1.0";
 in
 {
   imports = [
