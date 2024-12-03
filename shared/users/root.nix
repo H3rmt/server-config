@@ -3,8 +3,6 @@
     ../baseuser.nix
   ];
 
-  exported-services = [ "certbot.timer" "certbot.service" ];
-
   programs = {
     git = {
       enable = true;

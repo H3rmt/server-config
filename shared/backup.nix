@@ -56,7 +56,7 @@ let
 
                 podman pull ghcr.io/borgmatic-collective/borgmatic:${BORGMATIC_VERSION}
                 podman run --rm --name borgmatic-${user} \
-                  -e BORG_PASSPHRASE="$(cat ${config.age.secrets.borg_pass.path})" \
+                  -e BORG_PASSPHRASE="$(cat ${config.age.secrets."borg_pass_${config.networking.hostName}".path})" \
                   -v /home/${user}/${config.data-dir}:/mnt/source:ro \
                   -v /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user}:/mnt/borg-repository \
                   -v /var/backups/${user}/config:/root/.config/borg \

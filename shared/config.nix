@@ -240,6 +240,10 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
+          "${config.exporter-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Podman Exporter";
+          };
           tor = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
@@ -252,7 +256,15 @@
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
-          "${config.exporter-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
+          "${config.backup-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Podman Exporter";
+          };
+          "${config.backup-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Podman Exporter";
+          };
+          "${config.backup-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Podman Exporter";
           };
@@ -301,6 +313,20 @@
           "wireguard-exporter-${config.hostnames.raspi-1}" = lib.mkOption {
             type = lib.types.str;
             description = "Address for Wireguard Exporter";
+          };
+        };
+        borg-exporter = {
+          "${config.backup-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Borg Exporter on nix-1";
+          };
+          "${config.backup-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Borg Exporter on nix-2";
+          };
+          "${config.backup-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
+            type = lib.types.str;
+            description = "Address for Borg Exporter on raspi-1";
           };
         };
       };
@@ -406,10 +432,13 @@
           filesharing = "${server."${hostnames.main-1}".private-ip}:21005";
           "${exporter-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:21006";
           "${exporter-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:21007";
+          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:21011";
           tor = "${server."${hostnames.main-2}".private-ip}:21008";
           wakapi = "${server."${hostnames.main-2}".private-ip}:21009";
           bridge = "${server."${hostnames.main-1}".private-ip}:21010";
-          "${exporter-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:21011";
+          "${backup-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:21012";
+          "${backup-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:21013";
+          "${backup-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:21014";
         };
         node-exporter = {
           "${exporter-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:22001";
@@ -426,6 +455,11 @@
           "wireguard-exporter-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:24000";
           "wireguard-exporter-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:24002";
           "wireguard-exporter-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:24003";
+        };
+        borg-exporter = {
+          "${backup-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:25000";
+          "${backup-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:25001";
+          "${backup-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:25002";
         };
       };
     };
