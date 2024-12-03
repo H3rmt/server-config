@@ -1,8 +1,6 @@
 { lib, config, home, pkgs, inputs, ... }:
 let
   clib = import ./funcs.nix { inherit lib; inherit config; };
-  age = config.age;
-  hostName = config.networking.hostName;
 in
 {
   users.users.root = {
@@ -15,9 +13,9 @@ in
       ];
     };
     isSystemUser = true;
-    hashedPasswordFile = age.secrets.root_pass.path;
+    hashedPasswordFile = config.age.secrets.root_pass.path;
   };
-  users.users."${config.backup-user-prefix}-${hostName}" = {
+  users.users."${config.backup-user-prefix}-${config.networking.hostName}" = {
     openssh = {
       authorizedKeys.keys = [
         config.server."${config.hostnames.main-1}".root-public-key
@@ -30,7 +28,7 @@ in
     shell = pkgs.zsh;
     linger = true;
   };
-  users.users."${config.exporter-user-prefix}-${hostName}" = {
+  users.users."${config.exporter-user-prefix}-${config.networking.hostName}" = {
     createHome = true;
     isNormalUser = true;
     shell = pkgs.zsh;
@@ -46,7 +44,7 @@ in
     inherit clib;
   };
 
-  home-manager.users."${config.exporter-user-prefix}-${hostName}" = import ./users/exporter.nix;
-  home-manager.users."${config.backup-user-prefix}-${hostName}" = import ./users/backup.nix;
+  home-manager.users."${config.exporter-user-prefix}-${config.networking.hostName}" = import ./users/exporter.nix;
+  home-manager.users."${config.backup-user-prefix}-${config.networking.hostName}" = import ./users/backup.nix;
   home-manager.users.root = import ./users/root.nix;
 }
