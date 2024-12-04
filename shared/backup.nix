@@ -68,6 +68,8 @@ let
                   ghcr.io/borgmatic-collective/borgmatic:${BORGMATIC_VERSION} \
                   -c "/root/borgmatic.sh"
 
+                # Chown the backup folder
+                chown -R ${config.backup-user-prefix}-${config.networking.hostName}:users /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/${user}
                 echo "Borgmatic backup for ${user} finished in $(($(date +%s) - start_time)) seconds"
 
                 # Wait for at least 25 seconds before exiting
