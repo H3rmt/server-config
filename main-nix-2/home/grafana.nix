@@ -129,7 +129,7 @@ in
             static_configs:
               - targets: ["prometheus:9090"]
           - job_name: backups
-            scrape_interval: 15m
+            scrape_interval: 10m
             static_configs:
               - targets:
                   [
