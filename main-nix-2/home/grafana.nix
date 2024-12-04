@@ -133,10 +133,22 @@ in
             static_configs:
               - targets:
                   [
-                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-1}"}",
-                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-2}"}",
-                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.raspi-1}"}",
+                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-1}"}"
                   ]
+                labels:
+                  user: 'borg-${mainConfig.hostnames.main-1}'
+              - targets:
+                  [
+                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-2}"}"
+                  ]
+                labels:
+                  user: 'borg-${mainConfig.hostnames.main-2}'
+              - targets:
+                  [
+                    "${mainConfig.address.private.borg-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.raspi-1}"}"
+                  ]
+                labels:
+                  user: 'borg-${mainConfig.hostnames.raspi-1}'
           - job_name: snowflake
             scrape_interval: 2m
             static_configs:
