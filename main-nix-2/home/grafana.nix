@@ -242,6 +242,9 @@ in
                     "${mainConfig.address.private.podman-exporter.bridge}",
                     "${mainConfig.address.private.podman-exporter.snowflake}",
                     "${mainConfig.address.private.podman-exporter."${mainConfig.exporter-user-prefix}-${mainConfig.hostnames.raspi-1}"}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-1}"}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.main-2}"}",
+                    "${mainConfig.address.private.podman-exporter."${mainConfig.backup-user-prefix}-${mainConfig.hostnames.raspi-1}"}",
                   ]
       '';
     };
