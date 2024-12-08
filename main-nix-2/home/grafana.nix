@@ -130,6 +130,7 @@ in
               - targets: ["prometheus:9090"]
           - job_name: backups
             scrape_interval: 10m
+            scrape_timeout: 30s
             static_configs:
               - targets:
                   [
