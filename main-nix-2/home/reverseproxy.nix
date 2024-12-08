@@ -260,6 +260,7 @@ in
               proxy_pass http://${mainConfig.sites.authentik};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-upgrade.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-x-headers.conf;
             }
           }
         
@@ -282,6 +283,7 @@ in
               proxy_pass http://${mainConfig.sites.grafana};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-upgrade.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-x-headers.conf;
             }
           }
 
@@ -298,6 +300,7 @@ in
             location / {
               proxy_pass http://${mainConfig.sites.nextcloud};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-x-headers.conf;
             }
           }
                             
@@ -333,6 +336,7 @@ in
             location / {
               proxy_pass http://${mainConfig.sites.wakapi};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-x-headers.conf;
               include /etc/nginx/${NGINX_CONFIG_DIR}/authentik-proxy.conf;
 
               auth_request_set $wakapi_username $upstream_http_x_wakapi_username;
@@ -412,11 +416,6 @@ in
       noLink = true;
       text = ''
         proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Port $server_port;
       '';
     };
     "${NGINX_CONFIG_DIR}/proxy-upgrade.conf" = {
@@ -425,6 +424,16 @@ in
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade_keepalive;
+      '';
+    };
+    "${NGINX_CONFIG_DIR}/proxy-x-headers.conf" = {
+      noLink = true;
+      text = ''
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
       '';
     };
 
