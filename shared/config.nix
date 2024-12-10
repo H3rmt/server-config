@@ -61,6 +61,10 @@
         type = lib.types.str;
         description = "Hostname for raspi 1";
       };
+      ovh-2 = lib.mkOption {
+        type = lib.types.str;
+        description = "Hostname for ovh 2";
+      };
     };
     server = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule {
@@ -68,6 +72,10 @@
           public-ip = lib.mkOption {
             type = lib.types.str;
             description = "Public IP for server 1";
+          };
+          public-ip-v6 = lib.mkOption {
+            type = lib.types.str;
+            description = "Public IPv6 for server 1";
           };
           private-ip = lib.mkOption {
             type = lib.types.str;
@@ -348,10 +356,12 @@
       main-1 = "main-nix-1";
       main-2 = "main-nix-2";
       raspi-1 = "raspi-1";
+      ovh-2 = "ovh-2";
     };
     server = {
       "${config.hostnames.main-1}" = {
         public-ip = "128.140.32.233";
+        public-ip-v6 = "";
         private-ip = "10.0.69.1";
         root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
         wireguard-public-key = "6vInhWMq9wX1AaWkk685kWRQossUZm8D2kUQpfsWW1E=";
@@ -364,6 +374,7 @@
       };
       "${config.hostnames.main-2}" = {
         public-ip = "159.69.206.86";
+        public-ip-v6 = "";
         private-ip = "10.0.69.2";
         root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
         wireguard-public-key = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
@@ -378,6 +389,7 @@
       };
       "${config.hostnames.raspi-1}" = {
         public-ip = "";
+        public-ip-v6 = "";
         private-ip = "10.0.69.11";
         root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
         wireguard-public-key = "gj3o5IT+uLrERp63JV/NuDg2s/ggclgQfBoZyBW+jk0=";
@@ -385,6 +397,17 @@
 
         ];
         backup-trigger-minutes = 20;
+      };
+      "${config.hostnames.ovh-2}" = {
+        public-ip = "37.187.250.146";
+        public-ip-v6 = "2001:41d0:c:292::1";
+        private-ip = "10.0.69.22";
+        root-public-key = "";
+        wireguard-public-key = "";
+        backup-users = [
+
+        ];
+        backup-trigger-minutes = 5;
       };
     };
     sites = {

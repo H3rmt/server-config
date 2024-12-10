@@ -43,7 +43,7 @@
   # needed for kiosk
   services.cage = {
     enable = true;
-    program = "${pkgs.ungoogled-chromium}/bin/chromium --kiosk https://ennexos.sunnyportal.com/"; # --enable-features=UseOzonePlatform --ozone-platform=wayland 
+    program = "${pkgs.eog} /home/kiosk/view.png"; 
     user = "kiosk";
   };
   systemd.services."cage-tty1".after = [
