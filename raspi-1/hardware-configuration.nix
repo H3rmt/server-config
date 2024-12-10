@@ -23,7 +23,7 @@
 
   swapDevices = [{
     device = "/var/lib/swapfile";
-    size = 2 * 1024;
+    size = 5 * 1024;
   }];
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
