@@ -81,7 +81,7 @@ let
           Restart = "on-failure";
           RestartSec = "120"; # 2 min
         };
-        startLimitIntervalSec = "3960"; # 66 min
+        startLimitIntervalSec = 3960; # 66 min
         startLimitBurst = 3;
       };
     })
@@ -115,7 +115,7 @@ let
       Restart = "on-failure";
       RestartSec = "480"; # 8 min
     };
-    startLimitIntervalSec = "3960"; # 66 min
+    startLimitIntervalSec = 3960; # 66 min
     startLimitBurst = 3;
   };
 
