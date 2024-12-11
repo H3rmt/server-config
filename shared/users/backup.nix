@@ -1,4 +1,4 @@
-{ lib, config, clib, mainConfig, ... }: 
+{ lib, config, clib, mainConfig, ... }:
 let
   BORG_EXPORTER_VERSION = "v0.1.0";
 in

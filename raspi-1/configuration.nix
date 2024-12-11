@@ -43,7 +43,7 @@
   # needed for kiosk
   services.cage = {
     enable = true;
-    program = "${pkgs.eog} -wgf /home/kiosk/view.png"; 
+    program = "${pkgs.eog} -wgf /home/kiosk/view.png";
     user = "kiosk";
   };
   systemd.services."cage-tty1".after = [

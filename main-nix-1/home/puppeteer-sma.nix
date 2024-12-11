@@ -25,7 +25,7 @@ in
               text = ''
                 inotifywait -m -e modify ${config.data-prefix}/screenshot.png |
                     while read; do
-                        scp ${config.data-prefix}/screenshot.png kiosk@${config.server."${config.hostnames.raspi-1}".private-ip}:/home/kiosk/${config.data-dir}/screenshot.png
+                        scp ${config.data-prefix}/screenshot.png kiosk@${mainConfig.server."${mainConfig.hostnames.raspi-1}".private-ip}:/home/kiosk/${mainConfig.data-dir}/screenshot.png
                     done
               '';
             } + /bin/send;

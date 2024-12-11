@@ -235,7 +235,7 @@
         };
         systemd-exporter = lib.mkOption {
           type = lib.types.attrsOf lib.types.str;
-            description = "Address for systemd-exporter";
+          description = "Address for systemd-exporter";
         };
         wireguard = {
           "wireguard-exporter-${config.hostnames.main-1}" = lib.mkOption {
