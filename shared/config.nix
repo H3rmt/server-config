@@ -215,67 +215,9 @@
           type = lib.types.str;
           description = "Address for Snowflake Exporter 2";
         };
-        podman-exporter = {
-          reverseproxy = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          grafana = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          authentik = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          snowflake = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          nextcloud = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          filesharing = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          "${config.exporter-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          "${config.exporter-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          "${config.exporter-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          tor = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          wakapi = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          bridge = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          "${config.backup-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          "${config.backup-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
-          "${config.backup-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Podman Exporter";
-          };
+        podman-exporter = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          description = "Address for Podman Exporter";
         };
         node-exporter = {
           "${config.exporter-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
@@ -462,6 +404,7 @@
           "${backup-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:21012";
           "${backup-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:21013";
           "${backup-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:21014";
+          puppeteer-sma = "${server."${hostnames.main-1}".private-ip}:21015";
         };
         node-exporter = {
           "${exporter-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:22001";

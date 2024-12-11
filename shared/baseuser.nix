@@ -57,7 +57,6 @@
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
 
     home.activation.dirs = clib.create-folders lib [
-      "${mainConfig.backup-dir}"
       "${data-prefix}"
     ];
 

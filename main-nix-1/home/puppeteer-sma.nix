@@ -1,0 +1,69 @@
+{ lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
+let
+  PUPPEREER_SMA_VERSION = "v0.1.1";
+
+  SUNNY_PASSWORD = ''$(cat "${mainConfig.age.secrets.sunny_password.path}")'';
+in
+{
+  imports = [
+    ../../shared/baseuser.nix
+  ];
+
+  exported-services = [ "send.service" ];
+
+  systemd.user = {
+    services = {
+      send = {
+        Unit = {
+          Description = "Send images to raspi";
+        };
+        Service = {
+          ExecStart = pkgs.writeShellApplication
+            {
+              name = "send";
+              runtimeInputs = [ pkgs.openssh ];
+              text = ''
+                inotifywait -m -e modify ${config.data-prefix}/screenshot.png |
+                    while read; do
+                        scp ${config.data-prefix}/screenshot.png kiosk@${config.server."${config.hostnames.raspi-1}".private-ip}:/home/kiosk/${config.data-dir}/screenshot.png
+                    done
+              '';
+            } + /bin/send;
+        };
+      };
+    };
+  };
+
+
+  home.file = clib.create-files config.home.homeDirectory {
+    "up.sh" = {
+      executable = true;
+      text = ''
+        podman pod create --name=${config.pod-name} --userns=keep-id \
+            -p ${config.exporter.port} \
+            --network pasta:-a,172.16.0.1
+
+        podman run --name=puppeteer-sma -d --pod=${config.pod-name} \
+            --restart on-failure:10 \
+            -u $UID:$GID \
+            -e SUNNY_USERNAME="stemmer.enrico@gmail.com" \
+            -e SUNNY_PASSWORD=${SUNNY_PASSWORD} \
+            -e SCREENSHOT_DELAY=6000 \
+            -v ${config.data-prefix}:/app/images:U \
+            ghcr.io/h3rmt/puppeteer-sma:${PUPPEREER_SMA_VERSION}
+
+        ${config.exporter.run}
+      '';
+    };
+
+    "down.sh" = {
+      executable = true;
+      text = ''
+        podman stop -t 10 puppeteer-sma
+        podman rm puppeteer-sma
+        ${config.exporter.stop}
+        podman pod rm ${config.pod-name}
+      '';
+    };
+  };
+}
