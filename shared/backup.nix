@@ -79,8 +79,10 @@ let
               '';
             } + "/bin/borgmatic_${user}";
           Restart = "on-failure";
-          RestartSec = "30";
+          RestartSec = "120"; # 2 min
         };
+        startLimitIntervalSec = "3960"; # 66 min
+        StartLimitBurst = 3;
       };
     })
     config.server."${config.networking.hostName}".backup-users);
@@ -111,8 +113,10 @@ let
           '';
         } + "/bin/Rsync";
       Restart = "on-failure";
-      RestartSec = "30";
+      RestartSec = "480"; # 8 min
     };
+    startLimitIntervalSec = "3960"; # 66 min
+    StartLimitBurst = 3;
   };
 
   exporter = {
