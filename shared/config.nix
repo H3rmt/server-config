@@ -416,6 +416,7 @@
           "${config.hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:23001";
           "${config.hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:23002";
           "${config.hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:23003";
+          puppeteer-sma = "${server."${hostnames.main-1}".private-ip}:23004";
         };
         wireguard = {
           "wireguard-exporter-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:24000";
