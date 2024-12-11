@@ -34,10 +34,17 @@ in
       shell = pkgs.zsh;
       linger = true;
     };
+    puppeteer-sma = {
+      createHome = true;
+      isNormalUser = true;
+      shell = pkgs.zsh;
+      linger = true;
+    };
   };
 
   home-manager.users.filesharing = import ./filesharing.nix;
   home-manager.users.nextcloud = import ./nextcloud.nix;
   home-manager.users.bridge = import ./bridge.nix;
   home-manager.users.snowflake = import ./snowflake.nix;
+  home-manager.users.puppeteer-sma = import ./puppeteer-sma.nix;
 }
