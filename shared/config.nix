@@ -233,23 +233,9 @@
             description = "Address for Node Exporter on raspi-1";
           };
         };
-        systemd-exporter = {
-          reverseproxy = lib.mkOption {
-            type = lib.types.str;
+        systemd-exporter = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
             description = "Address for systemd-exporter";
-          };
-          "${config.hostnames.main-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          "${config.hostnames.main-2}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
-          "${config.hostnames.raspi-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for systemd-exporter";
-          };
         };
         wireguard = {
           "wireguard-exporter-${config.hostnames.main-1}" = lib.mkOption {
