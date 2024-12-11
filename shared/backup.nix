@@ -82,7 +82,7 @@ let
           RestartSec = "120"; # 2 min
         };
         startLimitIntervalSec = "3960"; # 66 min
-        StartLimitBurst = 3;
+        startLimitBurst = 3;
       };
     })
     config.server."${config.networking.hostName}".backup-users);
@@ -116,7 +116,7 @@ let
       RestartSec = "480"; # 8 min
     };
     startLimitIntervalSec = "3960"; # 66 min
-    StartLimitBurst = 3;
+    startLimitBurst = 3;
   };
 
   exporter = {
