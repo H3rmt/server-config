@@ -24,7 +24,7 @@ in
               runtimeInputs = [ pkgs.openssh ];
               text = ''
                 inotifywait -m -e modify ${config.data-prefix}/screenshot.png |
-                    while read; do
+                    while read -r; do
                         scp ${config.data-prefix}/screenshot.png kiosk@${mainConfig.server."${mainConfig.hostnames.raspi-1}".private-ip}:/home/kiosk/${mainConfig.data-dir}/screenshot.png
                     done
               '';
