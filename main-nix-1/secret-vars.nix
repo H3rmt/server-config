@@ -48,7 +48,7 @@
     };
     sunny_password = {
       file = ./secrets/sunny_password.age;
-      owner = "kiosk";
+      owner = "puppeteer-sma";
     };
   };
 }
