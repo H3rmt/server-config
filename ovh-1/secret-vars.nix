@@ -26,29 +26,5 @@
       file = ./secrets/reverseproxy/hetzner_token.age;
       owner = "reverseproxy";
     };
-    authentik_pg_pass = {
-      file = ./secrets/authentik/pg_pass.age;
-      owner = "authentik";
-    };
-    authentik_key = {
-      file = ./secrets/authentik/authentik_key.age;
-      owner = "authentik";
-    };
-    grafana_client_secret = {
-      file = ./secrets/grafana/client_secret.age;
-      owner = "grafana";
-    };
-    grafana_client_key = {
-      file = ./secrets/grafana/client_key.age;
-      owner = "grafana";
-    };
-    grafana_wakapi_metrics_key = {
-      file = ./secrets/grafana/wakapi_metrics_key.age;
-      owner = "grafana";
-    };
-    wakapi_salt = {
-      file = ./secrets/wakapi/salt.age;
-      owner = "wakapi";
-    };
   };
 }
