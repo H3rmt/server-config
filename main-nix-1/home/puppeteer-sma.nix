@@ -1,6 +1,6 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  PUPPEREER_SMA_VERSION = "v0.1.2";
+  PUPPEREER_SMA_VERSION = "v0.1.3";
 
   SUNNY_PASSWORD = ''$(cat "${mainConfig.age.secrets.sunny_password.path}")'';
 in
