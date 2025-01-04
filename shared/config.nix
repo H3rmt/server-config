@@ -61,10 +61,10 @@
         type = lib.types.str;
         description = "Hostname for raspi 1";
       };
-      ovh-2 = lib.mkOption {
-        type = lib.types.str;
-        description = "Hostname for ovh 2";
-      };
+      # ovh-2 = lib.mkOption {
+      #   type = lib.types.str;
+      #   description = "Hostname for ovh 2";
+      # };
     };
     server = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule {
@@ -284,7 +284,7 @@
       main-1 = "main-nix-1";
       main-2 = "main-nix-2";
       raspi-1 = "raspi-1";
-      ovh-2 = "ovh-2";
+      # ovh-2 = "ovh-2";
     };
     server = {
       "${config.hostnames.main-1}" = {
@@ -326,17 +326,17 @@
         ];
         backup-trigger-minutes = 20;
       };
-      "${config.hostnames.ovh-2}" = {
-        public-ip = "37.187.250.146";
-        public-ip-v6 = "2001:41d0:c:292::1";
-        private-ip = "10.0.69.22";
-        root-public-key = "";
-        wireguard-public-key = "";
-        backup-users = [
+      # "${config.hostnames.ovh-2}" = {
+      #   public-ip = "37.187.250.146";
+      #   public-ip-v6 = "2001:41d0:c:292::1";
+      #   private-ip = "10.0.69.22";
+      #   root-public-key = "";
+      #   wireguard-public-key = "";
+      #   backup-users = [
 
-        ];
-        backup-trigger-minutes = 5;
-      };
+      #   ];
+      #   backup-trigger-minutes = 5;
+      # };
     };
     sites = {
       authentik = "authentik";
