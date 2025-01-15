@@ -61,9 +61,9 @@
         type = lib.types.str;
         description = "Hostname for raspi 1";
       };
-      # ovh-2 = lib.mkOption {
+      # ovh-1 = lib.mkOption {
       #   type = lib.types.str;
-      #   description = "Hostname for ovh 2";
+      #   description = "Hostname for ovh 1";
       # };
     };
     server = lib.mkOption {
@@ -267,6 +267,10 @@
         };
       };
     };
+    image-versions = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      description = "Versions for OCI Images";
+    };
   };
 
   config = rec {
@@ -284,7 +288,7 @@
       main-1 = "main-nix-1";
       main-2 = "main-nix-2";
       raspi-1 = "raspi-1";
-      # ovh-2 = "ovh-2";
+      # ovh-1 = "ovh-1";
     };
     server = {
       "${config.hostnames.main-1}" = {
@@ -326,7 +330,7 @@
         ];
         backup-trigger-minutes = 20;
       };
-      # "${config.hostnames.ovh-2}" = {
+      # "${config.hostnames.ovh-1}" = {
       #   public-ip = "37.187.250.146";
       #   public-ip-v6 = "2001:41d0:c:292::1";
       #   private-ip = "10.0.69.22";
@@ -415,6 +419,28 @@
           "${backup-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:25002";
         };
       };
+    };
+    image-versions = {
+      "docker.io/grafana/promtail" = "";
+      "docker.io/prom/node-exporter" = "";
+      "docker.io/nginx/nginx-prometheus-exporter" = "";
+      "docker.io/certbot/certbot" = "";
+      "docker.io/grafana/grafana-oss" = "";
+      "docker.io/prom/prometheus" = "";
+      "docker.io/grafana/loki" = "";
+      "docker.io/library/redis" = "";
+      "docker.io/library/postgres" = "";
+      "docker.io/thetorproject/snowflake-proxy" = "";
+      "docker.io/mariadb" = "";
+      "docker.io/nextcloud" = "";
+      "ghcr.io/h3rmt/nginx-http3-br" = "";
+      "ghcr.io/h3rmt/filesharing" = "";
+      "ghcr.io/h3rmt/alpine-tor" = "";
+      "ghcr.io/h3rmt/puppeteer-sma" = "";
+      "ghcr.io/goauthentik/server" = "";
+      "ghcr.io/muety/wakapi" = "";
+      "ghcr.io/borgmatic-collective/borgmatic" = "";
+      "ghcr.io/h3rmt/borg-prometheus-exporter" = "";
     };
     nameservers-hetzner = [
       "2a01:4ff:ff00::add:2"
