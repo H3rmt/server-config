@@ -8,10 +8,6 @@
       type = lib.types.str;
       description = "Root URL for server (h3rmt.zip)";
     };
-    podman-exporter-version = lib.mkOption {
-      type = lib.types.str;
-      description = "Image Version for Podman-exporter";
-    };
     nginx-info-page = lib.mkOption {
       type = lib.types.str;
       description = "Path for site with debug info on nginx";
@@ -276,7 +272,6 @@
   config = rec {
     nixVersion = "24.05";
     main-url = "h3rmt.zip";
-    podman-exporter-version = "v1.11.0";
     nginx-info-page = "nginx_status";
     data-dir = "data";
     backup-dir = "backups";

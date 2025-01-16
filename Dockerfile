@@ -18,3 +18,4 @@ FROM ghcr.io/goauthentik/server:2024.10.1
 FROM ghcr.io/muety/wakapi:2.11.2
 FROM ghcr.io/borgmatic-collective/borgmatic
 FROM ghcr.io/h3rmt/borg-prometheus-exporter:v0.1.0
+FROM quay.io/navidys/prometheus-podman-exporter:v1.11.0

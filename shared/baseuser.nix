@@ -42,7 +42,7 @@
             -v exporter-config-empty:/.config:U \
             --restart on-failure:20 \
             -u $UID:$GID \
-            quay.io/navidys/prometheus-podman-exporter:${mainConfig.podman-exporter-version} \
+            quay.io/navidys/prometheus-podman-exporter:${mainConfig.image-versions."quay.io/navidys/prometheus-podman-exporter"} \
             --collector.pod --web.disable-exporter-metrics
       '';
 
