@@ -14,7 +14,7 @@ FROM ghcr.io/h3rmt/nginx-http3-br:v0.1.2
 FROM ghcr.io/h3rmt/filesharing:v1.6.3
 FROM ghcr.io/h3rmt/alpine-tor:v0.3.6-exporter
 FROM ghcr.io/h3rmt/puppeteer-sma:v0.1.6
-FROM ghcr.io/goauthentik/server:2024.10.1
+FROM ghcr.io/goauthentik/server:2024.12.2
 FROM ghcr.io/muety/wakapi:2.12.3
 FROM ghcr.io/borgmatic-collective/borgmatic
 FROM ghcr.io/h3rmt/borg-prometheus-exporter:v0.1.0
