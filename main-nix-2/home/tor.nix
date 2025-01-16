@@ -14,9 +14,9 @@ in
     "compare.sh" = {
       executable = true;
       text = ''
-        echo ${config.compare.start}
+        ${config.compare.start}
         echo ghcr.io/h3rmt/alpine-tor:${mainConfig.image-versions."ghcr.io/h3rmt/alpine-tor"}
-        echo ${config.compare.end}
+        ${config.compare.end}
       '';
     };
 

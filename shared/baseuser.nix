@@ -70,7 +70,7 @@
       start = ''
         echo Running:
         podman ps --format "{{.Image}}" | sed '1d'
-        echo ----------------------------------------\n
+        echo --------------------------------------------------------------------------------
         echo Versions in up.sh:
       '';
       end = ''quay.io/navidys/prometheus-podman-exporter:${mainConfig.image-versions."quay.io/navidys/prometheus-podman-exporter"}'';

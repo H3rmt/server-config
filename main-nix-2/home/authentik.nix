@@ -23,11 +23,11 @@ in
     "compare.sh" = {
       executable = true;
       text = ''
-        echo ${config.compare.start}
+        ${config.compare.start}
         echo docker.io/library/postgres:${mainConfig.image-versions."docker.io/library/postgres"}
         echo docker.io/library/redis:${mainConfig.image-versions."docker.io/library/redis"}
         echo ghcr.io/goauthentik/server:${mainConfig.image-versions."ghcr.io/goauthentik/server"}
-        echo ${config.compare.end}
+        ${config.compare.end}
       '';
     };
     

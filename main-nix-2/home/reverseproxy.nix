@@ -83,10 +83,10 @@ in
     "compare.sh" = {
       executable = true;
       text = ''
-        echo ${config.compare.start}
+        ${config.compare.start}
         echo ghcr.io/h3rmt/nginx-http3-br:${mainConfig.image-versions."ghcr.io/h3rmt/nginx-http3-br"}
         echo docker.io/nginx/nginx-prometheus-exporter:${mainConfig.image-versions."docker.io/nginx/nginx-prometheus-exporter"}
-        echo ${config.compare.end}
+        ${config.compare.end}
       '';
     };
 
