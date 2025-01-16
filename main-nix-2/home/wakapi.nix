@@ -12,6 +12,15 @@ in
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
+    "compare.sh" = {
+      executable = true;
+      text = ''
+        echo ${config.compare.start}
+        echo ghcr.io/muety/wakapi:${mainConfig.image-versions."ghcr.io/muety/wakapi"} 
+        echo ${config.compare.end}
+      '';
+    };
+
     "up.sh" = {
       executable = true;
       text = ''

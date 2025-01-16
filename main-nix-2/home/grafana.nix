@@ -16,6 +16,17 @@ in
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
+    "compare.sh" = {
+      executable = true;
+      text = ''
+        echo ${config.compare.start}
+        echo docker.io/grafana/grafana-oss:${mainConfig.image-versions."docker.io/grafana/grafana-oss"}
+        echo docker.io/prom/prometheus:${mainConfig.image-versions."docker.io/prom/prometheus"} 
+        echo docker.io/grafana/loki:${mainConfig.image-versions."docker.io/grafana/loki"}
+        echo ${config.compare.end}
+      '';
+    };
+
     "up.sh" = {
       executable = true;
       text = ''

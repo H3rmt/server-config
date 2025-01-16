@@ -25,7 +25,16 @@
           port = lib.mkOption {
             type = lib.types.str;
           };
-          compare = lib.mkOption {
+        };
+      };
+    };
+    compare = lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          start = lib.mkOption {
+            type = lib.types.str;
+          };
+          end = lib.mkOption {
             type = lib.types.str;
           };
         };
@@ -56,7 +65,15 @@
 
       port = ''${mainConfig.address.private.podman-exporter.${config.home.username}}:9882'';
 
-      compare = ''quay.io/navidys/prometheus-podman-exporter:${mainConfig.image-versions."quay.io/navidys/prometheus-podman-exporter"}'';
+    };
+    compare = {
+      start = ''
+        echo Running:
+        podman ps --format "{{.Image}}" | sed '1d'
+        echo ----------------------------------------\n
+        echo Versions in up.sh:
+      '';
+      end = ''quay.io/navidys/prometheus-podman-exporter:${mainConfig.image-versions."quay.io/navidys/prometheus-podman-exporter"}'';
     };
     home.stateVersion = mainConfig.nixVersion;
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
