@@ -7,6 +7,15 @@ in
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
+    "compare.sh" = {
+      executable = true;
+      text = ''
+        ${config.compare.start}
+        echo docker.io/thetorproject/snowflake-proxy:${mainConfig.image-versions."docker.io/thetorproject/snowflake-proxy"}
+        ${config.compare.end}
+      '';
+    };
+    
     "up.sh" = {
       executable = true;
       text = ''

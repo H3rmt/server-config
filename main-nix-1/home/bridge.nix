@@ -11,6 +11,15 @@ in
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
+    "compare.sh" = {
+      executable = true;
+      text = ''
+        ${config.compare.start}
+        echo ghcr.io/h3rmt/alpine-tor:${mainConfig.image-versions."ghcr.io/h3rmt/alpine-tor"}
+        ${config.compare.end}
+      '';
+    };
+    
     "up.sh" = {
       executable = true;
       text = ''

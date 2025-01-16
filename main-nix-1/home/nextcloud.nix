@@ -18,6 +18,16 @@ in
   ];
 
   home.file = clib.create-files config.home.homeDirectory {
+    "compare.sh" = {
+      executable = true;
+      text = ''
+        ${config.compare.start}
+        echo docker.io/mariadb:${mainConfig.image-versions."docker.io/mariadb"}
+        echo docker.io/nextcloud:${mainConfig.image-versions."docker.io/nextcloud"}
+        ${config.compare.end}
+      '';
+    };
+    
     "up.sh" = {
       executable = true;
       text = ''
