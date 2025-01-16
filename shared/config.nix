@@ -420,28 +420,18 @@
         };
       };
     };
-    image-versions = {
-      "docker.io/grafana/promtail" = "";
-      "docker.io/prom/node-exporter" = "";
-      "docker.io/nginx/nginx-prometheus-exporter" = "";
-      "docker.io/certbot/certbot" = "";
-      "docker.io/grafana/grafana-oss" = "";
-      "docker.io/prom/prometheus" = "";
-      "docker.io/grafana/loki" = "";
-      "docker.io/library/redis" = "";
-      "docker.io/library/postgres" = "";
-      "docker.io/thetorproject/snowflake-proxy" = "";
-      "docker.io/mariadb" = "";
-      "docker.io/nextcloud" = "";
-      "ghcr.io/h3rmt/nginx-http3-br" = "";
-      "ghcr.io/h3rmt/filesharing" = "";
-      "ghcr.io/h3rmt/alpine-tor" = "";
-      "ghcr.io/h3rmt/puppeteer-sma" = "";
-      "ghcr.io/goauthentik/server" = "";
-      "ghcr.io/muety/wakapi" = "";
-      "ghcr.io/borgmatic-collective/borgmatic" = "";
-      "ghcr.io/h3rmt/borg-prometheus-exporter" = "";
-    };
+    image-versions = builtins.foldl'
+      (map: line:
+        let
+          match = builtins.match "FROM ([^:]+):(.+)" line;
+        in
+        if match == null then
+          map
+        else
+          map // { "${match[0]}" = match [ 1 ]; }
+      )
+      { }
+      (builtins.splitString "\n" (builtins.readFile "../Dockerfile"));
     nameservers-hetzner = [
       "2a01:4ff:ff00::add:2"
       "2a01:4ff:ff00::add:1"
