@@ -25,6 +25,9 @@
           port = lib.mkOption {
             type = lib.types.str;
           };
+          compare = lib.mkOption {
+            type = lib.types.str;
+          };
         };
       };
     };
