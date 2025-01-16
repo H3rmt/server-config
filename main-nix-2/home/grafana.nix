@@ -1,9 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  GRAFANA_VERSION = "10.4.1";
-  PROMETHEUS_VERSION = "v2.51.2";
-  LOKI_VERSION = "3.0.0";
-
   GRAFANA_CONFIG = "grafana";
   PROMETHEUS_CONFIG = "prometheus";
   LOKI_CONFIG = "loki";
@@ -35,14 +31,14 @@ in
             -v ${config.data-prefix}/grafana:/var/lib/grafana:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/grafana/grafana-oss:${GRAFANA_VERSION}
+            docker.io/grafana/grafana-oss:${mainConfig.image-versions."docker.io/grafana/grafana-oss"}
 
         podman run --name=prometheus -d --pod=${config.pod-name} \
             -v ${config.home.homeDirectory}/${PROMETHEUS_CONFIG}:/etc/prometheus:ro \
             -v ${config.data-prefix}/prometheus:/prometheus:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/prom/prometheus:${PROMETHEUS_VERSION} \
+            docker.io/prom/prometheus:${mainConfig.image-versions."docker.io/prom/prometheus"} \
             --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --storage.tsdb.retention.time=5y --enable-feature=promql-experimental-functions
 
         podman run --name=loki -d --pod=${config.pod-name} \
@@ -50,7 +46,7 @@ in
             -v ${config.data-prefix}/loki:/var/loki:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/grafana/loki:${LOKI_VERSION} \
+            docker.io/grafana/loki:${mainConfig.image-versions."docker.io/grafana/loki"} \
             -config.file=/etc/loki/config.yml
 
         ${config.exporter.run}

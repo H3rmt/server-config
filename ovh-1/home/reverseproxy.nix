@@ -1,7 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  NGINX_VERSION = "v0.1.2";
-  NGINX_EXPORTER_VERSION = "1.1.0";
   HOMEPAGE_VERSION = "v0.1.4";
 
   NGINX_CONFIG = "nginx.conf";
@@ -34,12 +32,12 @@ in
               text = ''
                 start_time=$(date +%s)
 
-                podman pull docker.io/certbot/certbot
+                podman pull docker.io/certbot/certbot:${mainConfig.image-versions."docker.io/certbot/certbot"}
                 podman run --rm --name certbot \
                   -e "HETZNER_TOKEN=$(cat '${mainConfig.age.secrets.reverseproxy_hetzner_token.path}')" \
                   -v ${config.data-prefix}/letsencrypt:/etc/letsencrypt \
                   --entrypoint sh \
-                  certbot/certbot \
+                  docker.io/certbot/certbot:${mainConfig.image-versions."docker.io/certbot/certbot"} \
                   -c 'pip install certbot-dns-hetzner; echo "dns_hetzner_api_token = $HETZNER_TOKEN"; echo "dns_hetzner_api_token = $HETZNER_TOKEN" > /hetzner.ini;
                       certbot certonly --email "${mainConfig.email}" --agree-tos --non-interactive \
                         --authenticator dns-hetzner --dns-hetzner-credentials /hetzner.ini \
@@ -102,12 +100,12 @@ in
             -v logs:/var/log/nginx/:U \
             --restart on-failure:20 \
             -u $UID:$GID \
-            docker.io/h3rmt/nginx-http3-br:${NGINX_VERSION}
+            ghcr.io/h3rmt/nginx-http3-br:${mainConfig.image-versions."ghcr.io/h3rmt/nginx-http3-br"}
         
         podman run --name=nginx-exporter -d --pod=${config.pod-name} \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/nginx/nginx-prometheus-exporter:${NGINX_EXPORTER_VERSION} \
+            docker.io/nginx/nginx-prometheus-exporter:${mainConfig.image-versions."docker.io/nginx/nginx-prometheus-exporter"} \
             --nginx.scrape-uri=http://localhost:1081/${mainConfig.nginx-info-page}
 
         ${config.exporter.run}
@@ -244,10 +242,7 @@ in
         
           server {
             server_name ${mainConfig.sites.authentik}.${mainConfig.main-url};
-            add_header alt-svc 'h3=":443"; ma=2592000';
 
-            listen 1443 quic;
-            listen [::0]:1443 quic;
             listen 1443 ssl;
             listen [::0]:1443 ssl;
         
@@ -266,10 +261,7 @@ in
         
           server {
             server_name ${mainConfig.sites.grafana}.${mainConfig.main-url};
-            add_header alt-svc 'h3=":443"; ma=2592000';
 
-            listen 1443 quic;
-            listen [::0]:1443 quic;
             listen 1443 ssl;
             listen [::0]:1443 ssl;
         
@@ -289,10 +281,7 @@ in
 
           server {
             server_name ${mainConfig.sites.nextcloud}.${mainConfig.main-url};
-            add_header alt-svc 'h3=":443"; ma=2592000';
 
-            listen 1443 quic;
-            listen [::0]:1443 quic;
             listen 1443 ssl;
             listen [::0]:1443 ssl;
             

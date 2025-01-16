@@ -1,7 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  PUPPEREER_SMA_VERSION = "v0.1.5";
-
   SUNNY_PASSWORD = ''$(cat "${mainConfig.age.secrets.sunny_password.path}")'';
 in
 {
@@ -48,7 +46,7 @@ in
             -e SUNNY_PASSWORD=${SUNNY_PASSWORD} \
             -e SCREENSHOT_DELAY=6000 \
             -v ${config.data-prefix}:/app/images:U \
-            ghcr.io/h3rmt/puppeteer-sma:${PUPPEREER_SMA_VERSION}
+            ghcr.io/h3rmt/puppeteer-sma:${mainConfig.image-versions."ghcr.io/h3rmt/puppeteer-sma"}
 
         ${config.exporter.run}
       '';

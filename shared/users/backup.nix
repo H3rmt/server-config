@@ -1,6 +1,5 @@
 { lib, config, clib, mainConfig, ... }:
 let
-  BORG_EXPORTER_VERSION = "v0.1.0";
 in
 {
   imports = [
@@ -26,7 +25,7 @@ in
               ${lib.concatStringsSep "," (lib.forEach mainConfig.server.${mainConfig.hostnames.raspi-1}.backup-users(repo: "/mnt/${mainConfig.hostnames.raspi-1}/${repo}=$(cat ${mainConfig.age.secrets."borg_pass_${mainConfig.hostnames.raspi-1}".path})"))}" \
             --restart on-failure:10 \
             -u $UID:$GID \
-            ghcr.io/h3rmt/borg-prometheus-exporter:${BORG_EXPORTER_VERSION} \
+            ghcr.io/h3rmt/borg-prometheus-exporter:${mainConfig.image-versions."ghcr.io/h3rmt/borg-prometheus-exporter"} \
             -p 5000 -b 0.0.0.0
 
         ${config.exporter.run}

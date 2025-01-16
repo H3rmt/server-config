@@ -1,7 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  FILESHARING_VERSION = "v1.6.3";
-
   ADMIN_PASSWORD = ''$(cat "${mainConfig.age.secrets.filesharing_admin_pass.path}")'';
   ADMIN_EMAIL = ''$(cat "${mainConfig.age.secrets.filesharing_admin_email.path}")'';
   USER_PASSWORD = ''$(cat "${mainConfig.age.secrets.filesharing_user_pass.path}")'';
@@ -33,7 +31,7 @@ in
             -v ${config.data-prefix}/pb_data/:/app/pb_data:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/h3rmt/filesharing:${FILESHARING_VERSION}
+            ghcr.io/h3rmt/filesharing:${mainConfig.image-versions."ghcr.io/h3rmt/filesharing"}
 
         ${config.exporter.run}
       '';

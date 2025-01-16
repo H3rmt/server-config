@@ -21,7 +21,7 @@ in
             -v '/:/host:ro,rslave' \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/prom/node-exporter:${NODE_EXPORTER_VERSION} \
+            docker.io/prom/node-exporter:${mainConfig.image-versions."docker.io/prom/node-exporter"} \
             --path.rootfs=/host
         
         podman run --name=promtail-${mainConfig.networking.hostName} -d --pod=${config.pod-name} \
@@ -31,7 +31,7 @@ in
             --group-add=keep-groups \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/grafana/promtail:${PROMTAIL_VERSION} \
+            docker.io/grafana/promtail:${mainConfig.image-versions."docker.io/grafana/promtail"} \
             --config.file=/etc/promtail/promtail.yml
 
         ${config.exporter.run}

@@ -1,7 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  WAKAPI_VERSION = "2.11.2";
-
   SALT = ''$(cat "${mainConfig.age.secrets.wakapi_salt.path}")'';
 in
 {
@@ -37,7 +35,7 @@ in
             -v ${config.data-prefix}/wakapi:/data:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            ghcr.io/muety/wakapi:${WAKAPI_VERSION} 
+            ghcr.io/muety/wakapi:${mainConfig.image-versions."ghcr.io/muety/wakapi"} 
 
         ${config.exporter.run}
       '';

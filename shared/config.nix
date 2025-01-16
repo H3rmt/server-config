@@ -428,10 +428,10 @@
         if match == null then
           map
         else
-          map // { "${match[0]}" = match [ 1 ]; }
+          map // { "${builtins.elemAt match 0}" = builtins.elemAt match 1; }
       )
       { }
-      (builtins.splitString "\n" (builtins.readFile "../Dockerfile"));
+      (lib.strings.splitString "\n" (lib.strings.fileContents ../Dockerfile));
     nameservers-hetzner = [
       "2a01:4ff:ff00::add:2"
       "2a01:4ff:ff00::add:1"

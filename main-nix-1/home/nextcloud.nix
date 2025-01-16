@@ -1,8 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  MARIADB_VERSION = "11.0";
-  NEXTCLOUD_VERSION = "29.0.0";
-
   MARIA_ROOT_PASS = ''$(cat "${mainConfig.age.secrets.nextcloud_maria_root_pass.path}")'';
   MARIA_PASS = ''$(cat "${mainConfig.age.secrets.nextcloud_maria_pass.path}")'';
   NEXTCLOUD_ADMIN_PASS = ''$(cat "${mainConfig.age.secrets.nextcloud_admin_pass.path}")'';
@@ -37,7 +34,7 @@ in
             -v ${config.data-prefix}/db:/var/lib/mysql:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/mariadb:${MARIADB_VERSION} \
+            docker.io/mariadb:${mainConfig.image-versions."docker.io/mariadb"} \
             --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
 
         podman run --name=nextcloud -d --pod=${config.pod-name} \
@@ -55,7 +52,7 @@ in
             -v ${config.home.homeDirectory}/apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf:ro \
             --restart on-failure:10 \
             -u $UID:$GID \
-            docker.io/nextcloud:${NEXTCLOUD_VERSION}
+            docker.io/nextcloud:${mainConfig.image-versions."docker.io/nextcloud"}
 
         ${config.exporter.run}
       '';

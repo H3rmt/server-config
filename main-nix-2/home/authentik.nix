@@ -1,9 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  POSTGRES_VERSION = "12-alpine";
-  REDIS_VERSION = "7.2.4-alpine";
-  AUTHENTIK_VERSION = "2024.10.1";
-
   PG_PASS = ''$(cat "${mainConfig.age.secrets.authentik_pg_pass.path}")'';
   SECRET_KEY = ''$(cat "${mainConfig.age.secrets.authentik_key.path}")'';
   POSTGRES_USER = "authentik";
@@ -44,7 +40,7 @@ in
             --healthcheck-timeout 5s \
             --healthcheck-start-period 20s \
             --healthcheck-retries 5 \
-            docker.io/library/postgres:${POSTGRES_VERSION}
+            docker.io/library/postgres:${mainConfig.image-versions."docker.io/library/postgres"}
 
         podman run --name=redis -d --pod=${config.pod-name} \
             -v ${config.data-prefix}/redis:/data:U \
@@ -55,7 +51,7 @@ in
             --healthcheck-timeout 3s \
             --healthcheck-start-period 20s \
             --healthcheck-retries 5 \
-            docker.io/library/redis:${REDIS_VERSION} \
+            docker.io/library/redis:${mainConfig.image-versions."docker.io/library/redis"} \
             --save 60 1 --loglevel warning
 
         podman run --name=server -d --pod=${config.pod-name} \
@@ -70,7 +66,7 @@ in
             -v ${config.data-prefix}/templates:/templates:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
+            ghcr.io/goauthentik/server:${mainConfig.image-versions."ghcr.io/goauthentik/server"} \
             server
             
         podman run --name=worker -d --pod=${config.pod-name} \
@@ -86,7 +82,7 @@ in
             -v ${config.data-prefix}/certs:/certs:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            ghcr.io/goauthentik/server:${AUTHENTIK_VERSION} \
+            ghcr.io/goauthentik/server:${mainConfig.image-versions."ghcr.io/goauthentik/server"} \
             worker
         
         ${config.exporter.run}

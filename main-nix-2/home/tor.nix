@@ -1,6 +1,5 @@
 { lib, config, home, pkgs, clib, mainConfig, inputs, ... }:
 let
-  TOR_VERSION = "v0.3.6-exporter";
 in
 {
   imports = [
@@ -39,7 +38,7 @@ in
             -v logs:/var/log/tor:U \
             --restart on-failure:10 \
             -u $UID:$GID \
-            ghcr.io/h3rmt/alpine-tor:${TOR_VERSION}
+            ghcr.io/h3rmt/alpine-tor:${mainConfig.image-versions."ghcr.io/h3rmt/alpine-tor"}
 
         ${config.exporter.run}
       '';
