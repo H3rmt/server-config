@@ -73,7 +73,7 @@
         echo --------------------------------------------------------------------------------
         echo Versions in up.sh:
       '';
-      end = ''quay.io/navidys/prometheus-podman-exporter:${mainConfig.image-versions."quay.io/navidys/prometheus-podman-exporter"}'';
+      end = ''echo quay.io/navidys/prometheus-podman-exporter:${mainConfig.image-versions."quay.io/navidys/prometheus-podman-exporter"}'';
     };
     home.stateVersion = mainConfig.nixVersion;
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";
