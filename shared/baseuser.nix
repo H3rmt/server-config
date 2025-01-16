@@ -52,6 +52,8 @@
       '';
 
       port = ''${mainConfig.address.private.podman-exporter.${config.home.username}}:9882'';
+
+      compare = ''quay.io/navidys/prometheus-podman-exporter:${mainConfig.image-versions."quay.io/navidys/prometheus-podman-exporter"}'';
     };
     home.stateVersion = mainConfig.nixVersion;
     home.sessionVariables.XDG_RUNTIME_DIR = "/run/user/$UID";

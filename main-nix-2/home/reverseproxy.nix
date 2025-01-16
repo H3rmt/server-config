@@ -80,6 +80,17 @@ in
   };
 
   home.file = clib.create-files config.home.homeDirectory {
+    "compare.sh" = {
+      executable = true;
+      text = ''
+        podman ps --format "{{.Image}}" | sed '1d'
+        echo -------------------------
+        echo ghcr.io/h3rmt/nginx-http3-br:${mainConfig.image-versions."ghcr.io/h3rmt/nginx-http3-br"}
+        echo docker.io/nginx/nginx-prometheus-exporter:${mainConfig.image-versions."docker.io/nginx/nginx-prometheus-exporter"}
+        echo ${config.exporter.compare}
+      '';
+    };
+
     "up.sh" = {
       executable = true;
       text = ''
