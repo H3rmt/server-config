@@ -259,6 +259,7 @@ in
             location / {
               proxy_pass http://${mainConfig.sites.authentik};
               include /etc/nginx/${NGINX_CONFIG_DIR}/proxy.conf;
+              include /etc/nginx/${NGINX_CONFIG_DIR}/proxy-x-headers.conf;
             }
 
             location /ws/ {
