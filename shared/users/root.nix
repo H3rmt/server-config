@@ -17,34 +17,20 @@
       historyLimit = 40000;
       mouse = true;
       prefix = "C-Space";
-      plugins =
-        let
-          tmux-dracula = pkgs.tmuxPlugins.mkTmuxPlugin
-            {
-              pluginName = "dracula";
-              version = "unstable-2024-05-05";
-              src = pkgs.fetchFromGitHub {
-                owner = "dracula";
-                repo = "tmux";
-                rev = "master";
-                sha256 = "sha256-X3+2L5EQJV+kHVR/QeTx1o0Pyqp3gYAcpqrt/mVvaw8=";
-              };
-            };
-        in
-        [
-          pkgs.tmuxPlugins.cpu
-          pkgs.tmuxPlugins.sidebar
-          {
-            plugin = tmux-dracula;
-            extraConfig = ''
-              set -g @dracula-plugins " "
-              set -g @dracula-show-powerline true
-              set -g @dracula-show-flags true
-              set -g @dracula-refresh-rate 5
-              set -g @dracula-show-left-icon hostname
-            '';
-          }
-        ];
+      plugins = with pkgs.tmuxPlugins; [
+        cpu
+        sidebar
+        {
+          plugin = dracula;
+          extraConfig = ''
+            set -g @dracula-plugins " "
+            set -g @dracula-show-powerline true
+            set -g @dracula-show-flags true
+            set -g @dracula-refresh-rate 5
+            set -g @dracula-show-left-icon hostname
+          '';
+        }
+      ];
       terminal = "xterm-256color";
       extraConfig = ''
         set -s escape-time 10         # faster command sequences
