@@ -14,15 +14,13 @@
       "net.ipv4.ip_unprivileged_port_start" = 0;
       "net.ipv4.ip_forward" = 1;
     };
-    loader.grub = {
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-      device = "nodev";
+    loader.systemd-boot = {
+      enable = true;
     };
   };
 
   networking.nftables.enable = true;
-  networking.hostName = config.hostnames.ovh-2;
+  networking.hostName = config.hostnames.ovh-1;
   networking.firewall = {
     enable = true;
     rejectPackets = true;
@@ -36,7 +34,7 @@
   services.prometheus.exporters.wireguard = {
     enable = true;
     withRemoteIp = true;
-    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.ovh-2}") 0;
-    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.ovh-2}") 1);
+    listenAddress = builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.ovh-1}") 0;
+    port = lib.strings.toInt (builtins.elemAt (lib.splitString ":" config.address.private.wireguard."wireguard-exporter-${config.hostnames.ovh-1}") 1);
   };
 }

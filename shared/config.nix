@@ -301,7 +301,7 @@
       };
       "${config.hostnames.main-2}" = {
         public-ip = "159.69.206.86";
-        public-ip-v6 = "";
+        public-ip-v6 = "2a01:4f8:1c1b:59c0::1";
         private-ip = "10.0.69.2";
         root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDAz2IRRlU5CN8TRnHnHD98R5CWSGHQBg9hxqeYARdoK";
         wireguard-public-key = "rW/S+RgN210ExVruYrUi5JKxPURmJBhnzldfbp86mwI=";
@@ -325,17 +325,17 @@
         ];
         backup-trigger-minutes = 20;
       };
-      # "${config.hostnames.ovh-1}" = {
-      #   public-ip = "37.187.250.146";
-      #   public-ip-v6 = "2001:41d0:c:292::1";
-      #   private-ip = "10.0.69.22";
-      #   root-public-key = "";
-      #   wireguard-public-key = "";
-      #   backup-users = [
+      "${config.hostnames.ovh-1}" = {
+        public-ip = "37.187.250.146";
+        public-ip-v6 = "2001:41d0:c:292::1";
+        private-ip = "10.0.69.21";
+        root-public-key = "";
+        wireguard-public-key = "";
+        backup-users = [
 
-      #   ];
-      #   backup-trigger-minutes = 5;
-      # };
+        ];
+        backup-trigger-minutes = 5;
+      };
     };
     sites = {
       authentik = "authentik";

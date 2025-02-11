@@ -14,5 +14,4 @@
     };
   };
 
-  home-manager.users.reverseproxy = import ./home/reverseproxy.nix;
 }
