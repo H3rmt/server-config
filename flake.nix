@@ -59,7 +59,7 @@
           ./shared/config.nix
           ./shared/baseconfig.nix
           ./shared/backup.nix
-          ./main-nix-2/configuration.nix
+          ./ovh-1/configuration.nix
         ];
       });
     };
