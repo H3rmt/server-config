@@ -213,53 +213,23 @@
         };
         podman-exporter = lib.mkOption {
           type = lib.types.attrsOf lib.types.str;
-          description = "Address for Podman Exporter";
+          description = "Addresses for Podman Exporters";
         };
-        node-exporter = {
-          "${config.exporter-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Node Exporter on nix-1";
-          };
-          "${config.exporter-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Node Exporter on nix-2";
-          };
-          "${config.exporter-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Node Exporter on raspi-1";
-          };
+        node-exporter = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          description = "Addresses for Node Exporters";
         };
         systemd-exporter = lib.mkOption {
           type = lib.types.attrsOf lib.types.str;
-          description = "Address for systemd-exporter";
+          description = "Addresses for Systemd Exporters";
         };
-        wireguard = {
-          "wireguard-exporter-${config.hostnames.main-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Wireguard Exporter";
-          };
-          "wireguard-exporter-${config.hostnames.main-2}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Wireguard Exporter";
-          };
-          "wireguard-exporter-${config.hostnames.raspi-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Wireguard Exporter";
-          };
+        wireguard = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          description = "Addresses for Wireguard Exporters";
         };
-        borg-exporter = {
-          "${config.backup-user-prefix}-${config.hostnames.main-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Borg Exporter on nix-1";
-          };
-          "${config.backup-user-prefix}-${config.hostnames.main-2}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Borg Exporter on nix-2";
-          };
-          "${config.backup-user-prefix}-${config.hostnames.raspi-1}" = lib.mkOption {
-            type = lib.types.str;
-            description = "Address for Borg Exporter on raspi-1";
-          };
+        borg-exporter = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          description = "Addresses for Borg Exporters";
         };
       };
     };
