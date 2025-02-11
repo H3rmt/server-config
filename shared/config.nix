@@ -390,11 +390,13 @@
           "${backup-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:21013";
           "${backup-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:21014";
           puppeteer-sma = "${server."${hostnames.main-1}".private-ip}:21015";
+          "${backup-user-prefix}-${hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:21016";
         };
         node-exporter = {
           "${exporter-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:22001";
           "${exporter-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:22002";
           "${exporter-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:22003";
+          "${exporter-user-prefix}-${hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:22004";
         };
         systemd-exporter = {
           reverseproxy = "${server."${hostnames.main-2}".private-ip}:23000";
@@ -402,16 +404,19 @@
           "${config.hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:23002";
           "${config.hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:23003";
           puppeteer-sma = "${server."${hostnames.main-1}".private-ip}:23004";
+          "${config.hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:23005";
         };
         wireguard = {
           "wireguard-exporter-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:24000";
           "wireguard-exporter-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:24002";
           "wireguard-exporter-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:24003";
+          "wireguard-exporter-${hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:24004";
         };
         borg-exporter = {
           "${backup-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:25000";
           "${backup-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:25001";
           "${backup-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:25002";
+          "${backup-user-prefix}-${hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:25003";
         };
       };
     };
