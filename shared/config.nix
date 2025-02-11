@@ -360,7 +360,8 @@
           "${backup-user-prefix}-${hostnames.main-2}" = "${server."${hostnames.main-2}".private-ip}:21013";
           "${backup-user-prefix}-${hostnames.raspi-1}" = "${server."${hostnames.raspi-1}".private-ip}:21014";
           puppeteer-sma = "${server."${hostnames.main-1}".private-ip}:21015";
-          "${backup-user-prefix}-${hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:21016";
+          "${exporter-user-prefix}-${hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:21016";
+          "${backup-user-prefix}-${hostnames.ovh-1}" = "${server."${hostnames.ovh-1}".private-ip}:21017";
         };
         node-exporter = {
           "${exporter-user-prefix}-${hostnames.main-1}" = "${server."${hostnames.main-1}".private-ip}:22001";
