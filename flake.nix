@@ -57,9 +57,10 @@
           home-manager.nixosModules.home-manager
           agenix.nixosModules.default
           ./shared/config.nix
-          # ./shared/baseconfig.nix
-          # ./shared/backup.nix
-          ./minimal/configuration.nix
+          ./shared/baseconfig.nix
+          ./shared/backup.nix
+          # ./minimal/configuration.nix
+          ./ovh-1/configuration.nix
         ];
       });
     };
