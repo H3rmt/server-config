@@ -11,8 +11,13 @@
       "net.ipv4.ping_group_range" = "0 2000000";
       "net.ipv4.ip_unprivileged_port_start" = 0;
     };
-    loader.systemd-boot = {
-      enable = true;
+    # loader.systemd-boot = {
+    #   enable = true;
+    # };
+    loader.grub = {
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      device = "nodev";
     };
     tmp.cleanOnBoot = true;
   };
@@ -21,6 +26,7 @@
   time.timeZone = "Europe/Berlin";
   networking.useDHCP = true; # no systemd networking to work in chroot 
   networking.domain = config.main-url;
+  systemd.network.enable = false;
   system.stateVersion = config.nixVersion;
 
   environment.systemPackages = [
