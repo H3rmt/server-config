@@ -1,5 +1,5 @@
 let
-  main = "";
+  main = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc6KRvmMWOHx8gHICOnXdDkqA4q08e5xTKP3BJt5rGo";
   my = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
 in
 {
