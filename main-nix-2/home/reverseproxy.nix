@@ -220,7 +220,7 @@ in
         
           server {
             server_name ${mainConfig.main-url};
-            add_header alt-svc 'h3=":443"; ma=2592000';
+            add_header alt-svc 'h3=":443"; ma=604800';
         
             listen 1443 quic reuseport;
             listen [::0]:1443 quic reuseport;
@@ -234,7 +234,7 @@ in
         
           server {
             server_name ${mainConfig.sites.prometheus}.${mainConfig.main-url};
-            add_header alt-svc 'h3=":443"; ma=2592000';
+            add_header alt-svc 'h3=":443"; ma=604800';
 
             listen 1443 quic;
             listen [::0]:1443 quic;
@@ -306,7 +306,7 @@ in
                             
           server {
             server_name ${mainConfig.sites.filesharing}.${mainConfig.main-url};
-            add_header alt-svc 'h3=":443"; ma=2592000';
+            add_header alt-svc 'h3=":443"; ma=604800';
       
             listen 1443 quic;
             listen [::0]:1443 quic;
@@ -326,7 +326,7 @@ in
         
           server {
             server_name ${mainConfig.sites.wakapi}.${mainConfig.main-url};
-            add_header alt-svc 'h3=":443"; ma=2592000';
+            add_header alt-svc 'h3=":443"; ma=604800';
       
             listen 1443 quic;
             listen [::0]:1443 quic;
@@ -354,7 +354,7 @@ in
             listen 1443 ssl;
             listen [::0]:1443 ssl;
 
-            location / {        
+            location / {
               return 404;
             }
           }

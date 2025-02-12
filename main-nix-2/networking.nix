@@ -6,11 +6,11 @@
       dns = config.nameservers ++ config.nameservers-hetzner;
       address = [
         "${config.server."${config.hostnames.main-2}".public-ip}/32"
-        "2a01:4f8:1c1b:59c0::1/64"
+        "${config.server."${config.hostnames.main-2}".public-ip-v6}/64"
       ];
       routes = [
-        { Gateway = "fe80::1"; GatewayOnLink = true; }
         { Gateway = "172.31.1.1"; GatewayOnLink = true; }
+        { Gateway = "fe80::1"; GatewayOnLink = true; }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
