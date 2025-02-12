@@ -22,9 +22,5 @@
       group = "systemd-network";
       mode = "640";
     };
-    reverseproxy_hetzner_token = {
-      file = ./secrets/reverseproxy/hetzner_token.age;
-      owner = "reverseproxy";
-    };
   };
 }
