@@ -33,10 +33,6 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "${config.server."${config.hostnames.raspi-1}".wireguard-public-key }";
-          AllowedIPs = "${config.server."${config.hostnames.raspi-1}".private-ip}/32";
-        }
-        {
           PublicKey = "${config.server."${config.hostnames.main-2}".wireguard-public-key }";
           AllowedIPs = "${config.server."${config.hostnames.main-2}".private-ip}/32";
           Endpoint = "${config.server."${config.hostnames.main-2}".public-ip}:${toString config.ports.exposed.wireguard}";

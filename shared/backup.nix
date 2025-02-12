@@ -138,7 +138,7 @@ in
     timerConfig = {
       Unit = "backup.service";
       OnBootSec = "120";
-      OnCalendar = "*:${toString config.server."${config.networking.hostName}".backup-trigger-minutes}";
+      OnCalendar = "${toString config.server."${config.networking.hostName}".backup-trigger-minutes} */3 * * *";
       Persistent = true;
     };
   };

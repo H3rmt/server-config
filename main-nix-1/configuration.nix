@@ -11,7 +11,6 @@
       "vm.overcommit_memory" = 1;
       "vm.swappiness" = 10;
       "net.ipv4.ping_group_range" = "0 2000000";
-      "net.ipv4.ip_forward" = 1;
     };
     loader.grub = {
       efiSupport = true;
