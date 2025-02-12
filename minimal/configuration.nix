@@ -25,6 +25,7 @@
 
   time.timeZone = "Europe/Berlin";
   networking.useDHCP = true; # no systemd networking to work in chroot 
+  networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
   networking.domain = config.main-url;
   systemd.network.enable = false;
   system.stateVersion = config.nixVersion;
