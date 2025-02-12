@@ -100,8 +100,8 @@ let
           text = ''
             start_time=$(date +%s)
 
-            ${lib.concatMapStringsSep "  " (remote: ''
-              rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/ ${config.backup-user-prefix}-${remote}@${config.server."${remote}"."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}
+            ${lib.concatMapStringsSep "" (remote: ''
+            rsync -aP --mkpath --delete -e "ssh -i /etc/ssh/ssh_host_ed25519_key -o StrictHostKeyChecking=no" /home/${config.backup-user-prefix}-${config.networking.hostName}/${config.data-dir}/${config.networking.hostName}/ ${config.backup-user-prefix}-${remote}@${config.server."${remote}"."private-ip"}:/home/${config.backup-user-prefix}-${remote}/${config.data-dir}/${config.networking.hostName}
             '') (lib.filter (r: r != config.networking.hostName) (lib.attrValues config.hostnames))}
 
             echo "Rsync backup finished in $(($(date +%s) - start_time)) seconds"

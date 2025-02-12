@@ -258,7 +258,7 @@
     server = {
       "${config.hostnames.main-1}" = {
         public-ip = "128.140.32.233";
-        public-ip-v6 = "";
+        public-ip-v6 = "2a01:4f8:c0c:e6fe::1";
         private-ip = "10.0.69.1";
         root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICKIpoY7xkKbUMJ1/Fg1jPu1jwQzfXgjvybcsXnbI0eM";
         wireguard-public-key = "6vInhWMq9wX1AaWkk685kWRQossUZm8D2kUQpfsWW1E=";
@@ -299,8 +299,8 @@
         public-ip = "37.187.250.146";
         public-ip-v6 = "2001:41d0:c:292::1";
         private-ip = "10.0.69.21";
-        root-public-key = "";
-        wireguard-public-key = "";
+        root-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc6KRvmMWOHx8gHICOnXdDkqA4q08e5xTKP3BJt5rGo";
+        wireguard-public-key = "t/f3+kiAvhuMttlYS/oERDYD6h2d7joamRHLJF++IRI=";
         backup-users = [
 
         ];

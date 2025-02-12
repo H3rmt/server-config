@@ -40,7 +40,7 @@ in
         ${config.compare.end}
       '';
     };
-    
+
     "up.sh" = {
       executable = true;
       text = ''
