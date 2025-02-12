@@ -13,5 +13,4 @@ in
   "nextcloud/maria_root_pass.age".publicKeys = [ main my ];
   "nextcloud/maria_pass.age".publicKeys = [ main my ];
   "nextcloud/admin_pass.age".publicKeys = [ main my ];
-  "sunny_password.age".publicKeys = [ main my ];
 }
