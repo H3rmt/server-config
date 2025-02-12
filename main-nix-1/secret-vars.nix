@@ -46,9 +46,5 @@
       file = ./secrets/nextcloud/admin_pass.age;
       owner = "nextcloud";
     };
-    sunny_password = {
-      file = ./secrets/sunny_password.age;
-      owner = "puppeteer-sma";
-    };
   };
 }
