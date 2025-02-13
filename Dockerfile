@@ -17,5 +17,5 @@ FROM ghcr.io/h3rmt/puppeteer-sma:v0.1.6
 FROM ghcr.io/goauthentik/server:2024.12.2
 FROM ghcr.io/muety/wakapi:2.12.3
 FROM ghcr.io/borgmatic-collective/borgmatic
-FROM ghcr.io/h3rmt/borg-prometheus-exporter:v0.1.0
+FROM ghcr.io/h3rmt/borg-prometheus-exporter:v0.1.1
 FROM quay.io/navidys/prometheus-podman-exporter:v1.11.0
