@@ -7,7 +7,7 @@ FROM docker.io/prom/prometheus:v3.7.3
 FROM docker.io/grafana/loki:3.5.8
 FROM docker.io/library/redis:7.2.4-alpine
 FROM docker.io/library/postgres:12-alpine
-FROM docker.io/thetorproject/snowflake-proxy:v2.8.1
+FROM docker.io/thetorproject/snowflake-proxy:v2.11.0
 FROM docker.io/mariadb:11.0
 FROM docker.io/nextcloud:30.0.5
 FROM ghcr.io/h3rmt/nginx-http3-br:v0.1.4
