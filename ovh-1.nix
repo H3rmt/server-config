@@ -43,11 +43,11 @@ in
 
   services.headscale = {
     enable = true;
+    address = "0.0.0.0"; 
+    port = 4433;
     settings = {
       server_url = "https://headscale.h3rmt.zip:4433";
-      listen_addr = "0.0.0.0:4433"; 
-      metrics_listen_addr = "127.0.0.1:9090"; 
-      acme_email = "enrico@h3rmt.zip";
+      dns = { baseDomain = "h3rmt.internal"; };
     };
   };
 
