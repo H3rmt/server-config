@@ -58,20 +58,7 @@
     clock24 = true;
     historyLimit = 40000;
     shortcut = "Space";
-    plugins = with pkgs.tmuxPlugins; [
-      cpu
-      sidebar
-      {
-        plugin = dracula;
-        extraConfig = ''
-          set -g @dracula-plugins " "
-          set -g @dracula-show-powerline true
-          set -g @dracula-show-flags true
-          set -g @dracula-refresh-rate 5
-          set -g @dracula-show-left-icon hostname
-        '';
-      }
-    ];
+    plugins = with pkgs.tmuxPlugins; [ cpu dracula ];
     terminal = "xterm-256color";
     extraConfig = ''
       set -s escape-time 10         # faster command sequences
@@ -102,6 +89,12 @@
       bind C-n next-window
 
       bind r source-file /root/.config/tmux/tmux.conf \; display "Reloaded!"
+
+      set -g @dracula-plugins " "
+      set -g @dracula-show-powerline true
+      set -g @dracula-show-flags true
+      set -g @dracula-refresh-rate 5
+      set -g @dracula-show-left-icon hostname
     '';
   };
 
