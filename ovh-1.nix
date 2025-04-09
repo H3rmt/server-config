@@ -47,7 +47,10 @@ in
     port = 4433;
     settings = {
       server_url = "https://headscale.h3rmt.zip:4433";
-      dns = { baseDomain = "h3rmt.internal"; };
+      dns = { 
+        magic_dns = true;
+        base_domain = "h3rmt.internal"; 
+      };
     };
   };
 
