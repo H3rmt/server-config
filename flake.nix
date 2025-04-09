@@ -7,7 +7,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, agenix, ... }: {
+  outputs = inputs@{ self, nixpkgs, agenix, ... }: {
     formatter.aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
     nixosConfigurations = {
@@ -16,8 +16,8 @@
         specialArgs = { inherit inputs; };
         modules = [
           agenix.nixosModules.default
-          ./shared/config.nix
-          ./main-nix-1/configuration.nix
+          # ./shared/config.nix
+          # ./main-nix-1/configuration.nix
         ];
       });
       main-nix-2 = nixpkgs.lib.nixosSystem ({
@@ -25,8 +25,8 @@
         specialArgs = { inherit inputs; };
         modules = [
           agenix.nixosModules.default
-          ./shared/config.nix
-          ./main-nix-2/configuration.nix
+          # ./shared/config.nix
+          # ./main-nix-2/configuration.nix
         ];
       });
       raspi-1 = nixpkgs.lib.nixosSystem ({
