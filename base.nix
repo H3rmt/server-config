@@ -57,8 +57,7 @@
     baseIndex = 1;
     clock24 = true;
     historyLimit = 40000;
-    mouse = true;
-    prefix = "C-Space";
+    shortcut = "Space";
     plugins = with pkgs.tmuxPlugins; [
       cpu
       sidebar
@@ -81,6 +80,7 @@
       set -g status-interval 10     # redraw status line every 10 seconds
       set -g repeat-time 50         # dont allow fast key repetition
       set -g renumber-windows on
+      set -g mouse on
 
       unbind '"'
       unbind %
