@@ -29,7 +29,7 @@
 
   services.tailscale = {
     enable = true;
-    tailscale.authKeyParameters.baseURL = "http://headscale.h3rmt.zip:4433";
+    authKeyParameters.baseURL = "http://headscale.h3rmt.zip:4433";
   };
 
   networking.nftables.enable = true;
