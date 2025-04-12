@@ -56,6 +56,7 @@ in
   services.tailscale = {
     enable = true;
     authKeyParameters.baseURL = "http://headscale.h3rmt.zip:4433";
+    openFirewall = true;
   };
 
   networking.nftables.enable = true;
