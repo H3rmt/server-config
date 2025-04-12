@@ -6,6 +6,7 @@
   services = {
     openssh = {
       enable = true;
+      openFirewall = true;
       settings = {
         PasswordAuthentication = false;
       };
@@ -58,6 +59,13 @@
     clock24 = true;
     historyLimit = 40000;
     shortcut = "Space";
+    extraConfigBeforePlugins = ''
+      set -g @dracula-plugins " "
+      set -g @dracula-show-powerline true
+      set -g @dracula-show-flags true
+      set -g @dracula-refresh-rate 5
+      set -g @dracula-show-left-icon hostname
+    '';
     plugins = with pkgs.tmuxPlugins; [ cpu dracula ];
     terminal = "xterm-256color";
     extraConfig = ''
@@ -88,13 +96,7 @@
       bind C-p previous-window
       bind C-n next-window
 
-      bind r source-file /root/.config/tmux/tmux.conf \; display "Reloaded!"
-
-      set -g @dracula-plugins " "
-      set -g @dracula-show-powerline true
-      set -g @dracula-show-flags true
-      set -g @dracula-refresh-rate 5
-      set -g @dracula-show-left-icon hostname
+      bind r source-file /etc/tmux.conf \; display "Reloaded!"
     '';
   };
 

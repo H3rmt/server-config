@@ -27,8 +27,10 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
-  services.tailscale.enable = true;
-  environment.etc."tailscale/headscale-url".text = "https://headscale.h3rmt.zip:4433";
+  services.tailscale = {
+    enable = true;
+    tailscale.authKeyParameters.baseURL = "http://headscale.h3rmt.zip:4433";
+  };
 
   networking.nftables.enable = true;
   networking.hostName = "raspi-1";

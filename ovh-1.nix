@@ -24,7 +24,6 @@ in
       mdadmConf = mdadmconfigfile;
     };
   };
-  # environment.etc = { "mdadm.conf".text = mdadmconfigfile; };
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";
@@ -46,7 +45,7 @@ in
     address = "0.0.0.0"; 
     port = 4433;
     settings = {
-      server_url = "https://headscale.h3rmt.zip:4433";
+      server_url = "http://headscale.h3rmt.zip:4433";
       dns = { 
         magic_dns = true;
         base_domain = "h3rmt.internal"; 
