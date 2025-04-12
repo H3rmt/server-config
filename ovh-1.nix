@@ -53,6 +53,11 @@ in
     };
   };
 
+  services.tailscale = {
+    enable = true;
+    tailscale.authKeyParameters.baseURL = "http://headscale.h3rmt.zip:4433";
+  };
+
   networking.nftables.enable = true;
   networking.hostName = "ovh-1";
   networking.firewall = {
