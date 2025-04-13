@@ -10,13 +10,15 @@
     loader.generic-extlinux-compatible.enable = true;
   };
 
+  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIChc0OADBHo5eqE4tcVHglCGzUvHSTZ6LeC0RcGQ9V6C";
+
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+    device = "/dev/disk/by-label/NIXOS_SD";
     fsType = "ext4";
   };
 
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/cb20209f-8b3f-4f58-a3b9-ae78cf32fdd6";
+    device = "/dev/disk/by-label/NIXHOME";
     fsType = "ext4";
   };
 

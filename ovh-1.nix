@@ -25,6 +25,8 @@ in
     };
   };
 
+  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEMgrZX8Qj8sx/knA+naq6yGNKx3nyxGc3kz5RF73zSp";
+
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";
     fsType = "ext4";
