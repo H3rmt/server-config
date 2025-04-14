@@ -1,9 +1,8 @@
-{...} : {
-  # services.k3s = {
-  #   enable = true;
-  #   role = "agent";
-  #   server = "https://10.0.0.1:6443";  # K3s master
-  #   token = "my-secret-token";
-  #   extraFlags = "--node-ip=$(tailscale ip -4)"; # WireGuard IP
-  # };
+{ config, ...} : {
+  services.k3s = {
+    enable = true;
+    role = "agent";
+    server = "https://ovh-1.h3rmt.internal:6443"; 
+    tokenFile = config.age.secrets.k3s.file;
+  };
 }
