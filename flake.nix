@@ -44,7 +44,7 @@
         ];
       });
       ovh-1 = nixpkgs.lib.nixosSystem ({
-        system = "amd64-linux";
+        system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
           ./secrets.nix

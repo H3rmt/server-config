@@ -17,7 +17,7 @@
       maxretry = 3;
       bantime = "1h";
       ignoreIP = [
-        "10.0.0.0/8"
+        "100.64.0.0/24"
       ];
       bantime-increment.enable = true;
       bantime-increment.rndtime = "20m";
@@ -49,8 +49,8 @@
 
   users.users.root = {
     openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t" ];
+    hashedPasswordFile = config.age.secrets.root-pass.path;
     isSystemUser = true;
-    hashedPassword = "$6$/P2qgCx3wxHIcZzN$nPBYexKPD.4eGGO0eBZSnyin6e1uW4VYvsh0nrfunaJ0/bq6O9IEGvN5EZHQ/b5Q7bImGm1s/PRdxT2cpharT1";
   };
 
   programs.tmux = {
@@ -117,6 +117,5 @@
     pkgs.jq
     pkgs.openssl
     pkgs.nmap
-    inputs.agenix.packages.${pkgs.system}.default
   ];
 }
