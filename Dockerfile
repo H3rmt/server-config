@@ -11,7 +11,7 @@ FROM docker.io/thetorproject/snowflake-proxy:v2.8.1
 FROM docker.io/mariadb:11.0
 FROM docker.io/nextcloud:30.0.5
 FROM ghcr.io/h3rmt/nginx-http3-br:v0.1.4
-FROM ghcr.io/h3rmt/filesharing:v1.6.3
+FROM ghcr.io/h3rmt/filesharing:v1.7.0
 FROM ghcr.io/h3rmt/alpine-tor:v0.3.6-exporter
 FROM ghcr.io/h3rmt/puppeteer-sma:v0.1.6
 FROM ghcr.io/goauthentik/server:2024.12.2
