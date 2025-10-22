@@ -10,7 +10,7 @@
       "--node-ip=$${K3S_NODE_IP}"
     ];
   };
-  systemd.services.k3s-server = {
+  systemd.services.k3s = {
     serviceConfig.ExecStartPre = [
       # Wait for Tailscale to be up
       "${pkgs.coreutils}/bin/sleep 5"
