@@ -43,7 +43,6 @@
   networking.domain = "h3rmt.zip";
   networking.useDHCP = false;
 
-  environment.memoryAllocator.provider = "scudo";
   security.protectKernelImage = true;
   security.sudo.enable = false;
 
