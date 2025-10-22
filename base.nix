@@ -52,7 +52,7 @@
   ];
 
   time.timeZone = "Europe/Berlin";
-  networking.domain = "h3rmt.zip";
+  networking.domain = "h3rmt.dev";
   networking.useDHCP = false;
 
   security.protectKernelImage = true;

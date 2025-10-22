@@ -98,7 +98,9 @@ in
         2379
         2380
       ];
-      allowedUDPPorts = [ 6443 ];
+      allowedUDPPorts = [
+        6443
+      ];
     };
     interfaces."eth0" = {
       allowedTCPPorts = [
@@ -106,7 +108,9 @@ in
         443
         80
       ];
-      allowedUDPPorts = [ 443 ];
+      allowedUDPPorts = [
+        443
+      ];
     };
   };
 
