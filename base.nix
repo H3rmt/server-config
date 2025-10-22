@@ -11,7 +11,7 @@
         PasswordAuthentication = false;
       };
     };
-    logind.killUserProcesses = false;
+    logind.KillUserProcesses = false;
     fail2ban = {
       enable = true;
       maxretry = 3;

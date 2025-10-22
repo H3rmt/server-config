@@ -40,16 +40,16 @@
   networking.firewall = {
     enable = true;
     rejectPackets = true;
+    interfaces."tailscale0" = {
+      allowedTCPPorts = [ 6443 4433 2379 2380 ];
+      allowedUDPPorts = [ 6443 ];
+    };
     interfaces."eth0" = {
-      allowedTCPPorts = [ 6443 ];
+      allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
     trustedInterfaces = [ ];
   };
-
-  # needed for builds
-  zramSwap.enable = true;
-  zramSwap.memoryPercent = 150;
 
   services.fail2ban.enable = lib.mkForce false;
   systemd.network = {

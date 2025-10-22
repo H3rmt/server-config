@@ -38,7 +38,7 @@
           ./secrets.nix
           ./base.nix
           ./raspi-1.nix
-          # ./k3s-control.nix
+          ./k3s-worker.nix
           agenix.nixosModules.default
           agenix-rekey.nixosModules.default
         ];
@@ -50,7 +50,7 @@
           ./secrets.nix
           ./base.nix
           ./ovh-1.nix
-          # ./k3s-worker.nix
+          ./k3s-root.nix
           agenix.nixosModules.default
           agenix-rekey.nixosModules.default
         ];
