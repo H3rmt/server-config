@@ -41,7 +41,7 @@
     enable = true;
     rejectPackets = true;
     interfaces."tailscale0" = {
-      allowedTCPPorts = [ 6443 4433 2379 2380 ];
+      allowedTCPPorts = [ 6443 2379 2380 ];
       allowedUDPPorts = [ 6443 ];
     };
     interfaces."eth0" = {
