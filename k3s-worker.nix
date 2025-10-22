@@ -13,7 +13,7 @@
         --server https://ovh-1.h3rmt.internal:6443 \
         --token-file ${config.age.secrets.k3s.path} \
         --node-name=raspi-1 \
-        --node-ip=$(tailscale ip -4)"
+        --node-ip=$(${pkgs.tailscale}/bin/tailscale ip -4)"
       '';
     };
   };

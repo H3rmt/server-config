@@ -14,8 +14,8 @@
         --node-name=ovh-1 \
         --cluster-init \
         --token-file ${config.age.secrets.k3s.path} \
-        --advertise-address=$(tailscale ip -4) \
-        --node-ip=$(tailscale ip -4)"
+        --advertise-address=$(${pkgs.tailscale}/bin/tailscale ip -4) \
+        --node-ip=$(${pkgs.tailscale}/bin/tailscale ip -4)"
       '';
     };
   };
