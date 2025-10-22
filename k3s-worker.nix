@@ -4,6 +4,6 @@
     enable = true;
     role = "server";
     tokenFile = config.age.secrets.k3s.path;
-    serverAddr = "http://ovh-1.h3rmt.internal:6443";
+    serverAddr = "https://ovh-1.h3rmt.internal:6443";
   };
 }
