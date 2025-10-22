@@ -32,7 +32,7 @@
   services.tailscale = {
     enable = true;
     authKeyParameters.baseURL = "http://headscale.h3rmt.dev:4433";
-    openFirewall = true;
+    openFirewall = false;
   };
 
   networking.nftables.enable = true;
