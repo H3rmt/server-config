@@ -8,8 +8,8 @@
     extraFlags = [
       "--node-name=ovh-1"
       "--tls-san=ovh-1.h3rmt.internal"
-      "--advertise-address=$${K3S_NODE_IP}"
-      "--node-ip=$${K3S_NODE_IP}"
+      "--advertise-address=\${K3S_NODE_IP}"
+      "--node-ip=\${K3S_NODE_IP}"
     ];
   };
   systemd.services.k3s = {
