@@ -7,7 +7,7 @@
     serverAddr = "https://ovh-1.h3rmt.internal:6443";
     extraFlags = [
       "--node-name=raspi-1"
-      "--node-ip=\${K3S_NODE_IP}"
+      "--node-ip=$(tailscale ip -4)"
     ];
   };
   systemd.services.k3s = {
