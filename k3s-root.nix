@@ -1,10 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
   services.k3s = {
     enable = true;
-    role = "server";
-    tokenFile = config.age.secrets.k3s.path;
-    clusterInit = true;
   };
   systemd.services.k3s = {
     serviceConfig = {
@@ -12,7 +9,7 @@
         # Wait for Tailscale to be up
         "${pkgs.coreutils}/bin/sleep 5"
       ];
-      ExecStart = "/bin/sh -c '${pkgs.k3s}/bin/k3s server \
+      ExecStart = lib.mkForce "/bin/sh -c '${pkgs.k3s}/bin/k3s server \
         --tls-san=ovh-1.h3rmt.internal \
         --node-name=ovh-1 \
         --cluster-init \
