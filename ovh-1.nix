@@ -80,13 +80,6 @@ in
     };
   };
 
-  services.tailscale = {
-    enable = true;
-    authKeyParameters.baseURL = "http://headscale.h3rmt.dev:4433";
-    openFirewall = false;
-    interfaceName = "tailscale0";
-  };
-
   networking.nftables.enable = true;
   networking.hostName = "ovh-1";
   networking.firewall = {

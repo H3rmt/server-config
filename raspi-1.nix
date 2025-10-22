@@ -36,13 +36,6 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
-  services.tailscale = {
-    enable = true;
-    authKeyParameters.baseURL = "http://headscale.h3rmt.dev:4433";
-    openFirewall = false;
-    interfaceName = "tailscale0";
-  };
-
   networking.nftables.enable = true;
   networking.hostName = "raspi-1";
   networking.firewall = {

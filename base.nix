@@ -66,6 +66,13 @@
     isSystemUser = true;
   };
 
+  services.tailscale = {
+    enable = true;
+    authKeyParameters.baseURL = "http://headscale.h3rmt.dev:4433";
+    openFirewall = false;
+    interfaceName = "tailscale0";
+  };
+
   programs.tmux = {
     enable = true;
     baseIndex = 1;
