@@ -6,7 +6,7 @@
     agenix-rekey.url = "github:oddlama/agenix-rekey";
     agenix-rekey.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
+    # agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -67,6 +67,13 @@
       agenix-rekey = agenix-rekey.configure {
         userFlake = self;
         nixosConfigurations = self.nixosConfigurations;
+      };
+      devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
+        packages = [
+          agenix-rekey.packages.x86_64-linux.default
+          nixpkgs.legacyPackages.x86_64-linux.fzf
+          nixpkgs.legacyPackages.x86_64-linux.micro
+        ];
       };
     };
 }
