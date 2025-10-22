@@ -1,4 +1,5 @@
-{ config, ...} : {
+{ config, ... }:
+{
   services.k3s = {
     enable = true;
     role = "agent";
@@ -6,6 +7,6 @@
     extraFlags = toString [
       "--debug" # Optionally add additional args to k3s
     ];
-    serverAddr = "https://raspi-1.h3rmt.internal:6443"; 
+    serverAddr = "https://raspi-1.h3rmt.internal:6443";
   };
 }

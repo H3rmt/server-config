@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   boot = {
     kernel.sysctl = {
@@ -22,10 +27,12 @@
     fsType = "ext4";
   };
 
-  swapDevices = [{
-    device = "/var/swapfile";
-    size = 5 * 1024;
-  }];
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = 5 * 1024;
+    }
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
@@ -33,6 +40,7 @@
     enable = true;
     authKeyParameters.baseURL = "http://headscale.h3rmt.dev:4433";
     openFirewall = false;
+    interfaceName = "tailscale0";
   };
 
   networking.nftables.enable = true;
@@ -41,7 +49,11 @@
     enable = true;
     rejectPackets = true;
     interfaces."tailscale0" = {
-      allowedTCPPorts = [ 6443 2379 2380 ];
+      allowedTCPPorts = [
+        6443
+        2379
+        2380
+      ];
       allowedUDPPorts = [ 6443 ];
     };
     interfaces."eth0" = {
@@ -57,8 +69,10 @@
     networks."10-eth" = {
       matchConfig.Name = "eth0";
       dns = [
+        "1.1.1.1"
         "8.8.8.8"
         "8.8.4.4"
+        "2606:4700:4700::1111"
         "2001:4860:4860::8888"
         "2001:4860:4860::8844"
       ];
@@ -66,7 +80,10 @@
         "192.168.187.45/32"
       ];
       routes = [
-        { Gateway = "192.168.187.1"; GatewayOnLink = true; }
+        {
+          Gateway = "192.168.187.1";
+          GatewayOnLink = true;
+        }
       ];
       linkConfig.RequiredForOnline = "yes";
     };

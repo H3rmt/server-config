@@ -1,5 +1,15 @@
-{ inputs, lib, config, pkgs, ... }: {
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   boot.tmp.cleanOnBoot = true;
 
   zramSwap.enable = true;
@@ -32,12 +42,14 @@
     options = "--delete-older-than 7d";
   };
 
-  security.pam.loginLimits = [{
-    domain = "*";
-    type = "soft";
-    item = "nofile";
-    value = "8192";
-  }];
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "soft";
+      item = "nofile";
+      value = "8192";
+    }
+  ];
 
   time.timeZone = "Europe/Berlin";
   networking.domain = "h3rmt.zip";
@@ -47,7 +59,9 @@
   security.sudo.enable = false;
 
   users.users.root = {
-    openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t" ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t"
+    ];
     hashedPasswordFile = config.age.secrets.root-pass.path;
     isSystemUser = true;
   };
@@ -65,7 +79,10 @@
       set -g @dracula-refresh-rate 5
       set -g @dracula-show-left-icon hostname
     '';
-    plugins = with pkgs.tmuxPlugins; [ cpu dracula ];
+    plugins = with pkgs.tmuxPlugins; [
+      cpu
+      dracula
+    ];
     terminal = "xterm-256color";
     extraConfig = ''
       set -s escape-time 10         # faster command sequences

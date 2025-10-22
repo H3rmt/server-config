@@ -1,7 +1,12 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   mdadmconfigfile = ''
-  ARRAY /dev/md/0 metadata=1.2 spares=1 UUID=c3ce7f12:483e32b4:eab965cf:ea5463d7
+    ARRAY /dev/md/0 metadata=1.2 spares=1 UUID=c3ce7f12:483e32b4:eab965cf:ea5463d7
   '';
 in
 {
@@ -16,9 +21,18 @@ in
     };
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" ];
-    initrd.availableKernelModules = [ "ahci" "xhci_pci" "ehci_pci" "usbhid" "sd_mod" ];
+    initrd.availableKernelModules = [
+      "ahci"
+      "xhci_pci"
+      "ehci_pci"
+      "usbhid"
+      "sd_mod"
+    ];
     initrd.kernelModules = [ "md_mod" ];
-    binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" ];
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "armv7l-linux"
+    ];
     swraid = {
       enable = true;
       mdadmConf = mdadmconfigfile;
@@ -35,7 +49,10 @@ in
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";
-    options = [ "fmask=0022" "dmask=0022" ];
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ];
   };
 
   swapDevices = [ ];
@@ -44,13 +61,21 @@ in
 
   services.headscale = {
     enable = true;
-    address = "0.0.0.0"; 
+    address = "0.0.0.0";
     port = 4433;
     settings = {
       server_url = "http://headscale.h3rmt.dev:4433";
-      dns = { 
+      dns = {
         magic_dns = true;
-        base_domain = "h3rmt.internal"; 
+        base_domain = "h3rmt.internal";
+        nameservers.global = [
+          "1.1.1.1"
+          "8.8.8.8"
+          "8.8.4.4"
+          "2606:4700:4700::1111"
+          "2001:4860:4860::8888"
+          "2001:4860:4860::8844"
+        ];
       };
     };
   };
@@ -58,7 +83,8 @@ in
   services.tailscale = {
     enable = true;
     authKeyParameters.baseURL = "http://headscale.h3rmt.dev:4433";
-    openFirewall = true;
+    openFirewall = false;
+    interfaceName = "tailscale0";
   };
 
   networking.nftables.enable = true;
@@ -67,11 +93,19 @@ in
     enable = true;
     rejectPackets = true;
     interfaces."tailscale0" = {
-      allowedTCPPorts = [ 6443 2379 2380 ];
+      allowedTCPPorts = [
+        6443
+        2379
+        2380
+      ];
       allowedUDPPorts = [ 6443 ];
     };
     interfaces."eth0" = {
-      allowedTCPPorts = [ 4433 443 80 ];
+      allowedTCPPorts = [
+        4433
+        443
+        80
+      ];
       allowedUDPPorts = [ 443 ];
     };
   };
@@ -81,8 +115,10 @@ in
     networks."10-eth" = {
       matchConfig.Name = "eth0";
       dns = [
+        "1.1.1.1"
         "8.8.8.8"
         "8.8.4.4"
+        "2606:4700:4700::1111"
         "2001:4860:4860::8888"
         "2001:4860:4860::8844"
       ];
@@ -91,8 +127,14 @@ in
         "2001:41d0:c:292::1/128"
       ];
       routes = [
-        { Gateway = "37.187.250.254"; GatewayOnLink = true; }
-        { Gateway = "2001:41d0:000c:02ff:00ff:00ff:00ff:00ff"; GatewayOnLink = true; }
+        {
+          Gateway = "37.187.250.254";
+          GatewayOnLink = true;
+        }
+        {
+          Gateway = "2001:41d0:000c:02ff:00ff:00ff:00ff:00ff";
+          GatewayOnLink = true;
+        }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
