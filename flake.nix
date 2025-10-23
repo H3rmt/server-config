@@ -42,7 +42,7 @@
               ./secrets.nix
               ./base.nix
               ./raspi-1.nix
-              ./k3s-worker.nix
+              ./k3s-agent.nix
               agenix.nixosModules.default
               agenix-rekey.nixosModules.default
             ];
