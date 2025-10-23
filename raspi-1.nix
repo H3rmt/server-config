@@ -106,4 +106,15 @@
       '';
     };
   };
+
+  services.cage = {
+    enable = true;
+    program = "${pkgs.eog} -wgf /home/kiosk/view.jpg";
+    user = "kiosk";
+  };
+  systemd.services."cage-tty1".after = [
+    "network-online.target"
+    "systemd-resolved.service"
+  ];
+  systemd.services."cage-tty1".serviceConfig.Restart = lib.mkForce "always";
 }
