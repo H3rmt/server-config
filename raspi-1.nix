@@ -109,7 +109,7 @@
 
   services.cage = {
     enable = true;
-    program = "${pkgs.eog} -wgf /home/kiosk/view.jpg";
+    program = "${pkgs.eog} -wgf /etc/nixos/view.jpg";
     user = "kiosk";
   };
   systemd.services."cage-tty1".after = [
