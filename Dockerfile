@@ -4,7 +4,7 @@ FROM docker.io/nginx/nginx-prometheus-exporter:1.4.2
 FROM docker.io/certbot/certbot:v3.1.0
 FROM docker.io/grafana/grafana-oss:10.4.1
 FROM docker.io/prom/prometheus:v3.7.3
-FROM docker.io/grafana/loki:3.5.8
+FROM docker.io/grafana/loki:3.6.2
 FROM docker.io/library/redis:7.2.4-alpine
 FROM docker.io/library/postgres:12-alpine
 FROM docker.io/thetorproject/snowflake-proxy:v2.11.0
