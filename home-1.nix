@@ -10,8 +10,13 @@
       "net.ipv4.ping_group_range" = "0 2000000";
       "net.ipv4.ip_unprivileged_port_start" = 0;
     };
-    loader.systemd-boot = {
-      enable = true;
+    loader = {
+      grub = {
+        enable = true;
+        device = "/dev/sda";
+      };
+      efi.canTouchEfiVariables = false;
+      efi.efiSysMountPoint = null;
     };
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" ];

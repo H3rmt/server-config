@@ -60,7 +60,7 @@
             ];
           };
 
-          server2 = nixpkgs.lib.nixosSystem {
+          home-1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
