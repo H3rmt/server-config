@@ -27,6 +27,7 @@
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             fzf
+            k9s
             micro
             agenix-rekey.packages.${system}.default
           ];

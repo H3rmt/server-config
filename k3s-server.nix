@@ -1,20 +1,18 @@
 { config, pkgs, lib, ... }:
 {
-  services.k3s = {
-    enable = true;
-  };
   systemd.services.k3s = {
     serviceConfig = {
       ExecStartPre = [
-        # Wait for Tailscale to be up
-        "${pkgs.coreutils}/bin/sleep 5"
+        "${pkgs.coreutils}/bin/sleep 3"
       ];
-      ExecStart = lib.mkForce ''/bin/sh -c "${pkgs.k3s}/bin/k3s server \
-        --server https://ovh-1.h3rmt.internal:6443 \
-        --token-file ${config.age.secrets.k3s.path} \
-        --node-name=TODO-1 \
-        --node-ip=$(${pkgs.tailscale}/bin/tailscale ip -4)"
-      '';
     };
+  };
+  services.k3s = {
+    enable = true;
+    tokenFile = config.age.secrets.k3s.path;
+    role = "server";
+    nodeName = "node-1";
+    clusterInit = false;
+    serverAddr = "https://ovh-1.h3rmt.internal:6443";
   };
 }

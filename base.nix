@@ -138,5 +138,7 @@
     pkgs.jq
     pkgs.openssl
     pkgs.nmap
+    pkgs.k9s
+    pkgs.iptables
   ];
 }

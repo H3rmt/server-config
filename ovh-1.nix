@@ -80,7 +80,7 @@ in
     };
   };
 
-  networking.nftables.enable = true;
+  networking.nftables.enable = false;
   networking.hostName = "ovh-1";
   networking.firewall = {
     enable = true;
@@ -94,11 +94,11 @@ in
       ];
       allowedUDPPorts = [
         6443
+        8472
       ];
     };
     interfaces."eth0" = {
       allowedTCPPorts = [
-        4433
         443
         80
       ];
