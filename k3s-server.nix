@@ -13,6 +13,6 @@
     role = "server";
     nodeName = "node-1";
     clusterInit = false;
-    serverAddr = "https://ovh-1.h3rmt.internal:6443";
+    serverAddr = "https://100.64.0.2:6443";
   };
 }

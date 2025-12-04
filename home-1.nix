@@ -3,11 +3,6 @@
   config,
   ...
 }:
-let
-  mdadmconfigfile = ''
-    ARRAY /dev/md/0 metadata=1.2 spares=1 UUID=c3ce7f12:483e32b4:eab965cf:ea5463d7
-  '';
-in
 {
   boot = {
     kernel.sysctl = {
@@ -21,66 +16,40 @@ in
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" ];
     initrd.availableKernelModules = [
-      "ahci"
-      "xhci_pci"
-      "ehci_pci"
-      "usbhid"
-      "sd_mod"
+      "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"
     ];
-    initrd.kernelModules = [ "md_mod" ];
+    initrd.kernelModules = [ "nvme" ];
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv7l-linux"
     ];
-    swraid = {
-      enable = true;
-      mdadmConf = mdadmconfigfile;
-    };
   };
 
-  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEMgrZX8Qj8sx/knA+naq6yGNKx3nyxGc3kz5RF73zSp";
+  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA5SvynppVEZielnSLJ6CXBdK1umVcedgeYGW7JCI05C";
 
   fileSystems."/" = {
-    device = "/dev/disk/by-label/NIXROOT";
+    device = "/dev/mapper/server2--vg-root";
     fsType = "ext4";
   };
-
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/NIXBOOT";
+    device = "/dev/sda1";
     fsType = "vfat";
     options = [
       "fmask=0022"
       "dmask=0022"
     ];
   };
+  fileSystems."/home" = {
+    device = "/dev/mapper/server2--vg-home";
+    fsType = "ext4";
+  };
 
-  swapDevices = [ ];
+  swapDevices = [{device = "/dev/mapper/server2--vg-swap_1";}];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  services.headscale = {
-    enable = true;
-    address = "0.0.0.0";
-    port = 4433;
-    settings = {
-      server_url = "http://headscale.h3rmt.dev:4433";
-      dns = {
-        magic_dns = true;
-        base_domain = "h3rmt.internal";
-        nameservers.global = [
-          "1.1.1.1"
-          "8.8.8.8"
-          "8.8.4.4"
-          "2606:4700:4700::1111"
-          "2001:4860:4860::8888"
-          "2001:4860:4860::8844"
-        ];
-      };
-    };
-  };
-
   networking.nftables.enable = false;
-  networking.hostName = "ovh-1";
+  networking.hostName = "home-1";
   networking.firewall = {
     enable = true;
     rejectPackets = true;
@@ -97,17 +66,13 @@ in
       ];
     };
     interfaces."eth0" = {
-      allowedTCPPorts = [
-        443
-        80
-      ];
-      allowedUDPPorts = [
-        443
-      ];
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
     };
     trustedInterfaces = [ ];
   };
 
+  services.fail2ban.enable = lib.mkForce false;
   systemd.network = {
     enable = true;
     networks."10-eth" = {
@@ -121,33 +86,28 @@ in
         "2001:4860:4860::8844"
       ];
       address = [
-        "37.187.250.146/32"
-        "2001:41d0:c:292::1/128"
+        "192.168.187.10/32"
       ];
       routes = [
         {
-          Gateway = "37.187.250.254";
-          GatewayOnLink = true;
-        }
-        {
-          Gateway = "2001:41d0:000c:02ff:00ff:00ff:00ff:00ff";
+          Gateway = "192.168.187.1";
           GatewayOnLink = true;
         }
       ];
       linkConfig.RequiredForOnline = "yes";
     };
     links."10-eth" = {
-      matchConfig.PermanentMACAddress = "0c:c4:7a:6b:0d:98";
+      matchConfig.PermanentMACAddress = "00:19:99:9f:ee:92";
       linkConfig.Name = "eth0";
     };
   };
 
   services.k3s = {
-    enable = true;
+    enable = false;
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
-    nodeName = "ovh-1";
-    clusterInit = true;
+    nodeName = "home-1";
+    clusterInit = false;
 
     extraFlags = [
       "--flannel-iface=tailscale0"
