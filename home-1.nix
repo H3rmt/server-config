@@ -13,43 +13,46 @@
     loader = {
       grub = {
         enable = true;
+        efiSupport = false;
         device = "/dev/sda";
       };
-      efi.canTouchEfiVariables = false;
-      efi.efiSysMountPoint = null;
     };
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" ];
     initrd.availableKernelModules = [
-      "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"
+      "ata_generic"
+      "ehci_pci"
+      "ahci"
+      "usb_storage"
+      "usbhid"
+      "xhci_pci"
+      "ehci_pci"
+      "sd_mod"
     ];
-    initrd.kernelModules = [ "nvme" ];
+    initrd.kernelModules = [ "amdgpu" ];
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv7l-linux"
     ];
   };
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA5SvynppVEZielnSLJ6CXBdK1umVcedgeYGW7JCI05C";
+  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeAjxCzY56TNLs3oRpAFDrtAhMXdKEAAZTTeBD4p9y8";
 
   fileSystems."/" = {
-    device = "/dev/mapper/server2--vg-root";
+    device = "/dev/disk/by-label/NIXROOT";
     fsType = "ext4";
   };
   fileSystems."/boot" = {
-    device = "/dev/sda1";
+    device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";
     options = [
       "fmask=0022"
       "dmask=0022"
     ];
   };
-  fileSystems."/home" = {
-    device = "/dev/mapper/server2--vg-home";
-    fsType = "ext4";
-  };
 
-  swapDevices = [{device = "/dev/mapper/server2--vg-swap_1";}];
+  swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
