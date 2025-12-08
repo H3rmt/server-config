@@ -111,7 +111,7 @@
   };
 
   services.k3s = {
-    enable = false;
+    enable = true;
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
@@ -119,7 +119,7 @@
 
     extraFlags = [
       "--flannel-iface=tailscale0"
-      "--node-ip=100.64.0.2"
+      "--node-ip=100.64.0.4"
     ];
   };
 }

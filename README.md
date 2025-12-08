@@ -34,6 +34,8 @@ headscale preauthkeys create --user <id>
 
 # on client
 tailscale up --login-server http://headscale.h3rmt.dev --authkey <...>
+
+tailscale ip
 ```
 
 ## Initial Setup:
