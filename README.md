@@ -22,3 +22,22 @@ agenix rekey -a
 
 nixos-rebuild switch --flake '.#' |& nom
 ```
+
+## Connect:
+```
+# on ovh-1
+headscale users create home-1
+
+headscale users list
+
+headscale preauthkeys create --user <id>
+
+# on client
+tailscale up --login-server http://headscale.h3rmt.dev --authkey <...>
+```
+
+## Initial Setup:
+agenix-rekey:
+1. generate a private + public key `age-keygen -o master.agekey` 
+2. encrypt private key with age: `age -p -o privkey.age master.agekey` 
+3. paste public key into masterIdentities

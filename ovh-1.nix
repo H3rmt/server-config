@@ -98,6 +98,7 @@ in
     };
     interfaces."eth0" = {
       allowedTCPPorts = [
+        4433
         443
         80
       ];
@@ -146,7 +147,7 @@ in
     enable = true;
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
-    nodeName = "ovh-1";
+    nodeName = config.networking.hostName;
     clusterInit = true;
 
     extraFlags = [

@@ -114,7 +114,7 @@
     enable = false;
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
-    nodeName = "home-1";
+    nodeName = config.networking.hostName;
     clusterInit = false;
 
     extraFlags = [
