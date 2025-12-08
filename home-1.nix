@@ -116,7 +116,7 @@
     role = "server";
     nodeName = config.networking.hostName;
     clusterInit = false;
-    serverAddr = "https://ovh-1.h3rmt.internal";
+    serverAddr = "https://ovh-1.h3rmt.internal:6443";
     extraFlags = [
       "--flannel-iface=tailscale0"
     ];
