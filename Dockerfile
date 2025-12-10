@@ -1,5 +1,5 @@
 FROM docker.io/grafana/promtail:3.0.0
-FROM docker.io/prom/node-exporter:v1.9.1
+FROM docker.io/prom/node-exporter:v1.10.2
 FROM docker.io/nginx/nginx-prometheus-exporter:1.4.2
 FROM docker.io/certbot/certbot:v3.1.0
 FROM docker.io/grafana/grafana-oss:10.4.1
