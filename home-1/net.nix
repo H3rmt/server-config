@@ -38,7 +38,7 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "${config.config.server."ovh-1".wireguard-public-key}";
+          PublicKey = "${config.custom.server."ovh-1".wireguard-public-key}";
           AllowedIPs = "10.0.0.0/24";
           Endpoint = "ovh-1.h3rmt.dev:51820";
           PersistentKeepalive = 30;
