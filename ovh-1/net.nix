@@ -40,6 +40,7 @@
       };
       wireguardConfig = {
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
+        ListenPort = 51820;
       };
       wireguardPeers = [
         {
