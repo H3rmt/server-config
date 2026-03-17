@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: http-echo
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: Host(`ovh-1.h3rmt.dev`)
+    services:
+    - name: http-echo
+      port: 8080
+  tls:
+    certResolver: le
