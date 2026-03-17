@@ -25,6 +25,7 @@
       allowedUDPPorts = [
         443
         8472 # k3s, flannel: required if using multi-node for inter-node networking
+        51820 # wireguard
       ];
     };
     trustedInterfaces = [ "wg0" ];

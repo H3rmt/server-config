@@ -44,10 +44,6 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "${config.custom.server."raspi-1".wireguard-public-key}";
-          AllowedIPs = "${config.custom.server."raspi-1".private-ip}/32";
-        }
-        {
           PublicKey = "${config.custom.server."home-1".wireguard-public-key}";
           AllowedIPs = "${config.custom.server."home-1".private-ip}/32";
         }
