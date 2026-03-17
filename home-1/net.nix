@@ -24,7 +24,7 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "${config.server."home-1".private-ip}/24"
+        "${config.custom.server."home-1".private-ip}/24"
       ];
       linkConfig.RequiredForOnline = "no";
     };
@@ -38,7 +38,7 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "${config.server."ovh-1".wireguard-public-key}";
+          PublicKey = "${config.config.server."ovh-1".wireguard-public-key}";
           AllowedIPs = "10.0.0.0/24";
           Endpoint = "ovh-1.h3rmt.dev:51820";
           PersistentKeepalive = 30;

@@ -66,7 +66,7 @@
   security.sudo.enable = false;
 
   users.users.root = {
-    openssh.authorizedKeys.keys = [ config.my-public-key ];
+    openssh.authorizedKeys.keys = [ config.custom.my-public-key ];
     hashedPasswordFile = config.age.secrets.root-pass.path;
     isSystemUser = true;
   };

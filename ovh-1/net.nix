@@ -29,7 +29,7 @@
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "${config.server."ovh-1".private-ip}/24"
+        "${config.custom.server."ovh-1".private-ip}/24"
       ];
       linkConfig.RequiredForOnline = "no";
     };
@@ -43,12 +43,12 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "${config.server."raspi-1".wireguard-public-key}";
-          AllowedIPs = "${config.server."raspi-1".private-ip}/32";
+          PublicKey = "${config.custom.server."raspi-1".wireguard-public-key}";
+          AllowedIPs = "${config.custom.server."raspi-1".private-ip}/32";
         }
         {
-          PublicKey = "${config.server."home-1".wireguard-public-key}";
-          AllowedIPs = "${config.server."home-1".private-ip}/32";
+          PublicKey = "${config.custom.server."home-1".wireguard-public-key}";
+          AllowedIPs = "${config.custom.server."home-1".private-ip}/32";
         }
       ];
     };
