@@ -34,7 +34,7 @@
     role = "agent";
     nodeName = config.networking.hostName;
     clusterInit = false;
-    serverAddr = "https://k3s-main.h3rmt.internal:6443";
+    serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [
       "--flannel-iface=wg0"
     ];
