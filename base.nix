@@ -141,5 +141,6 @@
     k9s
     nfs-utils
     iptables
+    wireguard-tools
   ];
 }
