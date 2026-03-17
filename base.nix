@@ -22,10 +22,10 @@
     logind.settings.Login.KillUserProcesses = false;
     fail2ban = {
       enable = true;
-      maxretry = 3;
+      maxretry = 5;
       bantime = "1h";
       ignoreIP = [
-        "100.64.0.0/24"
+        "10.0.0.0/24"
       ];
       bantime-increment.enable = true;
       bantime-increment.rndtime = "20m";
@@ -37,7 +37,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 7d";
+    options = "--delete-older-than 14d";
   };
 
   security.pam.loginLimits = [
@@ -47,7 +47,16 @@
       item = "nofile";
       value = "8192";
     }
+    {
+      domain = "*";
+      type = "hard";
+      item = "nofile";
+      value = "524288";
+    }
   ];
+  systemd.settings.Manager = {
+    DefaultLimitNOFILE = "8192:524288";
+  };
 
   time.timeZone = "Europe/Berlin";
   networking.domain = "h3rmt.dev";
@@ -57,18 +66,9 @@
   security.sudo.enable = false;
 
   users.users.root = {
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t"
-    ];
+    openssh.authorizedKeys.keys = [ config.my-public-key ];
     hashedPasswordFile = config.age.secrets.root-pass.path;
     isSystemUser = true;
-  };
-
-  services.tailscale = {
-    enable = true;
-    authKeyParameters.baseURL = "http://headscale.h3rmt.dev:4433";
-    openFirewall = false;
-    interfaceName = "tailscale0";
   };
 
   programs.tmux = {
@@ -121,24 +121,25 @@
     '';
   };
 
-  environment.systemPackages = [
-    pkgs.git
-    pkgs.micro
-    pkgs.btop
-    pkgs.htop
-    pkgs.tmux
-    pkgs.fail2ban
-    pkgs.curl
-    pkgs.wget
-    pkgs.unzip
-    pkgs.tree
-    pkgs.ripgrep
-    pkgs.nix-output-monitor
-    pkgs.dig
-    pkgs.jq
-    pkgs.openssl
-    pkgs.nmap
-    pkgs.k9s
-    pkgs.iptables
+  environment.systemPackages = with pkgs; [
+    git
+    micro
+    btop
+    htop
+    tmux
+    fail2ban
+    curl
+    wget
+    unzip
+    tree
+    ripgrep
+    nix-output-monitor
+    dig
+    jq
+    openssl
+    nmap
+    k9s
+    nfs-utils
+    iptables
   ];
 }
