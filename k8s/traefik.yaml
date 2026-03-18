@@ -15,6 +15,3 @@ spec:
     providers:
       kubernetesGateway:
         enabled: true
-    # Legacy Traefik ACME removed - now using cert-manager
-    # additionalArguments:
-    #   - "--log.level=DEBUG"

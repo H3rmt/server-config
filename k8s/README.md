@@ -78,6 +78,7 @@ kubectl get helmchart -n kube-system
 ### Infrastructure (Helm Charts)
 - **cert-manager.yaml** - Installs cert-manager via k3s HelmChart
 - **traefik.yaml** - Configures built-in Traefik with Gateway API support
+- **cert-manager-webhook-hetzner.yaml** - Installs official Hetzner DNS webhook
 
 ### Gateway API Resources
 - **gateway.yaml** - Gateway infrastructure (load balancer + TLS listeners)
@@ -86,6 +87,7 @@ kubectl get helmchart -n kube-system
 ### Certificate Management
 - **clusterissuer.yaml** - Let's Encrypt issuers (prod + staging)
 - **certificate.yaml** - TLS certificate for echo.h3rmt.dev
+- **hetzner-dns-secret.yaml** - Hetzner DNS API token for cert-manager
 
 ### DNS Management
 - **external-dns.yaml** - Automatic DNS record creation
@@ -116,57 +118,22 @@ spec:
 - Creates cert-manager namespace and components
 
 ### cert-manager-webhook-hetzner.yaml
-Installs Hetzner DNS webhook for DNS01 challenges:
+Installs official Hetzner DNS webhook for DNS01 challenges:
 
 ```yaml
 spec:
-  repo: https://vadimkim.github.io/cert-manager-webhook-hetzner
+  repo: https://charts.hetzner.cloud
   chart: cert-manager-webhook-hetzner
-  version: 1.4.2
+  targetNamespace: cert-manager
   valuesContent: |-
-    groupName: acme.h3rmt.dev
-    secretNamespace: default  # Namespace where hetzner-dns-credentials secret is stored
+    groupName: acme.hetzner.com
 ```
 
 **What it does:**
 - Adds DNS01 challenge support for Hetzner DNS
 - Allows cert-manager to create TXT records for ACME validation
 - **Enables wildcard certificates** (*.h3rmt.dev)
-- Uses `hetzner-dns-credentials` secret in `default` namespace
-
-### cert-manager-rbac.yaml
-Grants permissions for cert-manager to use the Hetzner webhook:
-
-```yaml
-# ClusterRole for webhook API group
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: cert-manager-webhook-hetzner:domain-solver
-rules:
-- apiGroups: ["acme.h3rmt.dev"]
-  resources: ["*"]
-  verbs: ["create"]
-
----
-
-# Allow webhook to access secrets in default namespace
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: cert-manager-webhook-hetzner:secret-reader
-  namespace: default
-rules:
-- apiGroups: [""]
-  resources: ["secrets"]
-  verbs: ["get","watch","list"]
-```
-
-**What it does:**
-- Allows cert-manager service account to create Hetzner webhook resources
-- Required for DNS01 challenges to work
-- Allows webhook to read secrets in default namespace
-- Without this, you get: `"secrets \"hetzner-dns-credentials\" is forbidden"` error
+- Uses `hetzner` secret in `cert-manager` namespace
 
 ### traefik.yaml
 Configures built-in Traefik:
@@ -200,11 +167,12 @@ spec:
     solvers:
     - dns01:
         webhook:
-          groupName: acme.h3rmt.dev
+          groupName: acme.hetzner.com
           solverName: hetzner
           config:
-            secretName: hetzner-dns-credentials  # Must match secret in default namespace
-            zoneName: h3rmt.dev
+            tokenSecretKeyRef:
+              name: hetzner
+              key: token
 ```
 
 **What it does:**
@@ -212,7 +180,7 @@ spec:
 - **DNS01 challenge** via Hetzner DNS webhook
 - Supports **wildcard certificates** (*.h3rmt.dev)
 - Works even if port 80 is blocked
-- Reuses `hetzner-dns` secret (same as external-dns)
+- Reuses `hetzner` secret in `cert-manager` namespace
 - `letsencrypt-staging` for testing (avoids rate limits)
 - `letsencrypt-prod` for production certificates
 
@@ -342,22 +310,18 @@ kubectl apply -f k8s/cert-manager.yaml
 # Wait for cert-manager to be ready (~30 seconds)
 kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment/cert-manager
 
-# Install Hetzner DNS webhook
+# Install Hetzner DNS API Secret in cert-manager namespace
+kubectl apply -f k8s/hetzner-dns-secret.yaml
+
+# Install official Hetzner DNS webhook
 kubectl apply -f k8s/cert-manager-webhook-hetzner.yaml
 
 # Wait for webhook to be ready (~20 seconds)
 kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment/cert-manager-webhook-hetzner
 
-# IMPORTANT: Apply RBAC for webhook
-kubectl apply -f k8s/cert-manager-rbac.yaml
-
 # Verify webhook is working
-kubectl get apiservice v1alpha1.acme.h3rmt.dev
+kubectl get apiservice v1alpha1.acme.hetzner.com
 # Should show: Available
-
-# Verify RBAC for secrets
-kubectl auth can-i get secrets --namespace default --as system:serviceaccount:cert-manager:cert-manager-webhook-hetzner
-# Should show: yes
 
 # Update Traefik configuration
 kubectl apply -f k8s/traefik.yaml
@@ -460,106 +424,19 @@ curl -vI https://echo.h3rmt.dev 2>&1 | grep -i "SSL certificate verify"
 # Should show: SSL certificate verify ok
 ```
 
-## Adding More Services
-
-To expose another service like `api.h3rmt.dev`:
-
-### Just Create HTTPRoute - That's It!
-```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: my-api
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: api.h3rmt.dev
-    external-dns.alpha.kubernetes.io/target: ovh-1.h3rmt.dev
-spec:
-  parentRefs:
-  - name: traefik-gateway
-  hostnames:
-  - api.h3rmt.dev
-  rules:
-  - backendRefs:
-    - name: my-api-service
-      port: 8080
-```
-
-**That's it!** 
-- **No certificate needed** - wildcard cert already covers *.h3rmt.dev
-- **external-dns automatically creates DNS record**
-- **TLS automatically works**
-- No Gateway changes needed
-
-**For non-wildcard domains** (like example.com), create a Certificate:
-```yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: example-com-tls
-spec:
-  secretName: example-com-tls
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  dnsNames:
-  - example.com
-```
-
-## Benefits Over Legacy Setup
-
-### Gateway API vs IngressRoute
-| Feature | Old (IngressRoute) | New (Gateway API) |
-|---------|-------------------|-------------------|
-| Standard | Traefik-specific | Kubernetes standard |
-| Portability | Vendor lock-in | Works with any controller |
-| Role separation | Mixed concerns | Infra vs app teams |
-| Protocol support | HTTP only | HTTP, gRPC, TCP, UDP |
-| Future support | Maintenance mode | Active development |
-
-### cert-manager vs Traefik ACME
-| Feature | Old (Traefik ACME) | New (cert-manager + DNS01) |
-|---------|-------------------|------------------------------|
-| Certificate storage | Traefik volume | Kubernetes Secrets |
-| Challenge type | HTTP01 | **DNS01 via Hetzner** |
-| Wildcard certs | Not possible | **Yes! *.h3rmt.dev** |
-| Port 80 requirement | Required | **Not needed** |
-| Issuer flexibility | Let's Encrypt only | Any CA/issuer |
-| Integration | Traefik-specific | Works with any ingress |
-| Certificate reuse | Difficult | Easy (shared Secrets) |
-| Multiple services | 1 cert per service | **1 wildcard for all** |
-
-### external-dns
-- **Automatic**: DNS updates when HTTPRoutes change
-- **GitOps friendly**: DNS is declared in manifests
-- **Multi-provider**: Works with Hetzner, Cloudflare, AWS, etc.
-- **Ownership tracking**: TXT records prevent conflicts
-
 ## Troubleshooting
 
-### CRD/APIService Error: "could not find the requested resource (post hetzner.acme.h3rmt.dev)"
+### APIService Error: "could not find the requested resource (post hetzner.acme.hetzner.com)"
 ```bash
 # Error message:
-# "the server could not find the requested resource (post hetzner.acme.h3rmt.dev)"
+# "the server could not find the requested resource (post hetzner.acme.hetzner.com)"
 
 # Solution: Check if webhook registered its API
-kubectl get apiservice v1alpha1.acme.h3rmt.dev
+kubectl get apiservice v1alpha1.acme.hetzner.com
 # Should show: Available
 
 # If still not working, check webhook logs
 kubectl logs -n cert-manager -l app.kubernetes.io/name=cert-manager-webhook-hetzner
-```
-
-### RBAC Error: "hetzner.acme.h3rmt.dev is forbidden"
-```bash
-# Error message:
-# "User \"system:serviceaccount:cert-manager:cert-manager\" cannot create resource \"hetzner\""
-
-# Solution: Apply RBAC configuration
-kubectl apply -f k8s/cert-manager-rbac.yaml
-
-# Verify permissions
-kubectl auth can-i create hetzner.acme.h3rmt.dev --as=system:serviceaccount:cert-manager:cert-manager
-# Should output: yes
 ```
 
 ### Gateway not ready
@@ -585,12 +462,6 @@ dig TXT _acme-challenge.h3rmt.dev
 
 # Check cert-manager webhook logs
 kubectl logs -n cert-manager -l app.kubernetes.io/name=cert-manager-webhook-hetzner
-```
-
-### HTTPRoute not accepted
-```bash
-kubectl describe httproute http-echo
-# Check for validation errors
 ```
 
 ### DNS not updating
@@ -636,6 +507,7 @@ kubectl logs -n kube-system -l app=external-dns -f
 
 ## References
 
+- [Official Hetzner Webhook Guide](https://github.com/hetzner/cert-manager-webhook-hetzner/blob/main/docs/guides/quickstart.md)
 - [Gateway API Docs](https://gateway-api.sigs.k8s.io/)
 - [cert-manager Docs](https://cert-manager.io/docs/)
 - [external-dns GitHub](https://github.com/kubernetes-sigs/external-dns)

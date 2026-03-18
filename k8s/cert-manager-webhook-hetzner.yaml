@@ -4,7 +4,8 @@ metadata:
   name: cert-manager-webhook-hetzner
   namespace: kube-system
 spec:
-  repo: https://vadimkim.github.io/cert-manager-webhook-hetzner
+  repo: https://charts.hetzner.cloud
   chart: cert-manager-webhook-hetzner
-  version: 1.4.2
   targetNamespace: cert-manager
+  valuesContent: |-
+    groupName: acme.hetzner.com
