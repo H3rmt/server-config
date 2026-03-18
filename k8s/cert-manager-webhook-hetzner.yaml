@@ -8,13 +8,3 @@ spec:
   chart: cert-manager-webhook-hetzner
   version: 1.4.2
   targetNamespace: cert-manager
-  valuesContent: |-
-    # Group name for the webhook API (must match ClusterIssuer)
-    groupName: acme.h3rmt.dev
-    certManager:
-      namespace: cert-manager
-      serviceAccountName: cert-manager
-    # Ensure CRDs are created
-    createCRD: true
-    # Specify the secret namespace if it's not the target namespace
-    secretNamespace: default
