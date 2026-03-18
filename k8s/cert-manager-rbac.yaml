@@ -43,8 +43,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: cert-manager-webhook-hetzner:secret-reader
-  namespace: default
-roleBindingSubjects:
+subjects:
 - kind: ServiceAccount
   name: cert-manager-webhook-hetzner
   namespace: cert-manager
