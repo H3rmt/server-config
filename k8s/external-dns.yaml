@@ -11,20 +11,11 @@ metadata:
   name: external-dns
 rules:
 - apiGroups: [""]
-  resources: ["services"]
+  resources: ["namespaces"]
   verbs: ["get","watch","list"]
-- apiGroups: [""]
-  resources: ["pods"]
+- apiGroups: ["gateway.networking.k8s.io"]
+  resources: ["gateways","httproutes","grpcroutes","tlsroutes","tcproutes","udproutes"]
   verbs: ["get","watch","list"]
-- apiGroups: ["discovery.k8s.io"]
-  resources: ["endpointslices"]
-  verbs: ["get","watch","list"]
-- apiGroups: ["extensions","networking.k8s.io"]
-  resources: ["ingresses"]
-  verbs: ["get","watch","list"]
-- apiGroups: [""]
-  resources: ["nodes"]
-  verbs: ["list"]
 
 ---
 
@@ -63,7 +54,7 @@ spec:
       - name: external-dns
         image: registry.k8s.io/external-dns/external-dns:v0.20.0
         args:
-        - --source=traefik-proxy
+        - --source=gateway-httproute
         - --provider=webhook
         - --domain-filter=h3rmt.dev # Will only manage DNS records for this domain
         - --txt-owner-id=k3s-cluster # Unique identifier for this cluster

@@ -1,0 +1,14 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: cert-manager-webhook-hetzner
+  namespace: kube-system
+spec:
+  repo: https://vadimkim.github.io/cert-manager-webhook-hetzner
+  chart: cert-manager-webhook-hetzner
+  version: 1.3.3
+  targetNamespace: cert-manager
+  valuesContent: |-
+    certManager:
+      namespace: cert-manager
+      serviceAccountName: cert-manager

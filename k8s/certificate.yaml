@@ -1,0 +1,16 @@
+---
+# Wildcard certificate for *.h3rmt.dev
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-h3rmt-dev-tls
+  namespace: default
+spec:
+  secretName: wildcard-h3rmt-dev-tls
+  issuerRef:
+    # name: letsencrypt-prod
+    name: letsencrypt-staging  
+    kind: ClusterIssuer
+  dnsNames:
+  - "*.h3rmt.dev"
+  - h3rmt.dev  # Include apex domain too

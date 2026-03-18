@@ -1,0 +1,17 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: cert-manager
+  namespace: kube-system
+spec:
+  repo: oci://quay.io/jetstack/charts
+  chart: cert-manager
+  version: v1.20.0
+  targetNamespace: cert-manager
+  createNamespace: true
+  valuesContent: |-
+    crds:
+      enabled: true
+    global:
+      leaderElection:
+        namespace: cert-manager

@@ -7,8 +7,8 @@ metadata:
   name: traefik-gateway
   namespace: default
   annotations:
-    # Tell external-dns about this gateway
-    external-dns.alpha.kubernetes.io/hostname: "*.h3rmt.dev"
+    # ✅ Correct: target annotation on Gateway
+    # external-dns.alpha.kubernetes.io/target: "37.187.250.146"
 spec:
   gatewayClassName: traefik
   listeners:
@@ -22,9 +22,10 @@ spec:
       hostname: "*.h3rmt.dev"
       tls:
         mode: Terminate
+        # Single wildcard certificate covers all *.h3rmt.dev subdomains
         certificateRefs:
           - kind: Secret
-            name: traefik-tls-cert
+            name: wildcard-h3rmt-dev-tls
 ---
 # This allows HTTPRoutes in default namespace to reference the Gateway
 apiVersion: gateway.networking.k8s.io/v1beta1

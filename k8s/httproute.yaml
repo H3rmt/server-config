@@ -4,10 +4,8 @@ metadata:
   name: http-echo
   namespace: default
   annotations:
-    # Tell external-dns to create this DNS record
-    external-dns.alpha.kubernetes.io/hostname: echo.h3rmt.dev
-    # Point the DNS record to your server
-    # external-dns.alpha.kubernetes.io/target: ovh-1.h3rmt.dev
+    external-dns.alpha.kubernetes.io/ttl: "300"
+
 spec:
   parentRefs:
     - kind: Gateway

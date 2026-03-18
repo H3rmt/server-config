@@ -1,0 +1,43 @@
+---
+# Production Let's Encrypt Issuer with DNS01 challenge
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: enrico@h3rmt.dev
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    # DNS01 solver using Hetzner DNS webhook - supports wildcards!
+    - dns01:
+        webhook:
+          groupName: acme.hetzner.com
+          solverName: hetzner
+          config:
+            secretName: hetzner-dns
+            zoneName: h3rmt.dev
+            apiUrl: https://dns.hetzner.com/api/v1
+---
+# Staging Let's Encrypt Issuer (for testing)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: enrico@h3rmt.dev
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - dns01:
+        webhook:
+          groupName: acme.hetzner.com
+          solverName: hetzner
+          config:
+            secretName: hetzner-dns
+            zoneName: h3rmt.dev
+            apiUrl: https://dns.hetzner.com/api/v1
