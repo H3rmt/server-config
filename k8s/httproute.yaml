@@ -13,6 +13,7 @@ spec:
       namespace: default
   hostnames:
     - echo.h3rmt.dev
+    - ovh-1.h3rmt.dev
   rules:
     - matches:
         - path:

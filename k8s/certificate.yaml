@@ -11,7 +11,6 @@ spec:
     name: letsencrypt-prod
     # name: letsencrypt-staging  
     kind: ClusterIssuer
-    group: acme.h3rmt.dev
   dnsNames:
   - "*.h3rmt.dev"
   - h3rmt.dev  # Include apex domain too

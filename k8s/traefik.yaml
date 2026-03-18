@@ -15,3 +15,16 @@ spec:
     providers:
       kubernetesGateway:
         enabled: true
+      kubernetesCRD:
+        allowCrossNamespace: true
+    gateway:
+      listeners:
+        web:
+          namespacePolicy:
+            from: All
+    ingressRoute:
+      dashboard:
+        enabled: true
+        matchRule: Host(`main.h3rmt.dev`) && PathPrefix(`/`)
+        entryPoints:
+          - web
