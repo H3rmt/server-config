@@ -5,7 +5,7 @@ kind: ClusterRole
 metadata:
   name: cert-manager-webhook-hetzner:domain-solver
 rules:
-- apiGroups: [acme.hetzner.com]
+- apiGroups: ["acme.h3rmt.dev"]
   resources: ["*"]
   verbs: ["create"]
 ---

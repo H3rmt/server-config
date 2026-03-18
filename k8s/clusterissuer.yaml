@@ -14,7 +14,7 @@ spec:
     # DNS01 solver using Hetzner DNS webhook - supports wildcards!
     - dns01:
         webhook:
-          groupName: acme.hetzner.com
+          groupName: acme.h3rmt.dev
           solverName: hetzner
           config:
             secretName: hetzner-dns
@@ -35,7 +35,7 @@ spec:
     solvers:
     - dns01:
         webhook:
-          groupName: acme.hetzner.com
+          groupName: acme.h3rmt.dev
           solverName: hetzner
           config:
             secretName: hetzner-dns
