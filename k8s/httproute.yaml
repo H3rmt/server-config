@@ -8,12 +8,10 @@ metadata:
 
 spec:
   parentRefs:
-    - kind: Gateway
-      name: traefik-gateway
-      namespace: default
+    - name: traefik-gateway
   hostnames:
     - echo.h3rmt.dev
-    - ovh-1.h3rmt.dev
+    - test.h3rmt.dev
   rules:
     - matches:
         - path:
