@@ -23,6 +23,7 @@ spec:
     ingressRoute:
       dashboard:
         enabled: true
-        matchRule: Host(`main.h3rmt.dev`) && PathPrefix(`/`)
+        matchRule: Host(`test.h3rmt.dev`) && PathPrefix(`/`)
         entryPoints:
           - web
+          - secure

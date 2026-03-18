@@ -66,6 +66,11 @@ spec:
         image: registry.k8s.io/external-dns/external-dns:v0.20.0
         args:
         - --source=gateway-httproute
+        - --source=gateway-grpcroute
+        - --source=gateway-tlsroute
+        - --source=gateway-tcproute
+        - --source=gateway-udproute
+        - --namespace=default
         - --provider=webhook
         - --domain-filter=h3rmt.dev # Will only manage DNS records for this domain
         - --txt-owner-id=k3s-cluster # Unique identifier for this cluster
