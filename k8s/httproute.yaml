@@ -14,6 +14,7 @@ spec:
   hostnames:
     - echo.h3rmt.dev
     - test.h3rmt.dev
+    - echo-test.h3rmt.dev
   rules:
     - matches:
         - path:
