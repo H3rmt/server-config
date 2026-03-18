@@ -10,6 +10,8 @@ spec:
         redirections:
           entryPoint:
             to: websecure
+    gatewayAPI:
+      enabled: true
     providers:
       kubernetesGateway:
         enabled: true

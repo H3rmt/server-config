@@ -37,7 +37,7 @@ echo.h3rmt.dev → ovh-1.h3rmt.dev (your server IP)
 ### k8s/gateway.yaml
 Defines the infrastructure layer:
 
-1. **GatewayClass**: Tells Kubernetes to use Traefik as the gateway controller
+1. **GatewayClass**: Automatically created by Traefik Helm chart (not in this file)
 2. **Gateway**: The actual load balancer with listeners on ports 80/443
 3. **ReferenceGrant**: Security policy allowing HTTPRoutes to reference the Gateway
 
@@ -77,12 +77,16 @@ args:
 Updated to enable Gateway API:
 
 ```yaml
+gatewayAPI:
+  enabled: true  # Creates GatewayClass managed by Helm
 providers:
   kubernetesGateway:
-    enabled: true
+    enabled: true  # Enables Gateway API provider
 ```
 
-This tells Traefik to watch for Gateway API resources.
+This tells Traefik to:
+1. Create a `GatewayClass` named "traefik" (managed by Helm)
+2. Watch for Gateway API resources
 
 ## Deployment Steps
 
@@ -107,19 +111,23 @@ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/downloa
 
 ### 4. Apply Manifests in Order
 ```bash
-# 1. Update Traefik to enable Gateway API
+# 1. Update Traefik to enable Gateway API (this will restart Traefik automatically)
 kubectl apply -f k8s/traefik.yaml
 
-# Wait for Traefik to restart (watch with: kubectl rollout status -n kube-system deployment/traefik)
+# Wait for Traefik to restart and become ready (~30-60 seconds)
+kubectl rollout status -n kube-system deployment/traefik
 
-# 2. Create the Gateway infrastructure
+# 2. Verify GatewayClass was created by Traefik
+kubectl get gatewayclass traefik
+
+# 3. Create the Gateway infrastructure
 kubectl apply -f k8s/gateway.yaml
 
-# 3. Deploy external-dns
+# 4. Deploy external-dns
 kubectl apply -f k8s/hetzner-dns-secret.yaml
 kubectl apply -f k8s/external-dns.yaml
 
-# 4. Deploy the echo app and route
+# 5. Deploy the echo app and route
 kubectl apply -f k8s/deploy.yaml
 kubectl apply -f k8s/httproute.yaml
 ```
