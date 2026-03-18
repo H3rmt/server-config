@@ -326,7 +326,14 @@ kubectl apply -f k8s/cert-manager.yaml
 # Wait for cert-manager to be ready (~30 seconds)
 kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment/cert-manager
 
-# Install Hetzner DNS webhook for DNS01 challenge
+# Install Hetzner webhook CRD first
+kubectl apply -f k8s/cert-manager-webhook-hetzner-crd.yaml
+
+# Verify CRD is created
+kubectl get crd hetzners.acme.hetzner.com
+# Should show: hetzners.acme.hetzner.com
+
+# Install Hetzner DNS webhook
 kubectl apply -f k8s/cert-manager-webhook-hetzner.yaml
 
 # Wait for webhook to be ready (~20 seconds)
@@ -334,6 +341,10 @@ kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment
 
 # IMPORTANT: Apply RBAC for webhook
 kubectl apply -f k8s/cert-manager-rbac.yaml
+
+# Verify webhook is working
+kubectl get apiservice v1alpha1.acme.hetzner.com
+# Should show: Available
 
 # Update Traefik configuration
 kubectl apply -f k8s/traefik.yaml
@@ -511,6 +522,25 @@ spec:
 - **Ownership tracking**: TXT records prevent conflicts
 
 ## Troubleshooting
+
+### CRD Error: "could not find the requested resource (post hetzner.acme.hetzner.com)"
+```bash
+# Error message:
+# "the server could not find the requested resource (post hetzner.acme.hetzner.com)"
+
+# Solution: Install the webhook CRD
+kubectl apply -f k8s/cert-manager-webhook-hetzner-crd.yaml
+
+# Verify CRD is installed
+kubectl get crd hetzners.acme.hetzner.com
+
+# Check if webhook registered its API
+kubectl get apiservice v1alpha1.acme.hetzner.com
+# Should show: Available
+
+# If still not working, check webhook logs
+kubectl logs -n cert-manager -l app.kubernetes.io/name=cert-manager-webhook-hetzner
+```
 
 ### RBAC Error: "hetzner.acme.hetzner.com is forbidden"
 ```bash

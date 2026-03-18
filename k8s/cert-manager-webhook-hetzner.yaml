@@ -8,7 +8,3 @@ spec:
   chart: cert-manager-webhook-hetzner
   version: 1.4.2
   targetNamespace: cert-manager
-  valuesContent: |-
-    certManager:
-      namespace: cert-manager
-      serviceAccountName: cert-manager
