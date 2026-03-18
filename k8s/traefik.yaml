@@ -10,8 +10,11 @@ spec:
         redirections:
           entryPoint:
             to: websecure
+    providers:
+      kubernetesGateway:
+        enabled: true
     additionalArguments:
-      - "--log.level=DEBUG"
+      # - "--log.level=DEBUG"
       - "--certificatesresolvers.le.acme.email=enrico@h3rmt.dev"
       - "--certificatesresolvers.le.acme.storage=/data/acme.json"
       - "--certificatesresolvers.le.acme.tlschallenge=true"

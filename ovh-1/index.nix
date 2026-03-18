@@ -42,7 +42,7 @@
     nodeName = config.networking.hostName;
     clusterInit = true;
     extraFlags = [
-      "--flannel-iface=wg0"
+      "--flannel-iface=wg0 --tls-san=k3s-main.h3rmt.dev"
     ];
   };
 }
