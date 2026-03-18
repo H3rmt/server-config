@@ -131,6 +131,27 @@ spec:
 - **Enables wildcard certificates** (*.h3rmt.dev)
 - Reuses the same Hetzner DNS API secret as external-dns
 
+### cert-manager-rbac.yaml
+Grants permissions for cert-manager to use the Hetzner webhook:
+
+```yaml
+# ClusterRole for webhook API group
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cert-manager-webhook-hetzner:domain-solver
+rules:
+- apiGroups: ["acme.hetzner.com"]
+  resources: ["*"]
+  verbs: ["create"]
+```
+
+**What it does:**
+- Allows cert-manager service account to create Hetzner webhook resources
+- Required for DNS01 challenges to work
+- Allows webhook to read secrets in kube-system namespace
+- Without this, you get: `"hetzner.acme.hetzner.com is forbidden"` error
+
 ### traefik.yaml
 Configures built-in Traefik:
 
@@ -311,6 +332,9 @@ kubectl apply -f k8s/cert-manager-webhook-hetzner.yaml
 # Wait for webhook to be ready (~20 seconds)
 kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment/cert-manager-webhook-hetzner
 
+# IMPORTANT: Apply RBAC for webhook
+kubectl apply -f k8s/cert-manager-rbac.yaml
+
 # Update Traefik configuration
 kubectl apply -f k8s/traefik.yaml
 
@@ -487,6 +511,19 @@ spec:
 - **Ownership tracking**: TXT records prevent conflicts
 
 ## Troubleshooting
+
+### RBAC Error: "hetzner.acme.hetzner.com is forbidden"
+```bash
+# Error message:
+# "User \"system:serviceaccount:cert-manager:cert-manager\" cannot create resource \"hetzner\""
+
+# Solution: Apply RBAC configuration
+kubectl apply -f k8s/cert-manager-rbac.yaml
+
+# Verify permissions
+kubectl auth can-i create hetzner.acme.hetzner.com --as=system:serviceaccount:cert-manager:cert-manager
+# Should output: yes
+```
 
 ### Gateway not ready
 ```bash
