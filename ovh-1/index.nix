@@ -43,6 +43,8 @@
     clusterInit = true;
     extraFlags = [
       "--flannel-iface=wg0 --tls-san=k3s-main.h3rmt.dev"
+      "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4}"
+      "--node-external-ip=${config.custom.server."ovh-1".public-ip-v6}"
     ];
   };
 }

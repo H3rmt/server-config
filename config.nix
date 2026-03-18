@@ -25,6 +25,14 @@
             type = lib.types.attrsOf (
               lib.types.submodule {
                 options = {
+                  public-ip-v4 = lib.mkOption {
+                    type = lib.types.str;
+                    description = "Public IPv4 for server";
+                  };
+                  public-ip-v6 = lib.mkOption {
+                    type = lib.types.str;
+                    description = "Public IPv6 for server";
+                  };
                   private-ip = lib.mkOption {
                     type = lib.types.str;
                     description = "Private IP for server";
@@ -49,10 +57,13 @@
       my-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
       server = {
         "raspi-1" = {
+
           private-ip = "10.0.0.101";
           wireguard-public-key = "";
         };
         "ovh-1" = {
+          public-ip-v4 = "37.187.250.146";
+          public-ip-v6 = "2001:41d0:c:292::1";
           private-ip = "10.0.0.51";
           wireguard-public-key = "xemePTFWc52nX8O1vMp7UJCf/eBIuGkuh/20/9llrmY=";
         };
