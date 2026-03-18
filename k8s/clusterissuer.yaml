@@ -13,7 +13,7 @@ spec:
     solvers:
     - dns01:
         webhook:
-          groupName: acme.hetzner.com
+          groupName: acme.h3rmt.dev
           solverName: hetzner
           config:
             tokenSecretKeyRef:
@@ -34,8 +34,8 @@ spec:
     solvers:
     - dns01:
         webhook:
-          groupName: acme.hetzner.com
           solverName: hetzner
+          groupName: acme.h3rmt.dev
           config:
             tokenSecretKeyRef:
               name: hetzner

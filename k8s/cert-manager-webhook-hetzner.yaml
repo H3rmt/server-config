@@ -8,4 +8,4 @@ spec:
   chart: cert-manager-webhook-hetzner
   targetNamespace: cert-manager
   valuesContent: |-
-    groupName: acme.hetzner.com
+    groupName: acme.h3rmt.dev
