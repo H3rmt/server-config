@@ -17,7 +17,7 @@ spec:
           groupName: acme.h3rmt.dev
           solverName: hetzner
           config:
-            secretName: hetzner-dns
+            secretName: hetzner-dns-credentials
             zoneName: h3rmt.dev
             apiUrl: https://dns.hetzner.com/api/v1
 ---
@@ -38,6 +38,6 @@ spec:
           groupName: acme.h3rmt.dev
           solverName: hetzner
           config:
-            secretName: hetzner-dns
+            secretName: hetzner-dns-credentials
             zoneName: h3rmt.dev
             apiUrl: https://dns.hetzner.com/api/v1

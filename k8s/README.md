@@ -122,14 +122,17 @@ Installs Hetzner DNS webhook for DNS01 challenges:
 spec:
   repo: https://vadimkim.github.io/cert-manager-webhook-hetzner
   chart: cert-manager-webhook-hetzner
-  version: 1.3.3
+  version: 1.4.2
+  valuesContent: |-
+    groupName: acme.h3rmt.dev
+    secretNamespace: default  # Namespace where hetzner-dns-credentials secret is stored
 ```
 
 **What it does:**
 - Adds DNS01 challenge support for Hetzner DNS
 - Allows cert-manager to create TXT records for ACME validation
 - **Enables wildcard certificates** (*.h3rmt.dev)
-- Reuses the same Hetzner DNS API secret as external-dns
+- Uses `hetzner-dns-credentials` secret in `default` namespace
 
 ### cert-manager-rbac.yaml
 Grants permissions for cert-manager to use the Hetzner webhook:
@@ -141,16 +144,29 @@ kind: ClusterRole
 metadata:
   name: cert-manager-webhook-hetzner:domain-solver
 rules:
-- apiGroups: ["acme.hetzner.com"]
+- apiGroups: ["acme.h3rmt.dev"]
   resources: ["*"]
   verbs: ["create"]
+
+---
+
+# Allow webhook to access secrets in default namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager-webhook-hetzner:secret-reader
+  namespace: default
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get","watch","list"]
 ```
 
 **What it does:**
 - Allows cert-manager service account to create Hetzner webhook resources
 - Required for DNS01 challenges to work
-- Allows webhook to read secrets in kube-system namespace
-- Without this, you get: `"hetzner.acme.hetzner.com is forbidden"` error
+- Allows webhook to read secrets in default namespace
+- Without this, you get: `"secrets \"hetzner-dns-credentials\" is forbidden"` error
 
 ### traefik.yaml
 Configures built-in Traefik:
@@ -184,10 +200,10 @@ spec:
     solvers:
     - dns01:
         webhook:
-          groupName: acme.hetzner.com
+          groupName: acme.h3rmt.dev
           solverName: hetzner
           config:
-            secretName: hetzner-dns  # Same secret as external-dns!
+            secretName: hetzner-dns-credentials  # Must match secret in default namespace
             zoneName: h3rmt.dev
 ```
 
@@ -326,13 +342,6 @@ kubectl apply -f k8s/cert-manager.yaml
 # Wait for cert-manager to be ready (~30 seconds)
 kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment/cert-manager
 
-# Install Hetzner webhook CRD first
-kubectl apply -f k8s/cert-manager-webhook-hetzner-crd.yaml
-
-# Verify CRD is created
-kubectl get crd hetzners.acme.hetzner.com
-# Should show: hetzners.acme.hetzner.com
-
 # Install Hetzner DNS webhook
 kubectl apply -f k8s/cert-manager-webhook-hetzner.yaml
 
@@ -343,8 +352,12 @@ kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment
 kubectl apply -f k8s/cert-manager-rbac.yaml
 
 # Verify webhook is working
-kubectl get apiservice v1alpha1.acme.hetzner.com
+kubectl get apiservice v1alpha1.acme.h3rmt.dev
 # Should show: Available
+
+# Verify RBAC for secrets
+kubectl auth can-i get secrets --namespace default --as system:serviceaccount:cert-manager:cert-manager-webhook-hetzner
+# Should show: yes
 
 # Update Traefik configuration
 kubectl apply -f k8s/traefik.yaml
@@ -523,26 +536,20 @@ spec:
 
 ## Troubleshooting
 
-### CRD Error: "could not find the requested resource (post hetzner.acme.hetzner.com)"
+### CRD/APIService Error: "could not find the requested resource (post hetzner.acme.h3rmt.dev)"
 ```bash
 # Error message:
-# "the server could not find the requested resource (post hetzner.acme.hetzner.com)"
+# "the server could not find the requested resource (post hetzner.acme.h3rmt.dev)"
 
-# Solution: Install the webhook CRD
-kubectl apply -f k8s/cert-manager-webhook-hetzner-crd.yaml
-
-# Verify CRD is installed
-kubectl get crd hetzners.acme.hetzner.com
-
-# Check if webhook registered its API
-kubectl get apiservice v1alpha1.acme.hetzner.com
+# Solution: Check if webhook registered its API
+kubectl get apiservice v1alpha1.acme.h3rmt.dev
 # Should show: Available
 
 # If still not working, check webhook logs
 kubectl logs -n cert-manager -l app.kubernetes.io/name=cert-manager-webhook-hetzner
 ```
 
-### RBAC Error: "hetzner.acme.hetzner.com is forbidden"
+### RBAC Error: "hetzner.acme.h3rmt.dev is forbidden"
 ```bash
 # Error message:
 # "User \"system:serviceaccount:cert-manager:cert-manager\" cannot create resource \"hetzner\""
@@ -551,7 +558,7 @@ kubectl logs -n cert-manager -l app.kubernetes.io/name=cert-manager-webhook-hetz
 kubectl apply -f k8s/cert-manager-rbac.yaml
 
 # Verify permissions
-kubectl auth can-i create hetzner.acme.hetzner.com --as=system:serviceaccount:cert-manager:cert-manager
+kubectl auth can-i create hetzner.acme.h3rmt.dev --as=system:serviceaccount:cert-manager:cert-manager
 # Should output: yes
 ```
 
