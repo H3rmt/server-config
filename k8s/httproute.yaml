@@ -8,8 +8,8 @@ metadata:
 
 spec:
   parentRefs:
-    - name: traefik
-      sectionName: https
+    - name: traefik-gateway
+      sectionName: websecure
       kind: Gateway
   hostnames:
     - echo.h3rmt.dev

@@ -7,8 +7,6 @@ spec:
   controllerName: traefik.io/gateway-controller
 
 ---
-# GatewayClass is managed by Traefik Helm chart
-# It will be created automatically when gatewayAPI.enabled=true
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
