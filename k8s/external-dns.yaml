@@ -20,7 +20,7 @@ metadata:
   namespace: external-dns
 rules:
 - apiGroups: [""]
-  resources: ["namespaces"]
+  resources: ["namespaces", "nodes"]
   verbs: ["get","watch","list"]
 - apiGroups: ["gateway.networking.k8s.io"]
   resources: ["gateways","httproutes","grpcroutes","tlsroutes","tcproutes","udproutes"]
@@ -65,6 +65,7 @@ spec:
       - name: external-dns
         image: registry.k8s.io/external-dns/external-dns:v0.20.0
         args:
+        - --source=node
         - --source=gateway-httproute
         - --namespace=default
         - --provider=webhook
@@ -74,6 +75,7 @@ spec:
         - --registry=txt
         - --txt-prefix=reg-%{record_type}-
         - --interval=1m
+        - --log-level=debug
       - name: hetzner-webhook
         image: ghcr.io/mconfalonieri/external-dns-hetzner-webhook:latest
         env:
