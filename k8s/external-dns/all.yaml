@@ -83,7 +83,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: hetzner-dns-credentials
-                key: api-key
+                key: token
           - name: USE_CLOUD_API
             value: "true"
         ports:
