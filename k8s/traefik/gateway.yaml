@@ -33,25 +33,7 @@ spec:
           from: All
       tls:
         mode: Terminate
-        # Single wildcard certificate covers all *.h3rmt.dev subdomains
         certificateRefs:
           - kind: Secret
             namespace: default
             name: wildcard-h3rmt-dev-tls
-
----
-
-# This allows HTTPRoutes in default namespace to reference the Gateway
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
-metadata:
-  name: allow-gateway-routes
-  namespace: default
-spec:
-  from:
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      namespace: default
-  to:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
