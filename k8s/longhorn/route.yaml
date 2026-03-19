@@ -11,7 +11,7 @@ spec:
       sectionName: websecure
       kind: Gateway
   hostnames:
-    - longhorn.h3rmt.dev
+    - longhorn.infra.h3rmt.dev
   rules:
     - matches:
         - path:

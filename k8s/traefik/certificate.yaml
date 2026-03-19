@@ -10,5 +10,6 @@ spec:
     # name: letsencrypt-staging  
     kind: ClusterIssuer
   dnsNames:
+  - "*.infra.h3rmt.dev"
   - "*.h3rmt.dev"
-  - h3rmt.dev
+  - "h3rmt.dev"
