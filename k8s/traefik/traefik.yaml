@@ -6,7 +6,8 @@ metadata:
 spec:
   valuesContent: |-
     service:
-      ipFamilyPolicy: RequireDualStack
+      spec:
+        ipFamilyPolicy: RequireDualStack
     ports:
       web:
         redirections:
