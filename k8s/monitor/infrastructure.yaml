@@ -1,0 +1,25 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: monitor
+  namespace: kube-system
+spec:
+  chart: oci://ghcr.io/grafana-community/helm-charts/grafana
+  version: 11.3.3
+  targetNamespace: monitor
+  createNamespace: true
+  valuesContent: |-
+    persistence:
+      enabled: true
+    route:
+      main: 
+        enabled: true
+        hostnames:
+          - monitor.infra.h3rmt.dev
+        parentRefs: 
+          - name: traefik-gateway
+            sectionName: websecure
+            kind: Gateway
+        annotations:
+          external-dns.alpha.kubernetes.io/ttl: "300"
+---
