@@ -138,6 +138,7 @@
     jq
     openssl
     nmap
+    ncdu
     k9s
     nfs-utils
     iptables

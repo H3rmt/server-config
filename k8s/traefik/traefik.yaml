@@ -5,6 +5,8 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    service:
+      ipFamilyPolicy: RequireDualStack
     ports:
       web:
         redirections:
