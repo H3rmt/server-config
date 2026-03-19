@@ -11,6 +11,7 @@
     localStorageDir = ./. + "/secrets/rekey/${config.networking.hostName}";
   };
 
-  age.secrets.k3s.rekeyFile = ./secrets/k3s-token.age;
-  age.secrets.root-pass.rekeyFile = ./secrets/root-pass.age;
+  age.secrets.k3s.rekeyFile = ./secrets/k3s_token.age;
+  age.secrets.root-pass.rekeyFile = ./secrets/root_pass.age;
+  age.secrets.hetzner-token.rekeyFile = ./secrets/hetzner_token.age;
 }

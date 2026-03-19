@@ -45,5 +45,21 @@
       "--flannel-iface=wg0 --tls-san=k3s-main.h3rmt.dev"
       "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4},${config.custom.server."ovh-1".public-ip-v6}"
     ];
+    manifests = {
+      "01-hetzner-dns.yaml".content = {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata.name = "hetzner";
+        metadata.namespace = "cert-manager";
+        stringData.token = builtins.readFile config.age.secrets.hetzner-token.path;
+      };
+      "02-hetzner-dns.yaml".content = {
+        apiVersion = "v1";
+        kind = "Secret";
+        metadata.name = "hetzner-dns-credentials";
+        metadata.namespace = "external-dns";
+        stringData.token = builtins.readFile config.age.secrets.hetzner-token.path;
+      };
+    };
   };
 }

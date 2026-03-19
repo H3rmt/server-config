@@ -1,4 +1,3 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
@@ -7,6 +6,7 @@ spec:
   controllerName: traefik.io/gateway-controller
 
 ---
+
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -32,7 +32,9 @@ spec:
           - kind: Secret
             namespace: default
             name: wildcard-h3rmt-dev-tls
+
 ---
+
 # This allows HTTPRoutes in default namespace to reference the Gateway
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant

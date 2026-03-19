@@ -1,5 +1,3 @@
----
-# Wildcard certificate for *.h3rmt.dev
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -13,4 +11,4 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - "*.h3rmt.dev"
-  - h3rmt.dev  # Include apex domain too
+  - h3rmt.dev
