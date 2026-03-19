@@ -50,8 +50,8 @@
       "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4},${config.custom.server."ovh-1".public-ip-v6}"
     ];
     manifests = {
-      "hetzner_external_dns.yaml".source = config.age.secrets.hetzner-external-dns.path;
-      "hetzner_cert_manager.yaml".source = config.age.secrets.hetzner-cert-manager.path;
+      "hetzner-external-dns.yaml".source = config.age.secrets.hetzner-external-dns.path;
+      "hetzner-cert-manager.yaml".source = config.age.secrets.hetzner-cert-manager.path;
     };
   };
 }
