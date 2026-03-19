@@ -67,7 +67,6 @@ spec:
         args:
         - --source=node
         - --source=gateway-httproute
-        - --namespace=default
         - --provider=webhook
         - --domain-filter=h3rmt.dev # Will only manage DNS records for this domain
         - --txt-owner-id=k3s-cluster # Unique identifier for this cluster
