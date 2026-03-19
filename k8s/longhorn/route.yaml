@@ -8,6 +8,7 @@ metadata:
 spec:
   parentRefs:
     - name: traefik-gateway
+      namespace: default
       sectionName: websecure
       kind: Gateway
   hostnames:

@@ -75,6 +75,8 @@ spec:
         - --txt-prefix=reg-%{record_type}-
         - --interval=1m
         - --log-level=debug
+        - --managed-record-types=A
+        - --managed-record-types=AAAA
       - name: hetzner-webhook
         image: ghcr.io/mconfalonieri/external-dns-hetzner-webhook:latest
         env:

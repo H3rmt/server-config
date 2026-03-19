@@ -18,6 +18,7 @@ spec:
           - monitor.infra.h3rmt.dev
         parentRefs: 
           - name: traefik-gateway
+            namespace: default
             sectionName: websecure
             kind: Gateway
         annotations:
