@@ -37,7 +37,7 @@
   };
   services.k3s = {
     enable = true;
-    tokenFile = config.age.secrets.k3s.path;
+    agentTokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
     clusterInit = true;
@@ -46,20 +46,8 @@
       "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4},${config.custom.server."ovh-1".public-ip-v6}"
     ];
     manifests = {
-      "01-hetzner-dns.yaml".content = {
-        apiVersion = "v1";
-        kind = "Secret";
-        metadata.name = "hetzner";
-        metadata.namespace = "cert-manager";
-        stringData.token = builtins.readFile config.age.secrets.hetzner-token.path;
-      };
-      "02-hetzner-dns.yaml".content = {
-        apiVersion = "v1";
-        kind = "Secret";
-        metadata.name = "hetzner-dns-credentials";
-        metadata.namespace = "external-dns";
-        stringData.token = builtins.readFile config.age.secrets.hetzner-token.path;
-      };
+      "hetzner_external_dns.yaml".source = config.age.secrets.hetzner-external-dns.path;
+      "hetzner_cert_manager.yaml".source = config.age.secrets.hetzner-cert-manager.path;
     };
   };
 }

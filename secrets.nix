@@ -13,5 +13,6 @@
 
   age.secrets.k3s.rekeyFile = ./secrets/k3s_token.age;
   age.secrets.root-pass.rekeyFile = ./secrets/root_pass.age;
-  age.secrets.hetzner-token.rekeyFile = ./secrets/hetzner_token.age;
+  age.secrets.hetzner-external-dns.rekeyFile = ./secrets/hetzner_external_dns.age;
+  age.secrets.hetzner-cert-manager.rekeyFile = ./secrets/hetzner_cert_manager.age;
 }
