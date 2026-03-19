@@ -15,11 +15,6 @@ spec:
         enabled: true
       kubernetesCRD:
         allowCrossNamespace: true
-    gateway:
-      listeners:
-        web:
-          namespacePolicy:
-            from: All
     ingressRoute:
       dashboard:
         enabled: false

@@ -70,7 +70,7 @@ spec:
         - --provider=webhook
         - --domain-filter=h3rmt.dev # Will only manage DNS records for this domain
         - --txt-owner-id=k3s-cluster # Unique identifier for this cluster
-        - --policy=sync # or 'upsert-only' to only create records, never delete
+        - --policy=sync
         - --registry=txt
         - --txt-prefix=reg-%{record_type}-
         - --interval=1m

@@ -21,10 +21,16 @@ spec:
       protocol: HTTP
       port: 8000
       hostname: "*.h3rmt.dev"
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: websecure
       protocol: HTTPS
       port: 8443
       hostname: "*.h3rmt.dev"
+      allowedRoutes:
+        namespaces:
+          from: All
       tls:
         mode: Terminate
         # Single wildcard certificate covers all *.h3rmt.dev subdomains
