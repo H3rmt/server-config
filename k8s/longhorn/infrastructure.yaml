@@ -2,7 +2,7 @@ apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
   name: longhorn-install
-  namespace: default
+  namespace: kube-system
   annotations:
     helmcharts.cattle.io/managed-by: helm-controller
   finalizers:
