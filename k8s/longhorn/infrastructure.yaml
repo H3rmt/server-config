@@ -10,3 +10,5 @@ spec:
   failurePolicy: abort
   targetNamespace: longhorn-system
   createNamespace: true
+  valuesContent: |-
+    httproute.enabled: false

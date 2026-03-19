@@ -15,4 +15,5 @@
   age.secrets.root-pass.rekeyFile = ./secrets/root_pass.age;
   age.secrets.hetzner-external-dns.rekeyFile = ./secrets/hetzner_external_dns.age;
   age.secrets.hetzner-cert-manager.rekeyFile = ./secrets/hetzner_cert_manager.age;
+  age.secrets.traefik-auth-secret-longhorn.rekeyFile = ./secrets/traefik-auth-secret-longhorn.age;
 }
