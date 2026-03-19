@@ -75,25 +75,23 @@ kubectl get helmchart -n kube-system
 
 ## File Structure
 
-### Infrastructure (Helm Charts)
+### cert-manager/
 - **cert-manager.yaml** - Installs cert-manager via k3s HelmChart
-- **traefik.yaml** - Configures built-in Traefik with Gateway API support
 - **cert-manager-webhook-hetzner.yaml** - Installs official Hetzner DNS webhook
-
-### Gateway API Resources
-- **gateway.yaml** - Gateway infrastructure (load balancer + TLS listeners)
-- **httproute.yaml** - Application routing rules
-
-### Certificate Management
 - **clusterissuer.yaml** - Let's Encrypt issuers (prod + staging)
-- **certificate.yaml** - TLS certificate for echo.h3rmt.dev
 - **hetzner-dns-secret.yaml** - Hetzner DNS API token for cert-manager
 
-### DNS Management
+### external-dns/
 - **external-dns.yaml** - Automatic DNS record creation
-- **hetzner-dns-secret.yaml** - Hetzner DNS API token (you must fill this in)
+- **hetzner-dns-secret-ext-dns.yaml** - Hetzner DNS API token for external-dns
 
-### Application
+### traefik/
+- **traefik.yaml** - Configures built-in Traefik with Gateway API support
+
+### app/
+- **gateway.yaml** - Gateway infrastructure (load balancer + TLS listeners)
+- **httproute.yaml** - Application routing rules
+- **certificate.yaml** - TLS certificate for echo.h3rmt.dev
 - **deploy.yaml** - Echo server deployment + service
 
 ## File Breakdown
@@ -293,7 +291,8 @@ args:
 
 ### 2. Update Secrets
 ```bash
-# Edit k8s/hetzner-dns-secret.yaml
+# Edit k8s/cert-manager/hetzner-dns-secret.yaml
+# Edit k8s/external-dns/hetzner-dns-secret-ext-dns.yaml
 # Replace YOUR_HETZNER_DNS_API_TOKEN_HERE with your actual token
 ```
 
@@ -307,16 +306,16 @@ kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.6/docs/con
 ### 4. Deploy Infrastructure (Helm)
 ```bash
 # Install cert-manager via k3s HelmChart
-kubectl apply -f k8s/cert-manager.yaml
+kubectl apply -f k8s/cert-manager/cert-manager.yaml
 
 # Wait for cert-manager to be ready (~30 seconds)
 kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment/cert-manager
 
 # Install Hetzner DNS API Secret in cert-manager namespace
-kubectl apply -f k8s/hetzner-dns-secret.yaml
+kubectl apply -f k8s/cert-manager/hetzner-dns-secret.yaml
 
 # Install official Hetzner DNS webhook
-kubectl apply -f k8s/cert-manager-webhook-hetzner.yaml
+kubectl apply -f k8s/cert-manager/cert-manager-webhook-hetzner.yaml
 
 # Wait for webhook to be ready (~20 seconds)
 kubectl wait --for=condition=available --timeout=300s -n cert-manager deployment/cert-manager-webhook-hetzner
@@ -326,7 +325,7 @@ kubectl get apiservice v1alpha1.acme.hetzner.com
 # Should show: Available
 
 # Update Traefik configuration
-kubectl apply -f k8s/traefik.yaml
+kubectl apply -f k8s/traefik/traefik.yaml
 
 # Wait for Traefik to restart
 kubectl rollout status -n kube-system deployment/traefik
@@ -338,13 +337,13 @@ kubectl get gatewayclass traefik
 ### 5. Deploy Gateway API Resources
 ```bash
 # Create Let's Encrypt issuers (with DNS01 challenge)
-kubectl apply -f k8s/clusterissuer.yaml
+kubectl apply -f k8s/cert-manager/clusterissuer.yaml
 
 # Create Gateway
-kubectl apply -f k8s/gateway.yaml
+kubectl apply -f k8s/app/gateway.yaml
 
 # Create wildcard certificate
-kubectl apply -f k8s/certificate.yaml
+kubectl apply -f k8s/app/certificate.yaml
 
 # Wait for certificate to be ready (DNS01 validation takes ~1-2 minutes)
 kubectl wait --for=condition=ready --timeout=300s certificate/wildcard-h3rmt-dev-tls
@@ -356,14 +355,14 @@ kubectl get certificate
 
 ### 6. Deploy external-dns
 ```bash
-kubectl apply -f k8s/hetzner-dns-secret.yaml
-kubectl apply -f k8s/external-dns.yaml
+kubectl apply -f k8s/external-dns/hetzner-dns-secret-ext-dns.yaml
+kubectl apply -f k8s/external-dns/external-dns.yaml
 ```
 
 ### 7. Deploy Application
 ```bash
-kubectl apply -f k8s/deploy.yaml
-kubectl apply -f k8s/httproute.yaml
+kubectl apply -f k8s/app/deploy.yaml
+kubectl apply -f k8s/app/httproute.yaml
 ```
 
 ## Verification
