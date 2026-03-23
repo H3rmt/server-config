@@ -9,4 +9,14 @@ spec:
   version: v0.35.1
   targetNamespace: kube-system
   valuesContent: |-
-
+    deschedulerPolicy:
+      strategies:
+        RemoveDuplicates:
+          enabled: true
+        LowNodeUtilization:
+          enabled: true
+          params:
+            thresholds:
+              cpu: 20
+            targetThresholds:
+              cpu: 50
