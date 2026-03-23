@@ -6,7 +6,7 @@ metadata:
   annotations:
     helmcharts.cattle.io/managed-by: helm-controller
   finalizers:
-  - wrangler.cattle.io/on-helm-chart-remove
+    - wrangler.cattle.io/on-helm-chart-remove
   generation: 1
 spec:
   repo: https://charts.longhorn.io
