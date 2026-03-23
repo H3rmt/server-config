@@ -4,7 +4,7 @@ metadata:
   name: traefik
   namespace: kube-system
 spec:
-  values:
+  set:
     service:
       spec:
         ipFamilyPolicy: RequireDualStack

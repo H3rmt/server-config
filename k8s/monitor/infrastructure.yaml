@@ -8,7 +8,7 @@ spec:
   version: 11.3.3
   targetNamespace: monitor
   createNamespace: true
-  values:
+  set:
     persistence:
       enabled: true
     route:
