@@ -1,0 +1,11 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: descheduler-install
+  namespace: kube-system
+  
+spec:
+  repo: https://kubernetes-sigs.github.io/descheduler/
+  chart: descheduler
+  version: v0.35.1
+  targetNamespace: kube-system
