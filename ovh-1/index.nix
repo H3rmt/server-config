@@ -45,7 +45,7 @@
     role = "server";
     nodeName = config.networking.hostName;
     # Note: This must be true the very first time the cluster is initialized, but must be set to false for subsequent runs.
-    clusterInit = true;
+    clusterInit = false;
     extraFlags = [
       "--flannel-iface=wg0"
       "--tls-san=k3s-main.h3rmt.dev"
