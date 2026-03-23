@@ -44,12 +44,13 @@
     agentTokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
+    # Note: This must be true the very first time the cluster is initialized, but must be set to false for subsequent runs.
     clusterInit = true;
     extraFlags = [
       "--flannel-iface=wg0"
       "--tls-san=k3s-main.h3rmt.dev"
       "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4},${config.custom.server."ovh-1".public-ip-v6}"
-      "--kube-controller-manager-arg=pod-eviction-timeout=1m0s"
+      "--kube-controller-manager-arg=node-eviction-rate=0.5"
     ];
     manifests = {
       "hetzner-external-dns.yaml".source = config.age.secrets.hetzner-external-dns.path;
