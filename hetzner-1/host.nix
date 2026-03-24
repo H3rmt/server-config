@@ -33,7 +33,18 @@
     device = "/dev/sda1";
     fsType = "ext4";
   };
-  swapDevices = [ ];
+  fileSystems."/boot" = {
+    device = "/dev/sda15";
+    fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ];
+  };
+
+  swapDevices = [{
+    device = "/dev/sda14";
+  }];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
