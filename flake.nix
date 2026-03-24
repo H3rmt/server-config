@@ -89,6 +89,18 @@
               agenix-rekey.nixosModules.default
             ];
           };
+          hetzner-1 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs; };
+            modules = [
+              ./config.nix
+              ./secrets.nix
+              ./base.nix
+              ./hetzner-1/index.nix
+              agenix.nixosModules.default
+              agenix-rekey.nixosModules.default
+            ];
+          };
         };
       };
     };
