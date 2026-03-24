@@ -57,7 +57,6 @@
       my-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
       server = {
         "raspi-1" = {
-
           private-ip = "10.0.0.101";
           wireguard-public-key = "";
         };
@@ -70,6 +69,12 @@
         "home-1" = {
           private-ip = "10.0.0.102";
           wireguard-public-key = "Z1GnAUQDk05dE6qJZ2TmLIZpPIOnXr9NtPYxwVC3jmw=";
+        };
+        "hetzner-1" = {
+          public-ip-v4 = "167.235.249.79";
+          public-ip-v6 = "2a01:4f8:c014:532f::1";
+          private-ip = "10.0.0.11";
+          wireguard-public-key = "GqwqsLB+LCqZisRNMhgR6yJbhh/6zL9kewky3TWPczs=";
         };
       };
       nameservers-hetzner = [

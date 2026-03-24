@@ -11,7 +11,7 @@ nix-channel --update
 mv /etc/nixos /etc/nixos-old
 
 nix-shell -p git nix-output-monitor micro
-git clone https://github.com/H3rmt/server-config /etc/nixos
+git clone git@github.com:H3rmt/server-config.git /etc/nixos
 
 cat /etc/ssh/ssh_host_ed25519_key.pub
 # insert into <...>.nix
@@ -21,6 +21,12 @@ cat /etc/ssh/ssh_host_ed25519_key.pub
 agenix rekey -a
 
 nixos-rebuild switch --flake '.#' |& nom
+```
+
+## Generate Wireguard Key
+```bash
+wg genkey > privatekey
+wg pubkey < privatekey > publickey
 ```
 
 ## Initial Setup:
