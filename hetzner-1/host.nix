@@ -17,10 +17,12 @@
     };
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" ];
-    initrd.availableKernelModules = [
-      "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"
-    ];
-    initrd.kernelModules = [ "nvme" ];
+    # initrd.availableKernelModules = [
+    #   "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"
+    #   "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"
+    # ];
+    initrd.availableKernelModules = [ "xhci_pci" "virtio_pci" "virtio_scsi" "usbhid" "sr_mod" ];
+    initrd.kernelModules = [ ];
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv7l-linux"
@@ -33,18 +35,13 @@
     device = "/dev/sda1";
     fsType = "ext4";
   };
+  
   fileSystems."/boot" = {
-    device = "/dev/sda15";
+    device = "/dev/disk/by-label/NIXBOOTEFI";
     fsType = "vfat";
-    options = [
-      "fmask=0022"
-      "dmask=0022"
-    ];
   };
 
-  swapDevices = [{
-    device = "/dev/sda14";
-  }];
+  swapDevices = [];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
