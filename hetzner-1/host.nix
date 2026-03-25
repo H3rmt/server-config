@@ -12,16 +12,18 @@
       "net.ipv4.ping_group_range" = "0 2000000";
       "net.ipv4.ip_unprivileged_port_start" = 0;
     };
-    loader.systemd-boot = {
+    # SeaBIOS needs GRUB here; systemd-boot only works with UEFI.
+    loader.grub = {
       enable = true;
+      efiSupport = false;
+      device = "/dev/sda";
     };
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" ];
-    # initrd.availableKernelModules = [
-    #   "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"
-    #   "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"
-    # ];
-    initrd.availableKernelModules = [ "xhci_pci" "virtio_pci" "virtio_scsi" "usbhid" "sr_mod" ];
+    initrd.availableKernelModules = [
+      # "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"
+      "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"
+    ];
     initrd.kernelModules = [ ];
     binfmt.emulatedSystems = [
       "aarch64-linux"
@@ -32,13 +34,17 @@
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILsA+zdsqrMa+VLReU6YZ4n+he1A9cTOYudgKGJ1aIz/";
 
   fileSystems."/" = {
-    device = "/dev/sda1";
+    device = "/dev/disk/by-label/NIXROOT";
     fsType = "ext4";
   };
   
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/NIXBOOTEFI";
+    device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ];
   };
 
   swapDevices = [];
