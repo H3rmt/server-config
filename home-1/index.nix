@@ -12,6 +12,7 @@
 
   networking.nftables.enable = false;
   networking.hostName = "home-1";
+  networking.hostId = "7d4d5121";
   networking.firewall = {
     enable = true;
     rejectPackets = true;
@@ -24,6 +25,7 @@
 
   services.fail2ban.enable = lib.mkForce false;
 
+  services.zfs.autoScrub.enable = true;
   services.openiscsi = {
     enable = true;
     name = "${config.networking.hostName}-initiatorhost";

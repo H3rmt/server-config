@@ -20,8 +20,4 @@ in
     latestHandshakeDelay = true;
     withRemoteIp = true;
   };
-
-  # networking.firewall.interfaces.${monitoringInterface}.allowedTCPPorts =
-  #   [ config.services.prometheus.exporters.node.port ]
-  #   ++ lib.optionals hasWireGuard [ config.services.prometheus.exporters.wireguard.port ];
 }
