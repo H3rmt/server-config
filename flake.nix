@@ -60,6 +60,7 @@
               ./config.nix
               ./secrets.nix
               ./base.nix
+              ./exporters.nix
               ./raspi-1.nix
               agenix.nixosModules.default
               agenix-rekey.nixosModules.default
@@ -72,6 +73,7 @@
               ./config.nix
               ./secrets.nix
               ./base.nix
+              ./exporters.nix
               ./ovh-1/index.nix
               agenix.nixosModules.default
               agenix-rekey.nixosModules.default
@@ -84,6 +86,7 @@
               ./config.nix
               ./secrets.nix
               ./base.nix
+              ./exporters.nix
               ./home-1/index.nix
               agenix.nixosModules.default
               agenix-rekey.nixosModules.default
@@ -96,6 +99,7 @@
               ./config.nix
               ./secrets.nix
               ./base.nix
+              ./exporters.nix
               ./hetzner-1/index.nix
               agenix.nixosModules.default
               agenix-rekey.nixosModules.default
