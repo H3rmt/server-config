@@ -8,9 +8,9 @@ nix-channel --remove nixos
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 nix-channel --update
 
-mv /etc/nixos /etc/nixos-old
-
 nix-shell -p git nix-output-monitor micro htop tmux
+
+mv /etc/nixos /etc/nixos-old
 git clone git@github.com:H3rmt/server-config.git /etc/nixos
 
 cat /etc/ssh/ssh_host_ed25519_key.pub
