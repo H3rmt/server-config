@@ -10,12 +10,14 @@ nix-channel --update
 
 mv /etc/nixos /etc/nixos-old
 
-nix-shell -p git nix-output-monitor micro
+nix-shell -p git nix-output-monitor micro htop tmux
 git clone git@github.com:H3rmt/server-config.git /etc/nixos
 
 cat /etc/ssh/ssh_host_ed25519_key.pub
-# insert into <...>.nix
+# insert into host.nix
 # age.rekey.hostPubkey = "..."
+
+# update boot.* in host.nix
 
 # update secrets (nix develop --command $SHELL)
 agenix rekey -a

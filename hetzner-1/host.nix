@@ -31,7 +31,7 @@
     ];
   };
 
-  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILsA+zdsqrMa+VLReU6YZ4n+he1A9cTOYudgKGJ1aIz/";
+  age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ9946IwDuqgDvfZHjpGHdxQSY3nLrk0OjVY2vvJDL2d";
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";
