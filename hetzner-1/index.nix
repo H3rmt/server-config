@@ -34,13 +34,16 @@
   };
   services.k3s = {
     enable = true;
-    tokenFile = config.age.secrets.k3s.path;
-    role = "agent";
+    agentTokenFile = config.age.secrets.k3s.path;
+    role = "server";
     nodeName = config.networking.hostName;
     clusterInit = false;
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [
       "--flannel-iface=wg0"
+      "--tls-san=k3s-main.h3rmt.dev"
+      "--node-external-ip=${config.custom.server."hetzner-1".public-ip-v4},${config.custom.server."hetzner-1".public-ip-v6}"
+      "--kube-controller-manager-arg=node-eviction-rate=0.5"
     ];
   };
 }
