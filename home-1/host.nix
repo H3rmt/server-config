@@ -18,6 +18,7 @@
         device = "/dev/sda";
       };
     };
+    supportedFilesystems = [ "zfs" ];
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" ];
     initrd.availableKernelModules = [
