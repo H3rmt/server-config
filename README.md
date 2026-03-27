@@ -19,6 +19,8 @@ cat /etc/ssh/ssh_host_ed25519_key.pub
 
 # update boot.* in host.nix
 
+# update ips, macs, etc in net.nix
+
 # update secrets (nix develop --command $SHELL)
 agenix rekey -a
 
