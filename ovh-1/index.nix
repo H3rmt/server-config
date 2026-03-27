@@ -41,7 +41,7 @@
   };
   services.k3s = {
     enable = true;
-    agentTokenFile = config.age.secrets.k3s.path;
+    tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
     # Note: This must be true the very first time the cluster is initialized, but must be set to false for subsequent runs.

@@ -34,7 +34,7 @@
   };
   services.k3s = {
     enable = true;
-    agentTokenFile = config.age.secrets.k3s.path;
+    tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
     clusterInit = false;
