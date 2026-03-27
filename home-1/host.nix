@@ -20,7 +20,7 @@
     };
     supportedFilesystems = [ "zfs" ];
     kernelModules = [ "kvm-intel" ];
-    kernelParams = [ "boot.shell_on_fail" ];
+    kernelParams = [ "boot.shell_on_fail" "nomodeset" ];
     initrd.availableKernelModules = [
       "ata_generic"
       "ehci_pci"
