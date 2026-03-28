@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: garage-layout-bootstrap
+  namespace: garage
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: garage-layout-bootstrap
+  namespace: garage
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: garage-layout-bootstrap
+  namespace: garage
+subjects:
+  - kind: ServiceAccount
+    name: garage-layout-bootstrap
+    namespace: garage
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: garage-layout-bootstrap
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: garage-layout-bootstrap
+  namespace: garage
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 86400
+  template:
+    spec:
+      serviceAccountName: garage-layout-bootstrap
+      restartPolicy: Never
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl:1.30
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -ceu
+            - |
+              POD="$(kubectl get pod -n garage -l app=garage -o jsonpath='{.items[0].metadata.name}')"
+              STATUS="$(kubectl exec -n garage "$POD" -- /garage status)"
+              LAYOUT="$(kubectl exec -n garage "$POD" -- /garage layout show)"
+
+              if echo "$LAYOUT" | grep -q 'Current cluster layout version: 0'; then
+                echo "bootstrapping initial layout"
+              else
+                echo "layout already initialized; refreshing staged assignments"
+              fi
+
+              get_id() {
+                echo "$STATUS" | awk -v host="$1" '$2 == host { print $1; exit }'
+              }
+
+              assign_node() {
+                hostname="$1"
+                capacity="$2"
+                zone="$3"
+                node_id="$(get_id "$hostname")"
+
+                if [ -z "$node_id" ]; then
+                  echo "could not find Garage node id for hostname: $hostname" >&2
+                  exit 1
+                fi
+
+                if [ -n "$zone" ]; then
+                  kubectl exec -n garage "$POD" -- /garage layout assign "$node_id" -c "$capacity" -z "$zone"
+                else
+                  kubectl exec -n garage "$POD" -- /garage layout assign "$node_id" -c "$capacity"
+                fi
+              }
+
+              assign_node "${GARAGE_NODE_1_HOSTNAME:-home-1}" "${GARAGE_NODE_1_CAPACITY:-30GB}" "${GARAGE_NODE_1_ZONE:-}"
+              assign_node "${GARAGE_NODE_2_HOSTNAME:-hetzner-1}" "${GARAGE_NODE_2_CAPACITY:-2TB}" "${GARAGE_NODE_2_ZONE:-}"
+              assign_node "${GARAGE_NODE_3_HOSTNAME:-ovh-1}" "${GARAGE_NODE_3_CAPACITY:-4TB}" "${GARAGE_NODE_3_ZONE:-}"
+
+              kubectl exec -n garage "$POD" -- /garage layout show
+              kubectl exec -n garage "$POD" -- /garage layout apply
+              echo "layout applied successfully"
