@@ -56,6 +56,7 @@
       "hetzner-external-dns.yaml".source = config.age.secrets.hetzner-external-dns.path;
       "hetzner-cert-manager.yaml".source = config.age.secrets.hetzner-cert-manager.path;
       "traefik-auth-secret-longhorn".source = config.age.secrets.traefik-auth-secret-longhorn.path;
+      "garage-rpc".source = config.age.secrets.garage-rpc.path;
     };
   };
 }
