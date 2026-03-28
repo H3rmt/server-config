@@ -17,6 +17,7 @@
         device = "/dev/sda";
       };
     };
+    zfs.extraPools = [ "tank" ];
     supportedFilesystems = [ "zfs" ];
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" "nomodeset" ];
