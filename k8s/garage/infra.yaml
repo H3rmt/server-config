@@ -186,6 +186,24 @@ spec:
               subPath: garage.toml
             - name: etc
               mountPath: /mnt/etc
+        - name: fix-permissions
+          image: busybox:stable
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - chown -R 1000:1000 /mnt/meta /mnt/data
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsUser: 0
+          volumeMounts:
+            - name: meta
+              mountPath: /mnt/meta
+            - name: data
+              mountPath: /mnt/data
       containers:
         - name: garage
           securityContext:
@@ -193,6 +211,8 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
+            runAsUser: 1000
+            runAsGroup: 1000
           image: "dxflrs/amd64_garage:v2.2.0"
           imagePullPolicy: IfNotPresent
           ports:
