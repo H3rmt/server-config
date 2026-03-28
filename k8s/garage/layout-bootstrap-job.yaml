@@ -71,14 +71,19 @@ spec:
                 echo "$STATUS" | awk -v host="$1" '$2 == host { print $1; exit }'
               }
 
+              pod_for_k8s_node() {
+                kubectl get pod -n garage -l app=garage -o jsonpath="{range .items[?(@.spec.nodeName=='$1')]}{.metadata.name}{'\n'}{end}" | awk 'NR==1 { print; exit }'
+              }
+
               assign_node() {
-                hostname="$1"
+                k8s_node="$1"
                 capacity="$2"
                 zone="$3"
+                hostname="$(pod_for_k8s_node "$k8s_node")"
                 node_id="$(get_id "$hostname")"
 
                 if [ -z "$node_id" ]; then
-                  echo "could not find Garage node id for hostname: $hostname" >&2
+                  echo "could not find Garage node id for k8s node: $k8s_node (garage hostname: $hostname)" >&2
                   exit 1
                 fi
 
@@ -89,9 +94,9 @@ spec:
                 fi
               }
 
-              assign_node "${GARAGE_NODE_1_HOSTNAME:-home-1}" "${GARAGE_NODE_1_CAPACITY:-30GB}" "${GARAGE_NODE_1_ZONE:-}"
-              assign_node "${GARAGE_NODE_2_HOSTNAME:-hetzner-1}" "${GARAGE_NODE_2_CAPACITY:-2TB}" "${GARAGE_NODE_2_ZONE:-}"
-              assign_node "${GARAGE_NODE_3_HOSTNAME:-ovh-1}" "${GARAGE_NODE_3_CAPACITY:-4TB}" "${GARAGE_NODE_3_ZONE:-}"
+              assign_node "${GARAGE_NODE_1_K8S_NODE:-home-1}" "${GARAGE_NODE_1_CAPACITY:-30GB}" "${GARAGE_NODE_1_ZONE:-}"
+              assign_node "${GARAGE_NODE_2_K8S_NODE:-hetzner-1}" "${GARAGE_NODE_2_CAPACITY:-2TB}" "${GARAGE_NODE_2_ZONE:-}"
+              assign_node "${GARAGE_NODE_3_K8S_NODE:-ovh-1}" "${GARAGE_NODE_3_CAPACITY:-4TB}" "${GARAGE_NODE_3_ZONE:-}"
 
               kubectl exec -n garage "$POD" -- /garage layout show
               kubectl exec -n garage "$POD" -- /garage layout apply
