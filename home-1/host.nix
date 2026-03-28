@@ -5,7 +5,6 @@
 }:
 {
   boot = {
-    zfs.enabled = true;
     kernel.sysctl = {
       "vm.swappiness" = 2;
       "net.ipv4.ping_group_range" = "0 2000000";
