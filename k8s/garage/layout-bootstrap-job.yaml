@@ -51,10 +51,10 @@ spec:
       restartPolicy: Never
       containers:
         - name: kubectl
-          image: registry.k8s.io/kubectl:v1.30.2
+          image: alpine/k8s:1.30.2
           imagePullPolicy: IfNotPresent
           command:
-            - sh
+            - /bin/sh
             - -ceu
             - |
               POD="$(kubectl get pod -n garage -l app=garage -o jsonpath='{.items[0].metadata.name}')"
