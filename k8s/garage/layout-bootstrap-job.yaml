@@ -60,6 +60,8 @@ spec:
               POD="$(kubectl get pod -n garage -l app=garage -o jsonpath='{.items[0].metadata.name}')"
               STATUS="$(kubectl exec -n garage "$POD" -- /garage status)"
               LAYOUT="$(kubectl exec -n garage "$POD" -- /garage layout show)"
+              LAYOUT_VERSION="$(echo "$LAYOUT" | awk '/Current cluster layout version:/ { print $NF; exit }')"
+              NEXT_LAYOUT_VERSION="$((LAYOUT_VERSION + 1))"
 
               if echo "$LAYOUT" | grep -q 'Current cluster layout version: 0'; then
                 echo "bootstrapping initial layout"
@@ -99,5 +101,5 @@ spec:
               assign_node "${GARAGE_NODE_3_K8S_NODE:-ovh-1}" "${GARAGE_NODE_3_CAPACITY:-7TB}" "${GARAGE_NODE_3_ZONE:-${GARAGE_NODE_3_K8S_NODE:-ovh-1}}"
 
               kubectl exec -n garage "$POD" -- /garage layout show
-              kubectl exec -n garage "$POD" -- /garage layout apply
+              kubectl exec -n garage "$POD" -- /garage layout apply --version "$NEXT_LAYOUT_VERSION"
               echo "layout applied successfully"
