@@ -52,12 +52,16 @@
       "dmask=0022"
     ];
   };
-  fileSystems."/mnt/tank" = {
-    device = "tank";
-    fsType = "zfs";
-  };
+  # this is already defined by zfs
+  # fileSystems."/mnt/tank" = {
+    # device = "tank";
+    # fsType = "zfs";
+  # };
 
-  swapDevices = [ ];
+  swapDevices = [{
+    device = ".swapfile";
+    size = 8 * 1024; # 8GB
+  }];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
