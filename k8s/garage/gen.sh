@@ -1,0 +1,2 @@
+git clone https://git.deuxfleurs.fr/Deuxfleurs/garage
+helm template --create-namespace --namespace garage garage ./garage/script/helm/garage --set persistence.enabled=true --set persistence.data.hostPath=/mnt/tank-garage --set deployment.kind=DaemonSet > infra.yaml

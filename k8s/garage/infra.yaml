@@ -1,0 +1,222 @@
+---
+# Source: garage/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: garage
+  labels:
+    helm.sh/chart: garage-0.9.2
+    app.kubernetes.io/name: garage
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/version: "v2.2.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: garage/templates/secret.yaml
+
+---
+# Source: garage/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: garage-config
+data:
+  garage.toml: |-
+    metadata_dir = "/mnt/meta"
+    data_dir = "/mnt/data"
+
+    db_engine = "lmdb"
+
+    block_size = "1048576"
+
+    replication_factor = 3
+    consistency_mode = "consistent"
+
+    compression_level = 1
+
+    rpc_bind_addr = "[::]:3901"
+    # rpc_secret will be populated by the init container from a k8s secret object
+    rpc_secret = "__RPC_SECRET_REPLACE__"
+
+    bootstrap_peers = [ 
+    ]
+  
+    [kubernetes_discovery]
+    namespace = "garage"
+    service_name = "garage"
+    skip_crd = false
+
+    [s3_api]
+    s3_region = "garage"
+    api_bind_addr = "[::]:3900"
+    root_domain = ".s3.garage.tld"
+
+    [s3_web]
+    bind_addr = "[::]:3902"
+    root_domain = ".web.garage.tld"
+    index = "index.html"
+
+    [admin]
+    api_bind_addr = "[::]:3903"
+---
+# Source: garage/templates/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manage-crds-garage-garage
+  labels:
+    helm.sh/chart: garage-0.9.2
+    app.kubernetes.io/name: garage
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/version: "v2.2.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+- apiGroups: ["apiextensions.k8s.io"]
+  resources: ["customresourcedefinitions"]
+  verbs: ["get", "list", "watch", "create", "patch"]
+- apiGroups: ["deuxfleurs.fr"]
+  resources: ["garagenodes"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+# Source: garage/templates/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: allow-crds-for-garage-garage
+  labels:
+    helm.sh/chart: garage-0.9.2
+    app.kubernetes.io/name: garage
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/version: "v2.2.0"
+    app.kubernetes.io/managed-by: Helm
+subjects:
+- kind: ServiceAccount
+  name: garage
+  namespace: garage
+roleRef:
+  kind: ClusterRole
+  name: manage-crds-garage-garage
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: garage/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: garage
+  labels:
+    helm.sh/chart: garage-0.9.2
+    app.kubernetes.io/name: garage
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/version: "v2.2.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3900
+      targetPort: 3900
+      protocol: TCP
+      name: s3-api
+    - port: 3902
+      targetPort: 3902
+      protocol: TCP
+      name: s3-web
+  selector:
+    app.kubernetes.io/name: garage
+    app.kubernetes.io/instance: garage
+---
+# Source: garage/templates/workload.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: garage
+  labels:
+    helm.sh/chart: garage-0.9.2
+    app.kubernetes.io/name: garage
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/version: "v2.2.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: garage
+      app.kubernetes.io/instance: garage
+  template:
+    metadata:
+      annotations:
+        checksum/config: d0eb3c4a38fc90b8ec14384fff35d2d4874cab7b6e4bf92f0e4f7c50b20084d3
+      labels:
+        helm.sh/chart: garage-0.9.2
+        app.kubernetes.io/name: garage
+        app.kubernetes.io/instance: garage
+        app.kubernetes.io/version: "v2.2.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: garage
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      initContainers:
+        # Copies garage.toml from configmap to temporary etc volume and replaces RPC secret placeholder
+        - name: garage-init
+          image: "busybox:stable"
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "sed \"s/__RPC_SECRET_REPLACE__/$RPC_SECRET/\" /mnt/garage.toml > /mnt/etc/garage.toml"]
+          env:
+            - name: RPC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: garage-rpc-secret
+                  key: rpcSecret
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: configmap
+              mountPath: /mnt/garage.toml
+              subPath: garage.toml
+            - name: etc
+              mountPath: /mnt/etc
+      containers:
+        - name: garage
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          image: "dxflrs/amd64_garage:v2.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3900
+              name: s3-api
+            - containerPort: 3902
+              name: web-api
+            - containerPort: 3903
+              name: admin
+          volumeMounts:
+            - name: meta
+              mountPath: /mnt/meta
+            - name: data
+              mountPath: /mnt/data
+            - name: etc
+              mountPath: /etc/garage.toml
+              subPath: garage.toml
+          resources:
+            {}
+      volumes:
+        - name: configmap
+          configMap:
+            name: garage-config
+        - name: etc
+          emptyDir: {}
+        - name: meta
+          hostPath:
+            path: /var/lib/garage/meta
+            type: DirectoryOrCreate
+        - name: data
+          hostPath:
+            path: /mnt/tank-garage
+            type: DirectoryOrCreate
