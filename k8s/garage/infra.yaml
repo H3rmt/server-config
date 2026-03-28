@@ -195,10 +195,15 @@ spec:
             - chown -R 1000:1000 /mnt/meta /mnt/data
           securityContext:
             capabilities:
+              add:
+                - CHOWN
               drop:
-              - ALL
+                - ALL
             readOnlyRootFilesystem: true
+            runAsNonRoot: false
             runAsUser: 0
+            seccompProfile:
+              type: RuntimeDefault
           volumeMounts:
             - name: meta
               mountPath: /mnt/meta
