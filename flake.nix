@@ -53,19 +53,6 @@
         };
       flake = {
         nixosConfigurations = {
-          raspi-1 = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            specialArgs = { inherit inputs; };
-            modules = [
-              ./config.nix
-              ./secrets.nix
-              ./base.nix
-              ./exporters.nix
-              ./raspi-1.nix
-              agenix.nixosModules.default
-              agenix-rekey.nixosModules.default
-            ];
-          };
           ovh-1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
