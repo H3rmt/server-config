@@ -5,14 +5,6 @@ kind: ServiceAccount
 metadata:
   name: garage
   namespace: garage
-  labels:
-    helm.sh/chart: garage-0.9.2
-    app.kubernetes.io/name: garage
-    app.kubernetes.io/instance: garage
-    app.kubernetes.io/version: "v2.2.0"
-    app.kubernetes.io/managed-by: Helm
----
-# Source: garage/templates/secret.yaml
 
 ---
 # Source: garage/templates/configmap.yaml
@@ -59,6 +51,7 @@ data:
 
     [admin]
     api_bind_addr = "[::]:3903"
+    admin_token = "__ADMIN_TOKEN_REPLACE__"
 ---
 # Source: garage/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -66,12 +59,6 @@ kind: ClusterRole
 metadata:
   name: manage-crds-garage-garage
   namespace: garage
-  labels:
-    helm.sh/chart: garage-0.9.2
-    app.kubernetes.io/name: garage
-    app.kubernetes.io/instance: garage
-    app.kubernetes.io/version: "v2.2.0"
-    app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups: ["apiextensions.k8s.io"]
   resources: ["customresourcedefinitions"]
@@ -86,12 +73,6 @@ kind: ClusterRoleBinding
 metadata:
   name: allow-crds-for-garage-garage
   namespace: garage
-  labels:
-    helm.sh/chart: garage-0.9.2
-    app.kubernetes.io/name: garage
-    app.kubernetes.io/instance: garage
-    app.kubernetes.io/version: "v2.2.0"
-    app.kubernetes.io/managed-by: Helm
 subjects:
 - kind: ServiceAccount
   name: garage
@@ -107,12 +88,6 @@ kind: Service
 metadata:
   name: garage
   namespace: garage
-  labels:
-    helm.sh/chart: garage-0.9.2
-    app.kubernetes.io/name: garage
-    app.kubernetes.io/instance: garage
-    app.kubernetes.io/version: "v2.2.0"
-    app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   ports:
@@ -125,8 +100,8 @@ spec:
       protocol: TCP
       name: s3-web
   selector:
-    app.kubernetes.io/name: garage
-    app.kubernetes.io/instance: garage
+    app: garage
+
 ---
 # Source: garage/templates/workload.yaml
 apiVersion: apps/v1
@@ -134,27 +109,14 @@ kind: DaemonSet
 metadata:
   name: garage
   namespace: garage
-  labels:
-    helm.sh/chart: garage-0.9.2
-    app.kubernetes.io/name: garage
-    app.kubernetes.io/instance: garage
-    app.kubernetes.io/version: "v2.2.0"
-    app.kubernetes.io/managed-by: Helm
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: garage
-      app.kubernetes.io/instance: garage
+      app: garage
   template:
     metadata:
-      annotations:
-        checksum/config: d0eb3c4a38fc90b8ec14384fff35d2d4874cab7b6e4bf92f0e4f7c50b20084d3
       labels:
-        helm.sh/chart: garage-0.9.2
-        app.kubernetes.io/name: garage
-        app.kubernetes.io/instance: garage
-        app.kubernetes.io/version: "v2.2.0"
-        app.kubernetes.io/managed-by: Helm
+        app: garage
     spec:
       serviceAccountName: garage
       securityContext:
@@ -168,13 +130,24 @@ spec:
         - name: garage-init
           image: "busybox:stable"
           imagePullPolicy: IfNotPresent
-          command: ["sh", "-c", "sed \"s/__RPC_SECRET_REPLACE__/$RPC_SECRET/\" /mnt/garage.toml > /mnt/etc/garage.toml"]
+          command:
+            - sh
+            - -c
+            - |
+              sed -e "s/__RPC_SECRET_REPLACE__/$RPC_SECRET/" \
+                  -e "s/__ADMIN_TOKEN_REPLACE__/$ADMIN_TOKEN/" \
+                  /mnt/garage.toml > /mnt/etc/garage.toml
           env:
             - name: RPC_SECRET
               valueFrom:
                 secretKeyRef:
                   name: garage-rpc-secret
                   key: rpcSecret
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: garage-webui-secret
+                  key: apiAdminKey
           securityContext:
             capabilities:
               drop:
@@ -251,3 +224,70 @@ spec:
           hostPath:
             path: /mnt/tank-garage
             type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: garage-webui
+  namespace: garage
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3909
+      targetPort: 3909
+      protocol: TCP
+      name: webui
+  selector:
+    app: garage-webui
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garage-webui
+  namespace: garage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: garage-webui
+  template:
+    metadata:
+      labels:
+        app: garage-webui
+    spec:
+      containers:
+        - name: garage-webui
+          image: khairul169/garage-webui:1.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3909
+              name: webui
+          env:
+            - name: CONFIG_PATH
+              value: /etc/garage.toml
+            - name: API_BASE_URL
+              value: http://garage:3903
+            - name: API_ADMIN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: garage-webui-secret
+                  key: apiAdminKey
+            - name: AUTH_USER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: garage-webui-secret
+                  key: authUserPass
+            - name: S3_REGION
+              value: garage
+            - name: S3_ENDPOINT_URL
+              value: http://garage:3900
+          volumeMounts:
+            - name: garage-config
+              mountPath: /etc/garage.toml
+              subPath: garage.toml
+      volumes:
+        - name: garage-config
+          configMap:
+            name: garage-config

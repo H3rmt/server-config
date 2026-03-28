@@ -8,4 +8,5 @@
   age.secrets.hetzner-cert-manager.rekeyFile = ./secrets/hetzner_cert_manager.age;
   age.secrets.traefik-auth-secret-longhorn.rekeyFile = ./secrets/traefik-auth-secret-longhorn.age;
   age.secrets.garage-rpc.rekeyFile = ./secrets/garage_rpc.age;
+  age.secrets.garage-webui.rekeyFile = ./secrets/garage_webui.age;
 }
