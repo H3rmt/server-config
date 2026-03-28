@@ -17,7 +17,6 @@
         device = "/dev/sda";
       };
     };
-    zfs.extraPools = [ "tank" ];
     supportedFilesystems = [ "zfs" ];
     kernelModules = [ "kvm-intel" ];
     kernelParams = [ "boot.shell_on_fail" "nomodeset" ];
@@ -53,11 +52,14 @@
       "dmask=0022"
     ];
   };
-  # this is already defined by zfs
-  # fileSystems."/mnt/tank" = {
-    # device = "tank";
-    # fsType = "zfs";
-  # };
+  fileSystems."/mnt/tank" = {
+    device = "tank";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/tank-garage" = {
+    device = "tank/garage";
+    fsType = "zfs";
+  };
 
   swapDevices = [{
     device = "/.swapfile";

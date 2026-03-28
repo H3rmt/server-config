@@ -9,7 +9,7 @@
     ./secrets.nix
   ];
 
-  networking.nftables.enable = false;
+  networking.nftables.enable = true;
   networking.hostName = "ovh-1";
   networking.firewall = {
     enable = true;

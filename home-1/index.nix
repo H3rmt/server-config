@@ -10,7 +10,7 @@
     ./secrets.nix
   ];
 
-  networking.nftables.enable = false;
+  networking.nftables.enable = true;
   networking.hostName = "home-1";
   networking.hostId = "7d4d5121";
   networking.firewall = {

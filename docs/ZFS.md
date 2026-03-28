@@ -202,7 +202,7 @@ zfs create \
   -o encryption=aes-256-gcm \
   -o keyformat=passphrase \
   -o keylocation=file:///run/agenix/garage-zfs-key \
-  -o mountpoint=/mnt/tank \
+  -o mountpoint=legacy \
   tank/garage
 
 zpool export tank
