@@ -57,6 +57,7 @@
       "hetzner-cert-manager.yaml".source = config.age.secrets.hetzner-cert-manager.path;
       "traefik-auth-secret-longhorn".source = config.age.secrets.traefik-auth-secret-longhorn.path;
       "garage-rpc".source = config.age.secrets.garage-rpc.path;
+      "garage-webui".source = config.age.secrets.garage-webui.path;
     };
   };
 }
