@@ -51,12 +51,6 @@
           PublicKey = "${config.custom.server."hetzner-1".wireguard-public-key}";
           AllowedIPs = "${config.custom.server."hetzner-1".private-ip}/32";
         }
-        {
-          PublicKey = "${config.custom.server."hetzner-1".wireguard-public-key}";
-          AllowedIPs = "10.0.0.0/24";
-          Endpoint = "${config.custom.server."hetzner-1".public-ip-v4}:51820";
-          PersistentKeepalive = 30;
-        }
       ];
     };
   };

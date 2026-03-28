@@ -39,13 +39,13 @@
       wireguardPeers = [
         {
           PublicKey = "${config.custom.server."ovh-1".wireguard-public-key}";
-          AllowedIPs = "10.0.0.0/24";
+          AllowedIPs = "${config.custom.server."ovh-1".private-ip}/32";
           Endpoint = "${config.custom.server."ovh-1".public-ip-v4}:51820";
           PersistentKeepalive = 30;
         }
         {
           PublicKey = "${config.custom.server."hetzner-1".wireguard-public-key}";
-          AllowedIPs = "10.0.0.0/24";
+          AllowedIPs = "${config.custom.server."hetzner-1".private-ip}/32";
           Endpoint = "${config.custom.server."hetzner-1".public-ip-v4}:51820";
           PersistentKeepalive = 30;
         }

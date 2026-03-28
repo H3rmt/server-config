@@ -40,15 +40,12 @@
       };
       wireguardConfig = {
         PrivateKeyFile = config.age.secrets.wireguard_private.path;
+        ListenPort = 51820;
       };
       wireguardPeers = [
         {
           PublicKey = "${config.custom.server."home-1".wireguard-public-key}";
           AllowedIPs = "${config.custom.server."home-1".private-ip}/32";
-        }
-        {
-          PublicKey = "${config.custom.server."ovh-1".wireguard-public-key}";
-          AllowedIPs = "${config.custom.server."ovh-1".private-ip}/32";
         }
         {
           PublicKey = "${config.custom.server."ovh-1".wireguard-public-key}";
