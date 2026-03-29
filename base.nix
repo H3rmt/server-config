@@ -32,6 +32,7 @@ in
       openFirewall = true;
       settings = {
         PasswordAuthentication = false;
+        GatewayPorts = "yes";
       };
     };
     logind.settings.Login.KillUserProcesses = false;
