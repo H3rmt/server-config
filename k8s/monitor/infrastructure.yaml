@@ -31,7 +31,7 @@ spec:
         matchLabels: 
           dashboards: "grafana"
     nodeExporter:
-      enabled: true
+      enabled: false
     prometheusOperator:
       enabled: true
     prometheus:
