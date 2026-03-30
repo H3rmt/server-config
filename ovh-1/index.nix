@@ -21,6 +21,8 @@
         2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
         443
         80
+        3000 # temp ai access
+        8083 # temp access
       ];
       allowedUDPPorts = [
         443
