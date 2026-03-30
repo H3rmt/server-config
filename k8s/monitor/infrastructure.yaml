@@ -15,7 +15,7 @@ spec:
         main:
           enabled: true
           hostnames:
-            - monitor.infra.h3rmt.dev
+            - alerts.infra.h3rmt.dev
           parentRefs:
             - name: traefik-gateway
               namespace: default
