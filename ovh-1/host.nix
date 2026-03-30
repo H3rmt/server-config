@@ -15,11 +15,18 @@ in
       "net.ipv4.ping_group_range" = "0 2000000";
       "net.ipv4.ip_unprivileged_port_start" = 0;
     };
+
+    # UEFI boot setup for this host.
     loader.systemd-boot = {
       enable = true;
     };
-    kernelModules = [ "kvm-intel" ];
+
+    # Kept empty intentionally: kvm-intel was removed because host boot does not
+    # require it; it auto-loads when virtualization is actually used.
+    kernelModules = [ ];
     kernelParams = [ "boot.shell_on_fail" ];
+
+    # Minimal storage/USB modules required early during boot.
     initrd.availableKernelModules = [
       "ahci"
       "xhci_pci"
@@ -27,11 +34,17 @@ in
       "usbhid"
       "sd_mod"
     ];
+
+    # Required for software RAID assembly in initrd.
     initrd.kernelModules = [ "md_mod" ];
+
+    # Run ARM containers/builds via binfmt on x86_64.
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv7l-linux"
     ];
+
+    # This host boots from mdadm software RAID.
     swraid = {
       enable = true;
       mdadmConf = mdadmconfigfile;

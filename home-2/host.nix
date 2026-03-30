@@ -17,27 +17,50 @@
         # device = "/dev/sda";
       # };
     # };
+    # UEFI boot setup for this host.
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+
+    # Keep explicit because this host mounts ZFS datasets.
     supportedFilesystems = [ "zfs" ];
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [ ];
     kernelParams = [ "boot.shell_on_fail" ];
+
+    # Minimal storage/USB modules required early during boot.
     initrd.availableKernelModules = [
-      "ata_generic"
-      "ehci_pci"
       "ahci"
-      "usb_storage"
-      "usbhid"
       "xhci_pci"
-      "ehci_pci"
+      "usbhid"
+      "usb_storage"
       "sd_mod"
     ];
+
+    # No extra early-boot modules needed.
     initrd.kernelModules = [ ];
+
+    # Run ARM containers/builds via binfmt on x86_64.
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv7l-linux"
     ];
   };
+
+  # GTX 1060 uses the proprietary NVIDIA driver (not the open kernel module).
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "nvidia-x11"
+      "nvidia-settings"
+    ];
+
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeAjxCzY56TNLs3oRpAFDrtAhMXdKEAAZTTeBD4p9y8";

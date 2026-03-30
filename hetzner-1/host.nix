@@ -18,13 +18,18 @@
       efiSupport = false;
       device = "/dev/sda";
     };
+    # No host-specific always-on kernel modules needed.
     kernelModules = [ ];
     kernelParams = [ "boot.shell_on_fail" ];
+    # Minimal storage/virtualization modules required early during boot.
     initrd.availableKernelModules = [
-      # "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"
       "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"
     ];
+
+    # No extra early-boot modules needed.
     initrd.kernelModules = [ ];
+
+    # Run ARM containers/builds via binfmt on x86_64.
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv7l-linux"
