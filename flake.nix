@@ -66,7 +66,7 @@
               agenix-rekey.nixosModules.default
             ];
           };
-          home-1 = nixpkgs.lib.nixosSystem {
+          home-2 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
@@ -74,7 +74,7 @@
               ./secrets.nix
               ./base.nix
               ./exporters.nix
-              ./home-1/index.nix
+              ./home-2/index.nix
               agenix.nixosModules.default
               agenix-rekey.nixosModules.default
             ];

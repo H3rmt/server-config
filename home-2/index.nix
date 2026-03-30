@@ -11,7 +11,7 @@
   ];
 
   networking.nftables.enable = true;
-  networking.hostName = "home-1";
+  networking.hostName = "home-2";
   networking.hostId = "7d4d5121";
   networking.firewall = {
     enable = true;

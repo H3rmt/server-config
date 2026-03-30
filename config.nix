@@ -56,17 +56,13 @@
       email = "enrico@h3rmt.dev";
       my-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
       server = {
-        "raspi-1" = {
-          private-ip = "10.0.0.101";
-          wireguard-public-key = "";
-        };
         "ovh-1" = {
           public-ip-v4 = "37.187.250.146";
           public-ip-v6 = "2001:41d0:c:292::1";
           private-ip = "10.0.0.51";
           wireguard-public-key = "xemePTFWc52nX8O1vMp7UJCf/eBIuGkuh/20/9llrmY=";
         };
-        "home-1" = {
+        "home-2" = {
           private-ip = "10.0.0.102";
           wireguard-public-key = "Z1GnAUQDk05dE6qJZ2TmLIZpPIOnXr9NtPYxwVC3jmw=";
         };

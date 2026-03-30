@@ -44,8 +44,8 @@
       };
       wireguardPeers = [
         {
-          PublicKey = "${config.custom.server."home-1".wireguard-public-key}";
-          AllowedIPs = "${config.custom.server."home-1".private-ip}/32";
+          PublicKey = "${config.custom.server."home-2".wireguard-public-key}";
+          AllowedIPs = "${config.custom.server."home-2".private-ip}/32";
         }
         {
           PublicKey = "${config.custom.server."ovh-1".wireguard-public-key}";

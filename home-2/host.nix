@@ -10,16 +10,18 @@
       "net.ipv4.ping_group_range" = "0 2000000";
       "net.ipv4.ip_unprivileged_port_start" = 0;
     };
-    loader = {
-      grub = {
-        enable = true;
-        efiSupport = false;
-        device = "/dev/sda";
-      };
-    };
+    # loader = {
+      # grub = {
+        # enable = true;
+        # efiSupport = false;
+        # device = "/dev/sda";
+      # };
+    # };
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "zfs" ];
     kernelModules = [ "kvm-intel" ];
-    kernelParams = [ "boot.shell_on_fail" "nomodeset" ];
+    kernelParams = [ "boot.shell_on_fail" ];
     initrd.availableKernelModules = [
       "ata_generic"
       "ehci_pci"
@@ -30,7 +32,7 @@
       "ehci_pci"
       "sd_mod"
     ];
-    initrd.kernelModules = [ "amdgpu" ];
+    initrd.kernelModules = [ ];
     binfmt.emulatedSystems = [
       "aarch64-linux"
       "armv7l-linux"

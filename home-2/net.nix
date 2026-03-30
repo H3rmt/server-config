@@ -6,7 +6,7 @@
       matchConfig.Name = "eth0";
       dns = config.custom.nameservers;
       address = [
-        "192.168.187.10/32"
+        "192.168.187.12/32"
       ];
       routes = [
         {
@@ -14,19 +14,19 @@
           GatewayOnLink = true;
         }
       ];
-      linkConfig.RequiredForOnline = "yes";
+      linkConfig.RequiredForOnline = "no";
     };
     links."10-eth" = {
-      matchConfig.PermanentMACAddress = "00:19:99:9f:ee:92";
+      matchConfig.PermanentMACAddress = "30:9c:23:ce:db:65";
       linkConfig.Name = "eth0";
     };
 
     networks."30-wg" = {
       matchConfig.Name = "wg0";
       address = [
-        "${config.custom.server."home-1".private-ip}/24"
+        "${config.custom.server."home-2".private-ip}/24"
       ];
-      linkConfig.RequiredForOnline = "no";
+      linkConfig.RequiredForOnline = "yes";
     };
     netdevs."30-wg" = {
       netdevConfig = {
