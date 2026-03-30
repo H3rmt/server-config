@@ -42,3 +42,8 @@ spec:
       enabled: true
     prometheus:
       enabled: false
+      prometheusSpec:
+        replicas: 2
+        podAntiAffinity: "hard"
+        externalLabels:
+          cluster: prod-eu1
