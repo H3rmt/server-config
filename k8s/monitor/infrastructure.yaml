@@ -6,7 +6,6 @@ metadata:
 spec:
   repo: https://prometheus-community.github.io/helm-charts
   chart: kube-prometheus-stack
-  version: 82.4.3
   targetNamespace: monitor
   valuesContent: |-
     namespaceOverride: monitor
