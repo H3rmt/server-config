@@ -20,7 +20,11 @@
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
-    trustedInterfaces = [ "wg0" ];
+    trustedInterfaces = [
+      "wg0"
+      "cni0"
+      "flannel.1"
+    ];
   };
 
   services.fail2ban.enable = lib.mkForce false;

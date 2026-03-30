@@ -1,6 +1,17 @@
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
+  name: prometheus-operator-crds
+  namespace: kube-system
+spec:
+  repo: https://prometheus-community.github.io/helm-charts
+  chart: prometheus-operator-crds
+  version: 27.0.1
+  targetNamespace: kube-system
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
   name: prometheus
   namespace: kube-system
 spec:
@@ -44,8 +55,10 @@ spec:
         size: 20Gi
         finalizers:
           - kubernetes.io/pvc-protection
+      operator:
+        dashboardsConfigMapRefEnabled: false
     nodeExporter:
-      enabled: false
+      enabled: true
     prometheusOperator:
       enabled: true
     prometheus:
@@ -65,7 +78,7 @@ spec:
       prometheusSpec:
         podAntiAffinity: "hard"
         retentionSize: 200GiB
-        replicas: 2
+        replicas: 1
         storageSpec: 
           volumeClaimTemplate:
             spec:
@@ -76,6 +89,9 @@ spec:
         additionalScrapeConfigs:
           - job_name: 'wireguard'
             static_configs:
-              - targets: ['wireguard-exporter:9100']
+              - targets:
+                  - '10.0.0.11:9586'
+                  - '10.0.0.51:9586'
+                  - '10.0.0.102:9586'
     thanosRuler:
       enabled: false
