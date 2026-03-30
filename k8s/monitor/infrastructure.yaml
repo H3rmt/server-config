@@ -36,6 +36,14 @@ spec:
         existingSecret: credentials
         userKey: GF_SECURITY_ADMIN_USER
         passwordKey: GF_SECURITY_ADMIN_PASSWORD
+      persistence:
+        enabled: true
+        type: pvc
+        accessModes:
+          - ReadWriteOnce
+        size: 20Gi
+        finalizers:
+          - kubernetes.io/pvc-protection
     nodeExporter:
       enabled: false
     prometheusOperator:
