@@ -49,9 +49,33 @@ spec:
     prometheusOperator:
       enabled: true
     prometheus:
-      enabled: false
+      enabled: true
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - prometheus.infra.h3rmt.dev
+          parentRefs:
+            - name: traefik-gateway
+              namespace: default
+              sectionName: websecure
+              kind: Gateway
+          annotations:
+            external-dns.alpha.kubernetes.io/ttl: "300"
       prometheusSpec:
-        replicas: 2
         podAntiAffinity: "hard"
-        externalLabels:
-          cluster: prod-eu1
+        retentionSize: 200Gi
+        replicas: 2
+        storageSpec: 
+          volumeClaimTemplate:
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 220Gi
+        additionalScrapeConfigs:
+          - job_name: 'wireguard'
+            static_configs:
+              - targets: ['wireguard-exporter:9100']
+    thanosRuler:
+      enabled: false
