@@ -51,10 +51,10 @@
           PublicKey = "${config.custom.server."hetzner-1".wireguard-public-key}";
           AllowedIPs = "${config.custom.server."hetzner-1".private-ip}/32";
         }
-        {
-          PublicKey = "laMDZ656KTbbj7edhy/EixACvUne8AvHXbzOdNym+Vk=";
-          AllowedIPs = "10.0.0.201/32";
-        }
+        # { # Private access
+        #   PublicKey = "laMDZ656KTbbj7edhy/EixACvUne8AvHXbzOdNym+Vk=";
+        #   AllowedIPs = "10.0.0.201/32";
+        # }
       ];
     };
   };

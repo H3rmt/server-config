@@ -28,6 +28,8 @@ spec:
       defaultDashboardsTimezone: "Europe/Berlin"
       operator:
         dashboardsConfigMapRefEnabled: true
+        matchLabels: 
+          dashboards: "grafana"
     nodeExporter:
       enabled: true
     prometheusOperator:
