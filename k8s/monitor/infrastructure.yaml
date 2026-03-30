@@ -32,10 +32,10 @@ spec:
     grafana:
       enabled: true
       defaultDashboardsTimezone: "Europe/Berlin"
-      operator:
-        dashboardsConfigMapRefEnabled: true
-        matchLabels: 
-          dashboards: "grafana"
+      admin:
+        existingSecret: credentials
+        userKey: GF_SECURITY_ADMIN_USER
+        passwordKey: GF_SECURITY_ADMIN_PASSWORD
     nodeExporter:
       enabled: false
     prometheusOperator:
