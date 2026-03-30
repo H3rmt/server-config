@@ -6,12 +6,6 @@ let
   hasWireGuard = server.wireguard-public-key != "";
 in
 {
-  services.prometheus.exporters.node = {
-    enable = true;
-    listenAddress = server.private-ip;
-    openFirewall = false;
-  };
-
   services.prometheus.exporters.wireguard = lib.mkIf hasWireGuard {
     enable = true;
     listenAddress = server.private-ip;
