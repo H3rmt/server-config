@@ -48,12 +48,10 @@
   # GTX 1060 uses the proprietary NVIDIA driver (not the open kernel module).
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
-      "nvidia-x11"
       "nvidia-settings"
     ];
 
   hardware.graphics.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
