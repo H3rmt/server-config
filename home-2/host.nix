@@ -24,7 +24,7 @@
     # Keep explicit because this host mounts ZFS datasets.
     supportedFilesystems = [ "zfs" ];
     kernelModules = [ ];
-    kernelParams = [ "boot.shell_on_fail" "ibt=off" ];
+    kernelParams = [ "boot.shell_on_fail" ];
 
     # Minimal storage/USB modules required early during boot.
     initrd.availableKernelModules = [
