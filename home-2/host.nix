@@ -1,14 +1,9 @@
 {
   lib,
   config,
-  inputs,
   ...
 }:
 {
-  imports = [
-    inputs.nixos-hardware.nixosModules.common-gpu-nvidia
-  ];
-
   boot = {
     kernel.sysctl = {
       "vm.swappiness" = 2;
@@ -41,7 +36,8 @@
     ];
 
     # Nvidia
-    initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    # initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    initrd.kernelModules = [];
 
     # Run ARM containers/builds via binfmt on x86_64.
     binfmt.emulatedSystems = [
@@ -50,11 +46,7 @@
     ];
   };
 
-  # GTX 1060 uses the proprietary NVIDIA driver (not the open kernel module).
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "nvidia-settings"
-    ];
+  nixpkgs.config.allowUnfree = true;
 
   hardware.graphics.enable = true;
   hardware.nvidia = {
