@@ -1,9 +1,14 @@
 {
   lib,
   config,
+  inputs,
   ...
 }:
 {
+  imports = [
+    inputs.nixos-hardware.nixosModules.common-gpu-nvidia
+  ];
+
   boot = {
     kernel.sysctl = {
       "vm.swappiness" = 2;
@@ -24,7 +29,7 @@
     # Keep explicit because this host mounts ZFS datasets.
     supportedFilesystems = [ "zfs" ];
     kernelModules = [ ];
-    kernelParams = [ "boot.shell_on_fail" ];
+    kernelParams = [ "boot.shell_on_fail" "ibt=off" ];
 
     # Minimal storage/USB modules required early during boot.
     initrd.availableKernelModules = [
@@ -56,7 +61,8 @@
     modesetting.enable = true;
     open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    powerManagement.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
