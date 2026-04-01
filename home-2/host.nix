@@ -48,15 +48,18 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.graphics.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
     nvidiaSettings = true;
-    powerManagement.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    powerManagement.enable = false;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    nvidiaPersistenced = true;
   };
   hardware.cpu.intel.updateMicrocode = true;
+  hardware.nvidia-container-toolkit.enable = true;
   
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeAjxCzY56TNLs3oRpAFDrtAhMXdKEAAZTTeBD4p9y8";
 
