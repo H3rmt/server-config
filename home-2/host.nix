@@ -56,9 +56,8 @@
     powerManagement.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
-
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
+  hardware.cpu.intel.updateMicrocode = true;
+  
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeAjxCzY56TNLs3oRpAFDrtAhMXdKEAAZTTeBD4p9y8";
 
   fileSystems."/" = {

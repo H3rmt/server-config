@@ -36,6 +36,8 @@
     ];
   };
 
+  hardware.cpu.amd.updateMicrocode = true;
+
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ9946IwDuqgDvfZHjpGHdxQSY3nLrk0OjVY2vvJDL2d";
 
   fileSystems."/" = {
