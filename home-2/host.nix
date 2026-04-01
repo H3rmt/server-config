@@ -35,8 +35,8 @@
       "sd_mod"
     ];
 
-    # No extra early-boot modules needed.
-    initrd.kernelModules = [ ];
+    # Nvidia
+    initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
 
     # Run ARM containers/builds via binfmt on x86_64.
     binfmt.emulatedSystems = [
