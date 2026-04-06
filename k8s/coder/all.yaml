@@ -1,7 +1,7 @@
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
-  name: longhorn-install
+  name: coder-install
   namespace: kube-system
 spec:
   chart: oci://ghcr.io/coder/chart/coder
