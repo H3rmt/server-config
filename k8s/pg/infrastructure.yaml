@@ -1,0 +1,10 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: pg-operator-install
+  namespace: kube-system
+spec:
+  repo: https://cloudnative-pg.github.io/charts
+  chart: cnpg/cloudnative-pg
+  version: v0.28.0
+  targetNamespace: kube-system
