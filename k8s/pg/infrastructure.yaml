@@ -5,6 +5,6 @@ metadata:
   namespace: kube-system
 spec:
   repo: https://cloudnative-pg.github.io/charts
-  chart: cnpg/cloudnative-pg
+  chart: cloudnative-pg
   version: 0.28.0
   targetNamespace: kube-system
