@@ -46,8 +46,8 @@ spec:
           enabled: true
           host: tcp://redis-replication-master.authelia
         cookies:
-          domain: h3rmt.dev
-          authelia_url: 'https://auth.h3rmt.dev'
+          - domain: h3rmt.dev
+            authelia_url: 'https://auth.h3rmt.dev'
       storage:
         postgres:
           enabled: true
