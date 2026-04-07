@@ -16,6 +16,7 @@ spec:
   version: 0.10.50
   targetNamespace: authelia
   valuesContent: |-
+    nameOverride: authelia
     pod:
       kind: Deployment
       replicas: 2
