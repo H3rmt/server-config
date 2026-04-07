@@ -8,7 +8,9 @@ spec:
   chart: prometheus-operator-crds
   version: 27.0.1
   targetNamespace: kube-system
+
 ---
+
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -61,6 +63,7 @@ spec:
       enabled: true
     prometheusOperator:
       enabled: true
+      fullnameOverride: prometheus-operator
     prometheus:
       enabled: true
       route:
