@@ -7,4 +7,4 @@ spec:
   repo: https://cloudnative-pg.github.io/charts
   chart: cloudnative-pg
   version: 0.28.0
-  targetNamespace: kube-system
+  targetNamespace: operators
