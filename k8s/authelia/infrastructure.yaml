@@ -29,7 +29,9 @@ spec:
           implementation: lldap
           address: 'ldap://lldap.authelia:3890'
           base_dn: 'DC=homelab,DC=home'
-          user: 'UID=authelia,OU=people,DC=homelab,DC=home'
+          user: 'UID=admin,OU=people,DC=homelab,DC=home'
+          password: 
+            secret_name: lldap
       password_policy:
         standard:
           enabled: true
@@ -45,7 +47,22 @@ spec:
         postgres:
           enabled: true
           address: authelia-storage-rw.authelia:5432
+          password: 
+            secret_name: authelia-storage-app
       notifier:
         filesystem:
           enabled: true
+      secret:
+        existingSecret: authelia
+        additionalSecrets:
+          authelia-storage-app:
+            path: ''
+            items:
+              - key: 'password'
+                path: 'storage.postgres.password.txt'
+          lldap:
+            path: ''
+            items:
+              - key: 'lldap-ldap-user-pass'
+                path: 'authentication.ldap.password.txt'
 
