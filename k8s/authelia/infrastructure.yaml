@@ -49,6 +49,7 @@ spec:
         postgres:
           enabled: true
           address: authelia-storage-rw.authelia:5432
+          username: "{{ env "PG_USERNAME" }}"
           password: 
             secret_name: authelia-storage-app
       notifier:
