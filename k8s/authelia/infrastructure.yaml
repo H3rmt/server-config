@@ -44,9 +44,9 @@ spec:
         postgresql:
           enabled: true
           address: authelia-storage-rw.authelia:5432
-        identity_providers:
-          oidc:
-            enabled: true
+      identity_providers:
+        oidc:
+          enabled: true
     
 --- 
 
