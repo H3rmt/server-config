@@ -13,6 +13,12 @@ spec:
     pod:
       kind: Deployment
       replicas: 1
+      env:
+        - name: PG_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: authelia-storage-app
+              key: username
     configMap:
       telemetry:
         metrics:
