@@ -17,8 +17,8 @@ spec:
           - sh
           - -c
           - |
-            echo "Waiting 3 seconds for pod networking to initialize..."
-            sleep 3
+            echo "Waiting 5 seconds for pod networking to initialize..."
+            sleep 5
             echo "Network initialization wait complete"
         securityContext:
           allowPrivilegeEscalation: false
