@@ -5,6 +5,6 @@ metadata:
   namespace: kube-system
 spec:
   repo: https://ot-container-kit.github.io/helm-charts/
-  chart: ot-helm/redis-operator
+  chart: redis-operator
   version: 0.24.0
   targetNamespace: kube-system

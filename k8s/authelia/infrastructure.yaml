@@ -16,18 +16,23 @@ spec:
   version: 0.10.50
   targetNamespace: authelia
   valuesContent: |-
-  
 
----
+--- 
 
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: RedisReplication
 metadata:
-  name: coder-cluster
+  name:  redis-replication
   namespace: coder
 spec:
-  instances: 2
+  clusterSize: 3
+  sentinel:
+    size: 3
   storage:
-    storageClass: local-path
-    size: 3Gi
-
+    volumeClaimTemplate:
+      spec:
+        storageClassName: local-path
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 200Mi
