@@ -33,6 +33,10 @@ spec:
           disable: true
         ldap: 
           enabled: true
+          implementation: lldap
+          address: 'ldap://lldap.authelia:3890'
+          base_dn: 'DC=homelab,DC=home'
+          user: 'UID=authelia,OU=people,DC=homelab,DC=home'
       password_policy:
         standard:
           enabled: true
