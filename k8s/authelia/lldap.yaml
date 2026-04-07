@@ -15,4 +15,5 @@ spec:
     ingress.enabled: false
     service.name: lldap-service
     service.type: ClusterIP
+    certmanager.enabled: false
 
