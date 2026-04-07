@@ -13,7 +13,7 @@ spec:
     env:
       TZ: "Europe/Berlin"
     persistence:
-      storageClassName: "local-path"
+      storageClassName: "longhorn"
     service:
       name: lldap-service
       type: ClusterIP
