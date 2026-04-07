@@ -8,6 +8,12 @@ spec:
   storage:
     storageClass: local-path
     size: 3Gi
+  managed:
+    roles: 
+      - name: authelia
+        passwordSecret:
+          name: authelia-storage-app
+          key: password
 
 ---
 
