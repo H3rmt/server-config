@@ -44,7 +44,7 @@ spec:
         remember_me: "3 month"
         redis:
           enabled: true
-          host: redis-replication-master.authelia
+          host: redis-session-replication-master.authelia
         cookies:
           - domain: h3rmt.dev
             authelia_url: 'https://auth.h3rmt.dev'
