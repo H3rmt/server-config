@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: authelia-storage
+  namespace: authelia
+spec:
+  instances: 3
+  storage:
+    storageClass: local-path
+    size: 3Gi

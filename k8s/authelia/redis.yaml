@@ -1,0 +1,21 @@
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: RedisReplication
+metadata:
+  name:  redis-session-replication
+  namespace: authelia
+spec:
+  clusterSize: 3
+  kubernetesConfig:
+    image: quay.io/opstree/redis:v7.0.15
+  sentinel:
+    size: 3
+    image: quay.io/opstree/redis-sentinel:v7.0.15
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: local-path
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 200Mi
+  serviceAccountName: redis-sessions
