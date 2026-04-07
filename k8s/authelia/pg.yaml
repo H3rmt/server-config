@@ -17,6 +17,7 @@ metadata:
   name: authelia-storage-database
   namespace: authelia
 spec:
-  cluster: authelia-storage
+  cluster: 
+    name: authelia-storage
   name: authelia
   owner: authelia
