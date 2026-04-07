@@ -9,11 +9,17 @@ spec:
   version: 0.4.0
   targetNamespace: authelia
   valuesContent: |-
-    env.TZ: "Europe/Berlin"
-    persistence.storageClassName: "local-path"
-    hpa.enabled: false
-    ingress.enabled: false
-    service.name: lldap-service
-    service.type: ClusterIP
-    certmanager.enabled: false
+    env:
+      TZ: "Europe/Berlin"
+    persistence:
+      storageClassName: "local-path"
+    service:
+      name: lldap-service
+      type: ClusterIP
+    hpa:
+      enabled: false
+    ingress:
+      enabled: false
+    certmanager:
+      enabled: false
 
