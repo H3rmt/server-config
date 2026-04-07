@@ -19,7 +19,7 @@ spec:
     nameOverride: authelia
     pod:
       kind: Deployment
-      replicas: 2
+      replicas: 1
     configMap:
       telemetry:
         metrics:
