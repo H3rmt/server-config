@@ -20,7 +20,6 @@ spec:
       kind: Deployment
       replicas: 2
     configMap:
-      enabled: true
       telemetry:
         metrics:
           enabled: true
@@ -41,13 +40,13 @@ spec:
         redis:
           enabled: true
           host: tcp://redis-replication-master.authelia
-    storage:
-      postgresql:
-        enabled: true
-        address: authelia-storage-rw.authelia:5432
-      identity_providers:
-        oidc:
+      storage:
+        postgresql:
           enabled: true
+          address: authelia-storage-rw.authelia:5432
+        identity_providers:
+          oidc:
+            enabled: true
     
 --- 
 
