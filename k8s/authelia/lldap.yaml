@@ -15,7 +15,7 @@ spec:
     persistence:
       storageClassName: "longhorn"
     service:
-      name: lldap-service
+      name: lldap
       type: ClusterIP
     hpa:
       enabled: false
@@ -24,3 +24,28 @@ spec:
     certmanager:
       enabled: false
 
+--- 
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: authelia-lldap-ui
+  namespace: authelia
+  annotations:
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: default
+      sectionName: websecure
+      kind: Gateway
+  hostnames:
+    - lldap.h3rmt.dev
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: lldap
+          port: 17170
