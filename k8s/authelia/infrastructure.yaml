@@ -40,6 +40,8 @@ spec:
         redis:
           enabled: true
           host: redis-sessions-master.authelia
+          password: 
+            secret_name: authelia-redis
         cookies:
           - domain: h3rmt.dev
             authelia_url: 'https://auth.h3rmt.dev'
