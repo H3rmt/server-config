@@ -8,3 +8,6 @@ spec:
   chart: cloudnative-pg
   version: 0.28.0
   targetNamespace: operators
+  valuesContent: |-
+    crds:
+      create: true
