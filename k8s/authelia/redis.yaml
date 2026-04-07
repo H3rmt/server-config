@@ -4,7 +4,7 @@ metadata:
   name:  redis-session-replication
   namespace: authelia
 spec:
-  clusterSize: 3
+  clusterSize: 4
   kubernetesConfig:
     image: quay.io/opstree/redis:v7.0.15
   sentinel:
