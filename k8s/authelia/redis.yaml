@@ -6,10 +6,10 @@ metadata:
 spec:
   clusterSize: 4
   kubernetesConfig:
-    image: quay.io/opstree/redis:v7.0.15
+    image: quay.io/opstree/redis:latest
   sentinel:
     size: 3
-    image: quay.io/opstree/redis-sentinel:v7.0.15
+    image: quay.io/opstree/redis-sentinel:latest
   storage:
     volumeClaimTemplate:
       spec:
