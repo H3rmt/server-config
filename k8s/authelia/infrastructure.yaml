@@ -41,7 +41,7 @@ spec:
           enabled: true
           host: tcp://redis-replication-master.authelia
       storage:
-        postgresql:
+        postgres:
           enabled: true
           address: authelia-storage-rw.authelia:5432
       identity_providers:
