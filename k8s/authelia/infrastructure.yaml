@@ -8,7 +8,7 @@ metadata:
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
-  name: coder-install
+  name: authelia-install
   namespace: kube-system
 spec:
   repo: https://charts.authelia.com
@@ -16,18 +16,53 @@ spec:
   version: 0.10.50
   targetNamespace: authelia
   valuesContent: |-
-
+    pod:
+      kind: Deployment
+      replicas: 2
+    configMap:
+      enabled: true
+      telemetry:
+        metrics:
+          enabled: true
+      default_2fa_method: webauthn
+      theme: dark
+      webauthn:
+        enable_passkey_login: true
+      authentication_backend:
+        password_reset:
+          disable: true
+        ldap: 
+          enabled: true
+      password_policy:
+        standard:
+          enabled: true
+      session:
+        remember_me: "3 month"
+        redis:
+          enabled: true
+          host: tcp://redis-replication-master.authelia
+    storage:
+      postgresql:
+        enabled: true
+        address: authelia-storage-rw.authelia:5432
+      identity_providers:
+        oidc:
+          enabled: true
+    
 --- 
 
 apiVersion: redis.redis.opstreelabs.in/v1beta2
 kind: RedisReplication
 metadata:
-  name:  redis-replication
-  namespace: coder
+  name:  redis-session-replication
+  namespace: authelia
 spec:
   clusterSize: 3
+  kubernetesConfig:
+    image: quay.io/opstree/redis:v7.0.15
   sentinel:
     size: 3
+    image: quay.io/opstree/redis-sentinel:v7.0.15
   storage:
     volumeClaimTemplate:
       spec:
@@ -36,3 +71,17 @@ spec:
         resources:
           requests:
             storage: 200Mi
+  serviceAccountName: redis-sessions
+
+---
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: authelia-storage
+  namespace: authelia
+spec:
+  instances: 3
+  storage:
+    storageClass: local-path
+    size: 3Gi
