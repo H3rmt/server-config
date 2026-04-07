@@ -1,0 +1,10 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: redis-operator-install
+  namespace: kube-system
+spec:
+  repo: https://ot-container-kit.github.io/helm-charts/
+  chart: ot-helm/redis-operator
+  version: 0.24.0
+  targetNamespace: kube-system
