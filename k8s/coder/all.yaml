@@ -16,6 +16,8 @@ spec:
             secretKeyRef:
               name: coder-cluster-app
               key: uri
+      service:
+        type: ClusterIP
 
 ---
 
