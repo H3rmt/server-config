@@ -66,6 +66,7 @@
       "garage-webui".source = config.age.secrets.garage-webui.path;
       "grafana-admin".source = config.age.secrets.grafana-admin.path;
       "traefik-auth-secret-alerts".source = config.age.secrets.traefik-auth-secret-alerts.path;
+      "authelia".source = config.age.secrets.authelia.path;
     };
   };
 }
