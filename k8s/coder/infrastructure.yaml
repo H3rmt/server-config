@@ -22,7 +22,7 @@ spec:
             secretKeyRef:
               name: coder-cluster-app
               key: uri
-        - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLED
+        - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLE
           value: "false"
         - name: CODER_ACCESS_URL
           value: "https://coder.h3rmt.dev"
