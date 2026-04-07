@@ -45,12 +45,15 @@ spec:
         redis:
           enabled: true
           host: tcp://redis-replication-master.authelia
+        cookies:
+          domain: h3rmt.dev
+          authelia_url: 'https://auth.h3rmt.dev'
       storage:
         postgres:
           enabled: true
           address: authelia-storage-rw.authelia:5432
-      identity_providers:
-        oidc:
+      notifier:
+        filesystem:
           enabled: true
     
 --- 
