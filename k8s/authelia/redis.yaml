@@ -7,6 +7,9 @@ spec:
   clusterSize: 3
   kubernetesConfig:
     image: quay.io/opstree/redis:v8.4.2
+    redisSecret:
+      name: authelia-redis
+      key: password
   sentinel:
     size: 3
     image: quay.io/opstree/redis-sentinel:v8.4.2

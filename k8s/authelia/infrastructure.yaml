@@ -65,4 +65,8 @@ spec:
           items:
             - key: 'lldap-ldap-user-pass'
               path: 'authentication.ldap.password.txt'
-
+        authelia-redis:
+          path: ''
+          items:
+            - key: 'password'
+              path: 'session.redis.password.txt'
