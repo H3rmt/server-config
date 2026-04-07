@@ -8,3 +8,15 @@ spec:
   storage:
     storageClass: local-path
     size: 3Gi
+
+---
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: authelia-storage-database
+  namespace: authelia
+spec:
+  cluster: authelia-storage
+  name: authelia
+  owner: authelia
