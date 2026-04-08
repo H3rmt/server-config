@@ -71,7 +71,8 @@ spec:
                   subject: 'group:developers'
           enabled: true
           jwks:
-            - path: '/secrets/internal/oidc.jwk.RS256.pem'
+            - key:
+                path: '/secrets/internal/oidc.jwk.RS256.pem'
           clients:
             - client_id: 'coder-app-JQfSLMNSEf'
               client_name: 'Coder'
