@@ -68,6 +68,7 @@
       "traefik-auth-secret-alerts".source = config.age.secrets.traefik-auth-secret-alerts.path;
       "authelia".source = config.age.secrets.authelia.path;
       "authelia-redis".source = config.age.secrets.authelia-redis.path;
+      "authelia-oidc-secrets".source = config.age.secrets.authelia-oidc-secrets.path;
     };
   };
 }
