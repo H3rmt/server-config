@@ -13,4 +13,5 @@
   age.secrets.traefik-auth-secret-alerts.rekeyFile = ./secrets/traefik-auth-secret-alerts.age;
   age.secrets.authelia.rekeyFile = ./secrets/authelia.age;
   age.secrets.authelia-redis.rekeyFile = ./secrets/authelia-redis.age;
+  age.secrets.authelia-oidc-secrets.rekeyFile = ./secrets/authelia_oidc_secrets.age;
 }
