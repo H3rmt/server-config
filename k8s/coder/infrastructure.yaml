@@ -33,4 +33,7 @@ spec:
       service:
         type: ClusterIP
       serviceAccount:
-        workspaceNamespaces: ["coder-workspaces"]
+        workspaceNamespaces:
+          - name: coder-workspaces
+            workspacePerms: true
+            enableDeployments: true
