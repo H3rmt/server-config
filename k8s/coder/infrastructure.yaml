@@ -26,19 +26,17 @@ spec:
           value: "false"
         - name: CODER_ACCESS_URL
           value: "https://coder.h3rmt.dev"
+        - name: CODER_OIDC_ISSUER_URL
+          value: "https://auth.h3rmt.dev"
+        - name: CODER_OIDC_CLIENT_ID
+          value: "coder-app-JQfSLMNSEf"
+        - name: CODER_OIDC_EMAIL_DOMAIN
+          value: "h3rmt.dev"
+        - name: CODER_OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: coder-oidc-secret
+              key: client-secret
       service:
         type: ClusterIP
-
----
-
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
-  name: coder-cluster
-  namespace: coder
-spec:
-  instances: 2
-  storage:
-    storageClass: local-path
-    size: 3Gi
 

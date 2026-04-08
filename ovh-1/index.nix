@@ -69,6 +69,7 @@
       "authelia".source = config.age.secrets.authelia.path;
       "authelia-redis".source = config.age.secrets.authelia-redis.path;
       "authelia-oidc-secrets".source = config.age.secrets.authelia-oidc-secrets.path;
+      "coder-oidc-secret".source = config.age.secrets.coder-oidc-secret.age.path;
     };
   };
 }
