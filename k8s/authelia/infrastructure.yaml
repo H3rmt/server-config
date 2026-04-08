@@ -63,7 +63,23 @@ spec:
           enabled: true
       identity_providers:
         oidc:
+          authorization_policies:
+            developers:
+              default_policy: 'deny'
+              rules:
+                - policy: 'two_factor'
+                  subject: 'group:developers'
           enabled: true
+          jwks:
+            - path: '/secrets/internal/oidc.jwk.RS256.pem'
+          clients:
+            - client_id: 'coder-app-JQfSLMNSEf'
+              client_name: 'Coder'
+              client_secret:
+                path: '/secrets/authelia-oidc-secrets/coder-oidc-client-secret.txt'
+              redirect_uris: ["https://coder.h3rmt.dev/api/v2/users/oidc/callback"]
+              authorization_policy: 'developers'
+              pre_configured_consent_duration: "1 month"
     secret:
       existingSecret: authelia
       additionalSecrets:
@@ -82,3 +98,8 @@ spec:
           items:
             - key: 'password'
               path: 'session.redis.password.txt'
+        authelia-oidc-secrets:
+          path: ''
+          items:
+            - key: 'coder-client-secret'
+              path: 'coder-oidc-client-secret.txt'
