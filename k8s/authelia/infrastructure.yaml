@@ -72,7 +72,7 @@ spec:
           enabled: true
           jwks:
             - key:
-                path: '/secrets/internal/oidc.jwk.RS256.pem'
+                path: '/secrets/authelia-oidc-secrets/oidc.jwk.RS256.pem'
           clients:
             - client_id: 'coder-app-JQfSLMNSEf'
               client_name: 'Coder'
@@ -102,5 +102,7 @@ spec:
         authelia-oidc-secrets:
           path: ''
           items:
+            - key: 'oidc.jwk.RS256.pem'
+              path: 'oidc.jwk.RS256.pem'
             - key: 'coder-client-secret'
               path: 'coder-oidc-client-secret.txt'
