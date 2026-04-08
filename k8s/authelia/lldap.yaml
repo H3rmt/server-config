@@ -23,6 +23,9 @@ spec:
       enabled: false
     certmanager:
       enabled: false
+    secret:
+      create: false
+      name: lldap
 
 --- 
 

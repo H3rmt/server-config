@@ -34,8 +34,8 @@ spec:
           enabled: true
           implementation: lldap
           address: 'ldap://lldap.authelia:3890'
-          base_dn: 'DC=homelab,DC=home'
-          user: 'UID=admin,OU=people,DC=homelab,DC=home'
+          base_dn: 'dc=h3rmt,dc=home'
+          user: 'UID=admin,OU=people,dc=h3rmt,dc=home'
           password: 
             secret_name: lldap
       password_policy:
