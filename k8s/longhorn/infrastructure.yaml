@@ -14,8 +14,8 @@ spec:
     defaultSettings:
       defaultDataPath: /mnt/tank-longhorn
       defaultDataLocality: "best-effort"
-      defaultReplicaCount: 2
+      defaultReplicaCount: 3
     persistence:
       defaultClass: false
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: 3
       defaultDataLocality: "best-effort"
