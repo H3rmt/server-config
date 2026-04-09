@@ -81,6 +81,10 @@
     device = "tank/garage";
     fsType = "zfs";
   };
+  fileSystems."/mnt/tank-longhorn" = {
+    device = "tank/longhorn";
+    fsType = "zfs";
+  };
 
   swapDevices = [{
     device = "/.swapfile";
