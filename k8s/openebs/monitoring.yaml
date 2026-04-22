@@ -1,0 +1,15 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: longhorn-install
+  namespace: kube-system
+spec:
+  repo: https://openebs.github.io/monitoring/
+  chart: monitoring
+  version: v4.1.0
+  targetNamespace: openebs
+  valuesContent: |-
+    kube-prometheus-stack:
+      install: false
+    localpv-provisioner:
+      enabled: false

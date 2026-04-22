@@ -9,7 +9,16 @@ spec:
   version: v4.4.0
   targetNamespace: openebs
   valuesContent: |-
-    engines.local.lvm.enabled: false
-    engines.local.zfs.enabled: false
-    engines.replicated.mayastor.enabled: true
-    mayastor.csi.node.kubeletDir: /mnt/tank-ebs
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+      replicated:
+        mayastor:
+          enabled: true
+    loki:
+      enabled: false
+    alloy:
+      enabled: false
