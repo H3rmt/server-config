@@ -38,3 +38,11 @@ agenix-rekey:
 1. generate a private + public key `age-keygen -o master.agekey` 
 2. encrypt private key with age: `age -p -o privkey.age master.agekey` 
 3. paste public key into masterIdentities
+
+## ZFS
+
+```
+zfs create -o keyformat=passphrase -o keylocation=file:///run/agenix/zfs-key -o encryption=aes-256-gcm tank/...
+zfs set mountpoint=/mnt/tank-... tank/...
+zfs list
+```

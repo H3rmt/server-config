@@ -43,6 +43,7 @@
     tokenFile = config.age.secrets.k3s.path;
     role = "agent";
     nodeName = config.networking.hostName;
+    nodeLabel = ["gpu" "openebs.io/engine=mayastor"];
     clusterInit = false;
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [

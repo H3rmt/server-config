@@ -50,6 +50,7 @@
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
+    nodeLabel = ["openebs.io/engine=mayastor"];
     # Note: This must be true the very first time the cluster is initialized, but must be set to false for subsequent runs.
     clusterInit = false;
     extraFlags = [

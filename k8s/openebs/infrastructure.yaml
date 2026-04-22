@@ -1,0 +1,15 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: longhorn-install
+  namespace: kube-system
+spec:
+  repo: https://openebs.github.io/openebs
+  chart: openebs
+  version: v4.4.0
+  targetNamespace: openebs
+  valuesContent: |-
+    engines.local.lvm.enabled: false
+    engines.local.zfs.enabled: false
+    engines.replicated.mayastor.enabled: true
+    mayastor.csi.node.kubeletDir: /mnt/tank-ebs

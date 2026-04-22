@@ -51,6 +51,7 @@
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
+    nodeLabel = ["openebs.io/engine=mayastor"];
     clusterInit = false;
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [

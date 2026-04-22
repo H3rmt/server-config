@@ -23,8 +23,8 @@
 
     # Keep explicit because this host mounts ZFS datasets.
     supportedFilesystems = [ "zfs" ];
-    kernelModules = [ ];
-    kernelParams = [ "boot.shell_on_fail" ];
+    kernelModules = [ "nvme_fabrics" "nvme_tcp" ];
+    kernelParams = [ "boot.shell_on_fail" "nvme_core.multipath=Y" "hugepagesz=2M" "hugepages=1024" ];
 
     # Minimal storage/USB modules required early during boot.
     initrd.availableKernelModules = [
@@ -83,6 +83,10 @@
   };
   fileSystems."/mnt/tank-longhorn" = {
     device = "tank/longhorn";
+    fsType = "zfs";
+  };
+  fileSystems."/mnt/tank-ebs" = {
+    device = "tank/ebs";
     fsType = "zfs";
   };
 
