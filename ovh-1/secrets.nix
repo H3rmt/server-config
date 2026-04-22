@@ -11,6 +11,7 @@
   age.secrets.garage-webui.rekeyFile = ./secrets/garage_webui.age;
   age.secrets.grafana-admin.rekeyFile = ./secrets/grafana-admin.age;
   age.secrets.traefik-auth-secret-alerts.rekeyFile = ./secrets/traefik-auth-secret-alerts.age;
+  age.secrets.traefik-auth-secret-prom.rekeyFile = ./secrets/traefik-auth-secret-prom.age;
   age.secrets.authelia.rekeyFile = ./secrets/authelia.age;
   age.secrets.authelia-redis.rekeyFile = ./secrets/authelia-redis.age;
   age.secrets.authelia-oidc-secrets.rekeyFile = ./secrets/authelia-oidc-secrets.age;

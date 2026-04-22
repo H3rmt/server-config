@@ -78,10 +78,17 @@ spec:
               kind: Gateway
           annotations:
             external-dns.alpha.kubernetes.io/ttl: "300"
+          filters:
+            - type: ExtensionRef
+              extensionRef:
+                group: traefik.io
+                kind: Middleware
+                name: middleware-auth-prom
       prometheusSpec:
         podAntiAffinity: "hard"
         retentionSize: 30GiB
         replicas: 1
+        serviceMonitorSelectorNilUsesHelmValues: false
         storageSpec: 
           volumeClaimTemplate:
             spec:
