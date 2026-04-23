@@ -7,7 +7,7 @@ spec:
   node: ovh-1
   # 2 TB disk image created with `truncate -s 2T /mnt/mayastor.img`
   # Mounted as loop device with `losetup /dev/loop1 /mnt/mayastor.img` and linked in /dev/disk/by-id/loop-mayastor-raid (as systemd service)
-  disks: ["uring:///dev/disk/by-id/loop-mayastor-raid"]
+  disks: ["aio:///dev/disk/by-id/loop-mayastor-raid"]
 
 ---
 
@@ -20,7 +20,7 @@ spec:
   node: hetzner-1
   # 30GB disk image created with `truncate -s 30G /mnt/mayastor.img`
   # Mounted as loop device with `losetup /dev/loop1 /mnt/mayastor.img` and linked in /dev/disk/by-id/loop-mayastor-raid (as systemd service)
-  disks: ["uring:///dev/disk/by-id/loop-mayastor-raid"]
+  disks: ["aio:///dev/disk/by-id/loop-mayastor-raid"]
 
 ---
 
