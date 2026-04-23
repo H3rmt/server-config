@@ -53,8 +53,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${pkgs.util-linux}/bin/losetup /dev/loop-mayastor /mnt/mayastor.img";
-      ExecStop = "${pkgs.util-linux}/bin/losetup -d /dev/loop-mayastor";
+      ExecStart = "${pkgs.util-linux}/bin/losetup --direct-io=on /dev/loop1 /mnt/mayastor.img";
+      ExecStop = "${pkgs.util-linux}/bin/losetup -d /dev/loop1";
     };
   };
   services.k3s = {

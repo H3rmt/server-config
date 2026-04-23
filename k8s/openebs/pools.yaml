@@ -6,8 +6,8 @@ metadata:
 spec:
   node: ovh-1
   # 2 TB disk image created with `truncate -s 2T /mnt/mayastor.img`
-  # Mounted as loop device with `losetup /dev/loop-mayastor /mnt/mayastor.img` (as systemd service)
-  disks: ["aio:///dev/loop-mayastor"]
+  # Mounted as loop device with `losetup /dev/loop1 /mnt/mayastor.img` (as systemd service)
+  disks: ["uring:///dev/loop1"]
 
 ---
 
@@ -19,8 +19,8 @@ metadata:
 spec:
   node: hetzner-1
   # 30GB disk image created with `truncate -s 30G /mnt/mayastor.img`
-  # Mounted as loop device with `losetup /dev/loop-mayastor /mnt/mayastor.img` (as systemd service)
-  disks: ["aio:///dev/loop-mayastor"]
+  # Mounted as loop device with `losetup /dev/loop1 /mnt/mayastor.img` (as systemd service)
+  disks: ["uring:///dev/loop1"]
 
 ---
 
@@ -32,4 +32,4 @@ metadata:
 spec:
   node: home-2
   # 2T zfs block device created with `zfs create -V 2T tank/mayastor`
-  disks: ["aio:///dev/zvol/tank/mayastor"]
+  disks: ["uring:///dev/zvol/tank/mayastor"]
