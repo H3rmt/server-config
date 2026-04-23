@@ -55,7 +55,7 @@
       RemainAfterExit = true;
       ExecStart = "${pkgs.util-linux}/bin/losetup --direct-io=on /dev/loop1 /mnt/mayastor.img";
       # Create a persistent symlink that Mayastor will accept
-      ExecStartPost = "${pkgs.coreutils}/bin/ln -sf /dev/loop0 /dev/disk/by-id/loop-mayastor-raid";
+      ExecStartPost = "${pkgs.coreutils}/bin/ln -sf /dev/loop1 /dev/disk/by-id/loop-mayastor-raid";
       ExecStop = "${pkgs.util-linux}/bin/losetup -d /dev/loop1";
       ExecStopPost = "${pkgs.coreutils}/bin/rm -f /dev/disk/by-id/loop-mayastor-raid";
     };
