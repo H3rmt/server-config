@@ -1,4 +1,4 @@
-apiVersion: "openebs.io/v1alpha1"
+apiVersion: "openebs.io/v1beta3"
 kind: DiskPool
 metadata:
   name: filepool-ovh-1
@@ -10,7 +10,7 @@ spec:
 
 ---
 
-apiVersion: "openebs.io/v1alpha1"
+apiVersion: "openebs.io/v1beta3"
 kind: DiskPool
 metadata:
   name: filepool-hetzner-1
@@ -22,7 +22,7 @@ spec:
 
 ---
 
-apiVersion: "openebs.io/v1alpha1"
+apiVersion: "openebs.io/v1beta3"
 kind: DiskPool
 metadata:
   name: filepool-home-2
