@@ -5,9 +5,12 @@ metadata:
   namespace: openebs
   labels:
     app: mayastor
+    release: prometheus
 spec:
   selector:
     matchLabels:
       app: mayastor
   endpoints:
     - port: metrics
+      interval: 30s
+      path: /metrics
