@@ -68,6 +68,9 @@ spec:
         storageClassName: mayastor-2
       operator:
         dashboardsConfigMapRefEnabled: true
+        matchLabels:
+          app: grafana
+          category: dashboard
     nodeExporter:
       enabled: true
     prometheusOperator:
