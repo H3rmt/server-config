@@ -13,7 +13,7 @@ spec:
     env:
       TZ: "Europe/Berlin"
     persistence:
-      storageClassName: "longhorn"
+      storageClassName: mayastor-3
     service:
       name: lldap
       type: ClusterIP

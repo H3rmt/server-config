@@ -42,6 +42,16 @@ spec:
                 group: traefik.io
                 kind: Middleware
                 name: middleware-auth-alerts
+      alertmanagerSpec:
+        replicas: 1
+        storage: 
+          volumeClaimTemplate:
+            spec:
+              storageClassName: mayastor-2
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 1Gi
     grafana:
       enabled: true
       defaultDashboardsTimezone: "Europe/Berlin"
@@ -54,11 +64,10 @@ spec:
         type: pvc
         accessModes:
           - ReadWriteOnce
-        size: 20Gi
-        finalizers:
-          - kubernetes.io/pvc-protection
+        size: 5Gi
+        storageClassName: mayastor-2
       operator:
-        dashboardsConfigMapRefEnabled: false
+        dashboardsConfigMapRefEnabled: true
     nodeExporter:
       enabled: true
     prometheusOperator:
@@ -92,6 +101,7 @@ spec:
         storageSpec: 
           volumeClaimTemplate:
             spec:
+              storageClassName: mayastor-2
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
