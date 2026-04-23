@@ -41,8 +41,17 @@ agenix-rekey:
 
 ## ZFS
 
+### Block Device
+
+```
+zfs create -o keyformat=passphrase -o keylocation=file:///run/agenix/zfs-key -o encryption=aes-256-gcm -V 2T tank/...
+zfs list
+```
+
+### Mountable
+
 ```
 zfs create -o keyformat=passphrase -o keylocation=file:///run/agenix/zfs-key -o encryption=aes-256-gcm tank/...
-zfs set mountpoint=/mnt/tank-... tank/...
+zfs set mountpoint=legacy tank/...
 zfs list
 ```

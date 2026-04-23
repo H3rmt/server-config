@@ -6,3 +6,14 @@ parameters:
   protocol: nvmf
   repl: "2"
 provisioner: io.openebs.csi-mayastor
+
+---
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mayastor-3
+parameters:
+  protocol: nvmf
+  repl: "3"
+provisioner: io.openebs.csi-mayastor
