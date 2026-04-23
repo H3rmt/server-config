@@ -5,8 +5,9 @@ metadata:
   namespace: openebs
 spec:
   node: ovh-1
-  # 2 TB disk image created with `truncate -s 2T /mnt/openebs.img`
-  disks: ["aio:///mnt/openebs.img?blk_size=4096"]
+  # 2 TB disk image created with `truncate -s 2T /mnt/mayastor.img`
+  # Mounted as loop device with `losetup /dev/loop-mayastor /mnt/mayastor.img` (as systemd service)
+  disks: ["aio:///dev/loop-mayastor"]
 
 ---
 
@@ -17,8 +18,9 @@ metadata:
   namespace: openebs
 spec:
   node: hetzner-1
-  # 30GB disk image created with `truncate -s 30G /mnt/openebs.img`
-  disks: ["aio:///mnt/openebs.img?blk_size=4096"]
+  # 30GB disk image created with `truncate -s 30G /mnt/mayastor.img`
+  # Mounted as loop device with `losetup /dev/loop-mayastor /mnt/mayastor.img` (as systemd service)
+  disks: ["aio:///dev/loop-mayastor"]
 
 ---
 

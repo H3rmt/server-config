@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 {
@@ -45,6 +46,17 @@
   systemd.services.iscsid.serviceConfig = {
     PrivateMounts = "yes";
     BindPaths = "/run/current-system/sw/bin:/bin";
+  };
+  systemd.services.setup-mayastor-loop = {
+    description = "Setup loop device for Mayastor";
+    after = [ "local-fs.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.util-linux}/bin/losetup /dev/loop-mayastor /mnt/mayastor.img";
+      ExecStop = "${pkgs.util-linux}/bin/losetup -d /dev/loop-mayastor";
+    };
   };
   services.k3s = {
     enable = true;
