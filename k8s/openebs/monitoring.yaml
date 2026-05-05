@@ -1,16 +1,20 @@
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
 metadata:
-  name: mayastor-monitoring
-  namespace: openebs
-  labels:
-    app: mayastor
-    release: prometheus
+  name: openebs
+  namespace: kube-system
 spec:
-  selector:
-    matchLabels:
-      app: mayastor
-  endpoints:
-    - port: metrics
-      interval: 30s
-      path: /metrics
+  repo: https://openebs.github.io/monitoring
+  chart: monitoring
+  version: v4.1.1
+  targetNamespace: openebs
+  valuesContent: |-
+    kube-prometheus-stack:
+      install: false
+    localpv-provisioner:
+      enabled: false
+    openebsMonitoringAddon:
+      lvmLocalPV:
+        enabled: false
+      zfsLocalPV:
+        enabled: false
