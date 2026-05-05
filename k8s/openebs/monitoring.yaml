@@ -1,7 +1,7 @@
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
-  name: openebs
+  name: openebs-monitoring
   namespace: kube-system
 spec:
   repo: https://openebs.github.io/monitoring
