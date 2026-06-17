@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   repo: https://juicedata.github.io/charts/
-  chart: juicefs
+  chart: juicefs-csi-driver
   targetNamespace: juicefs
   valuesContent: |-
     metrics:
