@@ -82,6 +82,7 @@
       "garage-webui".source = config.age.secrets.garage-webui.path;
       "grafana-admin".source = config.age.secrets.grafana-admin.path;
       "juicefs-juicefs-redis".source = config.age.secrets.juicefs-redis.path;
+      "juicefs-juicefs-config".source = config.age.secrets.juicefs-config.path;
       "traefik-auth-secret-alerts".source = config.age.secrets.traefik-auth-secret-alerts.path;
       "traefik-auth-secret-prom".source = config.age.secrets.traefik-auth-secret-prom.path;
       "authelia".source = config.age.secrets.authelia.path;
