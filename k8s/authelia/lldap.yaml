@@ -13,7 +13,7 @@ spec:
     env:
       TZ: "Europe/Berlin"
     persistence:
-      storageClassName: mayastor-3
+      storageClassName: juicefs-sc
     service:
       name: lldap
       type: ClusterIP

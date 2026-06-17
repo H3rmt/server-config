@@ -1,0 +1,43 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: prometheus
+  namespace: kube-system
+spec:
+  repo: https://juicedata.github.io/charts/
+  chart: juicefs
+  targetNamespace: juicefs
+  valuesContent: |-
+    metrics:
+      enabled: true
+    dashboard:
+      httpRoute:
+        enabled: true
+        parentRefs:
+          - name: traefik-gateway
+            namespace: default
+            sectionName: websecure
+            kind: Gateway
+        hostnames:
+          - juice.infra.h3rmt.dev
+    storageClasses:
+      - name: juicefs-sc
+        enabled: true
+        reclaimPolicy: Retain
+        # JuiceFS Volume credentials
+        # If volume is already created in advance, then only name and metaurl is needed
+        backend:
+          name: "mainfs"               # JuiceFS volume name
+          metaurl: "redis://:aaa@redis-juicefs-master.juicefs/0"        # URL of metadata engine
+          storage: "s3"                # Object storage type (e.g. s3, gcs, oss, cos)
+          accessKey: "<access-key>"    # Access Key for object storage
+          secretKey: "<secret-key>"    # Secret Key for object storage # 5e1df4b522eacaeeecb856fb8276e483390150bedb1096014f2af4f5daebabc3
+          bucket: "juicefs"           # A bucket URL to store data
+        mountPod:
+          resources:                   # Resource limit/request for Mount Pod
+            requests:
+              cpu: "1"
+              memory: "1Gi"
+            limits:
+              cpu: "5"
+              memory: "5Gi"
