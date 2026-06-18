@@ -21,7 +21,7 @@ spec:
       backendRefs:
         - name: juicefs-csi-dashboard
           port: 8088
-    - filters:
+      filters:
         - type: ExtensionRef
           extensionRef:
             group: traefik.io
