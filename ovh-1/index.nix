@@ -24,6 +24,8 @@
         80
         3000 # temp ai access
         8083 # temp access
+        222 # temp ssh access
+        25565 # temp minecraft access
       ];
       allowedUDPPorts = [
         443
@@ -37,6 +39,16 @@
       "flannel.1"
     ];
   };
+
+  virtualisation.incus.enable = true;
+	networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
+	  53
+	  67
+	];
+	networking.firewall.interfaces.incusbr0.allowedUDPPorts = [
+	  53
+	  67
+	];
 
   services.k3s = {
     enable = true;
