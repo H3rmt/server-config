@@ -1,0 +1,93 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: prometheus
+  namespace: kube-system
+spec:
+  chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
+  targetNamespace: monitor
+  valuesContent: |-
+    crd:
+      enable: true
+    alertmanager:
+      enabled: true
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - alerts.monitor.h3rmt.dev
+          parentRefs:
+            - name: traefik-gateway
+              namespace: default
+              sectionName: websecure
+              kind: Gateway
+          annotations:
+            external-dns.alpha.kubernetes.io/ttl: "300"
+          filters:
+            - type: ExtensionRef
+              extensionRef:
+                group: traefik.io
+                kind: Middleware
+                name: middleware-auth-alerts
+      alertmanagerSpec:
+        replicas: 1
+        storage: 
+          volumeClaimTemplate:
+            spec:
+              storageClassName: juicefs-sc
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 1Gi
+    grafana:
+      enabled: false
+    nodeExporter:
+      enabled: true
+    prometheusOperator:
+      enabled: true
+      fullnameOverride: prometheus-operator
+    prometheus:
+      enabled: true
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - prometheus.monitor.h3rmt.dev
+          parentRefs:
+            - name: traefik-gateway
+              namespace: default
+              sectionName: websecure
+              kind: Gateway
+          annotations:
+            external-dns.alpha.kubernetes.io/ttl: "300"
+          filters:
+            - type: ExtensionRef
+              extensionRef:
+                group: traefik.io
+                kind: Middleware
+                name: middleware-auth-prom
+      prometheusSpec:
+        podAntiAffinity: "hard"
+        retentionSize: 25GiB
+        replicas: 1
+        podMonitorSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        storageSpec: 
+          volumeClaimTemplate:
+            spec:
+              storageClassName: juicefs-sc
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 27Gi
+        additionalScrapeConfigs:
+          - job_name: 'wireguard'
+            static_configs:
+              - targets:
+                  - '10.0.0.11:9586'
+                  - '10.0.0.51:9586'
+                  - '10.0.0.102:9586'
+    thanosRuler:
+      enabled: false
+    kubeStateMetrics:
+      enabled: true

@@ -1,0 +1,36 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: grafana
+  namespace: kube-system
+spec:
+  chart: oci://ghcr.io/grafana-community/helm-charts/grafana
+  targetNamespace: monitor
+  valuesContent: |-
+    serviceMonitor:
+      enabled: true
+    sidecar:
+      dashboards:
+        enabled: true
+      datasources:
+        enabled: true
+    route:
+      main:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/ttl: "300"
+        parentRefs:
+          - name: traefik-gateway
+            namespace: default
+            sectionName: websecure
+            kind: Gateway
+        hostnames:
+          - grafana.monitor.h3rmt.dev
+    persistence:
+      enabled: true
+      storageClassName: juicefs-sc
+      size: 3Gi
+    admin:
+      existingSecret: credentials
+      userKey: GF_SECURITY_ADMIN_USER
+      passwordKey: GF_SECURITY_ADMIN_PASSWORD
