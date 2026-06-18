@@ -13,7 +13,7 @@ spec:
   selector:
     matchLabels:
       name: garage
-  podMetricsEndpoints:
+  serviceMetricsEndpoints:
     - port: admin  # The metrics API port name of Mount Pod
       path: '/metrics'
       scheme: 'http'
