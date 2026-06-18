@@ -1,0 +1,8 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: middleware-auth-juice-webui
+  namespace: juicefs
+spec:
+  basicAuth:
+    secret: traefik-auth-juice-webui

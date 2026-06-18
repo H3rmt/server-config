@@ -12,6 +12,7 @@
   age.secrets.grafana-admin.rekeyFile = ./secrets/grafana-admin.age;
   age.secrets.juicefs-redis.rekeyFile = ./secrets/juicefs_redis.age;
   age.secrets.juicefs-config.rekeyFile = ./secrets/juicefs_config.age;
+  age.secrets.traefik-auth-juice-webui.rekeyFile = ./secrets/traefik_auth_juice_webui.age;
   age.secrets.traefik-auth-secret-alerts.rekeyFile = ./secrets/traefik-auth-secret-alerts.age;
   age.secrets.traefik-auth-secret-prom.rekeyFile = ./secrets/traefik-auth-secret-prom.age;
   age.secrets.authelia.rekeyFile = ./secrets/authelia.age;

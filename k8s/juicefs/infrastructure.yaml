@@ -12,11 +12,4 @@ spec:
       enabled: true
     dashboard:
       httpRoute:
-        enabled: true
-        parentRefs:
-          - name: traefik-gateway
-            namespace: default
-            sectionName: websecure
-            kind: Gateway
-        hostnames:
-          - juice.infra.h3rmt.dev
+        enabled: false
