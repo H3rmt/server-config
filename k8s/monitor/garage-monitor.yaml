@@ -14,7 +14,7 @@ spec:
     matchLabels:
       name: garage
   endpoints:
-    - targetPort: 3903
+    - port: admin
       path: '/metrics'
       scheme: 'http'
       interval: '30s'
