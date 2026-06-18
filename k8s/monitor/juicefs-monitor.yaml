@@ -4,6 +4,7 @@ metadata:
   name: juicefs-mounts-monitor
   labels:
     name: juicefs-mounts-monitor
+    release: prometheus
   namespace: monitor
 spec:
   namespaceSelector:
