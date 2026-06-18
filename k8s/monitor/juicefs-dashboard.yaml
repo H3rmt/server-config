@@ -3571,7 +3571,7 @@ data:
         "links": [],
         "liveNow": false,
         "preload": false,
-        "tags": [],
+        "tags": ["custom"],
         "timeSettings": {
           "timezone": "browser",
           "from": "now-7d",
