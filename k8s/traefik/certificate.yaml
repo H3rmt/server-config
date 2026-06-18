@@ -11,5 +11,6 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - "*.infra.h3rmt.dev"
+  - "*.monitor.h3rmt.dev"
   - "*.h3rmt.dev"
   - "h3rmt.dev"

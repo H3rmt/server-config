@@ -17,8 +17,6 @@ spec:
     route:
       main:
         enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/ttl: "300"
         parentRefs:
           - name: traefik-gateway
             namespace: default
@@ -26,6 +24,8 @@ spec:
             kind: Gateway
         hostnames:
           - grafana.monitor.h3rmt.dev
+        annotations:
+          external-dns.alpha.kubernetes.io/ttl: "300"
     persistence:
       enabled: true
       storageClassName: juicefs-sc
