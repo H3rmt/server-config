@@ -71,6 +71,7 @@ spec:
       prometheusSpec:
         podAntiAffinity: "hard"
         retentionSize: 25GiB
+        retention: 200d
         replicas: 1
         podMonitorSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false

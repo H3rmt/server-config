@@ -16,4 +16,4 @@ spec:
     - port: metrics  # The metrics API port name of Mount Pod
       path: '/metrics'
       scheme: 'http'
-      interval: '5s'
+      interval: '10s'
