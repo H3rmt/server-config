@@ -86,6 +86,8 @@ kind: Service
 metadata:
   name: garage
   namespace: garage
+  labels:
+    name: garage
 spec:
   type: ClusterIP
   ports:

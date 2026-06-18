@@ -15,6 +15,5 @@ spec:
       name: garage
   endpoints:
     - port: admin
-      path: '/metrics'
       scheme: 'http'
       interval: '30s'
