@@ -39,34 +39,13 @@
 
   services.fail2ban.enable = lib.mkForce false;
 
-  services.openiscsi = {
-    enable = true;
-    name = "${config.networking.hostName}-initiatorhost";
-  };
-  systemd.services.iscsid.serviceConfig = {
-    PrivateMounts = "yes";
-    BindPaths = "/run/current-system/sw/bin:/bin";
-  };
-  systemd.services.setup-mayastor-loop = {
-    description = "Setup loop device for Mayastor";
-    after = [ "local-fs.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.util-linux}/bin/losetup --direct-io=on /dev/loop1 /mnt/mayastor.img";
-      # Create a persistent symlink that Mayastor will accept
-      ExecStartPost = "${pkgs.coreutils}/bin/ln -sf /dev/loop1 /dev/disk/by-id/loop-mayastor-raid";
-      ExecStop = "${pkgs.util-linux}/bin/losetup -d /dev/loop1";
-      ExecStopPost = "${pkgs.coreutils}/bin/rm -f /dev/disk/by-id/loop-mayastor-raid";
-    };
-  };
+
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = config.networking.hostName;
-    nodeLabel = ["openebs.io/engine=mayastor"];
+    nodeLabel = [];
     clusterInit = false;
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [

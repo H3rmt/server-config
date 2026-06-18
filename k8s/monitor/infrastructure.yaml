@@ -35,7 +35,7 @@ spec:
         storage: 
           volumeClaimTemplate:
             spec:
-              storageClassName: mayastor-2
+              storageClassName: juicefs-sc
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
@@ -53,7 +53,7 @@ spec:
         accessModes:
           - ReadWriteOnce
         size: 5Gi
-        storageClassName: mayastor-2
+        storageClassName: juicefs-sc
       operator:
         dashboardsConfigMapRefEnabled: true
         matchLabels:
@@ -92,7 +92,7 @@ spec:
         storageSpec: 
           volumeClaimTemplate:
             spec:
-              storageClassName: mayastor-2
+              storageClassName: juicefs-sc
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
