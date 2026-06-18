@@ -80,13 +80,6 @@ spec:
               resources:
                 requests:
                   storage: 27Gi
-        additionalScrapeConfigs:
-          - job_name: 'wireguard'
-            static_configs:
-              - targets:
-                  - '10.0.0.11:9586'
-                  - '10.0.0.51:9586'
-                  - '10.0.0.102:9586'
     thanosRuler:
       enabled: false
     kubeStateMetrics:
