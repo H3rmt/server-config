@@ -4,6 +4,7 @@ metadata:
   name: juicefs-dashboard
   labels:
     grafana_dashboard: "1"
+  namespace: monitor
 data:
   juicefs-dashboard.json: |
     {
