@@ -3576,8 +3576,9 @@ data:
           "timezone": "browser",
           "from": "now-7d",
           "to": "now",
-          "autoRefresh": "",
+          "autoRefresh": "30s",
           "autoRefreshIntervals": [
+            "10s",
             "30s",
             "1m",
             "5m",
