@@ -5,7 +5,7 @@ metadata:
   labels:
     # default value for: sidecar.datasources.label
     grafana_datasource: "true"
-stringData:
+data:
   prom.yaml: |-
     apiVersion: 1
     datasources:
