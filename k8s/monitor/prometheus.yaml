@@ -41,8 +41,8 @@ spec:
                   storage: 1Gi
     grafana:
       enabled: false
-      forceDeployDashboards: false
-      forceDeployDatasources: false
+      forceDeployDashboards: true
+      forceDeployDatasources: true
     nodeExporter:
       enabled: true
     prometheusOperator:
