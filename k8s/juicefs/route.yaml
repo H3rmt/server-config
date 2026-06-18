@@ -21,3 +21,9 @@ spec:
       backendRefs:
         - name: juicefs-csi-dashboard
           port: 8088
+  filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: traefik.io
+        kind: Middleware
+        name: middleware-auth-juice-webui
