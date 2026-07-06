@@ -14,7 +14,8 @@ spec:
     registry: txt
     txtOwnerId: k3s-cluster
     txtPrefix: reg-%{record_type}-
-    domainFilters: h3rmt.dev
+    domainFilters: 
+      - h3rmt.dev
     sources:
       - service
       - ingress
