@@ -1,0 +1,51 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: external-dns
+  namespace: kube-system
+spec:
+  repo: https://kubernetes-sigs.github.io/external-dns/
+  chart: external-dns
+  version: 1.20.0
+  targetNamespace: external-dns
+  valuesContent: |-
+    logLevel: debug
+    policy: sync
+    registry: txt
+    txtOwnerId: k3s-cluster
+    txtPrefix: reg-%{record_type}-
+    domainFilters: h3rmt.dev
+    sources:
+      - service
+      - ingress
+    managedRecordTypes: 
+      - A
+      - AAAA
+    interval: 1m
+    provider:
+      name: webhook
+      webhook:
+        image:
+          repository: ghcr.io/mconfalonieri/external-dns-hetzner-webhook
+          tag: v1.0.0
+        env:
+          - name: HETZNER_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: hetzner-dns-credentials
+                key: token
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http-webhook
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http-webhook
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+    
+    serviceMonitor:
+      enabled: true
