@@ -6,7 +6,7 @@ metadata:
 spec:
   repo: https://kubernetes-sigs.github.io/external-dns/
   chart: external-dns
-  version: 1.20.0
+  version: 1.21.1
   targetNamespace: kube-system
   valuesContent: |-
     logLevel: debug
@@ -17,8 +17,8 @@ spec:
     domainFilters: 
       - h3rmt.dev
     sources:
-      - service
-      - ingress
+      - node
+      - gateway-httproute
     managedRecordTypes: 
       - A
       - AAAA
@@ -35,6 +35,8 @@ spec:
               secretKeyRef:
                 name: hetzner-dns-credentials
                 key: token
+          - name: USE_CLOUD_API
+            value: "true"
         livenessProbe:
           httpGet:
             path: /health
