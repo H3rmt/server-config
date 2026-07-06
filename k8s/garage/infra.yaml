@@ -46,6 +46,7 @@ data:
     [s3_web]
     bind_addr = "[::]:3902"
     index = "index.html"
+    root_domain = "gw.h3rmt.dev"
 
     [admin]
     api_bind_addr = "[::]:3903"
