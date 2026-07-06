@@ -53,7 +53,7 @@
     open = false;
     nvidiaSettings = true;
     powerManagement.enable = false;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
     nvidiaPersistenced = true;
   };
   hardware.cpu.intel.updateMicrocode = true;
@@ -79,10 +79,6 @@
   };
   fileSystems."/mnt/tank-garage" = {
     device = "tank/garage";
-    fsType = "zfs";
-  };
-  fileSystems."/mnt/tank-longhorn" = {
-    device = "tank/longhorn";
     fsType = "zfs";
   };
 

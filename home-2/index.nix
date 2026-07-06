@@ -30,14 +30,6 @@
   services.fail2ban.enable = lib.mkForce false;
 
   services.zfs.autoScrub.enable = true;
-  services.openiscsi = {
-    enable = true;
-    name = "${config.networking.hostName}-initiatorhost";
-  };
-  systemd.services.iscsid.serviceConfig = {
-    PrivateMounts = "yes";
-    BindPaths = "/run/current-system/sw/bin:/bin";
-  };
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;
