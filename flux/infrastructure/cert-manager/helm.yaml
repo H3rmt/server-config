@@ -4,10 +4,10 @@ metadata:
   name: cert-manager
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 12h
   url: oci://quay.io/jetstack/charts/cert-manager
   ref:
-    semver: v1.20.0
+    tag: v1.20.0
 
 ---
 
@@ -17,7 +17,7 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
-  interval: 30m
+  interval: 10m
   chartRef:
     kind: OCIRepository
     name: cert-manager
@@ -34,7 +34,7 @@ metadata:
   name: cert-manager-hetzner
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 12h
   url: https://charts.hetzner.cloud
 
 ---
@@ -45,7 +45,7 @@ metadata:
   name: cert-manager-hetzner
   namespace: cert-manager
 spec:
-  interval: 30m
+  interval: 10m
   chart:
     spec:
       chart: cert-manager-webhook-hetzner
@@ -54,6 +54,6 @@ spec:
         kind: HelmRepository
         name: cert-manager-hetzner
         namespace: flux-system
-      interval: 10m
+      interval: 1h
   values:
     groupName: acme.h3rmt.dev

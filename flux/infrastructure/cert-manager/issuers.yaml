@@ -15,7 +15,7 @@ spec:
           groupName: acme.h3rmt.dev
           config:
             tokenSecretKeyRef:
-              name: hetzner-dns-api-secret
+              name: hetzner-dns-credentials
               namespace: cert-manager
               key: token
 
@@ -38,6 +38,6 @@ spec:
           groupName: acme.h3rmt.dev
           config:
             tokenSecretKeyRef:
-              name: hetzner-dns-api-secret
+              name: hetzner-dns-credentials
               namespace: cert-manager
               key: token
