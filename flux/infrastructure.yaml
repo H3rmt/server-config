@@ -13,4 +13,5 @@ spec:
   decryption:
     provider: sops
     secretRef:
+      # gets manually created once
       name: sops-age
