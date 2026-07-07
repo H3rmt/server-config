@@ -170,5 +170,6 @@ in
     iptables
     wireguard-tools
     nvtopPackages.full
+    nvidia-container-toolkit
   ];
 }

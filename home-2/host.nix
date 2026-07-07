@@ -9,6 +9,8 @@
       "vm.swappiness" = 2;
       "net.ipv4.ping_group_range" = "0 2000000";
       "net.ipv4.ip_unprivileged_port_start" = 0;
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
     };
     # loader = {
       # grub = {
@@ -46,6 +48,7 @@
     ];
   };
 
+  services.xserver.enabled = false;
   services.xserver.videoDrivers = ["nvidia"];
   hardware.graphics.enable = true;
   hardware.nvidia = {
@@ -58,6 +61,7 @@
   };
   hardware.cpu.intel.updateMicrocode = true;
   hardware.nvidia-container-toolkit.enable = true;
+  hardware.nvidia-container-toolkit.mount-nvidia-executables = true;
   
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeAjxCzY56TNLs3oRpAFDrtAhMXdKEAAZTTeBD4p9y8";
 
