@@ -21,7 +21,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: traefik
-    namespace: kube-system
+    namespace: flux-system
   values:
     api:
       dashboard: true
