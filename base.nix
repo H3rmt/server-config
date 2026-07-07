@@ -24,7 +24,7 @@ in
       "nix-command"
       "flakes"
     ];
-      substituters = [
+    substituters = [
       "https://cache.nixos-cuda.org"
     ];
     trusted-public-keys = [
@@ -165,6 +165,7 @@ in
     nmap
     ncdu
     k9s
+    smartmontools
     nfs-utils
     iptables
     wireguard-tools

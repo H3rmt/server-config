@@ -48,6 +48,7 @@
               k9s
               micro
               wireguard-tools
+              smartmontools
             ];
           };
         };

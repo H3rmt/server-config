@@ -86,4 +86,4 @@ spec:
     thanosRuler:
       enabled: false
     kubeStateMetrics:
-      enabled: true
+      enabled: false
