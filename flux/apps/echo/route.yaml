@@ -8,7 +8,7 @@ metadata:
 spec:
   parentRefs:
     - name: traefik-gateway
-      sectionName: websecure
+      sectionName: https
       kind: Gateway
       namespace: kube-system
   hostnames:
