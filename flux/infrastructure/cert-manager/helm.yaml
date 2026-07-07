@@ -35,7 +35,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://vadimkim.github.io/cert-manager-webhook-hetzner
+  url: https://charts.hetzner.cloud
 
 ---
 
@@ -46,9 +46,14 @@ metadata:
   namespace: cert-manager
 spec:
   interval: 30m
-  chartRef:
-    kind: HelmRepository
-    name: cert-manager-hetzner
-    namespace: flux-system
+  chart:
+    spec:
+      chart: cert-manager-webhook-hetzner
+      version: '0.7.0'
+      sourceRef:
+        kind: HelmRepository
+        name: cert-manager-hetzner
+        namespace: flux-system
+      interval: 10m
   values:
     groupName: acme.h3rmt.dev
