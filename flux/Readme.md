@@ -19,3 +19,9 @@ kubectl delete namespace <namespace>
 # run for all that hang
 kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system --type=merge -p '{"metadata":{"finalizers":[]}}'
 ```
+
+
+## Reset k3s
+
+https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md
+

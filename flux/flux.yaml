@@ -23,6 +23,6 @@ spec:
     size: medium        
   sync:
     kind: GitRepository
-    url: "https://gitlab.com/my-org/my-fleet.git"
+    url: "https://github.com/h3rmt/server-config.git"
     ref: "refs/heads/next"
     path: "flux"
