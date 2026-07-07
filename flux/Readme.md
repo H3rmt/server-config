@@ -25,3 +25,9 @@ kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system 
 
 https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md
 
+## Create sops secret
+
+```bash
+cat age.key | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
+```
+

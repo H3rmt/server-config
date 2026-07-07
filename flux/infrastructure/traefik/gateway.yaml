@@ -33,9 +33,9 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-      # tls:
-      #   mode: Terminate
-      #   certificateRefs:
-      #     - kind: Secret
-      #       namespace: default
-      #       name: wildcard-h3rmt-dev-tls
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            namespace: default
+            name: wildcard-h3rmt-dev-tls

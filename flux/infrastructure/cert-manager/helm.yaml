@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager
+
+---
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: cert-manager
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: oci://quay.io/jetstack/charts/cert-manager
+  ref:
+    semver: v1.20.0
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: cert-manager
+    namespace: flux-system
+  values:
+    installCRDs: true
+    replicaCount: 1
+
+---
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: cert-manager-hetzner
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: https://vadimkim.github.io/cert-manager-webhook-hetzner
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cert-manager-hetzner
+  namespace: cert-manager
+spec:
+  interval: 30m
+  chartRef:
+    kind: HelmChart
+    name: cert-manager-hetzner
+    namespace: flux-system
+  values:
+    groupName: acme.h3rmt.dev
