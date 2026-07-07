@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helm.yaml
-  - issuers.yaml
   - hetzner-dns-api-secret.enc.yaml
+  # - issuers.yaml
