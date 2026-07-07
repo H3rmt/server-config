@@ -31,13 +31,19 @@ kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system 
 
 https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md
 
-## Create sops secret
+## Create and apply initial sops secret
 
 ```bash
 cat age.key | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
 ```
 
-### Github webhook receiver
+## Encryp secret file using sops
+
+```bash
+sops --encrypt --in-place <file>.enc.yaml
+```
+
+## Github webhook receiver
 
 ```bash
 TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)

@@ -25,6 +25,7 @@ spec:
   values:
     installCRDs: true
     replicaCount: 1
+    prometheus.servicemonitor.enabled: true
 
 ---
 
