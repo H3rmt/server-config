@@ -47,7 +47,7 @@ metadata:
 spec:
   interval: 30m
   chartRef:
-    kind: HelmChart
+    kind: HelmRepository
     name: cert-manager-hetzner
     namespace: flux-system
   values:

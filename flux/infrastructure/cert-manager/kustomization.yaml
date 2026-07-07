@@ -4,4 +4,4 @@ resources:
   - namespace.yaml
   - helm.yaml
   - hetzner-dns-api-secret.enc.yaml
-  # - issuers.yaml
+  - issuers.yaml
