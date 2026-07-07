@@ -59,6 +59,7 @@
     extraFlags = [
       "--flannel-iface=wg0"
       "--tls-san=k3s-main.h3rmt.dev"
+      "--disable=traefik"
       "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4},${config.custom.server."ovh-1".public-ip-v6}"
       "--kube-controller-manager-arg=node-eviction-rate=0.5"
     ];
