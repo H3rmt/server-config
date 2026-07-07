@@ -20,7 +20,7 @@ spec:
   listeners:
     - name: web
       protocol: HTTP
-      port: 8000
+      port: 80
       hostname: "*.h3rmt.dev"
       allowedRoutes:
         namespaces:
@@ -28,7 +28,7 @@ spec:
 
     - name: websecure
       protocol: HTTPS
-      port: 8443
+      port: 443
       hostname: "*.h3rmt.dev"
       allowedRoutes:
         namespaces:
