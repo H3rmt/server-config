@@ -52,8 +52,9 @@ spec:
 
       web:
         port: 80
-        redirectTo:
-          port: websecure
+        redirections:
+          entryPoint:
+            to: websecure
           
       websecure:
         port: 443
