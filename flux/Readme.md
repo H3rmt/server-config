@@ -1,3 +1,5 @@
+# Flux on k3s
+
 ## Setup
 
 ```bash
@@ -6,6 +8,11 @@ helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-opera
   --create-namespace
 ```
 
+## Install Gateway CRDS
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.1/standard-install.yaml
+```
 
 ## Remove namespace
 
@@ -20,7 +27,6 @@ kubectl delete namespace <namespace>
 kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system --type=merge -p '{"metadata":{"finalizers":[]}}'
 ```
 
-
 ## Reset k3s
 
 https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md
@@ -30,4 +36,3 @@ https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluste
 ```bash
 cat age.key | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
 ```
-
