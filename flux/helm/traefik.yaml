@@ -44,19 +44,5 @@ spec:
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
-
-    ports:
-      metrics:
-        expose:
-          default: false
-
-      web:
-        port: 80
-        redirections:
-          entryPoint:
-            to: websecure
-          
-      websecure:
-        port: 443
-        tls:
-          enabled: true
+      kubernetesGateway:
+        enabled: true
