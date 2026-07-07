@@ -5,10 +5,6 @@
       description = "Custom configuration options.";
       type = lib.types.submodule {
         options = {
-          email = lib.mkOption {
-            type = lib.types.str;
-            description = "Public Email";
-          };
           nameservers = lib.mkOption {
             type = lib.types.listOf lib.types.str;
             description = "Nameservers for DNS";
@@ -33,14 +29,6 @@
                     type = lib.types.str;
                     description = "Public IPv6 for server";
                   };
-                  private-ip = lib.mkOption {
-                    type = lib.types.str;
-                    description = "Private IP for server";
-                  };
-                  wireguard-public-key = lib.mkOption {
-                    type = lib.types.str;
-                    description = "Public Key for Wireguard on server";
-                  };
                 };
               }
             );
@@ -53,38 +41,29 @@
 
   config = {
     custom = {
-      email = "enrico@h3rmt.dev";
       my-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAA/Iusb9djUIvujvzUhkjW7cKysbuNwJPNd/zjmZc+t";
       server = {
         "ovh-1" = {
           public-ip-v4 = "37.187.250.146";
           public-ip-v6 = "2001:41d0:c:292::1";
-          private-ip = "10.0.0.51";
-          wireguard-public-key = "xemePTFWc52nX8O1vMp7UJCf/eBIuGkuh/20/9llrmY=";
         };
         "home-2" = {
-          private-ip = "10.0.0.102";
-          wireguard-public-key = "Z1GnAUQDk05dE6qJZ2TmLIZpPIOnXr9NtPYxwVC3jmw=";
         };
         "hetzner-1" = {
           public-ip-v4 = "167.235.249.79";
           public-ip-v6 = "2a01:4f8:c014:532f::1";
-          private-ip = "10.0.0.11";
-          wireguard-public-key = "GqwqsLB+LCqZisRNMhgR6yJbhh/6zL9kewky3TWPczs=";
         };
       };
       nameservers-hetzner = [
-        "2a01:4ff:ff00::add:2"
-        "2a01:4ff:ff00::add:1"
         "185.12.64.1"
+        "2a01:4ff:ff00::add:1"
         "185.12.64.2"
+        "2a01:4ff:ff00::add:2"
       ];
       nameservers = [
         "1.1.1.1"
-        "8.8.8.8"
-        "8.8.4.4"
         "2606:4700:4700::1111"
-        "2001:4860:4860::8888"
+        "8.8.4.4"
         "2001:4860:4860::8844"
       ];
     };

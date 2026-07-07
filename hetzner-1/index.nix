@@ -48,7 +48,7 @@
     clusterInit = false;
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [
-      "--flannel-iface=wg0"
+      "--flannel-backend=wireguard-native"
       "--disable=traefik"
       "--tls-san=k3s-main.h3rmt.dev"
       "--node-external-ip=${config.custom.server."hetzner-1".public-ip-v4},${config.custom.server."hetzner-1".public-ip-v6}"

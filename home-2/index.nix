@@ -28,8 +28,8 @@
   };
 
   services.fail2ban.enable = lib.mkForce false;
-
   services.zfs.autoScrub.enable = true;
+
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;
@@ -39,7 +39,7 @@
     clusterInit = false;
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [
-      "--flannel-iface=wg0"
+      "--flannel-backend=wireguard-native"
     ];
   };
 }
