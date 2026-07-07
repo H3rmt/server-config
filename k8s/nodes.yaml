@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Node
 metadata:
-  name: ovh-1
+  name: ovh-1.h3rmt.div
   annotations:
     external-dns.alpha.kubernetes.io/ttl: "600"
 
@@ -10,6 +10,6 @@ metadata:
 apiVersion: v1
 kind: Node
 metadata:
-  name: hetzner-1
+  name: hetzner-1.h3rmt.div
   annotations:
     external-dns.alpha.kubernetes.io/ttl: "600"
