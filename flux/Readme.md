@@ -36,3 +36,12 @@ https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluste
 ```bash
 cat age.key | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
 ```
+
+### Github webhook receiver
+
+```bash
+TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
+echo $TOKEN
+
+kubectl -n flux-system create secret generic webhook-token --from-literal=token=$TOKEN
+```
