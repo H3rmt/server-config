@@ -35,6 +35,8 @@
       "wg0"
       "cni0"
       "flannel.1"
+      "flannel-wg"
+      "flannel-wg-v6"
     ];
   };
 
