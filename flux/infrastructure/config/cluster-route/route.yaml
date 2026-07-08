@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: k3s-route
+  namespace: kube-system
+spec:
+  parentRefs:
+    - name: traefik
+      namespace: kube-system
+      kind: Gateway
+      sectionName: websecure
+  # the only reason for this is to create a dns ip entry in this
+  # domain so that the k3s api can always be accessed, even if 
+  # servers go down.
+  hostnames:
+    - "k3s.h3rmt.dev"
