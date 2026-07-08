@@ -51,10 +51,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: hetzner-dns-credentials-external-dns
-                namespace: kube-system
                 key: token
-          - name: USE_CLOUD_API
-            value: "true"
         livenessProbe:
           httpGet:
             path: /health
