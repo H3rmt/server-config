@@ -60,27 +60,10 @@
       "--flannel-backend=wireguard-native"
       "--tls-san=k3s-main.h3rmt.dev"
       "--disable=traefik"
+      "--cluster-cidr=10.42.0.0/16,fd00:42::/56"
+      "--service-cidr=10.43.0.0/16,fd00:43::/112"
       "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4},${config.custom.server."ovh-1".public-ip-v6}"
       "--kube-controller-manager-arg=node-eviction-rate=0.5"
     ];
-    manifests = {};
-    # manifests = {
-    #   "hetzner-external-dns.yaml".source = config.age.secrets.hetzner-external-dns.path;
-    #   "hetzner-cert-manager.yaml".source = config.age.secrets.hetzner-cert-manager.path;
-    #   "traefik-auth-secret-longhorn".source = config.age.secrets.traefik-auth-secret-longhorn.path;
-    #   "garage-rpc".source = config.age.secrets.garage-rpc.path;
-    #   "garage-webui".source = config.age.secrets.garage-webui.path;
-    #   "grafana-admin".source = config.age.secrets.grafana-admin.path;
-    #   "juicefs-juicefs-redis".source = config.age.secrets.juicefs-redis.path;
-    #   "juicefs-juicefs-config".source = config.age.secrets.juicefs-config.path;
-    #   "traefik-auth-juice-webui".source = config.age.secrets.traefik-auth-juice-webui.path;
-    #   "traefik-auth-secret-alerts".source = config.age.secrets.traefik-auth-secret-alerts.path;
-    #   "traefik-auth-secret-prom".source = config.age.secrets.traefik-auth-secret-prom.path;
-    #   "authelia".source = config.age.secrets.authelia.path;
-    #   "authelia-redis".source = config.age.secrets.authelia-redis.path;
-    #   "authelia-oidc-secrets".source = config.age.secrets.authelia-oidc-secrets.path;
-    #   "coder-oidc-secret".source = config.age.secrets.coder-oidc-secret.path;
-    #   "lldap".source = config.age.secrets.lldap.path;
-    # };
   };
 }
