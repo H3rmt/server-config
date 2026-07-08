@@ -70,4 +70,4 @@ spec:
     
     serviceMonitor:
       # disable if deployed before prometheus
-      enabled: true
+      enabled: false

@@ -51,3 +51,9 @@ echo $TOKEN
 
 kubectl -n flux-system create secret generic webhook-token --from-literal=token=$TOKEN
 ```
+
+## Annotate node
+
+```bash
+kubectl annotate nodes ovh-1.h3rmt.dev external-dns.alpha.kubernetes.io/ttl=1200
+```
