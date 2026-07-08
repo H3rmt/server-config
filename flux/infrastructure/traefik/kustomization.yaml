@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - helm.yaml
   - certificate.yaml
-  - gateway.yaml

@@ -4,11 +4,11 @@ metadata:
   name: webhook-receiver
   namespace: flux-system
 spec:
-  parentRefs:
-    - kind: Gateway
-      sectionName: https
-      name: traefik
-      namespace: kube-system
+  # parentRefs:
+  #   - kind: Gateway
+  #     sectionName: https
+  #     name: traefik
+  #     namespace: kube-system
   hostnames:
     - "webhook.infra.h3rmt.dev"
   rules:

@@ -6,11 +6,11 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/ttl: "300"
 spec:
-  parentRefs:
-    - kind: Gateway
-      sectionName: https
-      name: traefik
-      namespace: kube-system
+  # parentRefs:
+  #   - kind: Gateway
+  #     sectionName: https
+  #     name: traefik
+  #     namespace: kube-system
   hostnames:
     - echo.h3rmt.dev
     - test.h3rmt.dev

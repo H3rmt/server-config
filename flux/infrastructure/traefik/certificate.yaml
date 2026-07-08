@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-h3rmt-dev-tls
-  namespace: default
+  namespace: kube-system
 spec:
   secretName: wildcard-h3rmt-dev-tls
   issuerRef:
