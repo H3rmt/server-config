@@ -28,5 +28,5 @@ spec:
     path: "./flux"
     # uses webhooks to trigger reconciliation on changes
     # increase to 15min if webhook works
-    interval: 1m
+    interval: 15m
     name: flux-system
