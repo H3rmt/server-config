@@ -27,6 +27,10 @@ spec:
       kind: DaemonSet
       minReadySeconds: 2
 
+    service:
+      spec:
+        ipFamilyPolicy: RequireDualStack
+
     api:
       dashboard: true
     ingressRoute:
