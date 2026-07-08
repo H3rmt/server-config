@@ -8,7 +8,7 @@ spec:
     - name: traefik
       namespace: kube-system
       kind: Gateway
-      sectionName: https
+      sectionName: websecure
   hostnames:
     - "webhook.infra.h3rmt.dev"
   rules:

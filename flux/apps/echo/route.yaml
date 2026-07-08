@@ -10,7 +10,7 @@ spec:
     - name: traefik
       namespace: kube-system
       kind: Gateway
-      sectionName: https
+      sectionName: websecure
   hostnames:
     - echo.h3rmt.dev
     - test.h3rmt.dev

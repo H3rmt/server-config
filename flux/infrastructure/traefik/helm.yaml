@@ -51,13 +51,13 @@ spec:
         # external-dns.alpha.kubernetes.io/access: "public"
         # external-dns.alpha.kubernetes.io/hostname: "k3s.h3rmt.dev"
       listeners:
-        http:
+        web:
           port: 8000
           hostname: "*.h3rmt.dev"
           protocol: HTTP
           namespacePolicy: 
             from: All
-        https:
+        websecure:
           port: 8443
           hostname: "*.h3rmt.dev"
           protocol: HTTPS
