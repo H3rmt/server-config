@@ -5,3 +5,4 @@ resources:
   - cert-manager
   - traefik
   - flux-webhook
+  - external-dns
