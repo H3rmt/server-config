@@ -7,9 +7,9 @@ metadata:
     external-dns.alpha.kubernetes.io/ttl: "300"
 spec:
   parentRefs:
-    - name: traefik-gateway
+    - kind: Gateway
       sectionName: https
-      kind: Gateway
+      name: traefik
       namespace: kube-system
   hostnames:
     - echo.h3rmt.dev

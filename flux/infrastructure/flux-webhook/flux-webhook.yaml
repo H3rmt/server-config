@@ -7,7 +7,7 @@ spec:
   parentRefs:
     - kind: Gateway
       sectionName: https
-      name: traefik-gateway
+      name: traefik
       namespace: kube-system
   hostnames:
     - "webhook.infra.h3rmt.dev"
