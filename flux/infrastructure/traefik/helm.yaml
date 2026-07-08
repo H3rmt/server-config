@@ -35,7 +35,7 @@ spec:
 
     gateway:
       name: traefik
-      defaultScope: "All"
+      # defaultScope: "All"
       annotations: 
         # external-dns.alpha.kubernetes.io/access: "public"
         # external-dns.alpha.kubernetes.io/hostname: "k3s.h3rmt.dev"
@@ -71,7 +71,7 @@ spec:
     providers:
       kubernetesGateway:
         enabled: true
-        experimentalChannel: true
+        # experimentalChannel: true
       kubernetesIngress:
         enabled: false
     
