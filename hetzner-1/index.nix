@@ -50,6 +50,7 @@
     extraFlags = [
       "--flannel-backend=wireguard-native"
       "--flannel-ipv6-masq"
+      "--flannel-external-ip"
       "--disable=traefik"
       "--cluster-cidr=10.42.0.0/16,fd42:42::/56"
       "--service-cidr=10.43.0.0/16,fd42:43::/112"
