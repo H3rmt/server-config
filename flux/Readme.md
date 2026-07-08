@@ -31,6 +31,21 @@ cat age.key | kubectl create secret generic sops-age --namespace=flux-system --f
 kubectl annotate nodes ovh-1.h3rmt.dev external-dns.alpha.kubernetes.io/ttl=1200
 ```
 
+## Apply Flux config
+
+```bash
+kubectl apply -f ./flux.yaml
+```
+
+## Github webhook receiver
+
+```bash
+TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
+echo $TOKEN
+
+kubectl -n flux-system create secret generic webhook-token --from-literal=token=$TOKEN
+```
+
 ## Other
 
 ## Remove namespace
@@ -52,15 +67,6 @@ kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system 
 
 ```bash
 sops --encrypt --in-place <file>.enc.yaml
-```
-
-## Github webhook receiver
-
-```bash
-TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
-echo $TOKEN
-
-kubectl -n flux-system create secret generic webhook-token --from-literal=token=$TOKEN
 ```
 
 ## Reset k3s

@@ -5,6 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 12h
+  retryInterval: 5m
   url: https://cloudnative-pg.github.io/charts
 
 ---
