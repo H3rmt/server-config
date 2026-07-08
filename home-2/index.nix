@@ -40,13 +40,5 @@
     nodeLabel = ["gpu=1"];
     clusterInit = false;
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
-    extraFlags = [
-      "--flannel-backend=wireguard-native"
-      "--flannel-ipv6-masq"
-      "--disable=traefik"
-      "--cluster-cidr=10.42.0.0/16,fd42:42::/56"
-      "--service-cidr=10.43.0.0/16,fd42:43::/112"
-      "--tls-san=k3s-main.h3rmt.dev"
-    ];
   };
 }
