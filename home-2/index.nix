@@ -39,6 +39,6 @@
     nodeName = "${config.networking.hostName}.${config.networking.domain}";
     nodeLabel = ["gpu=1"];
     clusterInit = false;
-    serverAddr = "https://k3s-main.h3rmt.dev:6443";
+    serverAddr = "https://k3s.h3rmt.dev:6443";
   };
 }

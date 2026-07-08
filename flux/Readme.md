@@ -44,6 +44,8 @@ TOKEN=$(head -c 12 /dev/urandom | shasum | cut -d ' ' -f1)
 echo $TOKEN
 
 kubectl -n flux-system create secret generic webhook-token --from-literal=token=$TOKEN
+
+kubectl -n flux-system describe receiver github-webhook-receiver
 ```
 
 ## Other
@@ -60,7 +62,6 @@ kubectl delete namespace <namespace>
 # run for all that hang
 kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system --type=merge -p '{"metadata":{"finalizers":[]}}'
 ```
-
 
 
 ## Encryp secret file using sops
