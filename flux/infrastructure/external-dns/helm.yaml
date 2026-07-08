@@ -69,4 +69,5 @@ spec:
           timeoutSeconds: 5
     
     serviceMonitor:
+      # disable if deployed before prometheus
       enabled: true
