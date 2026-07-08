@@ -14,7 +14,7 @@
           GatewayOnLink = true;
         }
       ];
-      linkConfig.RequiredForOnline = "no";
+      linkConfig.RequiredForOnline = "yes";
     };
     links."10-eth" = {
       matchConfig.PermanentMACAddress = "30:9c:23:ce:db:65";
