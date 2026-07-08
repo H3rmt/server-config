@@ -21,8 +21,3 @@ spec:
   cluster:
     type: kubernetes
     size: medium        
-  sync:
-    kind: GitRepository
-    url: "https://github.com/h3rmt/server-config.git"
-    ref: "refs/heads/next"
-    path: "./flux"

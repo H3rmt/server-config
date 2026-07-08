@@ -3,9 +3,12 @@
 ## Setup
 
 ```bash
+nix-shell -p kubernetes-helm
+
 helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator \
-  --namespace flux-system \
-  --create-namespace
+--namespace flux-system \
+--kubeconfig /etc/rancher/k3s/k3s.yaml \
+--create-namespace
 ```
 
 ## Install Gateway CRDS
