@@ -63,8 +63,9 @@ spec:
         addRoutersLabels: true
         service:
           enabled: true
+        # disable if deployed before prometheus
         serviceMonitor:
-          enabled: true
+          enabled: false
       addInternals: false
 
     providers:
