@@ -66,6 +66,7 @@ kubectl -n flux-system create secret generic webhook-token --from-literal=token=
 ## Reset k3s
 
 https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md#cluster-reset
+
 ```bash
 KUBELET_PATH=$(mount | grep kubelet | cut -d' ' -f3);
 ${KUBELET_PATH:+umount $KUBELET_PATH}
