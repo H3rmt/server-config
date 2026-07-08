@@ -5,7 +5,6 @@ metadata:
   namespace: flux-system
 spec:
   interval: 12h
-  retryInterval: 5m
   url: oci://quay.io/jetstack/charts/cert-manager
   ref:
     semver: 1.20.3
@@ -40,7 +39,6 @@ metadata:
   namespace: flux-system
 spec:
   interval: 12h
-  retryInterval: 5m
   url: https://charts.hetzner.cloud
 
 ---
