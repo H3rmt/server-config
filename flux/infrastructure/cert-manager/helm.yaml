@@ -17,7 +17,7 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
-  interval: 10m
+  interval: 2m
   chartRef:
     kind: OCIRepository
     name: cert-manager
@@ -49,7 +49,7 @@ metadata:
   name: cert-manager-hetzner
   namespace: cert-manager
 spec:
-  interval: 10m
+  interval: 2m
   chart:
     spec:
       chart: cert-manager-webhook-hetzner

@@ -17,7 +17,7 @@ metadata:
   name: traefik
   namespace: kube-system
 spec:
-  interval: 10m
+  interval: 2m
   chartRef:
     kind: OCIRepository
     name: traefik
@@ -42,11 +42,13 @@ spec:
       listeners:
         http:
           port: 8000
+          hostname: "*.h3rmt.dev"
           protocol: HTTP
           namespacePolicy: 
             from: All
         https:
           port: 8443
+          hostname: "*.h3rmt.dev"
           protocol: HTTPS
           namespacePolicy: 
             from: All
