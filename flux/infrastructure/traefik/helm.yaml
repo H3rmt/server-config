@@ -58,7 +58,8 @@ spec:
     # Privacy-friendly Prometheus metrics (cluster-internal only)
     metrics:
       prometheus:
-        enabled: true
+        # disable if deployed before prometheus
+        enabled: false
         addRoutersLabels: true
         service:
           enabled: true
