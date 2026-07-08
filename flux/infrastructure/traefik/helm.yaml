@@ -26,11 +26,25 @@ spec:
     api:
       dashboard: true
     
-    ingressRoute:
-      dashboard:
-        enabled: true
-        entryPoints:
-         - web
+    # ingressRoute:
+      # dashboard:
+        # enabled: true
+
+    extraObjects:
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: traefik-dashboard
+        spec:
+          type: ClusterIP
+          selector:
+            app.kubernetes.io/name: traefik
+            app.kubernetes.io/instance: traefik-traefik
+          ports:
+            - port: 9000
+              name: traefik
+              targetPort: traefik
+              protocol: TCP
 
     # Privacy-friendly Prometheus metrics (cluster-internal only)
     metrics:
