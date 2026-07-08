@@ -58,6 +58,8 @@
     nodeLabel = [];
     # Note: This must be true the very first time the cluster is initialized, but must be set to false for subsequent runs.
     clusterInit = false;
+    # Might need to be disabled on very first time
+    serverAddr = "https://k3s.h3rmt.dev:6443";
     extraFlags = [
       "--flannel-backend=wireguard-native"
       "--flannel-ipv6-masq"
