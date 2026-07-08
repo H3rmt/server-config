@@ -2,6 +2,8 @@
 
 ## Setup
 
+### Flux controller
+
 ```bash
 nix-shell -p kubernetes-helm
 
@@ -11,11 +13,25 @@ helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-opera
 --create-namespace
 ```
 
-## Install Gateway CRDS
+### Install Gateway CRDS
 
 ```bash
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.1/standard-install.yaml
 ```
+
+## Create and apply initial sops secret
+
+```bash
+cat age.key | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
+```
+
+## Annotate node (external-dns)
+
+```bash
+kubectl annotate nodes ovh-1.h3rmt.dev external-dns.alpha.kubernetes.io/ttl=1200
+```
+
+## Other
 
 ## Remove namespace
 
@@ -30,22 +46,7 @@ kubectl delete namespace <namespace>
 kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system --type=merge -p '{"metadata":{"finalizers":[]}}'
 ```
 
-## Reset k3s
 
-https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md#cluster-reset
-```bash
-KUBELET_PATH=$(mount | grep kubelet | cut -d' ' -f3);
-${KUBELET_PATH:+umount $KUBELET_PATH}
-
-rm -rf /etc/rancher/{k3s,node};
-rm -rf /var/lib/{rancher/k3s,kubelet,longhorn,etcd,cni}
-```
-
-## Create and apply initial sops secret
-
-```bash
-cat age.key | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
-```
 
 ## Encryp secret file using sops
 
@@ -62,8 +63,13 @@ echo $TOKEN
 kubectl -n flux-system create secret generic webhook-token --from-literal=token=$TOKEN
 ```
 
-## Annotate node
+## Reset k3s
 
+https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md#cluster-reset
 ```bash
-kubectl annotate nodes ovh-1.h3rmt.dev external-dns.alpha.kubernetes.io/ttl=1200
+KUBELET_PATH=$(mount | grep kubelet | cut -d' ' -f3);
+${KUBELET_PATH:+umount $KUBELET_PATH}
+
+rm -rf /etc/rancher/{k3s,node};
+rm -rf /var/lib/{rancher/k3s,kubelet,longhorn,etcd,cni}
 ```
