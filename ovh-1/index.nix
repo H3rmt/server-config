@@ -58,10 +58,11 @@
     clusterInit = false;
     extraFlags = [
       "--flannel-backend=wireguard-native"
+      "--flannel-ipv6-masq"
       "--tls-san=k3s-main.h3rmt.dev"
       "--disable=traefik"
-      "--cluster-cidr=10.42.0.0/16,fd00:42::/56"
-      "--service-cidr=10.43.0.0/16,fd00:43::/112"
+      "--cluster-cidr=10.42.0.0/16,2001:db8:42::/56"
+      "--service-cidr=10.43.0.0/16,2001:db8:43::/112"
       "--node-external-ip=${config.custom.server."ovh-1".public-ip-v4},${config.custom.server."ovh-1".public-ip-v6}"
       "--kube-controller-manager-arg=node-eviction-rate=0.5"
     ];

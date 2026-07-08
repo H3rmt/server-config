@@ -49,6 +49,7 @@
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [
       "--flannel-backend=wireguard-native"
+      "--flannel-ipv6-masq"
       "--disable=traefik"
       "--tls-san=k3s-main.h3rmt.dev"
       "--node-external-ip=${config.custom.server."hetzner-1".public-ip-v4},${config.custom.server."hetzner-1".public-ip-v6}"

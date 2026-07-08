@@ -40,6 +40,7 @@
     serverAddr = "https://k3s-main.h3rmt.dev:6443";
     extraFlags = [
       "--flannel-backend=wireguard-native"
+      "--flannel-ipv6-masq"
     ];
   };
 }
