@@ -29,7 +29,14 @@ kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system 
 
 ## Reset k3s
 
-https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md
+https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md#cluster-reset
+```bash
+KUBELET_PATH=$(mount | grep kubelet | cut -d' ' -f3);
+${KUBELET_PATH:+umount $KUBELET_PATH}
+
+rm -rf /etc/rancher/{k3s,node};
+rm -rf /var/lib/{rancher/k3s,kubelet,longhorn,etcd,cni}
+```
 
 ## Create and apply initial sops secret
 

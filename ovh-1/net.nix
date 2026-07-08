@@ -7,7 +7,7 @@
       dns = config.custom.nameservers;
       address = [
         "${config.custom.server."ovh-1".public-ip-v4}/32"
-        "${config.custom.server."ovh-1".public-ip-v6}/128"
+        "${config.custom.server."ovh-1".public-ip-v6}/64"
       ];
       routes = [
         {

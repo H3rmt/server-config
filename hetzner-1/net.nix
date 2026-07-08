@@ -7,7 +7,7 @@
       dns = config.custom.nameservers-hetzner;
       address = [
         "${config.custom.server."hetzner-1".public-ip-v4}/32"
-        "${config.custom.server."hetzner-1".public-ip-v6}/128"
+        "${config.custom.server."hetzner-1".public-ip-v6}/64"
       ];
       routes = [
         {
