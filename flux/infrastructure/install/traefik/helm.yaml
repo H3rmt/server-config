@@ -101,10 +101,6 @@ spec:
           tracing: false
       websecure:
         asDefault: true
-        http:
-          middlewares:
-            - default-auth@kubernetescrd
-            - default-strip@kubernetescrd
         http3:
           enabled: true
           advertisedPort: 443
