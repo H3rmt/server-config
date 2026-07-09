@@ -95,7 +95,8 @@ spec:
       buckets:
         - name: juice-1
       keys:
-        - secretName: juice-1-s3-secret
+        juice-1:
+          secretName: juice-1-s3-secret
           keyId: key-id
           secretKey: secret
           buckets:
