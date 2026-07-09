@@ -42,10 +42,8 @@ spec:
     persistence:
       enabled: true
       meta:
-        storageClass: local-path
         hostPath: /mnt/tank-garage/meta
       data:
-        storageClass: local-path
         hostPath: /mnt/tank-garage/data
     deployment:
       kind: DaemonSet
