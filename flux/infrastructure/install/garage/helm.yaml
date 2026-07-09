@@ -43,10 +43,10 @@ spec:
       enabled: true
       meta:
         storageClass: local-path
-        hostPath: /mnt/tank-data/meta
+        hostPath: /mnt/tank-garage/meta
       data:
         storageClass: local-path
-        hostPath: /mnt/tank-data/data
+        hostPath: /mnt/tank-garage/data
     deployment:
       kind: DaemonSet
     gatewayApi:
