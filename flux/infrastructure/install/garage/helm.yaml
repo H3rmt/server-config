@@ -1,0 +1,120 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: garage
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: https://datahub-local.github.io/garage-helm
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage
+  namespace: garage
+spec:
+  interval: 2m
+  chart:
+    spec:
+      chart: garage
+      version: 0.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: garage
+        namespace: flux-system
+      interval: 1h
+  values:
+    garage:
+      replicationFactor: 2
+      compressionLevel: 3
+      secret:
+        create: false
+        name: garage-secret
+      s3:
+        api:
+          region: "garage"
+          rootDomain: ".s3.h3rmt.dev"
+        web:
+          rootDomain: ".web.h3rmt.dev"
+          index: "index.html"
+    persistence:
+      enabled: true
+      meta:
+        storageClass: local-path
+        hostPath: /mnt/tank-data/meta
+      data:
+        storageClass: local-path
+        hostPath: /mnt/tank-data/data
+    deployment:
+      kind: DaemonSet
+    gatewayApi:
+      s3:
+        api:
+          enabled: true
+          hostnames:
+            - s3.h3rmt.dev
+            - "*.s3.h3rmt.dev"
+          parentRefs: 
+            - name: traefik
+              namespace: kube-system
+              kind: Gateway
+              sectionName: websecure
+          annotations:
+            external-dns.alpha.kubernetes.io/ttl: "300"
+      web:
+        enabled: true
+        hostnames:
+          - web.h3rmt.dev
+          - "*.web.h3rmt.dev"
+        parentRefs: 
+          - name: traefik
+            namespace: kube-system
+            kind: Gateway
+            sectionName: websecure
+        annotations:
+          external-dns.alpha.kubernetes.io/ttl: "300"
+    
+    monitoring:
+      metrics:
+        enabled: true
+        serviceMonitor:
+          # disable if deployed before prometheus
+          enabled: false
+        grafanaDashboard:
+          # disable if deployed before grafana
+          enabled: false
+    
+    clusterConfig:
+      enabled: true
+      layout:
+        enabled: true
+        zone: dc1
+        capacity: 2Ti
+      buckets:
+        - name: juice-1
+      keys:
+          secretName: juice-1-s3-secret
+          keyId: key-id
+          secretKey: secret
+          buckets:
+            - name: juice-1
+              read: true
+              write: true
+    
+    webui:
+      enabled: true
+      gatewayApi:
+        # Enable in future when oidc is ready
+        enabled: false
+        hostnames:
+          - garage.h3rmt.dev
+        parentRefs: 
+          - name: traefik
+            namespace: kube-system
+            kind: Gateway
+            sectionName: websecure
+        annotations:
+          external-dns.alpha.kubernetes.io/ttl: "300"
+        

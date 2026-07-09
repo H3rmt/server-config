@@ -1,6 +1,6 @@
 # Flux on k3s
 
-## Setup
+## Setup (on the initial k3s server with clusterInit = true)
 
 ### Flux controller
 
@@ -46,9 +46,17 @@ echo $TOKEN
 kubectl -n flux-system create secret generic webhook-token --from-literal=token=$TOKEN
 
 kubectl -n flux-system describe receiver github-webhook-receiver
+# Enter url on github
 ```
 
 ## Other
+
+## View Flux Operator and Headlamp
+
+```bash
+kubectl -n kube-system port-forward service/headlamp 50000:80 &
+kubectl -n flux-system port-forward service/flux-operator 50001:9080 &
+```
 
 ## Remove namespace
 
