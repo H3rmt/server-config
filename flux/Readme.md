@@ -56,6 +56,9 @@ kubectl -n flux-system describe receiver github-webhook-receiver
 ```bash
 kubectl -n kube-system port-forward service/headlamp 50000:80 &
 kubectl -n flux-system port-forward service/flux-operator 50001:9080 &
+
+# Get secret for headlamp login
+kubectl create token headlamp-admin -n kube-system
 ```
 
 ## Remove namespace
