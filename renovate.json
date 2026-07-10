@@ -11,6 +11,8 @@
   },
   "lockFileMaintenance": {
     "enabled": true,
+    "recreateWhen": "always",
+    "branchTopic": "lock-file-maintenance",
     "schedule": ["before 4am on monday"]
   }
 }
