@@ -11,6 +11,8 @@
       "net.ipv4.ip_unprivileged_port_start" = 0;
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;
+      "net.ipv6.conf.all.accept_ra" = 2;
+      "net.ipv6.conf.all.accept_ra_rt_info_max_plen" = 64;
     };
     # loader = {
       # grub = {
