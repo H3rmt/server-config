@@ -5,4 +5,4 @@ resources:
   - traefik
   - operators
   - external-dns
-  - garage
+  # - garage
