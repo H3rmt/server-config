@@ -49,7 +49,7 @@ spec:
             - name: BAUDRATE
               value: "460800"
         - name: matter
-          image: ghcr.io/matter-js/matterjs-server:v1.2.4
+          image: ghcr.io/matter-js/matterjs-server:1.2.4
           ports:
             - name: matter
               containerPort: 5580
