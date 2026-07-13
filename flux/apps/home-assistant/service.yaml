@@ -9,7 +9,9 @@ spec:
     app: home-assistant
     namespace: home-assistant
   ports:
-    - port: 8001
+    - name: hass
+      port: 8001
       targetPort: hass
-    - port: 8002
+    - name: otbr-web
+      port: 8002
       targetPort: otbr-web
