@@ -43,6 +43,8 @@ spec:
             value: "8081"
           - name: THREAD_BETA
             value: "1"
+          - name: BAUDRATE
+            value: "460800"
           volumeMounts:
             - name: config
               mountPath: /config
