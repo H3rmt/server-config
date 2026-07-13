@@ -35,7 +35,8 @@
   services.avahi = {
     enable = true;
     reflector = true;
-    allowInterfaces = [ "eth0" ];
+    # bind to all
+    # allowInterfaces = [ "eth0" ];
     openFirewall = true;
   };
   services.k3s = {
