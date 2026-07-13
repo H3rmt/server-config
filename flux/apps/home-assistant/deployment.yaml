@@ -36,6 +36,7 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
+            claimName: home-assistant-config
         - name: serial-by-id
           hostPath:
             path: /dev/serial/by-id
