@@ -38,6 +38,7 @@ spec:
             runAsUser: 0
             runAsGroup: 0
             supplementalGroups:
+              - 20
               - 27
           env:
             - name: DEVICE
