@@ -46,8 +46,12 @@ spec:
               value: "1"
             - name: THREAD_BETA
               value: "1"
+            - name: AUTOFLASH_FIRMWARE
+              value: "0"
             - name: BAUDRATE
               value: "460800"
+            - name: OTBR_LOG_LEVEL
+              value: "warning"
         - name: matter
           image: ghcr.io/matter-js/matterjs-server:1.2.4
           ports:
