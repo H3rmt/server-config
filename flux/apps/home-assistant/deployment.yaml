@@ -28,7 +28,7 @@ spec:
             - name: config
               mountPath: /config
         - name: openthread-border-router
-          image: ghcr.io/ownbee/hass-otbr-docker:0.3.0
+          image: ghcr.io/ownbee/hass-otbr-docker:7e60d50
           ports:
             - name: otbr-rest
               containerPort: 8080
