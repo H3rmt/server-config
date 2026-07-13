@@ -4,17 +4,16 @@ metadata:
   name: home-assistant
   namespace: home-assistant
 spec:
-  type: ClusterIP
   selector:
     app: home-assistant
     namespace: home-assistant
   ports:
     - name: hass
       port: 8001
-      targetPort: hass
+      targetPort: 8123
     - name: otbr-web
       port: 8002
-      targetPort: otbr-web
+      targetPort: 8085
     - name: matter
       port: 8003
-      targetPort: matter
+      targetPort: 5580
