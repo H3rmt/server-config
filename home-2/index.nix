@@ -32,6 +32,12 @@
   services.fail2ban.enable = lib.mkForce false;
   services.zfs.autoScrub.enable = true;
 
+  services.avahi = {
+    enable = true;
+    reflector = true;
+    allowInterfaces = [ "eth0" ];
+    openFirewall = true;
+  };
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;
