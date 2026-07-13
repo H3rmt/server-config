@@ -18,7 +18,9 @@
     rejectPackets = true;
     interfaces."eth0" = {
       allowedTCPPorts = [ ];
-      allowedUDPPorts = [ ];
+      allowedUDPPorts = [ 
+        5353 # mDNS
+      ];
     };
     trustedInterfaces = [
       "wg0"
