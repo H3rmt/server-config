@@ -48,9 +48,23 @@ spec:
               value: "1"
             - name: BAUDRATE
               value: "460800"
+        - name: matter
+          image: ghcr.io/matter-js/matterjs-server:v1.2.4
+          ports:
+            - name: matter
+              containerPort: 5580
+          volumeMounts:
+            - name: matter-data
+              mountPath: /data
+          env:
+            - name: PRODUCTION_MODE
+              value: "1"
       nodeSelector:
         thread-usb: "1"
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: home-assistant-config
+        - name: matter-data
+          persistentVolumeClaim:
+            claimName: matter-data
