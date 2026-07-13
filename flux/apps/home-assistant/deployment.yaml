@@ -24,6 +24,8 @@ spec:
           - name: TZ
             value: "Europe/Berlin"
           volumeMounts:
+            - name: config
+              mountPath: /config
             - name: serial-by-id
               mountPath: /dev/serial/by-id
               readOnly: true
@@ -32,6 +34,8 @@ spec:
       nodeSelector:
         thread-usb: "1"
       volumes:
+        - name: config
+          persistentVolumeClaim:
         - name: serial-by-id
           hostPath:
             path: /dev/serial/by-id
@@ -40,3 +44,4 @@ spec:
           hostPath:
             path: /dev/ttyUSB0
             type: CharDevice
+        
