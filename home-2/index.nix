@@ -37,7 +37,7 @@
     tokenFile = config.age.secrets.k3s.path;
     role = "agent";
     nodeName = "${config.networking.hostName}.${config.networking.domain}";
-    nodeLabel = ["gpu=1"];
+    nodeLabel = ["gpu=1", "thread-usb=1"];
     clusterInit = false;
     serverAddr = "https://k3s.h3rmt.dev:6443";
   };

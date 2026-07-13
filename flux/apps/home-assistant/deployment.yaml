@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSets
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-assistant
+      namespace: home-assistant
+  template:
+    metadata:
+      labels:
+        app: home-assistant
+        namespace: home-assistant
+    spec:
+      containers:
+        - name: home-assistant
+          image: ghcr.io/home-assistant/home-assistant:2026.7
+          ports:
+            - containerPort: 8123
+          env:
+          - name: TZ
+            value: "Europe/Berlin"
+          volumeMounts:
+            - name: serial-by-id
+              mountPath: /dev/serial/by-id
+              readOnly: true
+            - name: ttyusb0
+              mountPath: /dev/ttyUSB0
+      nodeSelector:
+        thread-usb: 1
+      volumes:
+        - name: serial-by-id
+          hostPath:
+            path: /dev/serial/by-id
+            type: Directory
+        - name: ttyusb0
+          hostPath:
+            path: /dev/ttyUSB0
+            type: CharDevice

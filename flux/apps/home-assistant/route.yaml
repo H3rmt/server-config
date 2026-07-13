@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+  annotations:
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  parentRefs:
+    - name: traefik
+      namespace: kube-system
+      kind: Gateway
+      sectionName: websecure
+  hostnames:
+    - home.h3rmt.dev
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: home-assistant
+          namespace: home-assistant
+          port: 8123
