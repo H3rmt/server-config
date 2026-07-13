@@ -29,7 +29,8 @@ spec:
         - name: openthread-border-router
           image: ghcr.io/ownbee/hass-otbr-docker:0.3.0
           ports:
-            - containerPort: 8123
+            - containerPort: 8080
+            - containerPort: 8081
           env:
           - name: DEVICE
             value: "/dev/ttyUSB0"
