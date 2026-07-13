@@ -8,12 +8,9 @@ spec:
     app: home-assistant
     namespace: home-assistant
   ports:
-    - name: hass
-      port: 8123
+    - port: 8123
       targetPort: 8123
-    - name: otbr-web
-      port: 8085
+    - port: 8085
       targetPort: 8085
-    - name: matter
-      port: 5580
+    - port: 5580
       targetPort: 5580
