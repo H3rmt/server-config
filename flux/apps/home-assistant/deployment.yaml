@@ -41,6 +41,8 @@ spec:
             value: "8080"
           - name: OTBR_WEB_PORT
             value: "8081"
+          - name: OTBR_WEB
+            value: "1"
           - name: THREAD_BETA
             value: "1"
           - name: BAUDRATE
