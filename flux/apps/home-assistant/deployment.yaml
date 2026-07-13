@@ -23,6 +23,12 @@ spec:
           ports:
             - name: hass
               containerPort: 8123
+          securityContext:
+            # needed for networking
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
           env:
             - name: TZ
               value: "Europe/Berlin"
