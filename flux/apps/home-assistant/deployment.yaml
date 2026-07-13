@@ -51,7 +51,7 @@ spec:
             - name: BAUDRATE
               value: "460800"
             - name: OTBR_LOG_LEVEL
-              value: "warning"
+              value: "info"
         - name: matter
           image: ghcr.io/matter-js/matterjs-server:1.2.4
           ports:
