@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: home-assistant
+  name: home-assistant-svc
   namespace: home-assistant
 spec:
   selector:
@@ -9,11 +9,11 @@ spec:
     namespace: home-assistant
   ports:
     - name: hass
-      port: 8001
+      port: 8123
       targetPort: 8123
     - name: otbr-web
-      port: 8002
+      port: 8085
       targetPort: 8085
     - name: matter
-      port: 8003
+      port: 5580
       targetPort: 5580

@@ -19,6 +19,6 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: home-assistant
+        - name: home-assistant-svc
           namespace: home-assistant
-          port: 8001
+          port: 8123
