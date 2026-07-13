@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: matter-server
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matter-server
+  template:
+    metadata:
+      labels:
+        app: matter-server
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      nodeSelector:
+        thread-usb: "1"
+      containers:
+        - name: matter
+          image: ghcr.io/matter-js/matterjs-server:1.2.4
+          securityContext:
+            privileged: true
+          ports:
+            - name: matter
+              containerPort: 5580
+          volumeMounts:
+            - name: matter-data
+              mountPath: /data
+          env:
+            - name: PRODUCTION_MODE
+              value: "1"
+            - name: PRIMARY_INTERFACE
+              value: "eth0"
+      volumes:
+        - name: matter-data
+          persistentVolumeClaim:
+            claimName: matter-data

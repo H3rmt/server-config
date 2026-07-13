@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: openthread-border-router
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openthread-border-router
+  template:
+    metadata:
+      labels:
+        app: openthread-border-router
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      nodeSelector:
+        thread-usb: "1"
+      containers:
+        - name: openthread-border-router
+          image: ghcr.io/ownbee/hass-otbr-docker:7e60d50
+          ports:
+            - name: otbr-rest
+              containerPort: 8081
+            - name: otbr-web
+              containerPort: 8085
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: otbr-data
+              mountPath: /data
+          env:
+            - name: DEVICE
+              value: "/dev/ttyUSB0"
+            - name: BACKBONE_IF
+              value: "eth0"
+            - name: OTBR_WEB_PORT
+              value: "8085"
+            - name: OTBR_WEB
+              value: "1"
+            - name: THREAD_BETA
+              value: "0"
+            - name: AUTOFLASH_FIRMWARE
+              value: "0"
+            - name: FLOW_CONTROL
+              value: "0"
+            - name: BAUDRATE
+              value: "460800"
+            - name: OTBR_LOG_LEVEL
+              value: "info"
+      volumes:
+        - name: otbr-data
+          persistentVolumeClaim:
+            claimName: otbr-data
