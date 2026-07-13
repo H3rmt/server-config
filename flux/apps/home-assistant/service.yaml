@@ -15,3 +15,6 @@ spec:
     - name: otbr-web
       port: 8002
       targetPort: otbr-web
+    - name: matter
+      port: 8003
+      targetPort: matter
