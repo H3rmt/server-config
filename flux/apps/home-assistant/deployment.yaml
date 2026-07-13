@@ -22,8 +22,8 @@ spec:
             - name: hass
               containerPort: 8123
           env:
-          - name: TZ
-            value: "Europe/Berlin"
+            - name: TZ
+              value: "Europe/Berlin"
           volumeMounts:
             - name: config
               mountPath: /config
@@ -34,24 +34,28 @@ spec:
               containerPort: 8080
             - name: otbr-web
               containerPort: 8081
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            supplementalGroups:
+              - 27
           env:
-          - name: DEVICE
-            value: "/dev/ttyUSB0"
-          - name: OTBR_REST_PORT
-            value: "8080"
-          - name: OTBR_WEB_PORT
-            value: "8081"
-          - name: OTBR_WEB
-            value: "1"
-          - name: THREAD_BETA
-            value: "1"
-          - name: BAUDRATE
-            value: "460800"
+            - name: DEVICE
+              value: "/dev/ttyUSB0"
+            - name: OTBR_REST_PORT
+              value: "8080"
+            - name: OTBR_WEB_PORT
+              value: "8081"
+            - name: OTBR_WEB
+              value: "1"
+            - name: THREAD_BETA
+              value: "1"
+            - name: BAUDRATE
+              value: "460800"
           volumeMounts:
-            - name: config
-              mountPath: /config
             - name: ttyusb0
               mountPath: /dev/ttyUSB0
+          
       nodeSelector:
         thread-usb: "1"
       volumes:
@@ -62,4 +66,3 @@ spec:
           hostPath:
             path: /dev/ttyUSB0
             type: CharDevice
-        
