@@ -30,7 +30,7 @@ spec:
             - name: ttyusb0
               mountPath: /dev/ttyUSB0
       nodeSelector:
-        thread-usb: 1
+        thread-usb: "1"
       volumes:
         - name: serial-by-id
           hostPath:
