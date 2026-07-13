@@ -35,6 +35,8 @@ spec:
               value: "/dev/ttyUSB0"
             - name: BACKBONE_IF
               value: "eth0"
+            - name: NAT64
+              value: "1"
             - name: OTBR_WEB_PORT
               value: "8085"
             - name: OTBR_WEB
