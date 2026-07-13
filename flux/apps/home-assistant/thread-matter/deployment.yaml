@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: openthread-border-router
+  name: thread-matter
   namespace: home-assistant
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: openthread-border-router
+      app: thread-matter
   template:
     metadata:
       labels:
-        app: openthread-border-router
+        app: thread-matter
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
@@ -49,7 +49,25 @@ spec:
               value: "460800"
             - name: OTBR_LOG_LEVEL
               value: "info"
+        - name: matter
+          image: ghcr.io/matter-js/matterjs-server:1.2.4
+          ports:
+            - name: matter
+              containerPort: 5580
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: matter-data
+              mountPath: /data
+          env:
+            - name: PRODUCTION_MODE
+              value: "1"
+            - name: PRIMARY_INTERFACE
+              value: "eth0"
       volumes:
         - name: otbr-data
           persistentVolumeClaim:
             claimName: otbr-data
+        - name: matter-data
+          persistentVolumeClaim:
+            claimName: matter-data
