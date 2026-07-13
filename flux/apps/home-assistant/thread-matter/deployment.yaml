@@ -56,6 +56,8 @@ spec:
           ports:
             - name: matter
               containerPort: 5580
+            - name: matter-commissioning
+              containerPort: 5540
           securityContext:
             privileged: true
           volumeMounts:
