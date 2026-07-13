@@ -29,24 +29,14 @@ spec:
               mountPath: /config
         - name: openthread-border-router
           image: ghcr.io/ownbee/hass-otbr-docker:7e60d50
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              echo "debug container started"
-              id
-              ls -l /dev/ttyUSB0 || true
-              sleep infinity
           ports:
             - name: otbr-rest
               containerPort: 8081
             - name: otbr-web
               containerPort: 8085
           securityContext:
-            runAsUser: 0
-            runAsGroup: 0
-            supplementalGroups:
-              - 20
-              - 27
+            # needed for /dev/ttyUSB0 access
+            privileged: true
           env:
             - name: DEVICE
               value: "/dev/ttyUSB0"
