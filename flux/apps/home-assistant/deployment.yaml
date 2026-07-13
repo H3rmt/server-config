@@ -26,7 +26,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-        - name: OpenThread Border Router
+        - name: openthread-border-router
           image: ghcr.io/ownbee/hass-otbr-docker:0.3.0
           ports:
             - containerPort: 8123
