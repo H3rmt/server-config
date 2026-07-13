@@ -26,9 +26,22 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: serial-by-id
-              mountPath: /dev/serial/by-id
-              readOnly: true
+        - name: OpenThread Border Router
+          image: ghcr.io/ownbee/hass-otbr-docker:0.3.0
+          ports:
+            - containerPort: 8123
+          env:
+          - name: DEVICE
+            value: "/dev/ttyUSB0"
+          - name: OTBR_REST_PORT
+            value: "8080"
+          - name: OTBR_WEB_PORT
+            value: "8081"
+          - name: THREAD_BETA
+            value: "1"
+          volumeMounts:
+            - name: config
+              mountPath: /config
             - name: ttyusb0
               mountPath: /dev/ttyUSB0
       nodeSelector:
@@ -37,10 +50,6 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: home-assistant-config
-        - name: serial-by-id
-          hostPath:
-            path: /dev/serial/by-id
-            type: Directory
         - name: ttyusb0
           hostPath:
             path: /dev/ttyUSB0

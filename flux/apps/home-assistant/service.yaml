@@ -11,3 +11,6 @@ spec:
   ports:
     - port: 8123
       targetPort: 8123
+    - port: 8081
+      targetPort: 8081
+
