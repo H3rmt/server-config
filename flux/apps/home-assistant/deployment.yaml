@@ -77,6 +77,8 @@ spec:
           env:
             - name: PRODUCTION_MODE
               value: "1"
+            - name: PRIMARY_INTERFACE
+              value: "eth0"
       nodeSelector:
         thread-usb: "1"
       volumes:
