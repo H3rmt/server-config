@@ -15,6 +15,8 @@ spec:
         app: home-assistant
         namespace: home-assistant
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: home-assistant
           image: ghcr.io/home-assistant/home-assistant:2026.7
@@ -37,6 +39,14 @@ spec:
           securityContext:
             # needed for /dev/ttyUSB0 access
             privileged: true
+            # needed for networking
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_ADMIN
+          volumeMounts:
+            - name: otbr-data
+              mountPath: /data
           env:
             - name: DEVICE
               value: "/dev/ttyUSB0"
@@ -45,8 +55,10 @@ spec:
             - name: OTBR_WEB
               value: "1"
             - name: THREAD_BETA
-              value: "1"
+              value: "0"
             - name: AUTOFLASH_FIRMWARE
+              value: "0"
+            - name: FLOW_CONTROL
               value: "0"
             - name: BAUDRATE
               value: "460800"
@@ -72,3 +84,6 @@ spec:
         - name: matter-data
           persistentVolumeClaim:
             claimName: matter-data
+        - name: otbr-data
+          persistentVolumeClaim:
+            claimName: otbr-data
