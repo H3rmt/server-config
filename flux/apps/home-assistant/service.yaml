@@ -4,6 +4,10 @@ metadata:
   name: home-assistant-svc
   namespace: home-assistant
 spec:
+  clusterIP: None  # headless
+  selector:
+    app: home-assistant
+    namespace: home-assistant
   ports:
     - name: hass
       port: 8123
