@@ -16,7 +16,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: '[{
             "name": "home-assistant-nad",
             "interface": "home1",
-            "default-route": [ "10.42.3.1" ]
+            "default-route": [ "192.168.187.1" ]
           }]'
     spec:
       nodeSelector:
