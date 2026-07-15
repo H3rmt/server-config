@@ -13,10 +13,8 @@ spec:
       labels:
         app: home-assistant
       annotations:
-        k8s.v1.cni.cncf.io/networks: home-assistant-nad
+        k8s.v1.cni.cncf.io/networks: home-assistant-nad@net1
     spec:
-      hostNetwork: false
-      # dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
         thread-usb: "1"
       containers:
