@@ -13,13 +13,20 @@ spec:
       labels:
         app: home-assistant
     spec:
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: false
+      # dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
         thread-usb: "1"
       containers:
         - name: home-assistant
           image: ghcr.io/home-assistant/home-assistant:2026.7
+          ports:
+            - name: hass
+              containerPort: 8123
+              #  multicast discovery
+            - containerPort: 9522
+              hostPort: 9522
+              protocol: UDP
           env:
             - name: TZ
               value: "Europe/Berlin"
