@@ -6,7 +6,6 @@ metadata:
 spec:
   selector:
     app: home-assistant
-    namespace: home-assistant
   ports:
     - name: hass
       port: 8123

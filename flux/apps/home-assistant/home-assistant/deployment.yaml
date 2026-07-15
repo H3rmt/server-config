@@ -8,12 +8,10 @@ spec:
   selector:
     matchLabels:
       app: home-assistant
-      namespace: home-assistant
   template:
     metadata:
       labels:
         app: home-assistant
-        namespace: home-assistant
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
