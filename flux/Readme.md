@@ -49,6 +49,12 @@ kubectl -n flux-system describe receiver github-webhook-receiver
 # Enter url on github
 ```
 
+## Install multus-cni for network access for home-assistant
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset.yml
+```
+
 ## Other
 
 ## View Flux Operator and Headlamp
