@@ -13,7 +13,11 @@ spec:
       labels:
         app: home-assistant
       annotations:
-        k8s.v1.cni.cncf.io/networks: home-assistant-nad@home1
+        k8s.v1.cni.cncf.io/networks: '[{
+            "name": "home-assistant-nad",
+            "interface": "home1"
+            "default-route": [{ "interface": "eth0" }]
+          }]'
     spec:
       nodeSelector:
         thread-usb: "1"

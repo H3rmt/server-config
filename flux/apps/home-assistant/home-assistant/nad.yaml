@@ -12,7 +12,6 @@ spec:
       "ipam": {
         "type": "dhcp",
         "routes": [{ "dst": "192.168.187.0/24", "gw": "192.168.187.1" }],
-        "request": [{ "option": "routers", "skipDefault": true }],
         "provide": [{ "option": "host-name", "fromArg": "home-assistant" }],
         "subnet": "192.168.187.0/24"
       }
