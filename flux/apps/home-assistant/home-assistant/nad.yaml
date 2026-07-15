@@ -11,11 +11,11 @@ spec:
       "mode": "bridge",
       "ipam": {
         "type": "dhcp",
-        "routes": [{ "dst": "192.168.187.0/24" }],
         "provide": [{
           "option": "host-name",
           "fromArg": "home-assistant"
         }],
-        "gateway": false
+        "subnet": "192.168.187.0/24",
+        "gateway": "192.168.187.1"
       }
     }'
