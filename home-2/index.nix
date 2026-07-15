@@ -20,6 +20,7 @@
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ 
         5353 # mDNS
+        9522 # multicast discovery
       ];
     };
     trustedInterfaces = [
@@ -34,8 +35,9 @@
   services.fail2ban.enable = lib.mkForce false;
   services.zfs.autoScrub.enable = true;
 
+  # I don't know if this is needed 
   services.avahi = {
-    enable = true;
+    enable = false;
     reflector = true;
     # bind to all
     # allowInterfaces = [ "eth0" ];

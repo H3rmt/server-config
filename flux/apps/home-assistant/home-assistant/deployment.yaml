@@ -23,6 +23,10 @@ spec:
           ports:
             - name: hass
               containerPort: 8123
+              #  multicast discovery
+            - containerPort: 9522
+              hostPort: 9522
+              protocol: UDP
           env:
             - name: TZ
               value: "Europe/Berlin"
