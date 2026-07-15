@@ -14,9 +14,8 @@ spec:
         app: home-assistant
       annotations:
         k8s.v1.cni.cncf.io/networks: '[{
-            "name": "home-assistant-nad",
-            "interface": "home1",
-            "default-route": [ "192.168.187.1" ]
+            "name": "home-assistant-nad-macvlan",
+            "interface": "home1"
           }]'
     spec:
       nodeSelector:
