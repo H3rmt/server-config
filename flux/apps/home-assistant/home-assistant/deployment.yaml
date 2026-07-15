@@ -16,7 +16,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: '[{
             "name": "home-assistant-nad",
             "interface": "home1",
-            "default-route": [{ "interface": "eth0" }]
+            "default-route": []
           }]'
     spec:
       nodeSelector:
