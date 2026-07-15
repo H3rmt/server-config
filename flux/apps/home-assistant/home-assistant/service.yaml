@@ -4,6 +4,7 @@ metadata:
   name: home-assistant-svc
   namespace: home-assistant
 spec:
+  type: ClusterIP
   selector:
     app: home-assistant
   ports:

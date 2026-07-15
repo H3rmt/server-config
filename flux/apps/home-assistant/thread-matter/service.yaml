@@ -4,6 +4,7 @@ metadata:
   name: thread-matter-svc
   namespace: home-assistant
 spec:
+  type: ClusterIP
   selector:
     app: thread-matter
   ports:
