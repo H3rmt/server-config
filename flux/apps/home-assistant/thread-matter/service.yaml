@@ -16,6 +16,6 @@ spec:
     - name: matter
       port: 5580
       targetPort: 5580
-    - name: matter-commissioning
+    - name: matter-com
       port: 5540
       targetPort: 5540

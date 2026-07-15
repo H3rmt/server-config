@@ -20,11 +20,6 @@ spec:
       containers:
         - name: openthread-border-router
           image: ghcr.io/ownbee/hass-otbr-docker:7e60d50
-          ports:
-            - name: otbr-rest
-              containerPort: 8081
-            - name: otbr-web
-              containerPort: 8085
           securityContext:
             privileged: true
           volumeMounts:
@@ -53,13 +48,8 @@ spec:
               value: "info"
         - name: matter
           image: ghcr.io/matter-js/matterjs-server:1.2.5
-          ports:
-            - name: matter
-              containerPort: 5580
-            - name: matter-commissioning
-              containerPort: 5540
-          securityContext:
-            privileged: true
+          # securityContext:
+          #   privileged: true
           volumeMounts:
             - name: matter-data
               mountPath: /data
