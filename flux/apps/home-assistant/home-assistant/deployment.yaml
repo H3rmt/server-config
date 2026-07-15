@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         app: home-assistant
+      annotations:
+        k8s.v1.cni.cncf.io/networks: home-assistant-nad
     spec:
       hostNetwork: false
       # dnsPolicy: ClusterFirstWithHostNet
