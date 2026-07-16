@@ -30,6 +30,11 @@ spec:
           env:
             - name: TZ
               value: "Europe/Berlin"
+            - name: PG_URL # load from storage-app secret
+              valueFrom:
+                secretKeyRef:
+                  name: storage-app
+                  key: fqdn-uri
           volumeMounts:
             - name: config
               mountPath: /config

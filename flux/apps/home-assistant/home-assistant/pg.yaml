@@ -8,16 +8,3 @@ spec:
   storage:
     storageClass: local-path
     size: 15Gi
-
----
-
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: home-assistant-storage-database
-  namespace: home-assistant
-spec:
-  cluster: 
-    name: storage
-  name: storage
-  owner: home-assistant
