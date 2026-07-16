@@ -9,6 +9,7 @@ spec:
       "type": "macvlan",
       "master": "eth0", 
       "mode": "bridge",
+      "ipam": {
         "type": "static",
         "addresses": [{ "address": "192.168.187.13/24" }],
         "routes": [{ "dst": "192.168.187.0/24" }]
