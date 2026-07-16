@@ -1,7 +1,7 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: home-assistant-nad-macvlan
+  name: home-assistant-nad
   namespace: home-assistant
 spec:
   config: '{
@@ -9,10 +9,8 @@ spec:
       "type": "macvlan",
       "master": "eth0", 
       "mode": "bridge",
-      "ipam": {
-        "type": "dhcp",
-        "routes": [{ "dst": "192.168.187.0/24", "gw": "192.168.187.1" }],
-        "provide": [{ "option": "host-name", "fromArg": "home-assistant" }],
-        "subnet": "192.168.187.0/24"
+        "type": "static",
+        "addresses": [{ "address": "192.168.187.13/24" }],
+        "routes": [{ "dst": "192.168.187.0/24" }]
       }
     }'
