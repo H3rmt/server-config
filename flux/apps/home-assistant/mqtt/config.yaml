@@ -20,7 +20,7 @@ data:
 
     log_type subscribe
     log_type unsubscribe
-    log_type rst
+    log_type debug
 
   acls: |
     # Allow home-assistant to do everything
