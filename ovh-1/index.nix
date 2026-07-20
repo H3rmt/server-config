@@ -7,7 +7,6 @@
   imports = [
     ./net.nix
     ./host.nix
-    ./secrets.nix
   ];
 
   networking.nftables.enable = true;

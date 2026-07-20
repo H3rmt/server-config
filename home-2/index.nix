@@ -22,7 +22,7 @@
       ];
       allowedUDPPorts = [ 
         5353 # mDNS
-        9522 # multicast discovery
+        9522 # SMA Speedwire
       ];
     };
     trustedInterfaces = [
