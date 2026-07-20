@@ -1,3 +1,4 @@
 result
 k8s/test
 flux/age.key
+*.raw.yaml

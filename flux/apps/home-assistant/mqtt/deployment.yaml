@@ -13,6 +13,10 @@ spec:
       labels:
         app: mosquitto
     spec:
+      securityContext:
+        runAsUser: 1883
+        runAsGroup: 1883
+        fsGroup: 1883
       nodeSelector:
         thread-usb: "1"
       containers:
@@ -39,9 +43,11 @@ spec:
         - name: config
           configMap:
             name: mosquitto-config
+            defaultMode: 0600
         - name: auth
           secret:
             secretName: mosquitto-auth
+            defaultMode: 0600
         - name: data
           persistentVolumeClaim:
             claimName: mosquitto-data-pvc
