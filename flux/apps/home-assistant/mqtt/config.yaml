@@ -11,10 +11,11 @@ data:
     persistence_location /mosquitto/data/
     log_dest stdout
 
-    password_file /mosquitto/config/pwfile
+    global_plugin /usr/lib/mosquitto_password_file.so
+    plugin_opt_password_file /mosquitto/config/pwfile
 
     # Access Control List (ACL) configuration
-    plugin /usr/lib/mosquitto_plugins/mosquitto_acl_file.so
+    global_plugin /usr/lib/mosquitto_acl_file.so
     plugin_opt_acl_file /mosquitto/config/acls
 
   acls: |
