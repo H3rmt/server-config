@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mosquitto
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mosquitto
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+    spec:
+      nodeSelector:
+        thread-usb: "1"
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto:2.1.2-alpine
+          ports:
+            - containerPort: 1883
+              hostPort: 1883
+              protocol: TCP
+              name: mqtt
+          volumeMounts:
+            - name: config
+              mountPath: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+            - name: data
+              mountPath: /mosquitto/data
+      volumes:
+        - name: config
+          configMap:
+            name: mosquitto-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: mosquitto-data-pvc
