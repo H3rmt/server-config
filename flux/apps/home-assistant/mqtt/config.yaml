@@ -6,8 +6,22 @@ metadata:
 data:
   mosquitto.conf: |
     listener 1883 0.0.0.0
-    allow_anonymous true
     
     persistence true
     persistence_location /mosquitto/data/
     log_dest stdout
+
+    password_file /mosquitto/config/pwfile
+
+    # Access Control List (ACL) configuration
+    plugin /usr/lib/mosquitto_plugins/mosquitto_acl_file.so
+    plugin_opt_acl_file /mosquitto/config/acls
+
+  acls: |
+    # Allow homeassistant to do everything
+    user homeassistant
+    topic readwrite #
+
+    # User go-eCharger can read and write to the go-eCharger topic
+    user go-eCharger
+    topic readwrite go-eCharger/#

@@ -17,24 +17,21 @@
     rejectPackets = true;
     interfaces."eth0" = {
       allowedTCPPorts = [
+        443
+        80
         6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
         2379 # k3s, etcd clients: required if using a "High Availability Embedded etcd" configuration
         2380 # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
-        443
-        80
-        222 # temp ssh access
+        222  # temp ssh access
         25565 # temp minecraft access
       ];
       allowedUDPPorts = [
         443
-        8472 # k3s, flannel: required if using multi-node for inter-node networking
-        51820 # wireguard
+        8472  # k3s, flannel: required if using multi-node for inter-node networking
       ];
     };
     trustedInterfaces = [
-      "wg0"
       "cni0"
-      "flannel.1"
       "flannel-wg"
       "flannel-wg-v6"
     ];

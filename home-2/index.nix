@@ -17,16 +17,16 @@
     enable = true;
     rejectPackets = true;
     interfaces."eth0" = {
-      allowedTCPPorts = [ ];
+      allowedTCPPorts = [
+        1883 # mqtt
+      ];
       allowedUDPPorts = [ 
         5353 # mDNS
         9522 # multicast discovery
       ];
     };
     trustedInterfaces = [
-      "wg0"
       "cni0"
-      "flannel.1"
       "flannel-wg"
       "flannel-wg-v6"
     ];
@@ -35,14 +35,6 @@
   services.fail2ban.enable = lib.mkForce false;
   services.zfs.autoScrub.enable = true;
 
-  # I don't know if this is needed 
-  services.avahi = {
-    enable = false;
-    reflector = true;
-    # bind to all
-    # allowInterfaces = [ "eth0" ];
-    openFirewall = true;
-  };
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;

@@ -41,15 +41,13 @@ spec:
             - name: AUTOFLASH_FIRMWARE
               value: "0"
             - name: FLOW_CONTROL
-              value: "0"
+              value: "1"
             - name: BAUDRATE
               value: "460800"
             - name: OTBR_LOG_LEVEL
               value: "info"
         - name: matter
           image: ghcr.io/matter-js/matterjs-server:1.2.5
-          # securityContext:
-          #   privileged: true
           volumeMounts:
             - name: matter-data
               mountPath: /data
