@@ -19,8 +19,8 @@ data:
     plugin_opt_acl_file /mosquitto/config/acls
 
   acls: |
-    # Allow homeassistant to do everything
-    user homeassistant
+    # Allow home-assistant to do everything
+    user home-assistant
     topic readwrite #
 
     # User go-eCharger can read and write to the go-eCharger topic
