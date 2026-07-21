@@ -47,7 +47,7 @@ spec:
             - name: OTBR_LOG_LEVEL
               value: "info"
         - name: matter
-          image: ghcr.io/matter-js/matterjs-server:1.2.5
+          image: ghcr.io/matter-js/matterjs-server:1.2.8
           volumeMounts:
             - name: matter-data
               mountPath: /data
