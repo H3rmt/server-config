@@ -9,6 +9,9 @@
   "nix": {
     "enabled": true
   },
+  "kubernetes": {
+    "managerFilePatterns": ["/flux/.+\\.yaml$/"]
+  },
   "lockFileMaintenance": {
     "enabled": true,
     "recreateWhen": "always",
