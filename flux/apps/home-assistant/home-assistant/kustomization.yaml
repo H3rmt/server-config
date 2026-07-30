@@ -6,3 +6,4 @@ resources:
   - nad.yaml
   - deployment.yaml
   - service.yaml
+  - route.yaml
