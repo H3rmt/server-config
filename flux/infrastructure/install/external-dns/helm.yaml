@@ -40,9 +40,9 @@ spec:
     managedRecordTypes: 
       - A
       - AAAA
-      - CNAME
-      - TXT
-      - HTTPS
+      # - CNAME
+      # - TXT
+      # - HTTPS
     interval: 1m
     provider:
       name: webhook
