@@ -1,20 +1,20 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: TLSRoute
-metadata:
-  name: mqtt
-  namespace: home-assistant
-  annotations:
-    external-dns.kubernetes.io/ttl: "300"
-spec:
-  parentRefs:
-    - name: traefik
-      namespace: kube-system
-      kind: Gateway
-      sectionName: secure-mqtt
-  hostnames:
-    - home-mqtt.h3rmt.dev
-  rules:
-    - backendRefs:
-        - name: mosquitto-service
-          namespace: home-assistant
-          port: 1883
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: TLSRoute
+# metadata:
+#   name: mqtt
+#   namespace: home-assistant
+#   annotations:
+#     external-dns.kubernetes.io/ttl: "300"
+# spec:
+#   parentRefs:
+#     - name: traefik
+#       namespace: kube-system
+#       kind: Gateway
+#       sectionName: secure-mqtt
+#   hostnames:
+#     - home-mqtt.h3rmt.dev
+#   rules:
+#     - backendRefs:
+#         - name: mosquitto-service
+#           namespace: home-assistant
+#           port: 1883
