@@ -26,7 +26,7 @@ spec:
         namespace: flux-system
       interval: 1h
   values:
-    logLevel: debug
+    logLevel: trace
     policy: sync
     registry: txt
     txtOwnerId: k3s-cluster
@@ -40,16 +40,16 @@ spec:
     managedRecordTypes: 
       - A
       - AAAA
-      # - CNAME
-      # - TXT
-      # - HTTPS
+      - CNAME
+      - TXT
+      - HTTPS
     interval: 1m
     provider:
       name: webhook
       webhook:
         image:
           repository: ghcr.io/mconfalonieri/external-dns-hetzner-webhook
-          tag: v1.0.0
+          tag: v1.0.2
         env:
           - name: HETZNER_API_KEY
             valueFrom:
