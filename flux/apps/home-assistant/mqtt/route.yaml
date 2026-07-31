@@ -14,11 +14,7 @@ spec:
   hostnames:
     - home-mqtt.h3rmt.dev
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
+    - backendRefs:
         - name: mosquitto-service
           namespace: home-assistant
           port: 1883
