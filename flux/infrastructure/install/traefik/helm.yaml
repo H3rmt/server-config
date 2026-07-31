@@ -23,6 +23,10 @@ spec:
     name: traefik
     namespace: flux-system
   values:
+    global:
+      checkNewVersion: true
+      sendAnonymousUsage: true
+
     deployment:
       kind: DaemonSet
       minReadySeconds: 2
