@@ -69,7 +69,6 @@ spec:
               name: wildcard-h3rmt-dev-tls
         secure-mqtt:
           port: 9883
-          hostname: "*.h3rmt.dev"
           protocol: TCP
           namespacePolicy: 
             from: All
