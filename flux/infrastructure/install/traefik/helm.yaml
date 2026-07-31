@@ -51,9 +51,6 @@ spec:
     gateway:
       name: traefik
       # defaultScope: "All"
-      annotations: 
-        # external-dns.alpha.kubernetes.io/access: "public"
-        # external-dns.alpha.kubernetes.io/hostname: "k3s.h3rmt.dev"
       listeners:
         web:
           port: 8000
@@ -71,19 +68,19 @@ spec:
           certificateRefs: 
             - namespace: kube-system
               name: wildcard-h3rmt-dev-tls
-        secure-mqtt:
-          port: 9883
-          hostname: "*.h3rmt.dev"
-          protocol: TLS
-          namespacePolicy: 
-            from: All
-          allowedRoutes:
-            kinds:
-              - kind: TCPRoute
-          mode: Terminate
-          certificateRefs: 
-            - namespace: kube-system
-              name: wildcard-h3rmt-dev-tls
+        # secure-mqtt:
+        #   port: 9883
+        #   hostname: "*.h3rmt.dev"
+        #   protocol: TLS
+        #   namespacePolicy: 
+        #     from: All
+        #   allowedRoutes:
+        #     kinds:
+        #       - kind: TCPRoute
+        #   mode: Terminate
+        #   certificateRefs: 
+        #     - namespace: kube-system
+        #       name: wildcard-h3rmt-dev-tls
 
     # Privacy-friendly Prometheus metrics (cluster-internal only)
     metrics:
