@@ -67,6 +67,19 @@ spec:
           certificateRefs: 
             - namespace: kube-system
               name: wildcard-h3rmt-dev-tls
+        secure-mqtt:
+          port: 8883
+          hostname: "*.h3rmt.dev"
+          protocol: TCP
+          namespacePolicy: 
+            from: All
+          allowedRoutes:
+            kinds:
+              - kind: TCPRoute
+          mode: Terminate
+          certificateRefs: 
+            - namespace: kube-system
+              name: wildcard-h3rmt-dev-tls
 
     # Privacy-friendly Prometheus metrics (cluster-internal only)
     metrics:
@@ -104,3 +117,8 @@ spec:
         http3:
           enabled: true
           advertisedPort: 443
+      secure-mqtt:
+        observability:
+          accessLogs: false
+          metrics: false
+          tracing: false

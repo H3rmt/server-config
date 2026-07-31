@@ -10,7 +10,7 @@ spec:
     - name: traefik
       namespace: kube-system
       kind: Gateway
-      sectionName: websecure
+      sectionName: secure-mqtt
   hostnames:
     - home-mqtt.h3rmt.dev
   rules:
