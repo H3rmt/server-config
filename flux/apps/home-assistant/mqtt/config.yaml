@@ -18,10 +18,6 @@ data:
     global_plugin /usr/lib/mosquitto_acl_file.so
     plugin_opt_acl_file /mosquitto/config/acls
 
-    # log_type subscribe
-    # log_type unsubscribe
-    # log_type debug
-
   acls: |
     # Allow home-assistant to do everything
     user home-assistant
