@@ -68,7 +68,7 @@ spec:
             - namespace: kube-system
               name: wildcard-h3rmt-dev-tls
         secure-mqtt:
-          port: 8883
+          port: 9883
           hostname: "*.h3rmt.dev"
           protocol: TCP
           namespacePolicy: 
@@ -102,6 +102,8 @@ spec:
     
     ports:
       web:
+        port: 8000
+        exposedPort: 80
         http: 
           redirections:
             entryPoint:
@@ -113,11 +115,19 @@ spec:
           metrics: false
           tracing: false
       websecure:
+        port: 8443
+        exposedPort: 443
+        expose:
+          default: true
         asDefault: true
         http3:
           enabled: true
           advertisedPort: 443
       secure-mqtt:
+        port: 9883
+        exposedPort: 8883
+        expose:
+          default: true
         observability:
           accessLogs: false
           metrics: false
