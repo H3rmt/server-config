@@ -4,7 +4,7 @@ metadata:
   name: juicefs-webui
   namespace: juicefs
   annotations:
-    external-dns.alpha.kubernetes.io/ttl: "300"
+    external-dns.kubernetes.io/ttl: "300"
 spec:
   parentRefs:
     - name: traefik-gateway

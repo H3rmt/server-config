@@ -3,7 +3,7 @@ kind: Node
 metadata:
   name: ovh-1.h3rmt.div
   annotations:
-    external-dns.alpha.kubernetes.io/ttl: "600"
+    external-dns.kubernetes.io/ttl: "600"
 
 ---
 
@@ -12,4 +12,4 @@ kind: Node
 metadata:
   name: hetzner-1.h3rmt.div
   annotations:
-    external-dns.alpha.kubernetes.io/ttl: "600"
+    external-dns.kubernetes.io/ttl: "600"

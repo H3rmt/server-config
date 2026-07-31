@@ -4,7 +4,7 @@ metadata:
   name: k3s-route
   namespace: kube-system
   annotations:
-    external-dns.alpha.kubernetes.io/ttl: "60"
+    external-dns.kubernetes.io/ttl: "60"
 spec:
   parentRefs:
     - name: traefik

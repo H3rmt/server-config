@@ -28,7 +28,7 @@ cat age.key | kubectl create secret generic sops-age --namespace=flux-system --f
 ## Annotate node (external-dns)
 
 ```bash
-kubectl annotate nodes ovh-1.h3rmt.dev external-dns.alpha.kubernetes.io/ttl=1200
+kubectl annotate nodes ovh-1.h3rmt.dev external-dns.kubernetes.io/ttl=1200
 ```
 
 ## Apply Flux config

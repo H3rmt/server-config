@@ -4,7 +4,7 @@ metadata:
   name: garage-s3-api
   namespace: garage
   annotations:
-    external-dns.alpha.kubernetes.io/ttl: "300"
+    external-dns.kubernetes.io/ttl: "300"
 spec:
   parentRefs:
     - name: traefik-gateway
@@ -30,7 +30,7 @@ metadata:
   name: garage-webui
   namespace: garage
   annotations:
-    external-dns.alpha.kubernetes.io/ttl: "300"
+    external-dns.kubernetes.io/ttl: "300"
 spec:
   parentRefs:
     - name: traefik-gateway
@@ -56,7 +56,7 @@ metadata:
   name: garage-web
   namespace: garage
   annotations:
-    external-dns.alpha.kubernetes.io/ttl: "300"
+    external-dns.kubernetes.io/ttl: "300"
 spec:
   parentRefs:
     - name: traefik-gateway
