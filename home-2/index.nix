@@ -17,12 +17,10 @@
     enable = true;
     rejectPackets = true;
     interfaces."eth0" = {
-      allowedTCPPorts = [
-        1883 # mqtt
-      ];
+      allowedTCPPorts = [ ];
       allowedUDPPorts = [ 
-        5353 # mDNS
-        9522 # SMA Speedwire
+        5353  # mDNS
+        9522  # SMA Speedwire
       ];
     };
     trustedInterfaces = [
