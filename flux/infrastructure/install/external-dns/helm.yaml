@@ -36,13 +36,9 @@ spec:
     sources:
       - node
       - gateway-httproute
-      - gateway-tlsroute
     managedRecordTypes: 
       - A
       - AAAA
-      - CNAME
-      - TXT
-      - HTTPS
     interval: 1m
     provider:
       name: webhook
