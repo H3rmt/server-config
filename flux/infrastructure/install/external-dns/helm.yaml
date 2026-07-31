@@ -39,7 +39,7 @@ spec:
     sources:
       - node
       - gateway-httproute
-      # - gateway-tlsroute
+      - gateway-tlsroute
     managedRecordTypes: 
       - A
       - AAAA
