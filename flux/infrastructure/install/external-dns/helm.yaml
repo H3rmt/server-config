@@ -45,7 +45,6 @@ spec:
       - AAAA
       - CNAME
       - TXT
-      - HTTPS
     interval: 1m
     provider:
       name: webhook
