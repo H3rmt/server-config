@@ -24,15 +24,16 @@ spec:
             - /bin/sh
             - -ec
             - |
+              set -x
               ls -lah /mnt/config/*
               ls -lah /mnt/auth/*
-              ls -lah /etc/mosquitto/
               mkdir /etc/mosquitto/ || true
               cp -L /mnt/config/mosq.conf  /etc/mosquitto/mosq.conf
               cp -L /mnt/config/acls       /etc/mosquitto/acls
               cp -L /mnt/auth/pwfile       /etc/mosquitto/pwfile
               cp -L /mnt/certs/tls.key     /etc/mosquitto/certs/tls.key
               cp -L /mnt/certs/tls.crt     /etc/mosquitto/certs/tls.crt
+              ls -lah /etc/mosquitto/
               chown mosquitto:mosquitto -R /etc/mosquitto
               chmod 400 -R /etc/mosquitto
               exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /etc/mosquitto/mosq.conf
