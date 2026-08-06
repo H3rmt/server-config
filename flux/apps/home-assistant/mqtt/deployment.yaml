@@ -35,7 +35,7 @@ spec:
               exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /etc/mosquitto/mosq.conf
           ports:
             - containerPort: 8883
-              hostPort: 8883
+              hostPort: 8884
               protocol: TCP
               name: mqtt-secure
           volumeMounts:
