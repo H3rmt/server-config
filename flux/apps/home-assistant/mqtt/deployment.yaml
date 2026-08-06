@@ -18,6 +18,7 @@ spec:
         runAsUser: 1883
         runAsGroup: 1883
         fsGroup: 1883
+        fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
         thread-usb: "1"
       containers:
@@ -40,18 +41,24 @@ spec:
               mountPath: /mosquitto/data/
         - name: config-reloader
           image: alpine:3.23
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
           command:
             - /bin/sh
             - -ec
             - |
-              apk add --no-cache inotify-tools procps >/dev/null
+              export PATH=/usr/bin:/bin
               while true; do
-                inotifywait -r -e attrib,close_write,create,delete,move /mosquitto/config /mosquitto/certs
-                pkill -HUP mosquitto
+                inotifywait -qq -r -e attrib,close_write,create,delete,move /mosquitto/config /mosquitto/certs /mosquitto/auth
+                pkill -HUP mosquitto || true
               done
           volumeMounts:
             - name: config
               mountPath: /mosquitto/config
+              readOnly: true
+            - name: auth
+              mountPath: /mosquitto/auth
               readOnly: true
             - name: certs
               mountPath: /mosquitto/certs/
@@ -60,15 +67,15 @@ spec:
         - name: config
           configMap:
             name: mosquitto-config
-            defaultMode: 0600
+            defaultMode: 0440
         - name: auth
           secret:
             secretName: mosquitto-auth
-            defaultMode: 0600
+            defaultMode: 0440
         - name: certs
           secret:
             secretName: mqtts-tls
-            defaultMode: 0420
+            defaultMode: 0440
         - name: data
           persistentVolumeClaim:
             claimName: mosquitto-data-pvc
