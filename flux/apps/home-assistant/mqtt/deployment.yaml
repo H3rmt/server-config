@@ -26,6 +26,8 @@ spec:
             - |
               ls -lah /mnt/config/*
               ls -lah /mnt/auth/*
+              ls -lah /etc/mosquitto/
+              mkdir /etc/mosquitto/ || true
               cp -L /mnt/config/mosq.conf  /etc/mosquitto/mosq.conf
               cp -L /mnt/config/acls       /etc/mosquitto/acls
               cp -L /mnt/auth/pwfile       /etc/mosquitto/pwfile
