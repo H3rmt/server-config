@@ -36,9 +36,10 @@ spec:
               done
               for file in /mosquitto/config/mosquitto.conf /mosquitto/config/acls /mosquitto/auth/pwfile /mosquitto/certs/tls.crt /mosquitto/certs/tls.key; do
                 printf '\n== %s ==\n' "$file"
-                ls -lah "$file" || true
+                readlink -f "$file" || true
                 cat "$file" || true
               done
+              cat /mosquitto/auth/pwfile
               exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
           ports:
             - containerPort: 8883
