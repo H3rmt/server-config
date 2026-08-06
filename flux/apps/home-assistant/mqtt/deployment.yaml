@@ -40,7 +40,7 @@ spec:
             - name: data
               mountPath: /mosquitto/data/
         - name: config-reloader
-          image: alpine:3.23
+          image: alpine:3.24
           command:
             - /bin/sh
             - -ec
