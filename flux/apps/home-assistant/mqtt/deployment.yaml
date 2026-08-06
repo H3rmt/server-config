@@ -15,11 +15,6 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
     spec:
-      securityContext:
-        runAsUser: 1883
-        runAsGroup: 1883
-        fsGroup: 1883
-        fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
         thread-usb: "1"
       containers:
