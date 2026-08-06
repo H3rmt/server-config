@@ -6,7 +6,7 @@ metadata:
 data:
   mosquitto.conf: |
     listener 1883 0.0.0.0
-    
+
     persistence true
     persistence_location /mosquitto/data/
     log_dest stdout
@@ -17,7 +17,6 @@ data:
     # Access Control List (ACL) configuration
     global_plugin /usr/lib/mosquitto_acl_file.so
     plugin_opt_acl_file /mosquitto/config/acls
-
   acls: |
     # Allow home-assistant to do everything
     user home-assistant
@@ -27,3 +26,6 @@ data:
     user go-eCharger
     topic readwrite go-eCharger/#
     topic read homeassistant/#
+
+    user meatpi
+    topic readwrite wican/#
