@@ -30,15 +30,7 @@ spec:
             - -ec
             - |
               id
-              for path in /mosquitto/config /mosquitto/auth /mosquitto/certs /mosquitto/data; do
-                printf '\n== %s ==\n' "$path"
-                ls -lah "$path" || true
-              done
-              for file in /mosquitto/config/mosquitto.conf /mosquitto/config/acls /mosquitto/auth/pwfile /mosquitto/certs/tls.crt /mosquitto/certs/tls.key; do
-                printf '\n== %s ==\n' "$file"
-                readlink -f "$file" || true
-                cat "$file" || true
-              done
+              cat /etc/group
               cat /mosquitto/auth/pwfile
               exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
           ports:
