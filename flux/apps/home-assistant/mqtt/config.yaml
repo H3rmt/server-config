@@ -19,7 +19,7 @@ data:
     log_dest stdout
 
     global_plugin /usr/lib/mosquitto_password_file.so
-    plugin_opt_password_file /mosquitto/config/pwfile
+    plugin_opt_password_file /mosquitto/auth/pwfile
 
     # Access Control List (ACL) configuration
     global_plugin /usr/lib/mosquitto_acl_file.so

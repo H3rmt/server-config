@@ -32,8 +32,7 @@ spec:
               mountPath: /mosquitto/config
               readOnly: true
             - name: auth
-              mountPath: /mosquitto/config/pwfile
-              subPath: pwfile
+              mountPath: /mosquitto/auth
               readOnly: true
             - name: certs
               mountPath: /mosquitto/certs/
