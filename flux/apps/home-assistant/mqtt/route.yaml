@@ -5,14 +5,13 @@ metadata:
   namespace: home-assistant
   annotations:
     external-dns.kubernetes.io/ttl: "300"
+    external-dns.kubernetes.io/hostname: "home-mqtt.h3rmt.dev"
 spec:
   parentRefs:
     - name: traefik
       namespace: kube-system
       kind: Gateway
       sectionName: secure-mqtt
-  hostnames:
-    - home-mqtt.h3rmt.dev
   rules:
     - backendRefs:
         - name: mosquitto-service

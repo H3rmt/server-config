@@ -56,29 +56,30 @@ spec:
           port: 8000
           hostname: "*.h3rmt.dev"
           protocol: HTTP
-          namespacePolicy: 
+          namespacePolicy:
             from: All
         websecure:
           port: 8443
           hostname: "*.h3rmt.dev"
           protocol: HTTPS
-          namespacePolicy: 
+          namespacePolicy:
             from: All
           mode: Terminate
-          certificateRefs: 
+          certificateRefs:
             - namespace: kube-system
               name: wildcard-h3rmt-dev-tls
         secure-mqtt:
           port: 8883
-          hostname: "*.h3rmt.dev"
+          # because some mqtt dont send sni header
+          hostname: "*"
           protocol: TLS
-          namespacePolicy: 
+          namespacePolicy:
             from: All
           allowedRoutes:
             kinds:
               - kind: TCPRoute
           mode: Terminate
-          certificateRefs: 
+          certificateRefs:
             - namespace: kube-system
               name: wildcard-h3rmt-dev-tls
 
@@ -100,12 +101,12 @@ spec:
         enabled: true
       kubernetesIngress:
         enabled: false
-    
+
     ports:
       web:
         port: 8000
         exposedPort: 80
-        http: 
+        http:
           redirections:
             entryPoint:
               to: websecure
