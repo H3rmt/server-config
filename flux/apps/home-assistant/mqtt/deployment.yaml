@@ -17,35 +17,35 @@ spec:
     spec:
       nodeSelector:
         thread-usb: "1"
-        containers:
-          - name: mosquitto
-            image: eclipse-mosquitto:2.1.2-alpine
-            command:
-              - /bin/sh
-              - -ec
-              - |
-                cp -a /mnt/config/*  /etc/mosquitto/
-                cp -a /mnt/auth/*    /etc/mosquitto/auth/
-                cp -a /mnt/certs/*   /etc/mosquitto/certs/
-                chown mosquitto:mosquitto -R /etc/mosquitto
-                chmod 400 -R /etc/mosquitto
-                exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
-            ports:
-              - containerPort: 8883
-                protocol: TCP
-                name: mqtt-secure
-            volumeMounts:
-              - name: config
-                mountPath: /mnt/config
-                readOnly: true
-              - name: auth
-                mountPath: /mnt/auth
-                readOnly: true
-              - name: certs
-                mountPath: /mnt/certs/
-                readOnly: true
-              - name: data
-                mountPath: /mosquitto/data/
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto:2.1.2-alpine
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              cp -a /mnt/config/*  /etc/mosquitto/
+              cp -a /mnt/auth/*    /etc/mosquitto/auth/
+              cp -a /mnt/certs/*   /etc/mosquitto/certs/
+              chown mosquitto:mosquitto -R /etc/mosquitto
+              chmod 400 -R /etc/mosquitto
+              exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
+          ports:
+            - containerPort: 8883
+              protocol: TCP
+              name: mqtt-secure
+          volumeMounts:
+            - name: config
+              mountPath: /mnt/config
+              readOnly: true
+            - name: auth
+              mountPath: /mnt/auth
+              readOnly: true
+            - name: certs
+              mountPath: /mnt/certs/
+              readOnly: true
+            - name: data
+              mountPath: /mosquitto/data/
 
       volumes:
         - name: config
