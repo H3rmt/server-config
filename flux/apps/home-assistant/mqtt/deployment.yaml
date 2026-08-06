@@ -32,7 +32,7 @@ spec:
               cp -L /mnt/certs/tls.crt     /etc/mosquitto/certs/tls.crt
               chown mosquitto:mosquitto -R /etc/mosquitto
               chmod 400 -R /etc/mosquitto
-              chmod 700 /etc/mosquitto/passwd
+              chmod 700 /etc/mosquitto/pwfile
               exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /etc/mosquitto/mosq.conf
           ports:
             - containerPort: 8883
