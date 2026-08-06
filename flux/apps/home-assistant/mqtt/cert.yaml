@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mqtts-tls
+  namespace: home-assistant
+spec:
+  secretName: mqtts-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - home-mqtt.h3rmt.dev
+    - mosquitto-service.home-assistant.svc.cluster.local

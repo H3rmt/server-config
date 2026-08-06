@@ -5,7 +5,14 @@ metadata:
   namespace: home-assistant
 data:
   mosquitto.conf: |
-    listener 1883 0.0.0.0
+    listener 8883
+    protocol mqtt
+    tls_version tlsv1.3
+    require_certificate false
+
+    cafile /etc/ssl/certs/ca-certificates.crt
+    keyfile /mosquitto/certs/tls.key
+    certfile /mosquitto/certs/tls.crt
 
     persistence true
     persistence_location /mosquitto/data/

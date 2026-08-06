@@ -13,6 +13,7 @@ spec:
       labels:
         app: mosquitto
     spec:
+      shareProcessNamespace: true
       securityContext:
         runAsUser: 1883
         runAsGroup: 1883
@@ -23,22 +24,39 @@ spec:
         - name: mosquitto
           image: eclipse-mosquitto:2.1.2-alpine
           ports:
-            - containerPort: 1883
-              hostPort: 1883
+            - containerPort: 8883
               protocol: TCP
-              name: mqtt
+              name: mqtt-secure
           volumeMounts:
             - name: config
-              mountPath: /mosquitto/config/mosquitto.conf
-              subPath: mosquitto.conf
-            - name: config
-              mountPath: /mosquitto/config/acls
-              subPath: acls
+              mountPath: /mosquitto/config
+              readOnly: true
             - name: auth
               mountPath: /mosquitto/config/pwfile
               subPath: pwfile
+              readOnly: true
+            - name: certs
+              mountPath: /mosquitto/certs/
             - name: data
-              mountPath: /mosquitto/data
+              mountPath: /mosquitto/data/
+        - name: config-reloader
+          image: alpine:3.23
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              apk add --no-cache inotify-tools procps >/dev/null
+              while true; do
+                inotifywait -r -e attrib,close_write,create,delete,move /mosquitto/config /mosquitto/certs
+                pkill -HUP mosquitto
+              done
+          volumeMounts:
+            - name: config
+              mountPath: /mosquitto/config
+              readOnly: true
+            - name: certs
+              mountPath: /mosquitto/certs/
+              readOnly: true
       volumes:
         - name: config
           configMap:
@@ -48,6 +66,10 @@ spec:
           secret:
             secretName: mosquitto-auth
             defaultMode: 0600
+        - name: certs
+          secret:
+            secretName: mqtts-tls
+            defaultMode: 0420
         - name: data
           persistentVolumeClaim:
             claimName: mosquitto-data-pvc

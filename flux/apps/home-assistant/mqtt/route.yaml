@@ -1,5 +1,5 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: TLSRoute
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
 metadata:
   name: mqtt
   namespace: home-assistant
@@ -16,4 +16,4 @@ spec:
     - backendRefs:
         - name: mosquitto-service
           namespace: home-assistant
-          port: 1883
+          port: 8883

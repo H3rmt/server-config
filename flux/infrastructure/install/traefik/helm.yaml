@@ -70,18 +70,12 @@ spec:
               name: wildcard-h3rmt-dev-tls
         secure-mqtt:
           port: 8883
-          # because some mqtt dont send sni header
-          hostname: "*"
-          protocol: TLS
+          protocol: TCP
           namespacePolicy:
             from: All
           allowedRoutes:
             kinds:
-              - kind: TLSRoute
-          mode: Terminate
-          certificateRefs:
-            - namespace: kube-system
-              name: wildcard-h3rmt-dev-tls
+              - kind: TCPRoute
 
     # Privacy-friendly Prometheus metrics (cluster-internal only)
     metrics:
