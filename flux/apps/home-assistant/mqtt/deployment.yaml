@@ -24,6 +24,8 @@ spec:
             - /bin/sh
             - -ec
             - |
+              ls -lah /mnt/config/*
+              ls -lah /mnt/auth/*
               cp -L /mnt/config/mosq.conf  /etc/mosquitto/
               cp -L /mnt/config/acls       /etc/mosquitto/
               cp -L /mnt/auth/pwfile       /etc/mosquitto/
@@ -48,7 +50,6 @@ spec:
               readOnly: true
             - name: data
               mountPath: /mosquitto/data/
-
       volumes:
         - name: config
           configMap:
