@@ -2,9 +2,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - pvc.yaml
-  - config.yaml
   - secret.enc.yaml
   - cert.yaml
   - deployment.yaml
   - service.yaml
   - route.yaml
+generatorOptions:
+  disableNameSuffixHash: false
+configMapGenerator:
+  - name: mosquitto-config
+    namespace: home-assistant
+    files:
+      - mosquitto.conf=config/mosquitto.conf
+      - acls=config/acls

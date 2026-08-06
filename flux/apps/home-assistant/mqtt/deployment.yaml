@@ -12,8 +12,9 @@ spec:
     metadata:
       labels:
         app: mosquitto
+      annotations:
+        reloader.stakater.com/auto: "true"
     spec:
-      shareProcessNamespace: true
       securityContext:
         runAsUser: 1883
         runAsGroup: 1883
@@ -21,25 +22,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
         thread-usb: "1"
-      initContainers:
-        - name: auth-setup
-          image: alpine:3.23
-          command:
-            - /bin/sh
-            - -ec
-            - |
-              ls -lah /source
-              ls -lah /work
-              cp /source/pwfile /work/pwfile
-              chown 1883:1883 /work/pwfile
-              chmod 0400 /work/pwfile
-              ls -lah /work
-          volumeMounts:
-            - name: auth
-              mountPath: /auth-source
-              readOnly: true
-            - name: auth-work
-              mountPath: /work
       containers:
         - name: mosquitto
           image: eclipse-mosquitto:2.1.2-alpine
@@ -51,46 +33,14 @@ spec:
             - name: config
               mountPath: /mosquitto/config
               readOnly: true
-            - name: auth-work
-              mountPath: /mosquitto/auth
-              readOnly: true
-            - name: certs
-              mountPath: /mosquitto/certs/
-            - name: data
-              mountPath: /mosquitto/data/
-        - name: config-reloader
-          image: alpine:3.23
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-          command:
-            - /bin/sh
-            - -ec
-            - |
-              apk add --no-cache inotify-tools procps
-              ls -lah /mosquitto/config
-              ls -lah /mosquitto/auth
-              ls -lah /mosquitto/auth-work
-              ls -lah /mosquitto/certs
-              while true; do
-                inotifywait -qq -r -e attrib,close_write,create,delete,move /mosquitto/config /mosquitto/certs /mosquitto/auth
-                cp /mosquitto/auth/pwfile /mosquitto/auth-work/pwfile
-                chown 1883:1883 /mosquitto/auth-work/pwfile
-                chmod 0400 /mosquitto/auth-work/pwfile
-                pkill -HUP mosquitto || true
-              done
-          volumeMounts:
-            - name: config
-              mountPath: /mosquitto/config
-              readOnly: true
             - name: auth
               mountPath: /mosquitto/auth
               readOnly: true
-            - name: auth-work
-              mountPath: /mosquitto/auth-work
             - name: certs
               mountPath: /mosquitto/certs/
               readOnly: true
+            - name: data
+              mountPath: /mosquitto/data/
       volumes:
         - name: config
           configMap:
@@ -100,8 +50,6 @@ spec:
           secret:
             secretName: mosquitto-auth
             defaultMode: 0440
-        - name: auth-work
-          emptyDir: {}
         - name: certs
           secret:
             secretName: mqtts-tls

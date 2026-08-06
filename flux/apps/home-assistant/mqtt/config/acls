@@ -1,0 +1,11 @@
+# Allow home-assistant to do everything
+user home-assistant
+topic readwrite #
+
+# User go-eCharger can read and write to the go-eCharger topic
+user go-eCharger
+topic readwrite go-eCharger/#
+topic read homeassistant/#
+
+user meatpi
+topic readwrite wican/#
