@@ -15,11 +15,30 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
     spec:
+      # securityContext:
+      #   runAsUser: 1883
+      #   runAsGroup: 1883
+      #   fsGroup: 1883
+      #   fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
         thread-usb: "1"
       containers:
         - name: mosquitto
           image: eclipse-mosquitto:2.1.2-alpine
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              for path in /mosquitto/config /mosquitto/auth /mosquitto/certs /mosquitto/data; do
+                printf '\n== %s ==\n' "$path"
+                ls -lah "$path" || true
+              done
+              for file in /mosquitto/config/mosquitto.conf /mosquitto/config/acls /mosquitto/auth/pwfile /mosquitto/certs/tls.crt /mosquitto/certs/tls.key; do
+                printf '\n== %s ==\n' "$file"
+                ls -lah "$file" || true
+                stat "$file" || true
+              done
+              exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
           ports:
             - containerPort: 8883
               protocol: TCP
