@@ -13,5 +13,5 @@ configMapGenerator:
   - name: mosquitto-config
     namespace: home-assistant
     files:
-      - mosquitto.conf=config/mosquitto.conf
+      - mosq.conf=config/mosq.conf
       - acls=config/acls
