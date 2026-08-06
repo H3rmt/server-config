@@ -24,12 +24,14 @@ spec:
             - /bin/sh
             - -ec
             - |
-              cp -a /mnt/config/*  /etc/mosquitto/
-              cp -a /mnt/auth/*    /etc/mosquitto/auth/
-              cp -a /mnt/certs/*   /etc/mosquitto/certs/
+              cp -L /mnt/config/mosq.conf  /etc/mosquitto/config/
+              cp -L /mnt/config/acls       /etc/mosquitto/config/
+              cp -L /mnt/auth/pwfile       /etc/mosquitto/auth/
+              cp -L /mnt/certs/tls.key     /etc/mosquitto/certs/
+              cp -L /mnt/certs/tls.crt     /etc/mosquitto/certs/
               chown mosquitto:mosquitto -R /etc/mosquitto
               chmod 400 -R /etc/mosquitto
-              exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
+              exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /etc/mosquitto/config/mosq.conf
           ports:
             - containerPort: 8883
               protocol: TCP
