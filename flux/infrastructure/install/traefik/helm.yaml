@@ -77,7 +77,7 @@ spec:
             from: All
           allowedRoutes:
             kinds:
-              - kind: TCPRoute
+              - kind: TLSRoute
           mode: Terminate
           certificateRefs:
             - namespace: kube-system
