@@ -49,6 +49,9 @@ spec:
             - -ec
             - |
               export PATH=/usr/bin:/bin
+              ls -lah /mosquitto/config
+              ls -lah /mosquitto/auth
+              ls -lah /mosquitto/certs
               while true; do
                 inotifywait -qq -r -e attrib,close_write,create,delete,move /mosquitto/config /mosquitto/certs /mosquitto/auth
                 pkill -HUP mosquitto || true
