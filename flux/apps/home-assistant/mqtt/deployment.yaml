@@ -15,11 +15,6 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
     spec:
-      # securityContext:
-      #   runAsUser: 1883
-      #   runAsGroup: 1883
-      #   fsGroup: 1883
-      #   fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
         thread-usb: "1"
       containers:
@@ -29,9 +24,8 @@ spec:
             - /bin/sh
             - -ec
             - |
-              id
-              cat /etc/group
-              cat /mosquitto/auth/pwfile
+              chown mosquitto:mosquitto -R /mosquitto
+              chmod 400 -R /mosquitto
               exec /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
           ports:
             - containerPort: 8883
