@@ -38,6 +38,10 @@ spec:
               hostPort: 8884
               protocol: TCP
               name: mqtt-secure
+            - containerPort: 1883
+              hostPort: 1884
+              protocol: TCP
+              name: mqtt
           volumeMounts:
             - name: config
               mountPath: /mnt/config
