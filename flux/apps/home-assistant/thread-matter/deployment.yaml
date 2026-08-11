@@ -45,7 +45,7 @@ spec:
             - name: BAUDRATE
               value: "460800"
             - name: OTBR_LOG_LEVEL
-              value: "info"
+              value: "notice"
         - name: matter
           image: ghcr.io/matter-js/matterjs-server:1.2.8
           volumeMounts:
