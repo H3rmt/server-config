@@ -7,7 +7,7 @@ spec:
   interval: 12h
   url: oci://ghcr.io/traefik/helm/traefik
   ref:
-    tag: 41.0.2
+    tag: 41.4.0
 
 ---
 
