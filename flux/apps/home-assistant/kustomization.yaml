@@ -6,3 +6,4 @@ resources:
   - thread-matter
   - mqtt
   - speach
+  - piper

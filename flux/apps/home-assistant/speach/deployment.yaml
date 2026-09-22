@@ -36,9 +36,6 @@ spec:
               value: de
             - name: WHISPER_MODEL
               value: small
-          resources:
-            limits:
-              nvidia.com/gpu: "1"
           volumeMounts:
             - name: config
               mountPath: /config
