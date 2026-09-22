@@ -28,6 +28,7 @@ spec:
   values:
     deviceDiscoveryStrategy: cdi
     deviceListStrategy: cdi-annotations
+    runtimeClassName: nvidia
     nfd:
       enabled: false
     gfd:

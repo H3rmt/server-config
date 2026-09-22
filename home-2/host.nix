@@ -64,6 +64,16 @@
   hardware.cpu.intel.updateMicrocode = true;
   hardware.nvidia-container-toolkit.enable = true;
   hardware.nvidia-container-toolkit.mount-nvidia-executables = true;
+
+  services.k3s.containerdConfigTemplate = ''
+    {{ template "base" . }}
+
+    [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia]
+      runtime_type = "io.containerd.runc.v2"
+
+    [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia.options]
+      BinaryName = "${lib.getOutput "tools" config.hardware.nvidia-container-toolkit.package}/bin/nvidia-container-runtime"
+  '';
   
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeAjxCzY56TNLs3oRpAFDrtAhMXdKEAAZTTeBD4p9y8";
 
