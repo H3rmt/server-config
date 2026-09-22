@@ -14,11 +14,12 @@ spec:
       labels:
         app: faster-whisper
     spec:
+      runtimeClassName: nvidia
       nodeSelector:
         gpu: nvidia
       containers:
         - name: faster-whisper
-          image: lscr.io/linuxserver/faster-whisper:gpu
+          image: lscr.io/linuxserver/faster-whisper:gpu-legacy
           ports:
             - name: faster-whisper
               containerPort: 10300
@@ -30,6 +31,10 @@ spec:
               value: "1000"
             - name: TZ
               value: Europe/Berlin
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: all
+            - name: NVIDIA_DRIVER_CAPABILITIES
+              value: compute,utility
             - name: WHISPER_BEAM
               value: "1"
             - name: WHISPER_LANG
