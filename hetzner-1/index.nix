@@ -25,6 +25,8 @@
       ];
       allowedUDPPorts = [
         443  # Traefik HTTP/3
+        51820 # k3s, flannel-wg (wireguard-native): required so NATed nodes (home-2) can establish the tunnel
+        51821 # k3s, flannel-wg-v6
         8472  # k3s, flannel: required if using multi-node for inter-node networking
       ];
     };
