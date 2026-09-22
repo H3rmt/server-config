@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: faster-whisper
+  namespace: home-assistant
+spec:
+  type: ClusterIP
+  selector:
+    app: faster-whisper
+  ports:
+    - name: faster-whisper
+      port: 10300
+      targetPort: 10300
+      protocol: TCP

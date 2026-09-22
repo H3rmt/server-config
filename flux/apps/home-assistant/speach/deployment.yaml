@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: faster-whisper
+  namespace: home-assistant
+spec:
+  replicas: 1
+  serviceName: faster-whisper
+  selector:
+    matchLabels:
+      app: faster-whisper
+  template:
+    metadata:
+      labels:
+        app: faster-whisper
+    spec:
+      nodeSelector:
+        gpu: nvidia
+      containers:
+        - name: faster-whisper
+          image: lscr.io/linuxserver/faster-whisper:gpu
+          ports:
+            - name: faster-whisper
+              containerPort: 10300
+              protocol: TCP
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: Europe/Berlin
+            - name: WHISPER_BEAM
+              value: "1"
+            - name: WHISPER_LANG
+              value: de
+            - name: WHISPER_MODEL
+              value: small
+          resources:
+            limits:
+              nvidia.com/gpu: "1"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: faster-whisper-config
