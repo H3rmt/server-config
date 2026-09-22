@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: faster-whisper
-          image: lscr.io/linuxserver/faster-whisper:gpu-legacy
+          image: lscr.io/linuxserver/faster-whisper:latest
           ports:
             - name: faster-whisper
               containerPort: 10300
@@ -36,7 +36,7 @@ spec:
               value: small
           resources:
             limits:
-              nvidia.com/gpu: "1"
+              # nvidia.com/gpu: "1"
           volumeMounts:
             - name: config
               mountPath: /config
