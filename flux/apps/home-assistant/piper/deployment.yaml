@@ -15,20 +15,30 @@ spec:
     spec:
       containers:
         - name: piper
-          image: rhasspy/wyoming-piper:1.6.3
-          args:
-            - --uri
-            - tcp://0.0.0.0:10200
-            - --voice
-            - de_DE-thorsten-high
-            - --data-dir
-            - /data
-            - --download-dir
-            - /data
+          image: lscr.io/linuxserver/piper:latest
           ports:
             - name: wyoming
               containerPort: 10200
               protocol: TCP
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: Europe/Berlin
+            - name: PIPER_VOICE
+              value: de_DE-thorsten-high
+            - name: PIPER_LENGTH
+              value: "1.0"
+            - name: PIPER_NOISE
+              value: "0.667"
+            - name: PIPER_NOISEW
+              value: "0.333"
+            - name: PIPER_SPEAKER
+              value: "0"
+            - name: NO_STREAMING
+              value: ""
           resources:
             requests:
               cpu: 250m
@@ -38,7 +48,7 @@ spec:
               memory: 2Gi
           volumeMounts:
             - name: data
-              mountPath: /data
+              mountPath: /config
       volumes:
         - name: data
           persistentVolumeClaim:
