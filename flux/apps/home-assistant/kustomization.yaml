@@ -5,5 +5,5 @@ resources:
   - home-assistant
   - thread-matter
   - mqtt
-  - speach
+  - whisper
   - piper
