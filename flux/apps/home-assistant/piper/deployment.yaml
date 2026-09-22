@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: piper
-          image: rhasspy/wyoming-piper:1.6.3
+          image: rhasspy/wyoming-piper:2.5.2
           args:
             - --uri
             - tcp://0.0.0.0:10200
