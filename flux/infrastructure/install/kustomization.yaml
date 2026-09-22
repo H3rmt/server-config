@@ -6,4 +6,5 @@ resources:
   - operators
   - external-dns
   - multus
+  - nvidia-device-plugin.yaml
   # - garage
