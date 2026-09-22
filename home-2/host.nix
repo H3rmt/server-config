@@ -64,6 +64,12 @@
   hardware.cpu.intel.updateMicrocode = true;
   hardware.nvidia-container-toolkit.enable = true;
   hardware.nvidia-container-toolkit.mount-nvidia-executables = true;
+  hardware.nvidia-container-toolkit.mounts = [
+    {
+      hostPath = lib.getExe config.hardware.nvidia-container-toolkit.package;
+      containerPath = "/usr/bin/nvidia-ctk";
+    }
+  ];
 
   services.k3s.containerdConfigTemplate = ''
     {{ template "base" . }}
