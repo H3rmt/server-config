@@ -7,7 +7,7 @@ spec:
   interval: 12h
   url: oci://nvcr.io/nvidia/cloud-native-charts/gpu-operator
   ref:
-    tag: v26.7.0
+    tag: v26.7.1
 
 ---
 
