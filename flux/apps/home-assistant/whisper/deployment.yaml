@@ -35,26 +35,20 @@ spec:
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: all
           command:
-            - python3
-            - "-m"
-            - wyoming_faster_whisper
+            - /bin/bash
+            - "-c"
           args:
-            - "--uri"
-            - "tcp://0.0.0.0:10300"
-            - "--device"
-            - "cuda"
-            - "--model"
-            - "small-int8"
-            - "--compute-type"
-            - "int8_float32"
-            - "--beam-size"
-            - "1"
-            - "--language"
-            - "de"
-            - "--data-dir"
-            - "/config"
-            - "--download-dir"
-            - "/config"
+            - |
+              export LD_LIBRARY_PATH="/lsiopy/lib/python3.14/site-packages/nvidia/cublas/lib:/lsiopy/lib/python3.14/site-packages/nvidia/cudnn/lib:${LD_LIBRARY_PATH}"
+              exec s6-setuidgid abc python3 -m wyoming_faster_whisper \
+                --uri tcp://0.0.0.0:10300 \
+                --device cuda \
+                --model small-int8 \
+                --compute-type int8_float32 \
+                --beam-size 1 \
+                --language de \
+                --data-dir /config \
+                --download-dir /config
           volumeMounts:
             - name: config
               mountPath: /config
