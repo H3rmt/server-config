@@ -16,7 +16,7 @@ spec:
       runtimeClassName: nvidia
       containers:
         - name: faster-whisper
-          image: lscr.io/linuxserver/faster-whisper:gpu
+          image: lscr.io/linuxserver/faster-whisper:gpu-legacy
           ports:
             - name: faster-whisper
               containerPort: 10300
