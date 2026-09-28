@@ -28,20 +28,25 @@ spec:
             - name: TZ
               value: Europe/Berlin
             - name: PIPER_VOICE
-              value: de_DE-thorsten-high
+              value: de_DE-thorsten-medium
             - name: PIPER_LENGTH
-              value: "1.0"
+              value: "0.9"
             - name: PIPER_NOISE
               value: "0.667"
             - name: PIPER_NOISEW
               value: "0.333"
             - name: PIPER_SPEAKER
               value: "0"
-            - name: NO_STREAMING
-              value: ""
           volumeMounts:
             - name: data
               mountPath: /config
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "2"
+              memory: 1Gi
       volumes:
         - name: data
           persistentVolumeClaim:

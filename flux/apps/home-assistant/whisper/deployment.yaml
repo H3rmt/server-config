@@ -40,6 +40,27 @@ spec:
               value: all
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: all
+          command:
+            - python3
+            - "-m"
+            - wyoming_faster_whisper
+          args:
+            - "--uri"
+            - "tcp://0.0.0.0:10300"
+            - "--device"
+            - "cuda"
+            - "--model"
+            - "small-int8"
+            - "--compute-type"
+            - "int8_float32"
+            - "--beam-size"
+            - "1"
+            - "--language"
+            - "de"
+            - "--data-dir"
+            - "/config"
+            - "--download-dir"
+            - "/config"
           volumeMounts:
             - name: config
               mountPath: /config
