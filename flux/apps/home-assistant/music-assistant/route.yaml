@@ -21,4 +21,4 @@ spec:
       backendRefs:
         - name: music-assistant-svc
           namespace: home-assistant
-          port: 443
+          port: 8095

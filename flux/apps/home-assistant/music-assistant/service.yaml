@@ -9,6 +9,6 @@ spec:
     app: music-assistant
   ports:
     - name: http
-      port: 443
+      port: 8095
       protocol: TCP
-      targetPort: 443
+      targetPort: 8095
