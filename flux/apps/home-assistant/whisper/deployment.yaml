@@ -5,7 +5,6 @@ metadata:
   namespace: home-assistant
 spec:
   replicas: 1
-  serviceName: faster-whisper
   selector:
     matchLabels:
       app: faster-whisper
@@ -14,9 +13,10 @@ spec:
       labels:
         app: faster-whisper
     spec:
+      runtimeClassName: nvidia
       containers:
         - name: faster-whisper
-          image: lscr.io/linuxserver/faster-whisper:latest
+          image: lscr.io/linuxserver/faster-whisper:gpu
           ports:
             - name: faster-whisper
               containerPort: 10300
@@ -34,9 +34,12 @@ spec:
               value: de
             - name: WHISPER_MODEL
               value: small
-          resources:
-            limits:
-              # nvidia.com/gpu: "1"
+
+            # nvidia specific
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: all
+            - name: NVIDIA_DRIVER_CAPABILITIES
+              value: all
           volumeMounts:
             - name: config
               mountPath: /config

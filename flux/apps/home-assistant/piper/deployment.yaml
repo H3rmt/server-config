@@ -39,13 +39,6 @@ spec:
               value: "0"
             - name: NO_STREAMING
               value: ""
-          resources:
-            requests:
-              cpu: 250m
-              memory: 512Mi
-            limits:
-              cpu: "2"
-              memory: 2Gi
           volumeMounts:
             - name: data
               mountPath: /config
