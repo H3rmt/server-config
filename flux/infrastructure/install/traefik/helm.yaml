@@ -72,7 +72,7 @@ spec:
           port: 8883
           protocol: TCP
           namespacePolicy:
-            from: home-assistant
+            from: All
           allowedRoutes:
             kinds:
               - kind: TCPRoute
