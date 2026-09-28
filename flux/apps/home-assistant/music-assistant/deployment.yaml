@@ -41,6 +41,13 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+        - name: ytdlp-pot-provider
+          image: brainicism/bgutil-ytdlp-pot-provider:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: web
+              containerPort: 4416
+              protocol: TCP
       volumes:
         - name: data
           persistentVolumeClaim:
