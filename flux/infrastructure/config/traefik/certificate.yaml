@@ -14,3 +14,4 @@ spec:
   - "*.h3rmt.dev"
   - "*.infra.h3rmt.dev"
   - "*.monitor.h3rmt.dev"
+  - "*.home.h3rmt.dev"

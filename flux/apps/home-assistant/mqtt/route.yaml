@@ -5,7 +5,7 @@ metadata:
   namespace: home-assistant
   annotations:
     external-dns.kubernetes.io/ttl: "300"
-    external-dns.kubernetes.io/hostname: "home-mqtt.h3rmt.dev"
+    external-dns.kubernetes.io/hostname: "home-mqtt.h3rmt.dev,mqtt.home.h3rmt.dev"
 spec:
   parentRefs:
     - name: traefik
