@@ -17,7 +17,7 @@ spec:
           [
             {
               "name": "music-assistant-nad",
-              "interface": "home1",
+              "interface": "home2",
               "ips": ["192.168.187.14/24"],
               "gateway": ["192.168.187.1"]
             }
