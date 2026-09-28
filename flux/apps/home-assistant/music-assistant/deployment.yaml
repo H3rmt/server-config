@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: music-assistant
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: music-assistant
+  template:
+    metadata:
+      labels:
+        app: music-assistant
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [
+            {
+              "name": "music-assistant-nad",
+              "interface": "home1",
+              "ips": ["192.168.187.14/24"],
+              "gateway": ["192.168.187.1"]
+            }
+          ]
+    spec:
+      nodeSelector:
+        thread-usb: "1"
+      containers:
+        - name: music-assistant
+          image: ghcr.io/music-assistant/server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: web
+              containerPort: 8095
+              protocol: TCP
+            - name: stream
+              containerPort: 8097
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: music-assistant-data

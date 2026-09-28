@@ -1,0 +1,17 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: music-assistant-nad
+  namespace: home-assistant
+spec:
+  config: '{
+      "cniVersion": "0.3.1",
+      "type": "macvlan",
+      "master": "eth0", 
+      "mode": "bridge",
+      "ipam": {
+        "type": "static",
+        "addresses": [{ "address": "192.168.187.14/24" }],
+        "routes": [{ "dst": "192.168.187.0/24" }]
+      }
+    }'
