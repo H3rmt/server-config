@@ -72,7 +72,15 @@ spec:
           port: 8883
           protocol: TCP
           namespacePolicy:
-            from: All
+            from: home-assistant
+          allowedRoutes:
+            kinds:
+              - kind: TCPRoute
+        music-assistant:
+          port: 8097
+          protocol: TCP
+          namespacePolicy:
+            from: home-assistant
           allowedRoutes:
             kinds:
               - kind: TCPRoute
@@ -123,6 +131,15 @@ spec:
       secure-mqtt:
         port: 8883
         exposedPort: 8883
+        expose:
+          default: true
+        observability:
+          accessLogs: false
+          metrics: false
+          tracing: false
+      music-assistant:
+        port: 8097
+        exposedPort: 8097
         expose:
           default: true
         observability:
