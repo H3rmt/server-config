@@ -33,7 +33,7 @@ spec:
             - name: WHISPER_LANG
               value: de
             - name: WHISPER_MODEL
-              value: small
+              value: small-int8
 
             # nvidia specific
             - name: NVIDIA_VISIBLE_DEVICES
