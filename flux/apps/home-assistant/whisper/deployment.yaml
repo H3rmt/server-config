@@ -28,12 +28,6 @@ spec:
               value: "1000"
             - name: TZ
               value: Europe/Berlin
-            - name: WHISPER_BEAM
-              value: "1"
-            - name: WHISPER_LANG
-              value: de
-            - name: WHISPER_MODEL
-              value: small-int8
 
             # nvidia specific
             - name: NVIDIA_VISIBLE_DEVICES
@@ -47,8 +41,6 @@ spec:
           args:
             - "--uri"
             - "tcp://0.0.0.0:10300"
-            - "--device"
-            - "cuda"
             - "--model"
             - "small-int8"
             - "--compute-type"
