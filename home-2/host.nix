@@ -63,6 +63,8 @@
     nvidiaPersistenced = true;
   };
   hardware.cpu.intel.updateMicrocode = true;
+
+  virtualisation.docker.enableNvidia = true;
   hardware.nvidia-container-toolkit.enable = true;
   hardware.nvidia-container-toolkit.mount-nvidia-executables = true;
 
