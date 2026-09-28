@@ -32,9 +32,11 @@ spec:
           ports:
             - name: web
               containerPort: 8095
+              hostPort: 8095
               protocol: TCP
             - name: stream
               containerPort: 8097
+              hostPort: 8097
               protocol: TCP
           volumeMounts:
             - name: data
