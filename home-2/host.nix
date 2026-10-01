@@ -63,6 +63,7 @@
     nvidiaPersistenced = true;
   };
   hardware.cpu.intel.updateMicrocode = true;
+  hardware.bluetooth.enable = true;
 
   virtualisation.docker.enableNvidia = true;
   hardware.nvidia-container-toolkit.enable = true;
