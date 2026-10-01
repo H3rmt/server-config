@@ -31,6 +31,8 @@ spec:
           env:
             - name: TZ
               value: "Europe/Berlin"
+            - name: DBUS_SYSTEM_BUS_ADDRESS
+              value: "unix:path=/run/dbus/system_bus_socket"
             - name: PG_URL # load from storage-app secret
               valueFrom:
                 secretKeyRef:
@@ -39,7 +41,14 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: dbus
+              mountPath: /run/dbus
+              readOnly: true
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: home-assistant-config
+        - name: dbus
+          hostPath:
+            path: /run/dbus
+            type: Directory
