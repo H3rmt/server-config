@@ -52,6 +52,14 @@ spec:
             - name: dbus
               mountPath: /run/dbus
               readOnly: true
+          securityContext:
+            privileged: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_ADMIN
+                - NET_RAW
       volumes:
         - name: config
           persistentVolumeClaim:
