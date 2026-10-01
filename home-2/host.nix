@@ -25,6 +25,7 @@
     # UEFI boot setup for this host.
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    zfs.forceImportRoot = false;
 
     # Keep explicit because this host mounts ZFS datasets.
     supportedFilesystems = [ "zfs" ];

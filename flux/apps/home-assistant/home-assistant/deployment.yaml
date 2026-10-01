@@ -13,7 +13,15 @@ spec:
       labels:
         app: home-assistant
       annotations:
-        k8s.v1.cni.cncf.io/networks: '[{"name":"home-assistant-nad","interface":"home1"}]'
+        k8s.v1.cni.cncf.io/networks: |
+          [
+            {
+              "name": "home-assistant-nad",
+              "interface": "home1",
+              "ips": ["192.168.187.13/24"],
+              "gateway": ["192.168.187.1"]
+            }
+          ]
         home-assistant.h3rmt.dev/network-revision: "2"
     spec:
       nodeSelector:
