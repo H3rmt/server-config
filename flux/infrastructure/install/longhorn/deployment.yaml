@@ -49,4 +49,3 @@ spec:
     metrics:
       serviceMonitor:
         enabled: false
-    

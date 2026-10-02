@@ -61,6 +61,10 @@ in
       name = "iqn.2026-10.h3rmt:k3s";
     };
   };
+  systemd.services.iscsid.serviceConfig = {
+    PrivateMounts = "yes";
+    BindPaths = "/run/current-system/sw/bin:/bin";
+  };
 
   system.stateVersion = "24.11";
   nix.gc = {
