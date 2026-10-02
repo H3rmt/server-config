@@ -58,7 +58,7 @@ in
     };
     openiscsi = {
       enable = true;
-      initiatorName = "iqn.2026-10.h3rmt:k3s";
+      name = "iqn.2026-10.h3rmt:k3s";
     };
   };
 
