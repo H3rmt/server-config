@@ -1,0 +1,52 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: longhorn
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: https://charts.longhorn.io
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  interval: 2m
+  chart:
+    spec:
+      chart: longhorn
+      version: v1.13.0
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+        namespace: flux-system
+      interval: 1h
+  values:
+    global:
+      timezone: Europe/Berlin
+    defaultSettings:
+      defaultDataPath: /mnt/tank-longhorn
+      defaultDataLocality: "best-effort"
+    longhornGlobalManager:
+      replicas: 2
+    longhornUI:
+      replicas: 1
+    httproute:
+      enabled: false # only access using port forwarding for now.
+      parentRefs: 
+        - name: traefik
+          namespace: kube-system
+          kind: Gateway
+          sectionName: websecure
+      hostnames:
+        - longhorn.h3rmt.dev
+      annotations:
+        external-dns.kubernetes.io/ttl: "300"
+    metrics:
+      serviceMonitor:
+        enabled: false
+    

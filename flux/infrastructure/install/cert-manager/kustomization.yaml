@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - hetzner-dns-credentials.enc.yaml
-  - helm.yaml
+  - deployment.yaml

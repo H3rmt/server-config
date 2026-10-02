@@ -7,4 +7,3 @@ resources:
   - external-dns
   - multus
   - nvidia.yaml
-  # - garage
