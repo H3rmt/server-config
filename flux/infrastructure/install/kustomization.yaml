@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - cert-manager
   - traefik
+  - longhorn
   - operators
   - external-dns
   - multus
