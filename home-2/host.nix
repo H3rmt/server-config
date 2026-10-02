@@ -28,8 +28,8 @@
     zfs.forceImportRoot = false;
 
     # Keep explicit because this host mounts ZFS datasets.
-    supportedFilesystems = [ "zfs" ];
-    kernelModules = [ "nvme_fabrics" "nvme_tcp" ];
+    supportedFilesystems = [ "zfs" "nfs" ];
+    kernelModules = [ "nvme_fabrics" "nvme_tcp" "iscsi_tcp" ];
     kernelParams = [ "boot.shell_on_fail" "nvme_core.multipath=Y" "hugepagesz=2M" "hugepages=1024" ];
 
     # Minimal storage/USB modules required early during boot.
@@ -101,8 +101,8 @@
     device = "tank";
     fsType = "zfs";
   };
-  fileSystems."/mnt/tank-garage" = {
-    device = "tank/garage";
+  fileSystems."/mnt/tank-longhorn" = {
+    device = "tank/longhorn";
     fsType = "zfs";
   };
 

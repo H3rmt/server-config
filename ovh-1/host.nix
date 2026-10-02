@@ -25,7 +25,8 @@ in
 
     # Kept empty intentionally: kvm-intel was removed because host boot does not
     # require it; it auto-loads when virtualization is actually used.
-    kernelModules = [ "nvme_fabrics" "nvme_tcp" ];
+    supportedFilesystems = [ "nfs" ];
+    kernelModules = [ "nvme_fabrics" "nvme_tcp" "iscsi_tcp" ];
     kernelParams = [ "boot.shell_on_fail" "nvme_core.multipath=Y" "hugepagesz=2M" "hugepages=1024" ];
 
     # Minimal storage/USB modules required early during boot.

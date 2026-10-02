@@ -56,6 +56,10 @@ in
       bantime-increment.rndtime = "20m";
       bantime-increment.maxtime = "2d";
     };
+    openiscsi = {
+      enable = true;
+      initiatorName = "iqn.2026-10.h3rmt:k3s";
+    };
   };
 
   system.stateVersion = "24.11";
@@ -171,5 +175,8 @@ in
     wireguard-tools
     nvtopPackages.full
     nvidia-container-toolkit
+    openiscsi
+    util-linux
+    nfs-utils
   ];
 }

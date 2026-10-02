@@ -21,7 +21,8 @@
       device = "/dev/sda";
     };
     # No host-specific always-on kernel modules needed.
-    kernelModules = [ "nvme_fabrics" "nvme_tcp" ];
+    supportedFilesystems = [ "nfs" ];
+    kernelModules = [ "nvme_fabrics" "nvme_tcp" "iscsi_tcp" ];
     kernelParams = [ "boot.shell_on_fail" "nvme_core.multipath=Y" "hugepagesz=2M" "hugepages=1024" ];
     # Minimal storage/virtualization modules required early during boot.
     initrd.availableKernelModules = [
