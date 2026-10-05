@@ -63,7 +63,7 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: home-assistant-config
+            claimName: home-assistant-config-longhorn
         - name: dbus
           hostPath:
             path: /run/dbus
