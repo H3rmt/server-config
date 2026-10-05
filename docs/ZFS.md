@@ -90,6 +90,16 @@ zfs create \
   tank/garage
 ```
 
+For Longhorn (must have ext4)
+```bash
+zfs create -V \
+  -o encryption=aes-256-gcm \
+  -o keyformat=passphrase \
+  -o keylocation=file:///run/agenix/zfs-key \
+  tank/longhorn
+mkfs.ext4 /dev/zvol/tank/longhorn
+```
+
 Check the result:
 
 ```bash
