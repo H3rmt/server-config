@@ -31,6 +31,9 @@ spec:
     defaultSettings:
       defaultDataPath: /mnt/tank-longhorn
       defaultDataLocality: "best-effort"
+      defaultReplicaCount: 2
+      freezeFilesystemForSnapshot: true
+      replicaAutoBalance: "least-effort"
     longhornGlobalManager:
       replicas: 2
     longhornUI:
