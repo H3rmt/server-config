@@ -52,36 +52,7 @@
     ];
   };
 
-  services.xserver.enable = false;
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.graphics.enable = true;
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = false;
-    nvidiaSettings = true;
-    powerManagement.enable = false;
-    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
-    nvidiaPersistenced = true;
-  };
   hardware.cpu.intel.updateMicrocode = true;
-  hardware.bluetooth.enable = true;
-
-  virtualisation.docker.enableNvidia = true;
-  hardware.nvidia-container-toolkit.enable = true;
-  hardware.nvidia-container-toolkit.mount-nvidia-executables = true;
-
-  services.k3s.containerdConfigTemplate = ''
-    {{ template "base" . }}
-  
-    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
-      privileged_without_host_devices = false
-      runtime_engine = ""
-      runtime_root = ""
-      runtime_type = "io.containerd.runc.v2"
-  
-    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
-      BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime.cdi"
-  '';
   
   age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeAjxCzY56TNLs3oRpAFDrtAhMXdKEAAZTTeBD4p9y8";
 
@@ -97,13 +68,17 @@
       "dmask=0022"
     ];
   };
-  fileSystems."/mnt/tank" = {
-    device = "tank";
-    fsType = "zfs";
-  };
+  # fileSystems."/mnt/tank" = {
+  #   device = "tank";
+  #   fsType = "zfs";
+  # };
   fileSystems."/mnt/tank-longhorn" = {
-    device = "tank/longhorn";
-    fsType = "zfs";
+    device = "/dev/zvol/tank/longhorn";
+    fsType = "ext4";
+    options = [ 
+      "defaults"
+      "_netdev"
+    ];
   };
 
   swapDevices = [{
