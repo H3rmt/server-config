@@ -5,8 +5,7 @@ config:
   inCluster: true
   enableHelm: true
   extraArgs:
-    - "-oidc-use-pkce"
-    - "true"
+    - "-oidc-use-pkce=true"
   oidc:
     secret:
       create: false
