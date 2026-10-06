@@ -82,7 +82,7 @@ kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system 
 ## Encryp secret file using sops
 
 ```bash
-sops --encrypt --in-place <file>.enc.yaml
+sops --encrypt file.raw.yaml > file.enc.yaml
 ```
 
 ## Reset k3s

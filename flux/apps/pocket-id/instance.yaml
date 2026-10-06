@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://github.com/aclerici38/pocket-id-operator/releases/latest/download/pocketidinstance_v1alpha1.json
+
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDInstance
+metadata:
+  name: pocket-id
+  namespace: pocket-id
+spec:
+  encryptionKey:
+    valueFrom:
+      secretKeyRef:
+        name: encryption-key
+        key: encryption_key
+  appUrl: "https://auth.h3rmt.dev"
+  databaseUrl:
+    valueFrom:
+      secretKeyRef:
+        name: storage-app
+        key: fqdn-uri
+  ui:
+    appName: "H3rmt Auth"
+    sessionDuration: 1440
+    accentColor: "#3b82f6"
+  userManagement:
+    allowOwnAccountEdit: true
+    allowUserSignups: "disabled"
+    requireUserEmail: true
+  timezone: "Europe/Berlin"
+  webauthn:
+    userVerification: "required" 
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: "longhorn"
+  route:
+    enabled: true
+    parentRefs:
+      - name: traefik
+        namespace: kube-system
+        kind: Gateway
+        sectionName: websecure

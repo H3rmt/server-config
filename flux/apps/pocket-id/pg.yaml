@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: storage
+  namespace: pocket-id
+spec:
+  instances: 2
+  storage:
+    storageClass: local-path
+    size: 5Gi

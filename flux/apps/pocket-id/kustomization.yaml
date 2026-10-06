@@ -3,10 +3,9 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - operator.yaml
-  # - pg.yaml
-  # - secret.enc.yaml
-  # - service.yaml
-  # - route.yaml
+  - pg.yaml
+  - secret.enc.yaml
+  - instance.yaml
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
