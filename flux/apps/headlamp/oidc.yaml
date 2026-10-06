@@ -4,7 +4,7 @@ apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDOIDCClient
 metadata:
   name: headlamp
-  namespace: pocket-id
+  namespace: headlamp
 spec:
   description: "Headlamp (Kubernetes Dashboard)"
   clientID: headlamp
