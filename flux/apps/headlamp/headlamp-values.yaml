@@ -15,6 +15,7 @@ config:
       name: headlamp-oidc-credentials
       key: client_secret
       hasScopes: true
+    usePKCE: true
 httpRoute:
   enabled: true
   annotations:
