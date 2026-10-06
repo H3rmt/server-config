@@ -6,7 +6,7 @@ operator:
 metrics:
   enabled: false
   serviceMonitor:
-    enabled: true
+    enabled: false
   dashboard:
     enabled: false
 
