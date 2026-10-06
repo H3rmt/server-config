@@ -33,7 +33,7 @@
       };
       incusbr0 = {
         allowedTCPPorts = [53 67];
-        allowedUDPPorts = [53 67]
+        allowedUDPPorts = [53 67];
       };
     };
     trustedInterfaces = [
