@@ -1,0 +1,34 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: pocket-id-operator
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: oci://ghcr.io/aclerici38/charts/pocket-id-operator
+  ref:
+    tag: 0.15.0
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pocket-id-operator
+  namespace: pocket-id
+spec:
+  interval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: pocket-id-operator
+    namespace: flux-system
+  values:
+    instance.enabled: false
+    operator.timezone: Europe/Berlin
+    pocket-id-instance.instance.enabled: false
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: true
+      dashboard:
+        enabled: false
