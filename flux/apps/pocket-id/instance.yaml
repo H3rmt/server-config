@@ -57,3 +57,5 @@ spec:
     verification: true
     apiKeyExpiration: true
     oneTimeAccessAsAdmin: true
+  OIDCClientRotation:
+    minSpacing: "30min"

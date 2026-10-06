@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://github.com/aclerici38/pocket-id-operator/releases/latest/download/pocketidoidcclient_v1alpha1.json
+
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: headlamp
+  namespace: pocket-id
+spec:
+  description: "Headlamp (Kubernetes Dashboard)"
+  clientID: headlamp
+  callbackUrls:
+    - "https://headlamp.h3rmt.dev/oidc-callback"
+  logoutCallbackUrls:
+    - "https://headlamp.h3rmt.dev/"
+  pkceEnabled: true
+  allowedUserGroups:
+    - name: "headlamp-users"
+  secret:
+    enabled: true
+    keys:
+      clientID: HEADLAMP_CONFIG_OIDC_CLIENT_ID
+      clientSecret: HEADLAMP_CONFIG_OIDC_CLIENT_SECRET
+      issuerUrl: HEADLAMP_CONFIG_OIDC_IDP_ISSUER_URL
+      scopes: HEADLAMP_CONFIG_OIDC_SCOPES
+  clientSecretRotation:
+    enabled: true
+    interval: "720h" # rotate after 30 days
+    window:
+      opens: "0 3 * * *"  # cron (local TZ): 3am daily
+      closesAfter: "3h"   
+  
+  

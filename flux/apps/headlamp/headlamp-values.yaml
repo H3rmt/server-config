@@ -4,9 +4,19 @@ replicaCount: 1
 config:
   inCluster: true
   enableHelm: true
-  unsafeUseServiceAccountToken: true
+  oidc:
+    secret:
+      create: false
+    # clientID: headlamp
+    # issuerURL: https://auth.h3rmt.dev
+    # usePKCE: true
+    externalSecret:
+      enabled: true
+      name: headlamp-oidc-credentials
+      key: client_secret
+      hasScopes: true
 httpRoute:
-  enabled: false
+  enabled: true
   annotations:
     external-dns.kubernetes.io/ttl: "300"
   parentRefs:
