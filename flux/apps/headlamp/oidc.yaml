@@ -21,7 +21,7 @@ spec:
     keys:
       clientID: OIDC_CLIENT_ID
       clientSecret: OIDC_CLIENT_SECRET
-      issuerUrl: OIDC_IDP_ISSUER_URL
+      issuerUrl: OIDC_ISSUER_URL
       scopes: OIDC_SCOPES
   clientSecretRotation:
     enabled: true
