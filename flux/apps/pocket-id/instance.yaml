@@ -47,7 +47,7 @@ spec:
     port: 587
     from: "auth@h3rmt.dev"
     user: "auth@h3rmt.dev"
-    tls: tls
+    tls: starttls
     password:
       valueFrom:
         secretKeyRef:
