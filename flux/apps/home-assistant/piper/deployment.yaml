@@ -13,6 +13,8 @@ spec:
       labels:
         app: piper
     spec:
+      nodeSelector:
+        location: "home"
       containers:
         - name: piper
           image: lscr.io/linuxserver/piper:latest

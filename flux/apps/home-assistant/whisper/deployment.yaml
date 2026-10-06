@@ -14,6 +14,9 @@ spec:
         app: faster-whisper
     spec:
       runtimeClassName: nvidia
+      nodeSelector:
+        "nvidia.com/gpu.present": "true"
+        location: "home"
       containers:
         - name: faster-whisper
           image: lscr.io/linuxserver/faster-whisper:gpu-legacy

@@ -17,6 +17,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
         thread-usb: "1"
+        location: "home"
       containers:
         - name: openthread-border-router
           image: ghcr.io/ownbee/hass-otbr-docker:7e60d50
