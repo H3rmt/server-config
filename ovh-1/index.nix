@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   ...
 }:
 {
@@ -14,22 +13,28 @@
   networking.firewall = {
     enable = true;
     rejectPackets = true;
-    interfaces."eth0" = {
-      allowedTCPPorts = [
-        80   # Traefik HTTP
-        443  # Traefik HTTPS/WebSocket
-        6443  # k3s: required so that pods can reach the API server (running on port 6443 by default)
-        2379  # k3s, etcd clients: required if using a "High Availability Embedded etcd" configuration
-        2380  # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
-        222   # temp ssh access
-        25565 # temp minecraft access
-      ];
-      allowedUDPPorts = [
-        443  # Traefik HTTP/3
-        51820 # k3s, flannel-wg (wireguard-native): required so NATed nodes (home-2) can establish the tunnel
-        51821 # k3s, flannel-wg-v6
-        8472  # k3s, flannel: required if using multi-node for inter-node networking
-      ];
+    interfaces = {
+      eth0 = {
+        allowedTCPPorts = [
+          80   # Traefik HTTP
+          443  # Traefik HTTPS/WebSocket
+          6443  # k3s: required so that pods can reach the API server (running on port 6443 by default)
+          2379  # k3s, etcd clients: required if using a "High Availability Embedded etcd" configuration
+          2380  # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
+          222   # temp ssh access
+          25565 # temp minecraft access
+        ];
+        allowedUDPPorts = [
+          443  # Traefik HTTP/3
+          51820 # k3s, flannel-wg (wireguard-native): required so NATed nodes (home-2) can establish the tunnel
+          51821 # k3s, flannel-wg-v6
+          8472  # k3s, flannel: required if using multi-node for inter-node networking
+        ];
+      };
+      incusbr0 = {
+        allowedTCPPorts = [53 67];
+        allowedUDPPorts = [53 67]
+      };
     };
     trustedInterfaces = [
       "cni0"
@@ -39,21 +44,12 @@
   };
 
   virtualisation.incus.enable = true;
-	networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
-	  53
-	  67
-	];
-	networking.firewall.interfaces.incusbr0.allowedUDPPorts = [
-	  53
-	  67
-	];
-
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = "${config.networking.hostName}.${config.networking.domain}";
-    nodeLabel = [];
+    nodeLabel = ["location=france"];
     # Note: This must be true the very first time the cluster is initialized, but must be set to false for subsequent runs.
     clusterInit = false;
     # Might need to be disabled on very first time

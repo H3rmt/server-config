@@ -68,10 +68,6 @@
       "dmask=0022"
     ];
   };
-  # fileSystems."/mnt/tank" = {
-  #   device = "tank";
-  #   fsType = "zfs";
-  # };
   fileSystems."/mnt/tank-longhorn" = {
     device = "/dev/zvol/tank/longhorn";
     fsType = "ext4";
