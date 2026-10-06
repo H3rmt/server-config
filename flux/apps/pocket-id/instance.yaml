@@ -19,7 +19,7 @@ spec:
         key: fqdn-uri
   ui:
     appName: "H3rmt Auth"
-    sessionDuration: 1209600
+    sessionDuration: 20160
     accentColor: "#3b82f6"
   userManagement:
     allowOwnAccountEdit: true
