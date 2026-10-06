@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - echo
   - pocket-id
+  - headlamp
   - home-assistant

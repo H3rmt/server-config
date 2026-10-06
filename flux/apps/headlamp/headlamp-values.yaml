@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/kubernetes-sigs/headlamp/refs/heads/main/charts/headlamp/values.schema.json
+
+replicaCount: 1
+config:
+  inCluster: true
+  enableHelm: true
+  unsafeUseServiceAccountToken: true
+httpRoute:
+  enabled: false
+  annotations:
+    external-dns.kubernetes.io/ttl: "300"
+  parentRefs:
+    - name: traefik
+      namespace: kube-system
+      kind: Gateway
+      sectionName: websecure
+  hostnames:
+    - headlamp.h3rmt.dev
