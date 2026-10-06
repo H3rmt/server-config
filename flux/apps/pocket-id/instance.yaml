@@ -58,4 +58,4 @@ spec:
     apiKeyExpiration: true
     oneTimeAccessAsAdmin: true
   OIDCClientRotation:
-    minSpacing: "30min"
+    minSpacing: "30m"

@@ -28,5 +28,3 @@ spec:
     window:
       opens: "0 3 * * *"  # cron (local TZ): 3am daily
       closesAfter: "3h"   
-  
-  
