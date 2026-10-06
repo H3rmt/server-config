@@ -22,17 +22,6 @@ spec:
     kind: OCIRepository
     name: pocket-id-operator
     namespace: flux-system
-  values:
-    instance:
-      enabled: false
-    operator:
-      timezone: Europe/Berlin
-    pocket-id-instance:
-      instance:
-        enabled: false
-    metrics:
-      enabled: false
-      serviceMonitor:
-        enabled: true
-      dashboard:
-        enabled: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: pocket-id-operator-values

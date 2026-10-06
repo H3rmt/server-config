@@ -7,3 +7,10 @@ resources:
   # - secret.enc.yaml
   # - service.yaml
   # - route.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+  - name: pocket-id-operator-values
+    namespace: pocket-id
+    files:
+      - values.yaml=pocket-id-operator-values.yaml

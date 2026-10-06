@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aclerici38/pocket-id-operator/main/charts/pocket-id-operator/values.schema.json
+
+operator:
+  timezone: Europe/Berlin
+
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: true
+  dashboard:
+    enabled: false
+
+instance:
+  enabled: false
+pocket-id-instance:
+  instance:
+    enabled: false
