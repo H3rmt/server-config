@@ -60,7 +60,7 @@ spec:
       volumes:
         - name: otbr-data
           persistentVolumeClaim:
-            claimName: otbr-data
+            claimName: otbr-data-longhorn
         - name: matter-data
           persistentVolumeClaim:
-            claimName: matter-data
+            claimName: matter-data-longhorn
