@@ -40,7 +40,7 @@ spec:
         kind: Gateway
         sectionName: websecure
   logging:
-    level: debug
+    level: warn
     queryArgs: false
   smtp:
     host: "smtp.protonmail.ch"
