@@ -9,7 +9,7 @@ spec:
   encryptionKey:
     valueFrom:
       secretKeyRef:
-        name: encryption-key
+        name: pocket-id
         key: encryption_key
   appUrl: "https://auth.h3rmt.dev"
   databaseUrl:
@@ -19,7 +19,7 @@ spec:
         key: fqdn-uri
   ui:
     appName: "H3rmt Auth"
-    sessionDuration: 1440
+    sessionDuration: 1209600
     accentColor: "#3b82f6"
   userManagement:
     allowOwnAccountEdit: true
@@ -42,3 +42,18 @@ spec:
   logging:
     level: debug
     queryArgs: false
+  smtp:
+    host: "smtp.protonmail.ch"
+    port: 587
+    from: "auth@h3rmt.dev"
+    user: "auth@h3rmt.dev"
+    tls: tls
+    password:
+      valueFrom:
+        secretKeyRef:
+          name: pocket-id
+          key: smtp_password
+  emailNotifications:
+    verification: true
+    apiKeyExpiration: true
+    oneTimeAccessAsAdmin: true
