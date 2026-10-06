@@ -16,7 +16,7 @@ spec:
         reloader.stakater.com/auto: "true"
     spec:
       nodeSelector:
-        thread-usb: "1"
+        location: "home"
       containers:
         - name: mosquitto
           image: eclipse-mosquitto:2.1.2-alpine
@@ -69,4 +69,4 @@ spec:
             defaultMode: 0440
         - name: data
           persistentVolumeClaim:
-            claimName: mosquitto-data-pvc
+            claimName: mosquitto-data-longhorn
