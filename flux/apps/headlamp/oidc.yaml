@@ -14,7 +14,8 @@ spec:
     - "https://headlamp.h3rmt.dev/"
   pkceEnabled: true
   allowedUserGroups:
-    - name: "headlamp-users"
+    - name: headlamp-users
+      namespace: pocket-id
   secret:
     enabled: true
     keys:

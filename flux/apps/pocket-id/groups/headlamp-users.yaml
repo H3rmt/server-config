@@ -10,3 +10,4 @@ spec:
   users:
     userRefs:
       - name: manager
+      - name: admin
