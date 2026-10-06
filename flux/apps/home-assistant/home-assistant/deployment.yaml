@@ -1,10 +1,12 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: home-assistant
   namespace: home-assistant
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: home-assistant
@@ -25,7 +27,7 @@ spec:
         home-assistant.h3rmt.dev/network-revision: "2"
     spec:
       nodeSelector:
-        thread-usb: "1"
+        location: "home"
       containers:
         - name: home-assistant
           image: ghcr.io/home-assistant/home-assistant:2026.9.3
@@ -55,8 +57,6 @@ spec:
           securityContext:
             privileged: false
             capabilities:
-              drop:
-                - ALL
               add:
                 - NET_ADMIN
                 - NET_RAW
