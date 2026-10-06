@@ -5,3 +5,5 @@ resources:
   - admin.yaml
   - enrico.enc.yaml
   - enrico.yaml
+  - manager.enc.yaml
+  - manager.yaml

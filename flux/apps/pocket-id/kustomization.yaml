@@ -6,4 +6,5 @@ resources:
   - pg.yaml
   - secret.enc.yaml
   - instance.yaml
+  - groups
   - user

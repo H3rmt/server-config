@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: manager-user-info
+    namespace: pocket-id
+stringData:
+    username: ENC[AES256_GCM,data:FLbkdcFgtA==,iv:+fDAG6Zsm1XTKX84dDu+KeoP6ypkGYx4n02lzSjOn3A=,tag:9/smTtr3PeETfAGtE4u2Bg==,type:str]
+    firstName: ENC[AES256_GCM,data:8pty/74H,iv:gSqv+luxN8yY2FAH9Gdnt2GYj/5AstfO6J7SZ+GcZMc=,tag:GqHAVl/55hNfsAOg0BzY2g==,type:str]
+    lastName: ENC[AES256_GCM,data:cIhNjebMZw==,iv:3AHONMcW2uTe/9J5xMPAB3dSpD1epz0+rAuX+drjo5M=,tag:CoOX3cFQ/efjVHi/R/DSBg==,type:str]
+    email: ENC[AES256_GCM,data:C5H3jNFCs9VoSCtnQOiO,iv:Ozde8suaADS4rLrqXzpZtTWJJIIXSuKyn2V9+8nrusM=,tag:CRxotqoeOfNm5s2Yd0mikw==,type:str]
+    displayName: ENC[AES256_GCM,data:2uDuBIXZ49WAOq+l7Kc=,iv:MxJljQe7YmSFGTdFimLED+LH2QIgDQNy9sVPCNCAo5I=,tag:pujZn13MZFWXe/dQJRUaqQ==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBOanlxSmJ6cC8zNE9vdXg2
+            cnd1UU1vdHF0ZlNxQXRRWUtzRjF0Vkc2b3l3CmF5ay9xQmg2dUphOW9ib0UxNUd6
+            YUhjZzVZbVhsd3czamhEQTd0WXBNQ0EKLS0tIGJsV0pUclNWKzlPQ3EzSFNMS2Vh
+            b0kwejZiSDMxanBuOVhHdGE3T1hVMTQKB5qbR3VyNsl9sq/aixNhncOzaPDd5hKY
+            pAjgIm3qr2ythVwzxPv6ZxDVELDqgDycpNEmpEicpnllH0ZeSwm5/w==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1agyztcavhvlahvm0tau5xfzzje66cygw6czvtheysmjacx4updtqgcl8q9
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-10-06T20:25:01Z"
+    mac: ENC[AES256_GCM,data:lfl2S2mcYxIWbS5+hq8C5mSysyiaICxznx6lWKm1TX4Mv4IVZj7BvRIZs8uOZq8Bji/+DSOiNGqv3IcXxX2yXnYxi9ua1zobuKiG1g738oJYYAvhHTuS8ovswS/AWpxcq2Uk01QLHQ809JMccQXo5r+iazt8yaOOYYwQ8qW2Ixw=,iv:42OIpLAOWRWeY0l59r1S6v1cSk17ccWFnPyAw20RbHI=,tag:EJhdGvczMfKW6zCgh/tyEA==,type:str]
+    version: 3.13.3
