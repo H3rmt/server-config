@@ -39,3 +39,6 @@ spec:
         namespace: kube-system
         kind: Gateway
         sectionName: websecure
+  logging:
+    level: debug
+    queryArgs: false
