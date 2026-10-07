@@ -5,7 +5,7 @@ config:
   inCluster: true
   enableHelm: true
   extraArgs:
-    - "-oidc-use-pkce=true"
+    - "-oidc-use-pkce=false"
     - "-me-user-info-url=https://auth.h3rmt.dev/api/oidc/userinfo"
   oidc:
     secret:

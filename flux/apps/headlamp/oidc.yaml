@@ -12,7 +12,7 @@ spec:
     - "https://headlamp.h3rmt.dev/oidc-callback"
   logoutCallbackUrls:
     - "https://headlamp.h3rmt.dev/"
-  pkceEnabled: true
+  pkceEnabled: false
   allowedUserGroups:
     - name: headlamp-users
       namespace: pocket-id
@@ -24,7 +24,7 @@ spec:
       issuerUrl: OIDC_ISSUER_URL
       scopes: OIDC_SCOPES
   clientSecretRotation:
-    enabled: true
+    enabled: false
     interval: "720h" # rotate after 30 days
     window:
       opens: "0 3 * * *"  # cron (local TZ): 3am daily
