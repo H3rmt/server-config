@@ -6,6 +6,7 @@ config:
   enableHelm: true
   extraArgs:
     - "-oidc-use-pkce=true"
+    - "-me-user-info-url=https://auth.h3rmt.dev/api/oidc/userinfo"
   oidc:
     secret:
       create: false
@@ -14,7 +15,6 @@ config:
       name: headlamp-oidc-credentials
       key: client_secret
       hasScopes: false
-    meUserInfoURL: https://auth.h3rmt.dev/api/oidc/userinfo
   unsafeUseServiceAccountToken: false
 httpRoute:
   enabled: true
