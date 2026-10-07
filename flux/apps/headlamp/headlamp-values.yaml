@@ -9,14 +9,12 @@ config:
   oidc:
     secret:
       create: false
-    # clientID: headlamp
-    # issuerURL: https://auth.h3rmt.dev
-    usePKCE: false
     externalSecret:
       enabled: true
       name: headlamp-oidc-credentials
       key: client_secret
       hasScopes: true
+  unsafeUseServiceAccountToken: true
 httpRoute:
   enabled: true
   annotations:
