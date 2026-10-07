@@ -14,6 +14,7 @@ config:
       name: headlamp-oidc-credentials
       key: client_secret
       hasScopes: false
+    meUserInfoURL: https://auth.h3rmt.dev/api/oidc/userinfo
   unsafeUseServiceAccountToken: false
 httpRoute:
   enabled: true
