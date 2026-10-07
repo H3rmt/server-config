@@ -14,7 +14,7 @@ config:
       name: headlamp-oidc-credentials
       key: client_secret
       hasScopes: true
-  unsafeUseServiceAccountToken: false
+  unsafeUseServiceAccountToken: true
 httpRoute:
   enabled: true
   annotations:
