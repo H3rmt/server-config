@@ -13,7 +13,7 @@ config:
       enabled: true
       name: headlamp-oidc-credentials
       key: client_secret
-      hasScopes: true
+      hasScopes: false
   unsafeUseServiceAccountToken: false
 httpRoute:
   enabled: true
