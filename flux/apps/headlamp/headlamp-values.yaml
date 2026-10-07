@@ -11,7 +11,7 @@ config:
       create: false
     # clientID: headlamp
     # issuerURL: https://auth.h3rmt.dev
-    # usePKCE: true
+    usePKCE: false
     externalSecret:
       enabled: true
       name: headlamp-oidc-credentials
