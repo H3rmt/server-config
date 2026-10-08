@@ -20,7 +20,7 @@ web:
     authentication:
       type: OAuth2
       oauth2:
-        provider: Pocket ID
+        provider: OIDC
         clientID: flux
         clientSecret: flux-oidc-credentials
         issuerURL: https://auth.h3rmt.dev
