@@ -39,7 +39,7 @@
     tokenFile = config.age.secrets.k3s.path;
     role = "agent";
     nodeName = "${config.networking.hostName}.${config.networking.domain}";
-    nodeLabel = ["nvidia.com/gpu.present=true" "thread-usb=1" "location=home"];
+    nodeLabel = ["nvidia.com/gpu.present=true" "thread-usb=1" "location=home" "size=large"];
     clusterInit = false;
     serverAddr = "https://k3s.h3rmt.dev:6443";
   };

@@ -44,7 +44,7 @@
     tokenFile = config.age.secrets.k3s.path;
     role = "server";
     nodeName = "${config.networking.hostName}.${config.networking.domain}";
-    nodeLabel = ["location=germany"];
+    nodeLabel = ["location=germany" "size=small"];
     clusterInit = false;
     serverAddr = "https://k3s.h3rmt.dev:6443";
     extraFlags = [

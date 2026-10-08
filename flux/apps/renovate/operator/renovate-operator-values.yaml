@@ -1,5 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mogenius/renovate-operator/refs/heads/main/charts/renovate-operator/values.schema.json
 
+
+
 auth:
   oidc:
     enabled: true
@@ -12,3 +14,7 @@ auth:
 authorization:
   enabled: false
 
+
+extraEnv:
+  - name: TZ
+    value: "Europe/Berlin"
