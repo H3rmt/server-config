@@ -2,6 +2,7 @@
 
 webhook:
   baseUrl: https://renovate.h3rmt.dev
+  baseUrlScheme: https
 
 route:
   enabled: true
@@ -23,6 +24,7 @@ auth:
     secretKey: CLIENT_SECRET
     issuerUrl: https://auth.h3rmt.dev
     pkceEnabled: true
+    redirectScheme: https
 
 authorization:
   enabled: false
