@@ -38,4 +38,7 @@ spec:
   scratchVolume:
     enabled: true
     sizeLimit: "5Gi"
-      
+    
+  extraEnv:
+    - name: LOG_LEVEL
+      value: "debug"
