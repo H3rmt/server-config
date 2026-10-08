@@ -8,6 +8,7 @@ spec:
   url: oci://ghcr.io/aclerici38/charts/pocket-id-operator
   ref:
     tag: 0.15.0
+    digest: sha256:79493ae0d7c1d1be8788eef74d4c61cc9c744fcbe6c6e60c35ac81f21288ffca
 
 ---
 
