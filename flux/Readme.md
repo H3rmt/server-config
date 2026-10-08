@@ -13,6 +13,12 @@ helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-opera
 --create-namespace
 ```
 
+#### Uninstall after all components were installed so it can manage itself
+
+```bash
+helm uninstall flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator --namespace flux-system
+```
+
 ### Install Gateway CRDS
 
 ```bash
