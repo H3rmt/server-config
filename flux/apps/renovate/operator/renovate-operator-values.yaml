@@ -3,6 +3,16 @@
 webhook:
   baseUrl: https://renovate.h3rmt.dev
   baseUrlScheme: https
+  route:
+    annotations: 
+      external-dns.kubernetes.io/ttl: "300"
+    parentRefs: 
+      - name: traefik
+        namespace: kube-system
+        kind: Gateway
+        sectionName: websecure
+    hostnames:
+      - webhook-renovate.h3rmt.dev
 
 route:
   enabled: true
