@@ -1,8 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mogenius/renovate-operator/refs/heads/main/charts/renovate-operator/values.schema.json
 
 webhook:
-  baseUrl: https://renovate.h3rmt.dev
-  baseUrlScheme: https
+  enabled: true
   route:
     annotations: 
       external-dns.kubernetes.io/ttl: "300"
