@@ -5,4 +5,3 @@ resources:
   - pg.yaml
   - redis.yaml
   - reloader.yaml
-  # - nvidia-gpu.yaml
