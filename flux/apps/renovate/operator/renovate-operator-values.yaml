@@ -24,6 +24,7 @@ auth:
     secretKey: CLIENT_SECRET
     issuerUrl: https://auth.h3rmt.dev
     pkceEnabled: true
+    redirectUrl: https://renovate.h3rmt.dev/auth/callback
     redirectScheme: https
 
 authorization:
