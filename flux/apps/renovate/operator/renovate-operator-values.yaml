@@ -3,6 +3,7 @@
 webhook:
   enabled: true
   route:
+    enabled: true
     annotations: 
       external-dns.kubernetes.io/ttl: "300"
     parentRefs: 
@@ -42,3 +43,6 @@ authorization:
 extraEnv:
   - name: TZ
     value: "Europe/Berlin"
+
+config:
+  jobTTLSecondsAfterFinished: 604800 # 1 week
