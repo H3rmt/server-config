@@ -12,7 +12,15 @@ spec:
   parallelism: 3
   discoveryFilters: 
     - "h3rmt/*"
-  
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: size
+                operator: In
+                values:
+                  - large
   webhook:
     enabled: true
     authentication:
