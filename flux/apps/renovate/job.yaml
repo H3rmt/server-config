@@ -17,9 +17,9 @@ spec:
     enabled: true
     authentication:
       enabled: true
-      secretRef:
-        name: renovate-webhook-token
-        key: token
+      # secretRef:
+      #   name: renovate-webhook-token
+      #   key: token
     sync:
       enabled: true
   renovateConfig:
@@ -28,4 +28,13 @@ spec:
       key: config.yaml
   scratchVolume:
     enabled: true
-    size: 2Gi
+    ephemeral:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: local-path
+          resources:
+            requests:
+              storage: 4Gi
+      

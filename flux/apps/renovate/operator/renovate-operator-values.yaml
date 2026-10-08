@@ -1,6 +1,19 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mogenius/renovate-operator/refs/heads/main/charts/renovate-operator/values.schema.json
 
+webhook:
+  baseUrl: https://renovate.h3rmt.dev
 
+route:
+  enabled: true
+  annotations: 
+    external-dns.kubernetes.io/ttl: "300"
+  parentRefs: 
+    - name: traefik
+      namespace: kube-system
+      kind: Gateway
+      sectionName: websecure
+  hostnames:
+    - renovate.h3rmt.dev
 
 auth:
   oidc:
@@ -13,7 +26,6 @@ auth:
 
 authorization:
   enabled: false
-
 
 extraEnv:
   - name: TZ
