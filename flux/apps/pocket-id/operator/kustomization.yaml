@@ -4,6 +4,8 @@ resources:
   - operator.yaml
 generatorOptions:
   disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
 configMapGenerator:
   - name: pocket-id-operator-values
     namespace: pocket-id

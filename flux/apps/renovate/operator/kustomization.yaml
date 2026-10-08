@@ -5,6 +5,8 @@ resources:
   - operator.yaml
 generatorOptions:
   disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
 configMapGenerator:
   - name: renovate-operator-values
     namespace: renovate

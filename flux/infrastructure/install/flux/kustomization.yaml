@@ -5,6 +5,8 @@ resources:
   - role-binding.yaml
 generatorOptions:
   disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
 configMapGenerator:
   - name: flux-operator-values
     namespace: flux-system

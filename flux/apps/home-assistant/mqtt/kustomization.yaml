@@ -9,6 +9,8 @@ resources:
   - route.yaml
 generatorOptions:
   disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
 configMapGenerator:
   - name: mosquitto-config
     namespace: home-assistant
