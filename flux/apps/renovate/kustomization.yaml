@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - secret-config.enc.yaml
+  - secret-webhook.enc.yaml
   - operator
   - job.yaml
 generatorOptions:
