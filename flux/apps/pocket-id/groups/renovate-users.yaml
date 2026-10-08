@@ -3,11 +3,11 @@
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDUserGroup
 metadata:
-  name: headlamp-users
+  name: renovate-users
   namespace: pocket-id
 spec:
-  friendlyName: "Headlamp Users"
+  friendlyName: "Renovate Users"
   users:
-    userRefs:
-      - name: manager
-      - name: admin
+    usernames:
+      - manager
+      - admin

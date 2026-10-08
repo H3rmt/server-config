@@ -1,0 +1,27 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: renovate
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: oci://ghcr.io/mogenius/helm-charts/renovate-operator
+  ref:
+    tag: 6.4.0
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: renovate-operator
+  namespace: renovate
+spec:
+  interval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: renovate
+    namespace: flux-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: renovate-operator-values

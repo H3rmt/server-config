@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mogenius/renovate-operator/refs/heads/main/charts/renovate-operator/values.schema.json
+
+auth:
+  oidc:
+    enabled: true
+    clientId: renovate
+    existingSecret: renovate-oidc-credentials
+    secretKey: CLIENT_SECRET
+    issuerUrl: https://auth.h3rmt.dev/
+    pkceEnabled: true
+
+authorization:
+  enabled: false
+

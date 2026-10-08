@@ -4,3 +4,4 @@ resources:
   - echo
   - pocket-id
   - home-assistant
+  - renovate
