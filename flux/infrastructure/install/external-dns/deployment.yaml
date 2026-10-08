@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: gcr.io/k8s-staging-external-dns/external-dns
-      tag: v20260730-v0.21.0-135-g05e84d65
+      tag: v20260730-v0.21.0-135-g05e84d65@sha256:d019364e5632c655694d1f7a465f624c48b1f0292088ec457e9ef86546951e4c
     logLevel: debug
     policy: sync
     registry: txt
@@ -52,7 +52,7 @@ spec:
       webhook:
         image:
           repository: ghcr.io/mconfalonieri/external-dns-hetzner-webhook
-          tag: v1.0.2
+          tag: v1.0.2@sha256:b5183f07498cf9aec14d0c7a28359ae39a11658af4ac44c724b2aa63c0cb9aef
         env:
           - name: HETZNER_API_KEY
             valueFrom:

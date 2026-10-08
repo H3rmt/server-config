@@ -8,6 +8,7 @@ spec:
   url: oci://quay.io/jetstack/charts/cert-manager
   ref:
     tag: v1.20.0
+    digest: sha256:0ba58efe6e5b3f328f5aa6f688932833b3bc5af99b5b987c8086651217b572ad
 
 ---
 

@@ -30,7 +30,7 @@ spec:
         location: "home"
       containers:
         - name: home-assistant
-          image: ghcr.io/home-assistant/home-assistant:2026.9.3
+          image: ghcr.io/home-assistant/home-assistant:2026.9.3@sha256:d8922685169707fd91e8b9729902d975f06157d005e422874d201e0261dda196
           ports:
             - name: hass
               containerPort: 8123

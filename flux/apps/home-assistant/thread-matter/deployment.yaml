@@ -22,7 +22,7 @@ spec:
         location: "home"
       containers:
         - name: openthread-border-router
-          image: ghcr.io/ownbee/hass-otbr-docker:7e60d50
+          image: ghcr.io/ownbee/hass-otbr-docker:7e60d50@sha256:7be32cca581c239536527628169a4691ecc8d8e9dd6e95c5c40fb6cf3494128f
           securityContext:
             privileged: true
           volumeMounts:
@@ -50,7 +50,7 @@ spec:
             - name: OTBR_LOG_LEVEL
               value: "notice"
         - name: matter
-          image: ghcr.io/matter-js/matterjs-server:1.4.0
+          image: ghcr.io/matter-js/matterjs-server:1.4.0@sha256:54232d0d3e7dff5a54759469d2753399270412b4c30c55b31750a4595e4cb236
           volumeMounts:
             - name: matter-data
               mountPath: /data

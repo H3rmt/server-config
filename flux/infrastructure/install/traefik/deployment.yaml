@@ -8,6 +8,7 @@ spec:
   url: oci://ghcr.io/traefik/helm/traefik
   ref:
     tag: 41.6.0
+    digest: sha256:9e91c00c5f3578e9f646debed77a4cd8f034879989869786523dcad74466a931
 
 ---
 

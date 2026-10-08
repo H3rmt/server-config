@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: http-echo
-          image: mendhak/http-https-echo:latest
+          image: mendhak/http-https-echo:latest@sha256:a265f55c86cb3baead76fdf379dc8e9e6440ed121874e101e60b833e05bce8d4
           ports:
             - containerPort: 8080
