@@ -7,8 +7,8 @@ spec:
   interval: 12h
   url: oci://nvcr.io/nvidia/cloud-native-charts/gpu-operator
   ref:
-    tag: v26.7.0
-    digest: sha256:23268170f1b608365ef8c15e0c0df87bff0017768e048bd9e73e41a1096299e4
+    tag: v26.7.1
+    digest: sha256:77af9b17d420c21238e9e9ae55150478dec3fbbee71a9b3ac5b0ed456dd114b6
 
 ---
 
