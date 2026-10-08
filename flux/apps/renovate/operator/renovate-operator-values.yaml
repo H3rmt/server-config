@@ -6,7 +6,7 @@ auth:
     clientId: renovate
     existingSecret: renovate-oidc-credentials
     secretKey: CLIENT_SECRET
-    issuerUrl: https://auth.h3rmt.dev/
+    issuerUrl: https://auth.h3rmt.dev
     pkceEnabled: true
 
 authorization:
