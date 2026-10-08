@@ -25,7 +25,7 @@ spec:
   renovateConfig:
     configMapRef: 
       name: renovate-config
-      key: config.yaml
+      key: config.json5
   scratchVolume:
     enabled: true
     ephemeral:

@@ -11,4 +11,4 @@ configMapGenerator:
   - name: renovate-config
     namespace: renovate
     files:
-      - config.yaml=config/config.yaml
+      - config.json5=config/config.json5
