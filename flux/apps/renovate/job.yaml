@@ -37,13 +37,5 @@ spec:
       key: config.json5
   scratchVolume:
     enabled: true
-    ephemeral:
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: local-path
-          resources:
-            requests:
-              storage: 4Gi
+    sizeLimit: "5Gi"
       
