@@ -26,9 +26,9 @@ spec:
     enabled: true
     authentication:
       enabled: true
-      # secretRef:
-      #   name: renovate-webhook-token
-      #   key: token
+      secretRef:
+        name: renovate-webhook-token
+        key: token
     sync:
       enabled: true
   renovateConfig:
