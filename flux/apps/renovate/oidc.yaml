@@ -14,7 +14,7 @@ spec:
     - "https://renovate.h3rmt.dev/"
   pkceEnabled: true
   allowedUserGroups:
-    - name: renovate
+    - name: renovate-users
       namespace: pocket-id
   secret:
     enabled: true
