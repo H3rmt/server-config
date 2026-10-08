@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:best-practices"
   ],
   "flux": {
     "managerFilePatterns": ["/flux/.+\\.yaml$/"]
@@ -12,10 +12,5 @@
   "kubernetes": {
     "managerFilePatterns": ["/flux/.+\\.yaml$/"]
   },
-  "lockFileMaintenance": {
-    "enabled": true,
-    "recreateWhen": "always",
-    "branchTopic": "lock-file-maintenance",
-    "schedule": ["before 4am on monday"]
-  }
+  "prConcurrentLimit": 0
 }
