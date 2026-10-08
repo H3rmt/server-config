@@ -9,7 +9,7 @@ spec:
   description: "Flux (GitOps)"
   clientID: flux
   callbackUrls:
-    - "https://flux.h3rmt.dev/auth/callback"
+    - "https://flux.h3rmt.dev/oauth2/callback"
   logoutCallbackUrls:
     - "https://flux.h3rmt.dev/"
   pkceEnabled: true
