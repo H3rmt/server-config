@@ -6,7 +6,7 @@ resources:
   - operator
   - job.yaml
 generatorOptions:
-  disableNameSuffixHash: false
+  disableNameSuffixHash: true
 configMapGenerator:
   - name: renovate-config
     namespace: renovate
