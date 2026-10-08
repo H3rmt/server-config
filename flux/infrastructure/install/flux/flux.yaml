@@ -8,6 +8,7 @@ spec:
   url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
   ref:
     tag: 0.61.0
+    digest: sha256:8c039527c4a20599bc49bf69fa944e4ae08a0d7c1d585664261d9e78e51b0bde
 
 ---
 
@@ -39,7 +40,7 @@ spec:
                 path: /spec/template/spec/initContainers
                 value:
                   - name: render-web-config
-                    image: alpine:3.22
+                    image: alpine:3.22@sha256:5291449c3df73caf6ed85e649dec1b9e818b39a5d8c871e97afc13e9cd5e8fa8
                     command:
                       - /bin/sh
                       - -ec
