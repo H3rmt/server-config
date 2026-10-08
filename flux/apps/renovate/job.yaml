@@ -35,7 +35,7 @@ spec:
     configMapRef: 
       name: renovate-config
       key: config.json5
-  scratchVolume:
-    enabled: true
-    sizeLimit: "5Gi"
+  # scratchVolume:
+  #   enabled: true
+  #   sizeLimit: "5Gi"
       
