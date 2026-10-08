@@ -24,3 +24,59 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: flux-operator-values
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: flux-operator
+            patch: |-
+              - op: add
+                path: /metadata/annotations
+                value:
+                  secret.reloader.stakater.com/reload: flux-oidc-credentials
+              - op: add
+                path: /spec/template/spec/initContainers
+                value:
+                  - name: render-web-config
+                    image: alpine:3.22
+                    command:
+                      - /bin/sh
+                      - -ec
+                      - |
+                        sed "s/REPLACE_WITH_SECRET/${CLIENT_SECRET}/g" \
+                          /etc/flux-operator/web-source/config.yaml \
+                          > /etc/flux-operator/web-generated/config.yaml
+                    env:
+                      - name: CLIENT_SECRET
+                        valueFrom:
+                          secretKeyRef:
+                            name: flux-oidc-credentials
+                            key: CLIENT_SECRET
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      readOnlyRootFilesystem: true
+                      runAsNonRoot: true
+                      runAsUser: 65532
+                      capabilities:
+                        drop:
+                          - ALL
+                    volumeMounts:
+                      - name: web-config
+                        mountPath: /etc/flux-operator/web-source
+                        readOnly: true
+                      - name: web-config-generated
+                        mountPath: /etc/flux-operator/web-generated
+              - op: add
+                path: /spec/template/spec/securityContext
+                value:
+                  fsGroup: 65532
+                  fsGroupChangePolicy: OnRootMismatch
+              - op: replace
+                path: /spec/template/spec/containers/0/volumeMounts/1/name
+                value: web-config-generated
+              - op: add
+                path: /spec/template/spec/volumes/-
+                value:
+                  name: web-config-generated
+                  emptyDir: {}

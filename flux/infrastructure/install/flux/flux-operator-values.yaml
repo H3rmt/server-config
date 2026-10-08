@@ -22,7 +22,7 @@ web:
       oauth2:
         provider: OIDC
         clientID: flux
-        clientSecret: flux-oidc-credentials
+        clientSecret: REPLACE_WITH_SECRET
         issuerURL: https://auth.h3rmt.dev
   httpRoute:
     enabled: true
@@ -38,3 +38,5 @@ web:
 
 serviceMonitor:
   enabled: false
+
+
