@@ -11,7 +11,8 @@ spec:
   image: ghcr.io/renovatebot/renovate:latest
   parallelism: 3
   discoveryFilters: 
-    - "h3rmt/*"
+    # - "h3rmt/*"
+    - "h3rmt/server-config"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
