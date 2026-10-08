@@ -8,7 +8,7 @@ resources:
   - service.yaml
   - route.yaml
 generatorOptions:
-  disableNameSuffixHash: false
+  disableNameSuffixHash: true
 configMapGenerator:
   - name: mosquitto-config
     namespace: home-assistant
