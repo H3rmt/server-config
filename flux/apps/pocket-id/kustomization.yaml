@@ -8,3 +8,4 @@ resources:
   - instance.yaml
   - user
   - groups
+  - flux

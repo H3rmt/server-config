@@ -5,10 +5,10 @@ resources:
   - oidc.yaml
   - operator
   # - deployment.yaml
-# generatorOptions:
-#   disableNameSuffixHash: false
-# configMapGenerator:
-#   - name: renovate-config
-#     namespace: renovate
-#     files:
-#       - config.yaml=config/config.yaml
+generatorOptions:
+  disableNameSuffixHash: false
+configMapGenerator:
+  - name: renovate-config
+    namespace: renovate
+    files:
+      - config.yaml=config/config.yaml

@@ -4,9 +4,9 @@
 
 ### Flux controller
 
-```bash
-nix-shell -p kubernetes-helm
+Helm on nixos: `nix-shell -p kubernetes-helm`
 
+```bash
 helm install flux-operator oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator \
 --namespace flux-system \
 --kubeconfig /etc/rancher/k3s/k3s.yaml \
