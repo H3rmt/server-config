@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/controlplaneio-fluxcd/charts/refs/heads/main/charts/flux-operator/values.schema.json
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+
+web:
+  enabled: true
+  config:
+    baseURL: https://flux.h3rmt.dev
+    # authentication:
+    #   type: OAuth2
+    #   oauth2:
+    #     provider: Pocket ID
+    #     clientID: flux
+    #     clientSecret: flux-oidc-credentials
+    #     issuerURL: https://auth.h3rmt.dev
+  httpRoute:
+    enabled: true
+    annotations: 
+      external-dns.kubernetes.io/ttl: "300"
+    parentRefs: 
+      - name: traefik
+        namespace: kube-system
+        kind: Gateway
+        sectionName: websecure
+    hostnames:
+      - flux.h3rmt.dev
+
+serviceMonitor:
+  enabled: false

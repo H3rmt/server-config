@@ -1,0 +1,31 @@
+apiVersion: renovate-operator.mogenius.com/v1alpha1
+kind: RenovateJob
+metadata:
+  name: renovate-job
+  namespace: renovate
+spec:
+  schedule: "0 * * * *" # Hourly
+  secretRef: renovate-secret-config
+  provider:
+    name: github
+  # image: ghcr.io/renovatebot/renovate:latest
+  parallelism: 3
+  discoveryFilters: 
+    - "h3rmt/*"
+  
+  webhook:
+    enabled: true
+    authentication:
+      enabled: true
+      secretRef:
+        name: renovate-webhook-token
+        key: token
+    sync:
+      enabled: true
+  renovateConfig:
+    configMapRef: 
+      name: renovate-config
+      key: config.yaml
+  scratchVolume:
+    enabled: true
+    size: 2Gi
