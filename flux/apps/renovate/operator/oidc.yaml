@@ -8,6 +8,7 @@ metadata:
 spec:
   description: "Renovate (Dependency Management)"
   clientID: renovate
+  launchUrl: https://renovate.h3rmt.dev
   callbackUrls:
     - "https://renovate.h3rmt.dev/auth/callback"
   logoutCallbackUrls:
