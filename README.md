@@ -27,31 +27,8 @@ agenix rekey -a
 nixos-rebuild switch --flake '.#' |& nom
 ```
 
-## Generate Wireguard Key
-```bash
-wg genkey > privatekey
-wg pubkey < privatekey > publickey
-```
-
 ## Initial Setup:
 agenix-rekey:
 1. generate a private + public key `age-keygen -o master.agekey` 
 2. encrypt private key with age: `age -p -o privkey.age master.agekey` 
 3. paste public key into masterIdentities
-
-## ZFS
-
-### Block Device
-
-```
-zfs create -o keyformat=passphrase -o keylocation=file:///run/agenix/zfs-key -o encryption=aes-256-gcm -V 2T tank/...
-zfs list
-```
-
-### Mountable
-
-```
-zfs create -o keyformat=passphrase -o keylocation=file:///run/agenix/zfs-key -o encryption=aes-256-gcm tank/...
-zfs set mountpoint=legacy tank/...
-zfs list
-```

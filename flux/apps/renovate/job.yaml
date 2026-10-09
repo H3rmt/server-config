@@ -4,7 +4,7 @@ metadata:
   name: renovate-job
   namespace: renovate
 spec:
-  schedule: "0 * * * *" # Hourly
+  schedule: "0 */3 * * *" # Every 3 hours
   secretRef: renovate-secret-config
   provider:
     name: github
