@@ -42,3 +42,8 @@ spec:
   extraEnv:
     - name: LOG_LEVEL
       value: "debug"
+  githubAppReference:
+    secretName: renovate-app-config
+    appIdSecretKey: APP_ID
+    installationIdSecretKey: INSTALL_ID
+    pemSecretKey: PEM

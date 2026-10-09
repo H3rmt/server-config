@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - secret-config.enc.yaml
   - secret-webhook.enc.yaml
+  - secret-app-config.enc.yaml
   - operator
   - job.yaml
 generatorOptions:
