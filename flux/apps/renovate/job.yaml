@@ -8,7 +8,7 @@ spec:
   secretRef: renovate-secret-config
   provider:
     name: github
-  image: ghcr.io/renovatebot/renovate:latest
+  image: ghcr.io/renovatebot/renovate:latest@sha256:d21e806bd646e093c20a4bcdfa24598b687bd14e55079b1261404a81b1333cde
   parallelism: 3
   discoveryFilters: 
     # - "h3rmt/*"
