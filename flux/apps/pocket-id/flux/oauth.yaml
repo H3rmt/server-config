@@ -8,6 +8,7 @@ metadata:
 spec:
   description: "Flux (GitOps)"
   clientID: flux
+  launchUrl: https://flux.h3rmt.dev
   callbackUrls:
     - "https://flux.h3rmt.dev/oauth2/callback"
   logoutCallbackUrls:
