@@ -21,7 +21,7 @@ spec:
         location: "home"
       containers:
         - name: faster-whisper
-          image: lscr.io/linuxserver/faster-whisper:gpu-legacy@sha256:6b1085d3a694085a0bd7d083d090df9196f857b9faab07c75b5f091d54ba019f
+          image: lscr.io/linuxserver/faster-whisper:gpu-legacy@sha256:b68ce5e0b01f37e8b57fcf1ca0598b39da5b726dc583bb8f992e5e74b37a62c6
           ports:
             - name: faster-whisper
               containerPort: 10300
