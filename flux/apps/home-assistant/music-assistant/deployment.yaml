@@ -29,7 +29,7 @@ spec:
         location: "home"
       containers:
         - name: music-assistant
-          image: ghcr.io/music-assistant/server:latest@sha256:28023f8c0d96ca2496391f3218a6d70d7ef3ba84db846b3a3f3cd9ce7ef8aedc
+          image: ghcr.io/music-assistant/server:latest@sha256:dce482dc3bf4093735acf217b3bead74a05c46d40922341e775580c6d05394cd
           imagePullPolicy: IfNotPresent
           ports:
             - name: web
