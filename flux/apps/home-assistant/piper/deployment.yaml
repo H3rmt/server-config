@@ -17,7 +17,7 @@ spec:
         location: "home"
       containers:
         - name: piper
-          image: lscr.io/linuxserver/piper:latest@sha256:a3ed248731b22e49ecce2f4289602e8b95296e48311781fac0c7c55293ba7442
+          image: lscr.io/linuxserver/piper:latest@sha256:b03c5e49b4ed899de5e4b7647d5a2395e6972bed0fe97215bc3ea3cbc0af94df
           ports:
             - name: wyoming
               containerPort: 10200
