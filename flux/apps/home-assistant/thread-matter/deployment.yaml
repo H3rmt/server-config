@@ -49,8 +49,6 @@ spec:
               value: "460800"
             - name: OTBR_LOG_LEVEL
               value: "notice"
-            - name: OTBR_WEB_PORT
-              value: "8085"
             - name: OTBR_REST_PORT
               value: "8081"
         - name: matter
