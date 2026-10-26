@@ -1,0 +1,27 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: victoria-operator
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-operator
+  ref:
+    tag: 0.68.1
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-operator
+  namespace: monitoring
+spec:
+  interval: 2m
+  chartRef:
+    kind: OCIRepository
+    name: victoria-operator
+    namespace: flux-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: monitoring-operator-values

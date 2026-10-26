@@ -23,6 +23,7 @@
           2380  # k3s, etcd peers: required if using a "High Availability Embedded etcd" configuration
           222   # temp ssh access
           25565 # temp minecraft access
+          25566 # temp minecraft 2 access
         ];
         allowedUDPPorts = [
           443  # Traefik HTTP/3
@@ -42,8 +43,11 @@
       "flannel-wg-v6"
     ];
   };
-
-  virtualisation.incus.enable = true;
+  
+  virtualisation.incus = {
+    enable = true;
+    ui.enable = true;
+  };
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;

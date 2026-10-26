@@ -11,12 +11,9 @@ spec:
     - name: otbr-rest
       port: 8081
       targetPort: 8081
-    - name: otbr-web
+    - name: otbr-webui
       port: 8085
       targetPort: 8085
-    - name: matter
+    - name: matter-webui
       port: 5580
       targetPort: 5580
-    - name: matter-com
-      port: 5540
-      targetPort: 5540
