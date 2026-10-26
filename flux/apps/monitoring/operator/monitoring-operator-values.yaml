@@ -10,4 +10,4 @@ admissionWebhooks:
       kind: ClusterIssuer
 
 serviceMonitor:
-  enabled: true
+  enabled: false
