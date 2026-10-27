@@ -69,7 +69,7 @@ grafana.ini:
     # api_url: -
     # token_url: -
 
-    role_attribute_path: contains(groups[*], 'monitoring-admin-users') && 'GrafanaAdmin' || contains(groups[*], 'monitoring-edit-users') && 'Editor' || 'Viewer'
+    role_attribute_path: contains(groups[*], 'monitoring-admin-users') && 'Admin' || contains(groups[*], 'monitoring-edit-users') && 'Editor' || 'Viewer'
     allow_assign_grafana_admin: true
     role_attribute_strict: true
 
