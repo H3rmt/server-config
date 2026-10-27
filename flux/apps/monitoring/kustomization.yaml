@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - operator
+  - instance.yaml
+  - agent.yaml
