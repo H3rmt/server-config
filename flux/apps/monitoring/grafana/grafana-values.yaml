@@ -70,4 +70,4 @@ grafana.ini:
     allow_assign_grafana_admin: true
     role_attribute_strict: true
 
-envFromSecret: grafana-oidc
+envFromSecret: grafana-oidc-credentials
