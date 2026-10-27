@@ -29,7 +29,11 @@ spec:
     global:
       timezone: Europe/Berlin
     persistence:
-      defaultClassReplicaCount: 2
+      createStorageClass: false
+    defaultBackupStore:
+      backupTarget: s3://h3rmt-backups@de/
+      backupTargetCredentialSecret: ovh-s3-backup-credentials
+      pollInterval: 5m
     defaultSettings:
       defaultDataPath: /mnt/tank-longhorn
       defaultDataLocality: "best-effort"

@@ -3,6 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: otbr-data-longhorn
   namespace: home-assistant
+  labels:
+    recurring-job.longhorn.io/source: enabled
+    recurring-job-group.longhorn.io/long-retention: enabled
 spec:
   accessModes:
     - ReadWriteOnce
@@ -18,6 +21,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: matter-data-longhorn
   namespace: home-assistant
+  labels:
+    recurring-job.longhorn.io/source: enabled
+    recurring-job-group.longhorn.io/long-retention: enabled
 spec:
   accessModes:
     - ReadWriteOnce

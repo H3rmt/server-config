@@ -1,0 +1,37 @@
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: backup-short
+  namespace: longhorn-system
+spec:
+  name: backup-short
+  task: backup
+  cron: "0 4,16 * * *"
+  retentionPolicy: age-based
+  retainAge: 48h # 2 days
+  concurrency: 1
+  groups:
+    - short-retention
+  labels: 
+    retention: short
+  full-backup-interval: 60 # 2 per day so every 30 days
+
+---
+
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: backup-long
+  namespace: longhorn-system
+spec:
+  name: backup-long
+  task: backup
+  cron: "0 */6 * * *"
+  retentionPolicy: age-based
+  retainAge: 720h # 30 days
+  concurrency: 1
+  groups:
+    - long-retention
+  labels:
+    retention: long
+  full-backup-interval: 80 # 4 per day so every 20 days

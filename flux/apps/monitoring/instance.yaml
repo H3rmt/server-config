@@ -12,6 +12,10 @@ spec:
       requests:
         storage: 100Gi
     storageClassName: longhorn
+  storageMetadata: 
+    labels:
+      recurring-job.longhorn.io/source: enabled
+      recurring-job-group.longhorn.io/long-short: enabled
   resources:
     requests:
       cpu: 250m
