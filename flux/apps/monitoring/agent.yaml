@@ -1,4 +1,4 @@
-apiVersion: operator.victoriametrics.com/v1
+apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMAgent
 metadata:
   name: main
