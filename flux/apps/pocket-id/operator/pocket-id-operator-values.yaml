@@ -4,9 +4,9 @@ operator:
   timezone: Europe/Berlin
 
 metrics:
-  enabled: false
+  enabled: true
   serviceMonitor:
-    enabled: false
+    enabled: true
   dashboard:
     enabled: false
 
