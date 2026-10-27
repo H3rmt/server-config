@@ -14,7 +14,8 @@ spec:
     - short-retention
   labels: 
     retention: short
-  full-backup-interval: 60 # 2 per day so every 30 days
+  parameters:
+    full-backup-interval: "60" # 2 per day so every 30 days
 
 ---
 
@@ -34,4 +35,6 @@ spec:
     - long-retention
   labels:
     retention: long
-  full-backup-interval: 80 # 4 per day so every 20 days
+  parameters:
+    full-backup-interval: "80" # 4 per day so every 20 days
+    
