@@ -17,21 +17,18 @@ spec:
       secretKeyRef:
         name: storage-app
         key: fqdn-uri
+  fileBackend: database
   ui:
     appName: "H3rmt Auth"
-    sessionDuration: 20160
+    sessionDuration: 30240
     accentColor: "#3b82f6"
   userManagement:
-    allowOwnAccountEdit: true
+    allowOwnAccountEdit: false
     allowUserSignups: "disabled"
     requireUserEmail: true
   timezone: "Europe/Berlin"
   webauthn:
-    userVerification: "required" 
-  persistence:
-    enabled: true
-    size: 2Gi
-    storageClass: "longhorn"
+    userVerification: "required"
   route:
     enabled: true
     parentRefs:
