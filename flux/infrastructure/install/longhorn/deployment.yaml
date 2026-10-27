@@ -46,7 +46,7 @@ spec:
           kind: Gateway
           sectionName: websecure
       hostnames:
-        - longhorn.h3rmt.dev
+        - longhorn.infra.h3rmt.dev
       annotations:
         external-dns.kubernetes.io/ttl: "300"
     metrics:

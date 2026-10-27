@@ -7,4 +7,4 @@ admissionWebhooks:
     enabled: true
 
 serviceMonitor:
-  enabled: false
+  enabled: true
