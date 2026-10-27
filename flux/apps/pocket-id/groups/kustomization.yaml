@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - renovate-users.yaml
   - flux-users.yaml
+  - ha-users.yaml

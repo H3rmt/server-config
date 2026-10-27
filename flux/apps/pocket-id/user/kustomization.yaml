@@ -3,7 +3,13 @@ kind: Kustomization
 resources:
   - admin.enc.yaml
   - admin.yaml
-  - enrico.enc.yaml
-  - enrico.yaml
   - manager.enc.yaml
   - manager.yaml
+  - e.enc.yaml
+  - e.yaml
+  - m.enc.yaml
+  - m.yaml
+  - c.enc.yaml
+  - c.yaml
+  - a.enc.yaml
+  - a.yaml

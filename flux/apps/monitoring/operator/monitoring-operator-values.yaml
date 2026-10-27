@@ -5,9 +5,6 @@ admissionWebhooks:
   enabled: true
   certManager:
     enabled: true
-    issuer:
-      name: letsencrypt-prod
-      kind: ClusterIssuer
 
 serviceMonitor:
   enabled: false

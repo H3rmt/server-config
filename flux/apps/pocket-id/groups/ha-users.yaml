@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://github.com/aclerici38/pocket-id-operator/releases/latest/download/pocketidusergroup_v1alpha1.json
+
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDUserGroup
+metadata:
+  name: flux-users
+  namespace: pocket-id
+spec:
+  friendlyName: "Flux Users"
+  users:
+    userRefs:
+      - name: m
+        namespace: pocket-id
+      - name: c
+        namespace: pocket-id
+      - name: a
+        namespace: pocket-id
+      - name: enrico
+        namespace: pocket-id

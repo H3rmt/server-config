@@ -8,6 +8,8 @@ metadata:
 spec:
   friendlyName: "Flux Users"
   users:
-    usernames:
-      - manager
-      - admin
+    userRefs:
+      - name: manager
+        namespace: pocket-id
+      - name: admin
+        namespace: pocket-id

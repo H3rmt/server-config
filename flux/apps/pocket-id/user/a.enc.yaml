@@ -1,0 +1,27 @@
+#!/usr/bin/env -S bash -c 'sops --encrypt "$0" > "${0/.raw.yaml/.enc.yaml}" && echo "Generated ${0/.raw.yaml/.enc.yaml}"'
+apiVersion: v1
+kind: Secret
+metadata:
+    name: a-user-info
+    namespace: pocket-id
+stringData:
+    username: ENC[AES256_GCM,data:dNC7EQ==,iv:FU5cNwX6b/Yvn0IiJRHCtCEBfWFKu/6Yux3YVvE/O9k=,tag:Xw25jyZto+CL/IvSc/6EjQ==,type:str]
+    firstName: ENC[AES256_GCM,data:tQiR8Q==,iv:FcxdUI88Q9sSbin08iToTwkoeN5caVigH/HpTHJ91Wo=,tag:/S4I5+iMQmfS9cU+shcegg==,type:str]
+    lastName: ENC[AES256_GCM,data:brUP2YgCvg==,iv:TxlCvJUAfDT3ZB3IWlMGcxJbO+o8e6oOXNw/RxCEtwM=,tag:cqdWoibjDpHoNnvT3r5NFA==,type:str]
+    email: ""
+    displayName: ENC[AES256_GCM,data:WIA4cakmZQ69NnLd,iv:09ZqLacbxD+eKkXIMw8hD9tzUs2A+Oxr5WdUHs2N/ZU=,tag:9iK5DCgysKX/m/GHAaJRQg==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA3bWQwSCsyQVJONlhORGlU
+            NlhFRnRib05lR3NRNzFjTHNyYzM5N09FcUN3Ck1CaUxRNk5pQnE1S1NCRGVvaGxR
+            bVRYd2pmbjNQcHk0aUk4RnA4ajgrVW8KLS0tIHdvSXg4ajhHNGNFUlZHYkpSWDhQ
+            VW0yK1M0aDVJaGNoL2NLVjlXN2ZueGsK6emalzgZ3ZsOyc+h+v+smVgBci8FJywJ
+            OmQX30b8+7Id7oAt8QXMVMWPo6cWs37kClLLeiqjtXyC0FgpkisnfQ==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1agyztcavhvlahvm0tau5xfzzje66cygw6czvtheysmjacx4updtqgcl8q9
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-10-15T08:12:34Z"
+    mac: ENC[AES256_GCM,data:zkx/X5h8cPkAVw3TAoa1vsQPmlGCeMDO86q6L741jKDGVUtOjCVLTFd/DrTof7jwwWEPopUxHKPqK/YKkc8JKD8r/rfTRN+ZbaSmenqDl8RsxszjBbhWmErtmO8KqGR6W3lZqiebBM71KlvrCD5gXHkKoOUF4Cih3rfIkOvVZso=,iv:EntE2zVG7ipRdWqcxPs05w/8J/+H8HYQdEH56qL4z2k=,tag:9zzDkC2Kkk+/I66UBs6nug==,type:str]
+    version: 3.13.3
