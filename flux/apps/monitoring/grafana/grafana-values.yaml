@@ -16,7 +16,7 @@ route:
     annotations:
       external-dns.kubernetes.io/ttl: "300"
     hostnames:
-      - auth.h3rmt.dev
+      - grafana.monitor.h3rmt.dev
 
 persistence:
   enabled: true
