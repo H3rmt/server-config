@@ -59,12 +59,12 @@ grafana.ini:
     use_pkce: true
     allow_sign_up: true
     auto_login: true
-    name: pocket-id
+    name: Pocket Id
+    scopes: "openid profile email offline_access"
 
     # All from secrets
     # client_id: -
     # client_secret: -
-    # scopes: -
     # auth_url: -
     # api_url: -
     # token_url: -

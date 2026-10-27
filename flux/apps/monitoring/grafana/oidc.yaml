@@ -26,7 +26,6 @@ spec:
     keys:
       clientID: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
       clientSecret: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
-      scopes: GF_AUTH_GENERIC_OAUTH_SCOPES
       userinfoUrl: GF_AUTH_GENERIC_OAUTH_API_URL
       authorizationUrl: GF_AUTH_GENERIC_OAUTH_AUTH_URL
       tokenUrl: GF_AUTH_GENERIC_OAUTH_TOKEN_URL
