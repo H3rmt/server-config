@@ -3,10 +3,10 @@
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDUser
 metadata:
-  name: enrico
+  name: e
   namespace: pocket-id
 spec:
   userInfoSecretRef:
-    name: enrico-user-info
+    name: e-user-info
   admin: false
   locale: "en"
