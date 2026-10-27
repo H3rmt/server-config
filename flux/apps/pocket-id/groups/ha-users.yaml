@@ -3,10 +3,10 @@
 apiVersion: pocketid.internal/v1alpha1
 kind: PocketIDUserGroup
 metadata:
-  name: flux-users
+  name: home-assistant-users
   namespace: pocket-id
 spec:
-  friendlyName: "Flux Users"
+  friendlyName: "Home Assistant Users"
   users:
     userRefs:
       - name: m
