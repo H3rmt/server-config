@@ -36,6 +36,10 @@ spec:
         namespace: kube-system
         kind: Gateway
         sectionName: websecure
+    annotations:
+      external-dns.kubernetes.io/ttl: "300"
+    hostnames:
+      - auth.h3rmt.dev
   logging:
     level: warn
     queryArgs: false

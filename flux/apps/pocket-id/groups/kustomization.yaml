@@ -4,3 +4,6 @@ resources:
   - renovate-users.yaml
   - flux-users.yaml
   - ha-users.yaml
+  - monitoring-view-users.yaml
+  - monitoring-edit-users.yaml
+  - monitoring-admin-users.yaml

@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://github.com/aclerici38/pocket-id-operator/releases/latest/download/pocketidoidcclient_v1alpha1.json
+
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  description: "Grafana (Monitoring)"
+  clientID: grafana
+  launchUrl: https://grafana.monitor.h3rmt.dev
+  callbackUrls:
+    - "https://grafana.monitor.h3rmt.dev//login/generic_oauth"
+  logoutCallbackUrls:
+    - "https://grafana.monitor.h3rmt.dev/"
+  pkceEnabled: true
+  allowedUserGroups:
+    - name: monitoring-view-users
+      namespace: pocket-id
+    - name: monitoring-edit-users
+      namespace: pocket-id
+    - name: monitoring-admin-users
+      namespace: pocket-id
+  secret:
+    enabled: true
+    keys:
+      clientID: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+      clientSecret: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+      scopes: GF_AUTH_GENERIC_OAUTH_SCOPES
+      userinfoUrl: GF_AUTH_GENERIC_OAUTH_API_URL
+      issuerUrl: GF_AUTH_GENERIC_OAUTH_AUTH_URL
+      tokenUrl: GF_AUTH_GENERIC_OAUTH_TOKEN_URL
+  clientSecretRotation:
+    enabled: false
+    interval: "720h" # rotate after 30 days
+    window:
+      opens: "0 3 * * *"  # cron (local TZ): 3am daily
+      closesAfter: "3h"   

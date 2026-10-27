@@ -29,6 +29,13 @@ kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/re
 kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/experimental-install.yaml
 ```
 
+## Install Prometheus CRDS
+
+```bash
+LATEST=$(curl -s https://api.github.com/repos/prometheus-operator/prometheus-operator/releases/latest | jq -cr .tag_name)
+kubectl apply --server-side -f https://github.com/prometheus-operator/prometheus-operator/releases/download/${LATEST}/bundle.yaml
+```
+
 ## Create and apply initial sops secret
 
 ```bash
@@ -84,11 +91,11 @@ kubectl delete namespace <namespace>
 kubectl patch <ocirepository.source.toolkit.fluxcd.io> <traefik> -n flux-system --type=merge -p '{"metadata":{"finalizers":[]}}'
 ```
 
-
 ## Encryp secret file using sops
 
 ```bash
 sops --encrypt file.raw.yaml > file.enc.yaml
+# New secrets should just be executed, their shebang encrypts them
 ```
 
 ## Reset k3s

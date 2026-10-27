@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/grafana-community/helm-charts/refs/heads/main/charts/grafana/values.schema.json
+
+replicas: 1
+
+serviceMonitor:
+  enabled: true
+
+route:
+  main:
+    enabled: true
+    parentRefs:
+      - name: traefik
+        namespace: kube-system
+        kind: Gateway
+        sectionName: websecure
+    annotations:
+      external-dns.kubernetes.io/ttl: "300"
+    hostnames:
+      - auth.h3rmt.dev
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 2Gi
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: longhorn
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+  datasources:
+    enabled: true
+    label: grafana_datasource
+  notifiers:
+    enabled: true
+    label: grafana_notifier
+  alerts:
+    enabled: true
+    label: grafana_alert
+
+imageRenderer:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+
+grafana.ini:
+  auth:
+    disable_login_form: true
+  auth.basic:
+    enabled: false
+  auth.generic_oauth:
+    enabled: true
+    allow_sign_up: true
+    auto_login: true
+    name: pocket-id
+
+    # All from secrets
+    # client_id: -
+    # client_secret: -
+    # scopes: -
+    # auth_url: -
+    # api_url: -
+    # token_url: -
+
+    role_attribute_path: contains(groups[*], 'monitoring-admin-users') && 'GrafanaAdmin' || contains(groups[*], 'monitoring-edit-users') && 'Editor' || 'Viewer'
+    allow_assign_grafana_admin: true
+    role_attribute_strict: true
+
+envFromSecret: grafana-oidc
