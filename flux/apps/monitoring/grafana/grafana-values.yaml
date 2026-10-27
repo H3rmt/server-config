@@ -71,3 +71,5 @@ grafana.ini:
     role_attribute_strict: true
 
 envFromSecret: grafana-oidc-credentials
+podAnnotations:
+  secret.reloader.stakater.com/reload: grafana-oidc-credentials
