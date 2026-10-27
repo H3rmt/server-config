@@ -31,7 +31,7 @@ spec:
       authorizationUrl: GF_AUTH_GENERIC_OAUTH_AUTH_URL
       tokenUrl: GF_AUTH_GENERIC_OAUTH_TOKEN_URL
   clientSecretRotation:
-    enabled: false
+    enabled: true
     interval: "720h" # rotate after 30 days
     window:
       opens: "0 3 * * *"  # cron (local TZ): 3am daily
