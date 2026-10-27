@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - echo
   - pocket-id
-  - monitoring
+  # - monitoring
   - home-assistant
   - renovate
