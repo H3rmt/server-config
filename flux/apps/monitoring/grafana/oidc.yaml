@@ -10,7 +10,7 @@ spec:
   clientID: grafana
   launchUrl: https://grafana.monitor.h3rmt.dev
   callbackUrls:
-    - "https://grafana.monitor.h3rmt.dev//login/generic_oauth"
+    - "https://grafana.monitor.h3rmt.dev/login/generic_oauth"
   logoutCallbackUrls:
     - "https://grafana.monitor.h3rmt.dev/"
   pkceEnabled: true
