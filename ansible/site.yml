@@ -1,0 +1,20 @@
+---
+- name: Install the lightweight Pi exporter
+  hosts: otbr-pi
+  roles:
+    - pi-node-exporter
+
+- name: Install the receiver and renderer health exporter
+  hosts: receiver
+  gather_facts: false
+  pre_tasks:
+    - name: Install Python through opkg when it is missing
+      ansible.builtin.raw: >-
+        command -v python3 >/dev/null 2>&1 ||
+        opkg install python3
+      become: true
+
+    - name: Gather receiver facts after Python bootstrap
+      ansible.builtin.setup:
+  roles:
+    - receiver-exporter

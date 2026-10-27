@@ -1,0 +1,103 @@
+---
+- name: Create exporter directory
+  ansible.builtin.file:
+    path: /opt/home-monitoring
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Check for classic SysV runlevel directory
+  ansible.builtin.stat:
+    path: /etc/rc3.d
+  register: receiver_sysv_rc3
+
+- name: Install receiver exporter
+  ansible.builtin.copy:
+    src: receiver-exporter.py
+    dest: /opt/home-monitoring/receiver-exporter.py
+    owner: root
+    group: root
+    mode: '0755'
+  notify: Restart receiver exporter under SysV init
+
+- name: Install placeholder metrics renderer
+  ansible.builtin.copy:
+    src: metrics-renderer.py
+    dest: /opt/home-monitoring/metrics-renderer.py
+    owner: root
+    group: root
+    mode: '0755'
+  notify: Restart metrics renderer under SysV init
+
+- name: Create heartbeat directory
+  ansible.builtin.file:
+    path: /var/lib/home-monitoring
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Install SysV init script
+  ansible.builtin.template:
+    src: home-receiver-exporter.sysv.j2
+    dest: /etc/init.d/home-receiver-exporter
+    owner: root
+    group: root
+    mode: '0755'
+  when: receiver_sysv_rc3.stat.exists
+  notify: Restart receiver exporter under SysV init
+
+- name: Enable receiver exporter in SysV runlevel 3
+  ansible.builtin.file:
+    src: /etc/init.d/home-receiver-exporter
+    dest: /etc/rc3.d/S99home-receiver-exporter
+    state: link
+    force: true
+  when: receiver_sysv_rc3.stat.exists
+
+- name: Add SysV shutdown link
+  ansible.builtin.file:
+    src: /etc/init.d/home-receiver-exporter
+    dest: /etc/rc0.d/K01home-receiver-exporter
+    state: link
+    force: true
+  when: receiver_sysv_rc3.stat.exists
+
+- name: Start receiver exporter under SysV init
+  ansible.builtin.service:
+    name: home-receiver-exporter
+    state: started
+  when: receiver_sysv_rc3.stat.exists
+
+- name: Install metrics renderer SysV init script
+  ansible.builtin.template:
+    src: metrics-renderer.sysv.j2
+    dest: /etc/init.d/home-metrics-renderer
+    owner: root
+    group: root
+    mode: '0755'
+  when: receiver_sysv_rc3.stat.exists
+  notify: Restart metrics renderer under SysV init
+
+- name: Enable metrics renderer in SysV runlevel 3
+  ansible.builtin.file:
+    src: /etc/init.d/home-metrics-renderer
+    dest: /etc/rc3.d/S98home-metrics-renderer
+    state: link
+    force: true
+  when: receiver_sysv_rc3.stat.exists
+
+- name: Add metrics renderer SysV shutdown link
+  ansible.builtin.file:
+    src: /etc/init.d/home-metrics-renderer
+    dest: /etc/rc0.d/K02home-metrics-renderer
+    state: link
+    force: true
+  when: receiver_sysv_rc3.stat.exists
+
+- name: Start metrics renderer under SysV init
+  ansible.builtin.service:
+    name: home-metrics-renderer
+    state: started
+  when: receiver_sysv_rc3.stat.exists

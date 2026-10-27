@@ -15,5 +15,5 @@ spec:
         namespace: pocket-id
       - name: a
         namespace: pocket-id
-      - name: enrico
+      - name: e
         namespace: pocket-id

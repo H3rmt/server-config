@@ -1,0 +1,11 @@
+- name: Restart receiver exporter under SysV init
+  ansible.builtin.service:
+    name: home-receiver-exporter
+    state: restarted
+  when: receiver_sysv_rc3.stat.exists
+
+- name: Restart metrics renderer under SysV init
+  ansible.builtin.service:
+    name: home-metrics-renderer
+    state: restarted
+  when: receiver_sysv_rc3.stat.exists

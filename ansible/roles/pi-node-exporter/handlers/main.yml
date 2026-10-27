@@ -1,0 +1,10 @@
+---
+- name: Restart node exporter
+  ansible.builtin.service:
+    name: prometheus-node-exporter
+    state: restarted
+
+- name: Restart OTBR agent
+  ansible.builtin.service:
+    name: "{{ raspi_otbr_agent_service }}"
+    state: restarted

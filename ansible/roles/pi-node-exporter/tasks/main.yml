@@ -1,0 +1,98 @@
+---
+- name: Install the distribution node exporter
+  ansible.builtin.apt:
+    name: prometheus-node-exporter
+    state: present
+    update_cache: true
+
+- name: Configure node exporter to listen on the LAN interface
+  ansible.builtin.copy:
+    dest: /etc/default/prometheus-node-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    access_time: preserve
+    modification_time: preserve
+    content: |
+      # Managed by server-config/ansible.
+      ARGS="--web.listen-address={{ raspi_metrics_bind_address }}:9100"
+  notify: Restart node exporter
+
+- name: Enable node exporter
+  ansible.builtin.service:
+    name: prometheus-node-exporter
+    enabled: true
+    state: started
+
+- name: Install Git for native OTBR
+  ansible.builtin.apt:
+    name: git
+    state: present
+    update_cache: true
+  when: raspi_otbr_enabled | bool
+
+- name: Clone OTBR source repository
+  ansible.builtin.git:
+    repo: "{{ raspi_otbr_repo_url }}"
+    dest: "{{ raspi_otbr_repo_dir }}"
+    depth: 1
+    recursive: true
+    version: HEAD
+    update: true
+  when: raspi_otbr_enabled | bool
+
+- name: Bootstrap native OTBR dependencies and build
+  ansible.builtin.command:
+    cmd: ./script/bootstrap
+    chdir: "{{ raspi_otbr_repo_dir }}"
+    creates: "{{ raspi_otbr_repo_dir }}/.ansible-bootstrap-complete"
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: raspi_otbr_enabled | bool
+
+- name: Mark native OTBR bootstrap complete
+  ansible.builtin.file:
+    path: "{{ raspi_otbr_repo_dir }}/.ansible-bootstrap-complete"
+    state: touch
+    owner: root
+    group: root
+    mode: '0644'
+    access_time: preserve
+    modification_time: preserve
+  when: raspi_otbr_enabled | bool
+
+- name: Run native OTBR setup
+  ansible.builtin.command:
+    cmd: ./script/setup
+    chdir: "{{ raspi_otbr_repo_dir }}"
+    creates: "{{ raspi_otbr_repo_dir }}/.ansible-setup-complete"
+  environment:
+    INFRA_IF_NAME: "{{ raspi_otbr_infra_if_name }}"
+  when: raspi_otbr_enabled | bool
+
+- name: Mark native OTBR setup complete
+  ansible.builtin.file:
+    path: "{{ raspi_otbr_repo_dir }}/.ansible-setup-complete"
+    state: touch
+    owner: root
+    group: root
+    mode: '0644'
+    access_time: preserve
+    modification_time: preserve
+  when: raspi_otbr_enabled | bool
+
+- name: Configure OTBR radio and interface options
+  ansible.builtin.lineinfile:
+    path: "{{ raspi_otbr_agent_defaults }}"
+    regexp: '^OTBR_AGENT_OPTS='
+    line: 'OTBR_AGENT_OPTS="{{ raspi_otbr_agent_opts }}"'
+    create: false
+  notify: Restart OTBR agent
+  when: raspi_otbr_enabled | bool
+
+- name: Enable and start OTBR agent
+  ansible.builtin.service:
+    name: "{{ raspi_otbr_agent_service }}"
+    enabled: true
+    state: started
+  when: raspi_otbr_enabled | bool
