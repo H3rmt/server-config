@@ -6,7 +6,7 @@ metadata:
 spec:
   name: backup-short
   task: backup
-  cron: "0 4,16 * * *"
+  cron: "30 4,16 * * *"
   retentionPolicy: age-based
   retainAge: 48h # 2 days
   concurrency: 1
