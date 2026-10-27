@@ -26,6 +26,7 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     zfs.forceImportRoot = false;
+    zfs.extraPools = [ "tank" ];
 
     # Keep explicit because this host mounts ZFS datasets.
     supportedFilesystems = [ "zfs" "nfs" ];
