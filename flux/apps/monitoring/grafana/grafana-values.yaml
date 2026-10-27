@@ -60,7 +60,7 @@ grafana.ini:
     allow_sign_up: true
     auto_login: true
     name: Pocket Id
-    scopes: "openid profile email offline_access"
+    scopes: "openid profile email groups"
 
     # All from secrets
     # client_id: -
