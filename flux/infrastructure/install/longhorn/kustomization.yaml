@@ -4,5 +4,5 @@ resources:
   - namespace.yaml
   - secret.enc.yaml
   - deployment.yaml
-  - longhorn-storageclass.yaml
-  - longhorn-recurring-backups.yaml
+  # - longhorn-storageclass.yaml
+  # - longhorn-recurring-backups.yaml
