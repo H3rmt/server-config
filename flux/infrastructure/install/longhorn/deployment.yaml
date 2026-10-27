@@ -28,6 +28,8 @@ spec:
   values:
     global:
       timezone: Europe/Berlin
+    persistence:
+      defaultClassReplicaCount: 2
     defaultSettings:
       defaultDataPath: /mnt/tank-longhorn
       defaultDataLocality: "best-effort"

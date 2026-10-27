@@ -72,10 +72,6 @@
   fileSystems."/mnt/tank-longhorn" = {
     device = "/dev/zvol/tank/longhorn";
     fsType = "ext4";
-    options = [ 
-      "defaults"
-      "_netdev"
-    ];
   };
 
   swapDevices = [{
