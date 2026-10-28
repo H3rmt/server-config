@@ -2,6 +2,9 @@
 
 replicas: 1
 
+plugins:
+  - victoriametrics-metrics-datasource
+
 serviceMonitor:
   enabled: true
 
@@ -50,11 +53,6 @@ sidecar:
     label: grafana_alert
     labelValue: "1"
     healthPort: 9083
-  plugins:
-    enabled: true
-    label: grafana_plugin
-    labelValue: "1"
-    healthPort: 9084
 
 imageRenderer:
   enabled: true
