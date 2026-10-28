@@ -29,32 +29,37 @@ persistence:
   storageClassName: longhorn
 
 sidecar:
+  logLevel: debug
   dashboards:
     enabled: true
     label: grafana_dashboard
+    labelValue: "1"
+    healthPort: 9080
   datasources:
     enabled: true
     label: grafana_datasource
+    labelValue: "1"
+    healthPort: 9081
   notifiers:
     enabled: true
     label: grafana_notifier
+    labelValue: "1"
+    healthPort: 9082
   alerts:
     enabled: true
     label: grafana_alert
+    labelValue: "1"
+    healthPort: 9083
   plugins:
     enabled: true
     label: grafana_plugin
+    labelValue: "1"
+    healthPort: 9084
 
 imageRenderer:
   enabled: true
   serviceMonitor:
     enabled: true
-
-# dashboards:
-#   kubernetes-dashboards:
-#     victoriametrics-operator:
-#       gnetId: 17869
-#       datasource: Victoria-Metrics
 
 grafana.ini:
   server:
