@@ -41,11 +41,20 @@ sidecar:
   alerts:
     enabled: true
     label: grafana_alert
+  plugins:
+    enabled: true
+    label: grafana_plugin
 
 imageRenderer:
   enabled: true
   serviceMonitor:
     enabled: true
+
+# dashboards:
+#   kubernetes-dashboards:
+#     victoriametrics-operator:
+#       gnetId: 17869
+#       datasource: Victoria-Metrics
 
 grafana.ini:
   server:

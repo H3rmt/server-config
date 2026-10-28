@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: victoriametrics-metrics-datasource
+  namespace: monitoring
+  labels:
+    grafana_plugin: "1"
+data:
+  plugins: victoriametrics-metrics-datasource

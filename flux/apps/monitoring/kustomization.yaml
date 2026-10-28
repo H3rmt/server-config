@@ -6,3 +6,4 @@ resources:
   - instance.yaml
   - agent.yaml
   - grafana
+  - vm-datasource.yaml

@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - oidc.yaml
   - install.yaml
+  - victora-metrics-plugin.yaml
 generatorOptions:
   disableNameSuffixHash: true
   labels:
