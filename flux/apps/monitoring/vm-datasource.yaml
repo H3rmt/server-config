@@ -13,5 +13,12 @@ data:
         type: victoriametrics-metrics-datasource
         access: proxy
         url: http://vmsingle-main.monitoring.svc.cluster.local:8428
+        isDefault: false
+        editable: false
+      - name: Victoria-Metrics (Prometheus API)
+        uid: victoria-metrics-prometheus
+        type: prometheus
+        access: proxy
+        url: http://vmsingle-main.monitoring.svc.cluster.local:8428
         isDefault: true
         editable: false

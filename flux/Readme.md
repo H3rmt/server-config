@@ -98,6 +98,17 @@ sops --encrypt file.raw.yaml > file.enc.yaml
 # New secrets should just be executed, their shebang encrypts them
 ```
 
+## Refresh Grafana dashboards
+
+Dashboard JSON is checked into the repo and provisioned by Grafana's dashboard sidecar.
+To refresh the pinned VictoriaMetrics Operator dashboard revision, run its executable script:
+
+```bash
+./apps/monitoring/grafana/refresh-victoriametrics-operator-dashboard.sh
+```
+
+The script requires `curl` and `jq`; commit the resulting JSON file for Flux to deploy it.
+
 ## Reset k3s
 
 https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md#cluster-reset
