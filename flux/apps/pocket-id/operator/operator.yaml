@@ -7,8 +7,8 @@ spec:
   interval: 12h
   url: oci://ghcr.io/aclerici38/charts/pocket-id-operator
   ref:
-    tag: 0.15.0
-    digest: sha256:79493ae0d7c1d1be8788eef74d4c61cc9c744fcbe6c6e60c35ac81f21288ffca
+    tag: 0.16.2
+    digest: sha256:10c0a7ccce7e24ed99f3a309e899ad9d1c9ec29e445fd3f6a3ecb2a2995dc74f
 
 ---
 
