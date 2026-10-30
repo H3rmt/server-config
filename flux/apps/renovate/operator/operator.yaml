@@ -8,6 +8,7 @@ spec:
   url: oci://ghcr.io/mogenius/helm-charts/renovate-operator
   ref:
     tag: 6.4.0
+    digest: sha256:2cfd0728857e073123cc0ee734a389e605295ea24078cc2534db5df5501c971f
 
 ---
 

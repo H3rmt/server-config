@@ -8,6 +8,7 @@ spec:
   url: oci://ghcr.io/grafana-community/helm-charts/grafana
   ref:
     tag: 14.0.1
+    digest: sha256:a624048a169beb3824adfd0a1d08a4f163e949cc75e07c9a32974acae1c58551
 
 ---
 
