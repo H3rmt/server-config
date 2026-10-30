@@ -20,7 +20,7 @@ spec:
     - image-automation-controller
   cluster:
     type: kubernetes
-    size: medium        
+    size: medium
   sync:
     kind: GitRepository
     url: "https://github.com/h3rmt/server-config.git"
@@ -30,4 +30,3 @@ spec:
     # increase to 15min if webhook works
     interval: 15m
     name: flux-system
-  

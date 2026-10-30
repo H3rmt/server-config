@@ -8,14 +8,14 @@ spec:
   task: backup
   cron: "30 4,16 * * *"
   retentionPolicy: age-based
-  retainAge: 48h # 2 days
+  retainAge: 48h  # 2 days
   concurrency: 1
   groups:
     - short-retention
-  labels: 
+  labels:
     retention: short
   parameters:
-    full-backup-interval: "60" # 2 per day so every 30 days
+    full-backup-interval: "60"  # 2 per day so every 30 days
 
 ---
 
@@ -29,12 +29,11 @@ spec:
   task: backup
   cron: "0 */6 * * *"
   retentionPolicy: age-based
-  retainAge: 720h # 30 days
+  retainAge: 720h  # 30 days
   concurrency: 1
   groups:
     - long-retention
   labels:
     retention: long
   parameters:
-    full-backup-interval: "80" # 4 per day so every 20 days
-    
+    full-backup-interval: "80"  # 4 per day so every 20 days

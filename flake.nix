@@ -49,6 +49,7 @@
               micro
               wireguard-tools
               smartmontools
+              yamllint
             ];
           };
         };

@@ -45,8 +45,8 @@ spec:
     longhornUI:
       replicas: 1
     httproute:
-      enabled: false # only access using port forwarding for now.
-      parentRefs: 
+      enabled: false  # only access using port forwarding for now.
+      parentRefs:
         - name: traefik
           namespace: kube-system
           kind: Gateway

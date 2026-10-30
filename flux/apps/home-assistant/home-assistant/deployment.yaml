@@ -43,7 +43,7 @@ spec:
               value: "Europe/Berlin"
             - name: DBUS_SYSTEM_BUS_ADDRESS
               value: "unix:path=/run/dbus/system_bus_socket"
-            - name: PG_URL # load from storage-app secret
+            - name: PG_URL  # load from storage-app secret
               valueFrom:
                 secretKeyRef:
                   name: storage-app

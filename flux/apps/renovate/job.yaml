@@ -4,13 +4,13 @@ metadata:
   name: renovate-job
   namespace: renovate
 spec:
-  schedule: "0 */3 * * *" # Every 3 hours
+  schedule: "0 */3 * * *"  # Every 3 hours
   secretRef: renovate-secret-config
   provider:
     name: github
   image: ghcr.io/renovatebot/renovate:latest
   parallelism: 3
-  discoveryFilters: 
+  discoveryFilters:
     - "h3rmt/*"
   affinity:
     nodeAffinity:
@@ -31,13 +31,12 @@ spec:
     sync:
       enabled: true
   renovateConfig:
-    configMapRef: 
+    configMapRef:
       name: renovate-config
       key: config.json5
   scratchVolume:
     enabled: true
     sizeLimit: "5Gi"
-    
   extraEnv:
     - name: LOG_LEVEL
       value: "debug"

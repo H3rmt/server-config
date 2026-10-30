@@ -23,7 +23,7 @@ spec:
       clientSecret: CLIENT_SECRET
   clientSecretRotation:
     enabled: false
-    interval: "720h" # rotate after 30 days
+    interval: "720h"  # rotate after 30 days
     window:
       opens: "0 3 * * *"  # cron (local TZ): 3am daily
-      closesAfter: "3h"   
+      closesAfter: "3h"

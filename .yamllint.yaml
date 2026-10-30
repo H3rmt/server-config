@@ -1,0 +1,16 @@
+extends: default
+ignore: |
+  .git/
+  ansible/
+  k8s
+  secrets/
+
+rules:
+  document-start: disable
+  line-length: disable
+  new-line-at-end-of-file: 
+    level: warning
+  trailing-spaces: 
+    level: warning
+  comments-indentation: disable
+  

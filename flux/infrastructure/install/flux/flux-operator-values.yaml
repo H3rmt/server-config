@@ -26,9 +26,9 @@ web:
         issuerURL: https://auth.h3rmt.dev
   httpRoute:
     enabled: true
-    annotations: 
+    annotations:
       external-dns.kubernetes.io/ttl: "300"
-    parentRefs: 
+    parentRefs:
       - name: traefik
         namespace: kube-system
         kind: Gateway
@@ -38,5 +38,3 @@ web:
 
 serviceMonitor:
   enabled: false
-
-

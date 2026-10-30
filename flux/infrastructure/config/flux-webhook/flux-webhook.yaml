@@ -15,9 +15,9 @@ spec:
     - "webhook.infra.h3rmt.dev"
   rules:
     - matches:
-      - path:
-          type: PathPrefix
-          value: /
+        - path:
+            type: PathPrefix
+            value: /
       backendRefs:
         - name: webhook-receiver
           namespace: flux-system

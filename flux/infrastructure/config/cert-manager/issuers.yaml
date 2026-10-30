@@ -9,15 +9,15 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
-    - dns01:
-        webhook:
-          solverName: hetzner
-          groupName: acme.h3rmt.dev
-          config:
-            tokenSecretKeyRef:
-              name: hetzner-dns-credentials
-              namespace: cert-manager
-              key: token
+      - dns01:
+          webhook:
+            solverName: hetzner
+            groupName: acme.h3rmt.dev
+            config:
+              tokenSecretKeyRef:
+                name: hetzner-dns-credentials
+                namespace: cert-manager
+                key: token
 
 ---
 
@@ -32,12 +32,12 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - dns01:
-        webhook:
-          solverName: hetzner
-          groupName: acme.h3rmt.dev
-          config:
-            tokenSecretKeyRef:
-              name: hetzner-dns-credentials
-              namespace: cert-manager
-              key: token
+      - dns01:
+          webhook:
+            solverName: hetzner
+            groupName: acme.h3rmt.dev
+            config:
+              tokenSecretKeyRef:
+                name: hetzner-dns-credentials
+                namespace: cert-manager
+                key: token

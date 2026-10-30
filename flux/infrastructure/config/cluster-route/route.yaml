@@ -12,7 +12,7 @@ spec:
       kind: Gateway
       sectionName: websecure
   # the only reason for this is to create a dns ip entry in this
-  # domain so that the k3s api can always be accessed, even if 
+  # domain so that the k3s api can always be accessed, even if
   # servers go down.
   hostnames:
     - "k3s.h3rmt.dev"

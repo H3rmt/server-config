@@ -68,6 +68,14 @@ kubectl -n flux-system describe receiver github-webhook-receiver
 
 ## Other
 
+## Lint YAML manifests
+
+Run yamllint from the repository root (available in the Nix dev shell):
+
+```bash
+nix develop --command yamllint flux
+```
+
 ## View Flux Operator and Headlamp
 
 ```bash
