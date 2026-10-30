@@ -4,6 +4,7 @@ resources:
   - oidc.yaml
   - install.yaml
   - victora-metrics-plugin.yaml
+  - dashboards
 generatorOptions:
   disableNameSuffixHash: true
   labels:
@@ -13,10 +14,3 @@ configMapGenerator:
     namespace: monitoring
     files:
       - values.yaml=grafana-values.yaml
-  - name: grafana-dashboard-victoriametrics-operator
-    namespace: monitoring
-    files:
-      - victoriametrics-operator-dashboard.json
-    options:
-      labels:
-        grafana_dashboard: "1"

@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
+configMapGenerator:
+  - name: grafana-dashboard-victoriametrics-operator
+    namespace: monitoring
+    files:
+      - victoriametrics-operator-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+  - name: grafana-dashboard-traefik
+    namespace: monitoring
+    files:
+      - traefik-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+
