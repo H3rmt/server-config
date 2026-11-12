@@ -7,8 +7,8 @@ spec:
   interval: 12h
   url: oci://ghcr.io/traefik/helm/traefik
   ref:
-    tag: 42.3.1
-    digest: sha256:a702a4316735397ecd1c3ed5287cccf87cdbc69abb0451c0b2d371408473bc33
+    tag: 42.4.0
+    digest: sha256:bd20184b7da82f7cbb12ff51aad9529426b879ee622b43e7292ffdfc6071e3a2
 
 ---
 
