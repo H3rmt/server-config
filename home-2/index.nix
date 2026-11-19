@@ -28,6 +28,7 @@
       "cni0"
       "flannel-wg"
       "flannel-wg-v6"
+      "wpan0"
     ];
   };
 
