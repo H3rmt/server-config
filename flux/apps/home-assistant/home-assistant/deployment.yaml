@@ -34,6 +34,7 @@ spec:
           ports:
             - name: hass
               containerPort: 8123
+              hostPort: 8123
               #  multicast discovery
             - containerPort: 9522
               hostPort: 9522
