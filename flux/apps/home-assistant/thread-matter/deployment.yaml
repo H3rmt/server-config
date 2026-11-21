@@ -22,7 +22,7 @@ spec:
         location: "home"
       containers:
         - name: openthread-border-router
-          image: ghcr.io/ownbee/hass-otbr-docker:v0.4.0
+          image: ghcr.io/ownbee/hass-otbr-docker:v0.4.0@sha256:790f21835c86e0d9b9071f21b042ca77ef0ff70e714e8454903982a00df83cfb
           securityContext:
             privileged: true
           volumeMounts:
@@ -52,7 +52,7 @@ spec:
             - name: OTBR_REST_PORT
               value: "8081"
         - name: matter
-          image: ghcr.io/matter-js/matterjs-server:1.6.0
+          image: ghcr.io/matter-js/matterjs-server:1.6.0@sha256:9eb98c839d0b4b07f9230b96ad52de570f7f2a7c286c5992b4c04b6b26c08a3f
           volumeMounts:
             - name: matter-data
               mountPath: /data
