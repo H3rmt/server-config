@@ -6,7 +6,7 @@ metadata:
 spec:
   name: backup-short
   task: backup
-  cron: "30 4,16 * * *"
+  cron: "0 */2 * * *"
   retentionPolicy: age-based
   retainAge: 48h  # 2 days
   concurrency: 1
@@ -15,7 +15,7 @@ spec:
   labels:
     retention: short
   parameters:
-    full-backup-interval: "60"  # 2 per day so every 30 days
+    full-backup-interval: "22"  # 12 per day so every ~1.8 days
 
 ---
 
@@ -27,7 +27,7 @@ metadata:
 spec:
   name: backup-long
   task: backup
-  cron: "0 */6 * * *"
+  cron: "0 */4 * * *"
   retentionPolicy: age-based
   retainAge: 720h  # 30 days
   concurrency: 1
@@ -36,4 +36,4 @@ spec:
   labels:
     retention: long
   parameters:
-    full-backup-interval: "80"  # 4 per day so every 20 days
+    full-backup-interval: "120"  # 6 per day so every 20 days

@@ -25,36 +25,6 @@ spec:
         name: longhorn
         namespace: flux-system
       interval: 1h
-  values:
-    global:
-      timezone: Europe/Berlin
-    persistence:
-      createStorageClass: false
-    defaultBackupStore:
-      backupTarget: s3://h3rmt-backups@de/
-      backupTargetCredentialSecret: ovh-s3-backup-credentials
-      pollInterval: 5m
-    defaultSettings:
-      defaultDataPath: /mnt/tank-longhorn
-      defaultDataLocality: "best-effort"
-      defaultReplicaCount: 2
-      freezeFilesystemForSnapshot: true
-      replicaAutoBalance: "least-effort"
-    longhornGlobalManager:
-      replicas: 2
-    longhornUI:
-      replicas: 1
-    httproute:
-      enabled: false  # only access using port forwarding for now.
-      parentRefs:
-        - name: traefik
-          namespace: kube-system
-          kind: Gateway
-          sectionName: websecure
-      hostnames:
-        - longhorn.infra.h3rmt.dev
-      annotations:
-        external-dns.kubernetes.io/ttl: "300"
-    metrics:
-      serviceMonitor:
-        enabled: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: longhorn-values

@@ -6,3 +6,12 @@ resources:
   - deployment.yaml
   - longhorn-storageclass.yaml
   - longhorn-recurring-backups.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
+configMapGenerator:
+  - name: longhorn-values
+    namespace: longhorn-system
+    files:
+      - values.yaml=longhorn-values.yaml
