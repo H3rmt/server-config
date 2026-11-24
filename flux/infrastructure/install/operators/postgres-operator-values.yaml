@@ -1,2 +1,4 @@
 crds:
   create: true
+monitoring:
+  podMonitorEnabled: true

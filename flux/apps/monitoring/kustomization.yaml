@@ -5,5 +5,6 @@ resources:
   - operator
   - instance.yaml
   - agent.yaml
+  - postgres-monitoring.yaml
   - grafana
   - vm-datasource.yaml

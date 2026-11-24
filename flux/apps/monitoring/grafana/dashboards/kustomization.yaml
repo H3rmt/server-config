@@ -26,3 +26,10 @@ configMapGenerator:
     options:
       labels:
         grafana_dashboard: "1"
+  - name: grafana-dashboard-cloudnativepg
+    namespace: monitoring
+    files:
+      - cloudnativepg-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"

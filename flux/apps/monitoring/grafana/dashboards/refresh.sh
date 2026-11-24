@@ -5,12 +5,12 @@ echo 'Downloading Grafana dashboards...'
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 tmp="$(mktemp "${script_dir}/.dashboard-XXXXXX.json")"
-trap 'rm -f "$tmp"' EXIT
+trap 'rm -f "$tmp" "${tmp}.adapted"' EXIT
 
-IDS=("17869" "17347" "17626")
-REVS=("10" "9" "1")
-OUT_NAMES=("victoriametrics-operator-dashboard.json" "traefik-dashboard.json" "longhorn-dashboard.json")
-UIDS=("1H179hunk" "n5bu_kv4k" "2BCgsldGz")
+IDS=("17869" "17347" "17626" "20417")
+REVS=("10" "9" "1" "4")
+OUT_NAMES=("victoriametrics-operator-dashboard.json" "traefik-dashboard.json" "longhorn-dashboard.json" "cloudnativepg-dashboard.json")
+UIDS=("1H179hunk" "n5bu_kv4k" "2BCgsldGz" "cloudnative-pg")
 
 for i in "${!IDS[@]}"; do
   printf '\e[34m==> Downloading Grafana dashboard %s revision %s...\e[0m\n' "${IDS[$i]}" "${REVS[$i]}"
@@ -20,7 +20,10 @@ for i in "${!IDS[@]}"; do
     printf '\e[31m==> Error: dashboard %s revision %s has an unexpected UID (expected %s, got %s)\e[0m\n' "${IDS[$i]}" "${REVS[$i]}" "${UIDS[$i]}" "$actual_uid" >&2
     exit 1
   fi
+  if [[ "${IDS[$i]}" == "20417" ]]; then
+    jq -f "${script_dir}/cloudnativepg-dashboard.jq" "$tmp" > "${tmp}.adapted"
+    mv "${tmp}.adapted" "$tmp"
+  fi
   mv "$tmp" "${script_dir}/${OUT_NAMES[$i]}"
   printf '\e[32m==> Downloaded Grafana dashboard %s revision %s to %s\e[0m\n\n' "${IDS[$i]}" "${REVS[$i]}" "${OUT_NAMES[$i]}"
 done
-
