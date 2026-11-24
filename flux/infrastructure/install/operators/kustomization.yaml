@@ -5,3 +5,16 @@ resources:
   - pg.yaml
   - redis.yaml
   - reloader.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
+configMapGenerator:
+  - name: postgres-operator-values
+    namespace: operators
+    files:
+      - values.yaml=postgres-operator-values.yaml
+  - name: reloader-values
+    namespace: operators
+    files:
+      - values.yaml=reloader-values.yaml

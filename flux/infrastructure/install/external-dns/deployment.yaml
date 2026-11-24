@@ -24,53 +24,6 @@ spec:
         name: external-dns
         namespace: flux-system
       interval: 1h
-  values:
-    image:
-      repository: gcr.io/k8s-staging-external-dns/external-dns
-      tag: v20260730-v0.21.0-135-g05e84d65@sha256:d019364e5632c655694d1f7a465f624c48b1f0292088ec457e9ef86546951e4c
-    logLevel: debug
-    policy: sync
-    registry: txt
-    txtOwnerId: k3s-cluster
-    txtPrefix: reg-%{record_type}-
-    domainFilters:
-      - h3rmt.dev
-    sources:
-      - node
-      - gateway-httproute
-      - gateway-tlsroute
-      - gateway-tcproute
-      - gateway-udproute
-    managedRecordTypes:
-      - A
-      - AAAA
-      - CNAME
-      - TXT
-    interval: 1m
-    provider:
-      name: webhook
-      webhook:
-        image:
-          repository: ghcr.io/mconfalonieri/external-dns-hetzner-webhook
-          tag: v1.0.2@sha256:b5183f07498cf9aec14d0c7a28359ae39a11658af4ac44c724b2aa63c0cb9aef
-        env:
-          - name: HETZNER_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: hetzner-dns-credentials-external-dns
-                key: token
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http-webhook
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: http-webhook
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-    serviceMonitor:
-      # disable if deployed before prometheus
-      enabled: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: external-dns-values

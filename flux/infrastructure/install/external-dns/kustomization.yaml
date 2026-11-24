@@ -3,3 +3,12 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - hetzner-dns-credentials-external-dns.enc.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
+configMapGenerator:
+  - name: external-dns-values
+    namespace: kube-system
+    files:
+      - values.yaml=external-dns-values.yaml

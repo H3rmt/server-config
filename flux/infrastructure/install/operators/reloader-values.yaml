@@ -1,0 +1,4 @@
+reloader:
+  reloadOnCreate: true
+  reloadOnDelete: true
+  syncAfterRestart: true

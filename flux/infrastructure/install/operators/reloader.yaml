@@ -25,8 +25,6 @@ spec:
         name: stakater
         namespace: flux-system
       interval: 1h
-  values:
-    reloader:
-      reloadOnCreate: true
-      reloadOnDelete: true
-      syncAfterRestart: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: reloader-values

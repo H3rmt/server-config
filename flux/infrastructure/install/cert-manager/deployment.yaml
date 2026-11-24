@@ -23,13 +23,9 @@ spec:
     kind: OCIRepository
     name: cert-manager
     namespace: flux-system
-  values:
-    installCRDs: true
-    replicaCount: 1
-    prometheus:
-      enabled: false
-      servicemonitor:
-        enabled: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: cert-manager-values
 
 ---
 
@@ -60,5 +56,6 @@ spec:
         name: cert-manager-hetzner
         namespace: flux-system
       interval: 1h
-  values:
-    groupName: acme.h3rmt.dev
+  valuesFrom:
+    - kind: ConfigMap
+      name: cert-manager-hetzner-values

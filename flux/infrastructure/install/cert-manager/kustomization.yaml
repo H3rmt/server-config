@@ -4,3 +4,16 @@ resources:
   - namespace.yaml
   - hetzner-dns-credentials.enc.yaml
   - deployment.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
+configMapGenerator:
+  - name: cert-manager-values
+    namespace: cert-manager
+    files:
+      - values.yaml=cert-manager-values.yaml
+  - name: cert-manager-hetzner-values
+    namespace: cert-manager
+    files:
+      - values.yaml=cert-manager-hetzner-values.yaml
