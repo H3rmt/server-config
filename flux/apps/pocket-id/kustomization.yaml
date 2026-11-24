@@ -9,3 +9,5 @@ resources:
   - user
   - groups
   - flux
+components:
+  - postgres-backup

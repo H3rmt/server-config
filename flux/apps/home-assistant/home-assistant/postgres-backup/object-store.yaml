@@ -1,0 +1,25 @@
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: postgres-backup
+  namespace: home-assistant
+spec:
+  retentionPolicy: "30d"
+  instanceSidecarConfiguration:
+    env:
+      - name: AWS_DEFAULT_REGION
+        value: de
+  configuration:
+    destinationPath: s3://h3rmt-backups-pg-home-assistant/
+    endpointURL: https://s3.de.io.cloud.ovh.net
+    s3Credentials:
+      accessKeyId:
+        name: postgres-backup-s3
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: postgres-backup-s3
+        key: ACCESS_SECRET_KEY
+    wal:
+      compression: gzip
+    data:
+      compression: gzip

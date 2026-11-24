@@ -7,3 +7,5 @@ resources:
   - deployment.yaml
   - service.yaml
   - route.yaml
+components:
+  - postgres-backup
