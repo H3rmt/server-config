@@ -8,3 +8,9 @@
   ansible.builtin.service:
     name: "{{ raspi_otbr_agent_service }}"
     state: restarted
+
+- name: Restart Bluetooth proxy
+  ansible.builtin.systemd_service:
+    name: "{{ raspi_bt_proxy_service }}"
+    daemon_reload: true
+    state: restarted

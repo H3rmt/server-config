@@ -1,0 +1,15 @@
+[Unit]
+Description=ESPHome-compatible Bluetooth proxy
+After=network-online.target bluetooth.service dbus.service
+Wants=network-online.target bluetooth.service
+
+[Service]
+Type=simple
+WorkingDirectory={{ raspi_bt_proxy_repo_dir }}
+ExecStart={{ raspi_bt_proxy_repo_dir }}/.venv/bin/python -m bt_proxy --name {{ raspi_bt_proxy_name }} --port {{ raspi_bt_proxy_port }} --bind {{ raspi_bt_proxy_bind_address }} --adapter {{ raspi_bt_proxy_adapter }} --log-level INFO
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

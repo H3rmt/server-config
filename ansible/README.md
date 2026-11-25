@@ -108,6 +108,54 @@ Those tasks install Git, clone the repository recursively, run
 `OTBR_AGENT_OPTS`, and enable/start `otbr-agent`. The bootstrap and setup steps
 use marker files so a later Ansible run does not rebuild them unnecessarily.
 
+## Raspberry Pi Bluetooth proxy
+
+The optional `bt-proxy` setup runs
+[`denvera/bt-proxy`](https://github.com/denvera/bt-proxy) on the Pi and exposes
+its Bluetooth adapter as an ESPHome-compatible BLE proxy. This lets Home
+Assistant use the Pi's adapter as an additional scanner alongside its local USB
+adapter. It is unrelated to OTBR and does not require passing the Pi's USB
+device into the Home Assistant pod.
+
+Before enabling it, identify the Bluetooth interface for the USB adapter on
+the Pi (for example, `hci1` if the Pi's built-in radio is `hci0`):
+
+```sh
+ls /sys/class/bluetooth
+bluetoothctl list
+```
+
+Set these variables on the Pi inventory host, using the adapter and LAN address
+that are actually present:
+
+```yaml
+raspi_bt_proxy_enabled: true
+raspi_bt_proxy_repo_url: https://github.com/denvera/bt-proxy.git
+raspi_bt_proxy_repo_dir: /opt/bt-proxy
+raspi_bt_proxy_version: HEAD
+raspi_bt_proxy_adapter: hci1
+raspi_bt_proxy_bind_address: 192.168.187.15
+raspi_bt_proxy_name: raspi-bt-proxy
+raspi_bt_proxy_port: 6053
+raspi_bt_proxy_service: bt-proxy
+```
+
+When enabled, Ansible installs BlueZ and Python, clones the repository, creates
+a virtual environment, installs the project and dependencies, installs a
+systemd unit, and enables/starts the service. The proxy binds its API and mDNS
+advertisement to `raspi_bt_proxy_bind_address`. Home Assistant should discover
+it through mDNS under **Settings > Devices & services**; if it does not, add it
+through the ESPHome integration using the Pi's LAN address and configured TCP
+port.
+
+**Security note:** this project's README says its ESPHome API currently uses
+plaintext without API encryption or authentication. Keep TCP port 6053 and mDNS
+reachable only on a trusted LAN; do not expose the proxy to the Internet or an
+untrusted network. The service is opt-in and remains disabled in the checked-in
+inventory until the Pi's USB adapter interface has been verified. After setting
+the verified adapter and enabling `raspi_bt_proxy_enabled`, rerun the Ansible
+playbook from **Deploy the devices** above.
+
 The exporter serves system metrics and its own renderer-health metrics on
 `receiver_metrics_address:receiver_metrics_port`. A separate renderer
 `/metrics` URL can be scraped by setting `renderer_metrics_url`; it is not

@@ -96,3 +96,66 @@
     enabled: true
     state: started
   when: raspi_otbr_enabled | bool
+
+- name: Install Bluetooth proxy prerequisites
+  ansible.builtin.apt:
+    name:
+      - git
+      - python3
+      - python3-venv
+      - bluez
+      - dbus
+    state: present
+    update_cache: true
+  when: raspi_bt_proxy_enabled | bool
+
+- name: Enable Bluetooth service for the proxy
+  ansible.builtin.service:
+    name: bluetooth
+    enabled: true
+    state: started
+  when: raspi_bt_proxy_enabled | bool
+
+- name: Clone bt-proxy source repository
+  ansible.builtin.git:
+    repo: "{{ raspi_bt_proxy_repo_url }}"
+    dest: "{{ raspi_bt_proxy_repo_dir }}"
+    depth: 1
+    version: "{{ raspi_bt_proxy_version }}"
+    update: true
+  notify: Restart Bluetooth proxy
+  when: raspi_bt_proxy_enabled | bool
+
+- name: Create bt-proxy Python virtual environment
+  ansible.builtin.command:
+    cmd: python3 -m venv .venv
+    chdir: "{{ raspi_bt_proxy_repo_dir }}"
+    creates: "{{ raspi_bt_proxy_repo_dir }}/.venv/bin/python"
+  when: raspi_bt_proxy_enabled | bool
+
+- name: Install bt-proxy and its Python dependencies
+  ansible.builtin.pip:
+    name: "{{ raspi_bt_proxy_repo_dir }}"
+    executable: "{{ raspi_bt_proxy_repo_dir }}/.venv/bin/pip"
+    editable: true
+    state: present
+  notify: Restart Bluetooth proxy
+  when: raspi_bt_proxy_enabled | bool
+
+- name: Install bt-proxy systemd service
+  ansible.builtin.template:
+    src: bt-proxy.service.j2
+    dest: "/etc/systemd/system/{{ raspi_bt_proxy_service }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Bluetooth proxy
+  when: raspi_bt_proxy_enabled | bool
+
+- name: Enable and start bt-proxy
+  ansible.builtin.systemd_service:
+    name: "{{ raspi_bt_proxy_service }}"
+    daemon_reload: true
+    enabled: true
+    state: started
+  when: raspi_bt_proxy_enabled | bool
