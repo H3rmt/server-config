@@ -162,6 +162,29 @@
     update_cache: true
   when: raspi_bt_proxy_enabled | bool
 
+- name: Ensure Bluetooth service drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/bluetooth.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: raspi_bt_proxy_enabled | bool
+
+- name: Enable BlueZ experimental D-Bus features for passive scanning
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/bluetooth.service.d/override.conf
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Managed by server-config/ansible.
+      [Service]
+      ExecStart=
+      ExecStart=/usr/libexec/bluetooth/bluetoothd --experimental
+  notify: Restart Bluetooth service
+  when: raspi_bt_proxy_enabled | bool
+
 - name: Enable Bluetooth service for the proxy
   ansible.builtin.service:
     name: bluetooth

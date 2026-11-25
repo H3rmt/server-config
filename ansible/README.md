@@ -149,11 +149,20 @@ raspi_bt_proxy_port: 6053
 
 When enabled, Ansible installs BlueZ and Python, clones the repository, creates
 a virtual environment, installs the project and dependencies, installs a
-systemd unit, and enables/starts the service. The proxy binds its API and mDNS
-advertisement to `raspi_bt_proxy_bind_address`. Home Assistant should discover
-it through mDNS under **Settings > Devices & services**; if it does not, add it
-through the ESPHome integration using the Pi's LAN address and configured TCP
-port.
+systemd unit, and enables/starts the service. It also manages a systemd drop-in
+that starts `bluetoothd` with `--experimental`, which BlueZ requires for passive
+scanning. Ansible restarts Bluetooth when that configuration changes. The
+configured BlueZ package and kernel must still meet bt-proxy's minimum versions
+(BlueZ 5.56 and Linux 5.10). The proxy binds its API and mDNS advertisement to
+`raspi_bt_proxy_bind_address`. Home Assistant should discover it through mDNS
+under **Settings > Devices & services**; if it does not, add it through the
+ESPHome integration using the Pi's LAN address and configured TCP port.
+
+Reapply the Pi play after changing the Bluetooth configuration:
+
+```sh
+ansible-playbook -i ansible/inventory/hosts.yml ansible/full.yml --limit 192.168.187.15
+```
 
 **Security note:** this project's README says its ESPHome API currently uses
 plaintext without API encryption or authentication. Keep TCP port 6053 and mDNS
