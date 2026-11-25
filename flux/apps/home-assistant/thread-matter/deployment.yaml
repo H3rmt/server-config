@@ -22,7 +22,7 @@ spec:
         location: "home"
       containers:
         - name: openthread-border-router
-          image: ghcr.io/ownbee/hass-otbr-docker:v0.4.0
+          image: ghcr.io/ownbee/hass-otbr-docker:v0.5.0@sha256:2f927f06f803c5dd16f97f8aad752c53d92e2c3b1de90fe4273f278fc6cc8206
           securityContext:
             privileged: true
           volumeMounts:
