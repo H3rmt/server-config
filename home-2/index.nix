@@ -19,7 +19,7 @@
     rejectPackets = true;
     interfaces."eth0" = {
       allowedTCPPorts = [ ];
-      allowedUDPPorts = [ 
+      allowedUDPPorts = [
         5353  # mDNS
         9522  # SMA Speedwire
       ];
@@ -35,6 +35,16 @@
   services.fail2ban.enable = lib.mkForce false;
   services.zfs.autoScrub.enable = true;
 
+  users.users.btop = {
+    isNormalUser = true;
+    description = "btop console display";
+    hashedPassword = "!";
+    shell = pkgs.writeShellScript "btop-login" ''
+      exec ${pkgs.btop}/bin/btop --update 500
+    '';
+  };
+  services.getty.autologinUser = "btop";
+
   services.k3s = {
     enable = true;
     tokenFile = config.age.secrets.k3s.path;
@@ -47,7 +57,7 @@
 
   hardware.bluetooth.enable = true;
 
-  # NVIDIA 
+  # NVIDIA
   services.xserver = {
     enable = false;
     videoDrivers = ["nvidia"];
@@ -67,13 +77,13 @@
   virtualisation.docker.enableNvidia = true;
   services.k3s.containerdConfigTemplate = ''
     {{ template "base" . }}
-  
+
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
       privileged_without_host_devices = false
       runtime_engine = ""
       runtime_root = ""
       runtime_type = "io.containerd.runc.v2"
-  
+
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
       BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime.cdi"
   '';
