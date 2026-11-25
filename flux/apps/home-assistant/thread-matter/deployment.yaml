@@ -52,7 +52,7 @@ spec:
             - name: OTBR_REST_PORT
               value: "8081"
         - name: matter
-          image: ghcr.io/matter-js/matterjs-server:1.6.0
+          image: ghcr.io/matter-js/matterjs-server:1.6.1@sha256:5591f9f65926ca4b13b34cfd9c9888cb9d9ee9f147fe0b04c8e025cbeeee0eb7
           volumeMounts:
             - name: matter-data
               mountPath: /data
