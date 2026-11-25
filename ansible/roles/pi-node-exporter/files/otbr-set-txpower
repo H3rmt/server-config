@@ -1,0 +1,13 @@
+#!/bin/sh
+# Wait for otbr-agent's control socket, then apply the configured power.
+attempt=0
+while [ "$attempt" -lt 60 ]; do
+    if /usr/sbin/ot-ctl txpower >/dev/null 2>&1; then
+        /usr/sbin/ot-ctl txpower "$1"
+        exit $?
+    fi
+    attempt=$((attempt + 1))
+    sleep 5
+done
+echo "otbr-set-txpower: control socket did not respond within 5 min" >&2
+exit 1

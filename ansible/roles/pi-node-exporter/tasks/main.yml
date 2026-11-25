@@ -11,8 +11,6 @@
     owner: root
     group: root
     mode: '0644'
-    access_time: preserve
-    modification_time: preserve
     content: |
       # Managed by server-config/ansible.
       ARGS="--web.listen-address={{ raspi_metrics_bind_address }}:9100"
@@ -37,7 +35,7 @@
     dest: "{{ raspi_otbr_repo_dir }}"
     depth: 1
     recursive: true
-    version: HEAD
+    version: "{{ raspi_otbr_repo_version }}"
     update: true
   when: raspi_otbr_enabled | bool
 
@@ -83,16 +81,71 @@
 
 - name: Configure OTBR radio and interface options
   ansible.builtin.lineinfile:
-    path: "{{ raspi_otbr_agent_defaults }}"
+    path: /etc/default/otbr-agent
     regexp: '^OTBR_AGENT_OPTS='
     line: 'OTBR_AGENT_OPTS="{{ raspi_otbr_agent_opts }}"'
     create: false
   notify: Restart OTBR agent
   when: raspi_otbr_enabled | bool
 
+- name: Configure OTBR web
+  ansible.builtin.lineinfile:
+    path: /etc/default/otbr-web
+    regexp: '^OTBR_WEB_OPTS='
+    line: 'OTBR_WEB_OPTS="{{ raspi_otbr_web_opts }}"'
+    create: false
+  notify: Restart OTBR agent
+  when: raspi_otbr_enabled | bool
+
+- name: Ensure OTBR agent drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/otbr-agent.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: raspi_otbr_enabled | bool
+  tags:
+    - otbr_txpower
+
+- name: Install OTBR TX power readiness helper
+  ansible.builtin.copy:
+    src: otbr-set-txpower
+    dest: /usr/local/sbin/otbr-set-txpower
+    owner: root
+    group: root
+    mode: '0755'
+  notify: Restart OTBR agent
+  when: raspi_otbr_enabled | bool
+  tags:
+    - otbr_txpower
+
+- name: Configure persistent OTBR TX power
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/otbr-agent.service.d/txpower.conf
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Apply the configured RCP TX power after every otbr-agent start.
+      # Managed by server-config/ansible (roles/pi-node-exporter).
+      [Service]
+      ExecStartPost=/usr/local/sbin/otbr-set-txpower {{ raspi_otbr_txpower_dbm }}
+  notify: Restart OTBR agent
+  when: raspi_otbr_enabled | bool
+  tags:
+    - otbr_txpower
+
 - name: Enable and start OTBR agent
   ansible.builtin.service:
-    name: "{{ raspi_otbr_agent_service }}"
+    name: otbr-agent
+    enabled: true
+    state: started
+  when: raspi_otbr_enabled | bool
+
+- name: Enable and start OTBR web
+  ansible.builtin.service:
+    name: otbr-web
     enabled: true
     state: started
   when: raspi_otbr_enabled | bool
@@ -145,7 +198,7 @@
 - name: Install bt-proxy systemd service
   ansible.builtin.template:
     src: bt-proxy.service.j2
-    dest: "/etc/systemd/system/{{ raspi_bt_proxy_service }}.service"
+    dest: "/etc/systemd/system/bt-proxy.service"
     owner: root
     group: root
     mode: '0644'
@@ -154,7 +207,7 @@
 
 - name: Enable and start bt-proxy
   ansible.builtin.systemd_service:
-    name: "{{ raspi_bt_proxy_service }}"
+    name: "bt-proxy"
     daemon_reload: true
     enabled: true
     state: started

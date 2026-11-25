@@ -108,6 +108,14 @@ Those tasks install Git, clone the repository recursively, run
 `OTBR_AGENT_OPTS`, and enable/start `otbr-agent`. The bootstrap and setup steps
 use marker files so a later Ansible run does not rebuild them unnecessarily.
 
+The Pi role also manages `/etc/systemd/system/otbr-agent.service.d/txpower.conf`
+and `/usr/local/sbin/otbr-set-txpower`. The `ExecStartPost` helper polls
+`ot-ctl` until the agent control socket responds, then applies
+`raspi_otbr_txpower_dbm` and returns the setter's exit status. The current
+SONOFF Dongle Lite MG21 reports one dBm below the value passed to the setter
+(for example, setting 8 reports 7); that readback difference is not treated as
+a failure. Recheck the radio behavior if the RCP or firmware is replaced.
+
 ## Raspberry Pi Bluetooth proxy
 
 The optional `bt-proxy` setup runs
@@ -137,7 +145,6 @@ raspi_bt_proxy_adapter: hci1
 raspi_bt_proxy_bind_address: 192.168.187.15
 raspi_bt_proxy_name: raspi-bt-proxy
 raspi_bt_proxy_port: 6053
-raspi_bt_proxy_service: bt-proxy
 ```
 
 When enabled, Ansible installs BlueZ and Python, clones the repository, creates

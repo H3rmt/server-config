@@ -1,11 +1,12 @@
----
-- name: Install the lightweight Pi exporter
-  hosts: otbr-pi
+#!/usr/bin/env -S ansible-playbook -i ./inventory/hosts.yml --diff
+# lets this run as a standalone file
+- name: Install the lightweight Pi exporter and otbr
+  hosts: 192.168.187.15
   roles:
     - pi-node-exporter
 
 - name: Install the receiver and renderer health exporter
-  hosts: receiver
+  hosts: 192.168.187.16
   gather_facts: false
   pre_tasks:
     - name: Install Python through opkg when it is missing
