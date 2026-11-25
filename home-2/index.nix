@@ -39,9 +39,11 @@
     isNormalUser = true;
     description = "btop console display";
     hashedPassword = "!";
-    shell = pkgs.writeShellScript "btop-login" ''
+    shell = (pkgs.writeShellScriptBin "btop-login" ''
       exec ${pkgs.btop}/bin/btop --update 500
-    '';
+    '') // {
+      shellPath = "/bin/btop-login";
+    };
   };
   services.getty.autologinUser = "btop";
 
