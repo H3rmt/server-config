@@ -77,16 +77,14 @@
   hardware.nvidia-container-toolkit.mount-nvidia-executables = true;
 
   virtualisation.docker.enableNvidia = true;
-  services.k3s.containerdConfigTemplate = ''
+  services.k3s.containerdConfigTemplateV3 = ''
     {{ template "base" . }}
 
-    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+    [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia]
       privileged_without_host_devices = false
-      runtime_engine = ""
-      runtime_root = ""
       runtime_type = "io.containerd.runc.v2"
 
-    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+    [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia.options]
       BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime.cdi"
   '';
 }
