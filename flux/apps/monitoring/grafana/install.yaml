@@ -7,7 +7,8 @@ spec:
   interval: 12h
   url: oci://ghcr.io/grafana-community/helm-charts/grafana
   ref:
-    tag: 14.0.1
+    tag: 14.6.1
+    digest: sha256:a1a3896c27b60a6305df55738be8dafb338cc71c92286c96d7423985c3248a6a
 
 ---
 
