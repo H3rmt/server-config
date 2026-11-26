@@ -4,6 +4,15 @@
   pkgs,
   ...
 }:
+let
+  btopConfig = pkgs.writeText "btop.conf" ''
+    show_gpu_info = "On"
+    shown_gpus = "nvidia"
+    shown_boxes = "cpu mem net proc gpu0"
+    update_ms = 500
+    save_config_on_exit = false
+  '';
+in
 {
   imports = [
     ./net.nix
@@ -39,9 +48,7 @@
     isNormalUser = true;
     description = "btop console display";
     hashedPassword = "!";
-    shell = (pkgs.writeShellScriptBin "btop-login" ''
-      exec ${pkgs.btop}/bin/btop --update 500
-    '') // {
+    shell = (pkgs.writeShellScriptBin "btop-login" ''exec ${pkgs.btop-cuda}/bin/btop --config ${btopConfig}'') // {
       shellPath = "/bin/btop-login";
     };
   };
