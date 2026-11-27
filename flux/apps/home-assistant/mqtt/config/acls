@@ -5,7 +5,7 @@ topic readwrite #
 # User go-eCharger can read and write to the go-eCharger topic
 user go-eCharger
 topic readwrite go-eCharger/#
-topic read homeassistant/#
+topic readwrite homeassistant/#
 
 user meatpi
 topic readwrite wican/#
